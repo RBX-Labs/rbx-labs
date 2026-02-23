@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>removed product — Pre-Connection Wi-Fi Trust</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter+Tight:wght@400;500;600&family=Space+Mono:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="bg-layers"></div>
+
+  <!-- NAV -->
+  <header class="ng-nav">
+    <div class="ng-logo">
+      <img src="shield.png" alt="removed product" />
+      <div>
+        <div class="ng-logo-title">removed product</div>
+        <div class="ng-logo-subtitle">Pre-Connection Wi-Fi Trust</div>
+      </div>
+    </div>
+    <nav class="ng-links">
+      <a href="#home">Home</a>
+      <a href="#why">Why now</a>
+      <a href="#diagram">How it works</a>
+      <a href="#waitlist" class="pill">Join waitlist</a>
+    </nav>
+  </header>
+
+  <main class="ng-main">
+
+    <!-- HERO -->
+    <section class="ng-hero" id="home">
+      <div class="hero-left">
+        <p class="eyebrow">PUBLIC WI-FI, REIMAGINED</p>
+        <h1>
+          Make Wi‑Fi decisions
+          <span class="gradient-text">before you connect</span>,
+          not after damage is done.
+        </h1>
+        <p class="ng-hero-subtitle">
+          Public Wi‑Fi is the world’s largest unprotected attack surface.
+          removed product introduces the first
+          <strong>Pre-Connection Wi-Fi Trust Score (0–100)</strong> —
+          evaluating security, stability, and reputation before the handshake.
+        </p>
+
+        <div class="ng-hero-actions">
+          <a class="btn btn-primary" href="#waitlist">Start a pilot conversation</a>
+          <a class="btn btn-ghost" href="#diagram">See how it works</a>
+        </div>
+
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-stack">
+          <div class="counter-row">
+            <div class="scan-counter" data-counter-id="unique" data-target-count="0">
+              <div class="counter-label">Unique Wi-Fi scanned so far</div>
+              <div class="counter-value"><span id="scan-count">0</span></div>
+            </div>
+            <div class="scan-counter" data-counter-id="community" data-target-count="0">
+              <div class="counter-label">Community reports contributed</div>
+              <div class="counter-value"><span id="community-count">0</span></div>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            <div class="metric-card">
+              <div class="metric-number">Real-time scans</div>
+              <div class="metric-label">Edge processed</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-number">Transparency</div>
+              <div class="metric-label">Scores + signals exposed</div>
+            </div>
+          </div>
+
+          <div class="principles-row">
+            <span class="principle-chip">Clarity before connection</span>
+            <span class="principle-chip">Transparent scoring</span>
+            <span class="principle-chip">Edge-fast decisions</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="built-for hero-built-for">
+        <span class="pill-label">Built for</span>
+        <div class="pill-row">
+          <span class="pill">VPNs</span>
+          <span class="pill">Travel apps</span>
+          <span class="pill">Telcos</span>
+          <span class="pill">Router OEMs</span>
+          <span class="pill">Digital nomads</span>
+          <span class="pill">Business owners</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="why" class="ng-why">
+      <div class="why-header">
+        <p class="eyebrow">Why now</p>
+        <h2>The missing trust layer for public Wi‑Fi</h2>
+        <p class="ng-hero-subtitle compact">
+          Before removed product, users guessed. Now they see a decisionable score before a single packet leaves the device.
+        </p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-label">Global attack surface</div>
+          <p>Billions of public hotspots behave differently across airports, hotels, transit, and cafes. One trust layer needs to see them all.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-label">Spoofing on the rise</div>
+          <p>Rogue SSIDs and fake captive portals target travelers and remote teams. Pre-connection checks stop the join before damage.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-label">Enterprise readiness</div>
+          <p>Scores are portable via SDK/API, so VPNs, telcos, and apps can steer users to safe networks automatically.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="ng-how" id="diagram">
+      <div class="how-header">
+        <p class="eyebrow">How removed product works</p>
+        <h2>Pre-connection trust engine</h2>
+        <p class="ng-hero-subtitle compact">
+          removed product evaluates Wi‑Fi safety <strong>before</strong> your device connects. VPNs only act <strong>after</strong> risk is already present.
+        </p>
+      </div>
+
+      <div class="how-grid two-col">
+        <div class="modes-stack">
+            <div class="mode-card">
+            <h4 class="mode-title">Express scan (free)</h4>
+            <p>Fast trust score before you join. Ideal for travelers and coffee-shop work sessions.</p>
+          </div>
+          <div class="mode-card">
+            <h4 class="mode-title">Detailed scan (pro)</h4>
+            <p>Expanded telemetry for teams, VPNs, and telcos that need to decide on behalf of users.</p>
+          </div>
+          <div class="mode-card">
+            <h4 class="mode-title">Community signals</h4>
+            <p>Aggregated reputation + recent reports to show when a network has been validated or flagged.</p>
+          </div>
+          <div class="mode-card">
+            <h4 class="mode-title">Transparent scoring</h4>
+            <p>Security, Stability, Reputation, and Anomaly — surfaced the same way you see in the app.</p>
+          </div>
+        </div>
+
+        <div class="how-card">
+          <div class="intent-card elevated">
+            <div class="intent-header">
+              <div>
+                <p class="card-eyebrow">Pre-connection trust engine</p>
+                <h3>Decide before the handshake</h3>
+              </div>
+            </div>
+            <ul class="two-col-list">
+              <li><span class="micro-label">Security</span> Rogue access point detection</li>
+              <li><span class="micro-label">Anomaly</span> DNS & TLS anomaly detection</li>
+              <li><span class="micro-label">Stability</span> Latency, jitter & packet-loss forecasting</li>
+              <li><span class="micro-label">Reputation</span> Global Wi-Fi reputation graph</li>
+            </ul>
+            <div class="gauge-block">
+              <div class="gauge" style="--gauge:0.85;" data-gauge="0.85">
+                <div class="gauge-donut"></div>
+                <div class="gauge-center">
+                  <div class="gauge-value">85</div>
+                  <div class="gauge-label">Secure</div>
+                </div>
+              </div>
+              <div class="gauge-pills compact">
+                <div class="stat-pill centered">
+                  <span class="pill-label">Trust score</span>
+                  <span class="pill-value">85</span>
+                </div>
+                <div class="stat-pill centered">
+                  <span class="pill-label">Security</span>
+                  <span class="pill-value">Pass</span>
+                </div>
+              </div>
+              <div class="gauge-stats">
+                <div>
+                  <div class="stat-number">100</div>
+                  <div class="stat-label">Security</div>
+                </div>
+                <div>
+                  <div class="stat-number">76</div>
+                  <div class="stat-label">Stability</div>
+                </div>
+                <div>
+                  <div class="stat-number">54</div>
+                  <div class="stat-label">Community</div>
+                </div>
+              </div>
+              <div class="intent-footer">
+                <a class="btn btn-primary btn-sm" href="#waitlist">Start pilot</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diagram-wrap">
+        <div class="ng-diagram inline">
+          <h2>Pre-connection trust vs post-connection protection</h2>
+
+          <div class="diagram-legend">
+            <div class="legend-item">
+              <div class="legend-dot pre"></div>
+              <div>
+                <div class="legend-title">Pre-connection trust</div>
+                <div class="legend-text">We score Wi‑Fi before the handshake, so users can decide to skip bad networks entirely.</div>
+              </div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot post"></div>
+              <div>
+                <div class="legend-title">Post-connection protection</div>
+                <div class="legend-text">VPNs and traditional agents react after you join — risk already exists.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="diagram-grid stacked">
+
+            <!-- LEFT: PRE-CONNECTION -->
+            <div class="diagram-column">
+
+              <div class="diagram-box user">
+                User device
+              </div>
+
+              <div class="flow-arrow"></div>
+
+              <div class="diagram-box guardian pulse">
+                <strong>removed product</strong>
+                <ul>
+                  <li>Rogue AP detection</li>
+                  <li>DNS / TLS anomalies</li>
+                  <li>Stability forecasting</li>
+                  <li>Reputation graph</li>
+                </ul>
+                <div class="trust-score">
+                  Trust Score: <span>87 / Safe</span>
+                </div>
+              </div>
+
+              <div class="flow-arrow"></div>
+
+              <div class="diagram-box wifi">
+                Public Wi‑Fi
+              </div>
+
+            </div>
+
+          <!-- RIGHT: POST-CONNECTION -->
+          <div class="diagram-column secondary stacked-col">
+
+            <div class="diagram-box user muted">
+              User device
+            </div>
+
+            <div class="flow-arrow dashed"></div>
+
+            <div class="diagram-box wifi muted">
+              Public Wi‑Fi
+            </div>
+
+            <div class="flow-arrow dashed"></div>
+
+            <div class="diagram-box vpn delayed-pulse">
+              VPN
+              <div class="vpn-badge">Starts after connection</div>
+              <p class="vpn-note">
+                Encrypts traffic <em>after</em> connection is established — skips pre-join trust, so risks already landed.
+              </p>
+              <ul class="vpn-list">
+                <li>No rogue AP screening pre-join</li>
+                <li>No stability forecast before handshake</li>
+                <li>No community reputation check first</li>
+                <li>Encryption only (cannot undo a bad join)</li>
+                <li>Missing: removed product pre-check layer</li>
+              </ul>
+            </div>
+
+          </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WAITLIST -->
+    <section id="waitlist" class="ng-waitlist">
+      <div>
+        <p class="eyebrow">Pilot + Waitlist</p>
+        <h2>Be first to ship pre‑connection trust.</h2>
+        <p class="ng-hero-subtitle">
+          Add your name to the early access list and we’ll align a pilot tailored to your use case.
+        </p>
+      </div>
+      <form class="waitlist-form">
+        <div class="form-grid">
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" placeholder="Alex Chen" required />
+          </label>
+          <label>
+            <span>Work email</span>
+            <input type="email" name="email" placeholder="you@company.com" required />
+          </label>
+          <label>
+            <span>Organization</span>
+            <input type="text" name="org" placeholder="Acme Networks" />
+          </label>
+          <label>
+            <span>Role</span>
+            <input type="text" name="role" placeholder="Head of Security" />
+          </label>
+        </div>
+        <button class="btn btn-primary" type="submit">Add me to the list</button>
+        <p class="muted-note">We only contact you about early access and pilots. No spam.</p>
+      </form>
+    </section>
+
+  </main>
+
+  <footer class="ng-footer">
+    removed product · Built with privacy-preserving telemetry
+  </footer>
+
+  <script>
+    const apiBase = "http://13.234.30.216:8000"; // keep aligned with AppConfig.backendBase
+
+    async function loadCounts() {
+      const uniqueBox = document.querySelector('[data-counter-id="unique"]');
+      const communityBox = document.querySelector('[data-counter-id="community"]');
+      if (!uniqueBox && !communityBox) return;
+      try {
+        const r = await fetch(`${apiBase}/config`);
+        const data = await r.json();
+        const unique = data.uniqueNetworksCount ?? 0;
+        const community = data.communityReportCount ?? 0;
+        if (uniqueBox) uniqueBox.setAttribute("data-target-count", unique);
+        if (communityBox) communityBox.setAttribute("data-target-count", community);
+      } catch (_) {
+        // fall back to whatever is already set
+      }
+    }
+
+    function animateCounter(containerSelector, valueSpanId) {
+      const el = document.getElementById(valueSpanId);
+      const container = document.querySelector(containerSelector);
+      if (!el || !container) return;
+      const target = parseInt(container.getAttribute("data-target-count") || "0", 10);
+      const duration = 1600; // ms
+      const frameRate = 1000 / 60;
+      const totalFrames = Math.round(duration / frameRate);
+      let frame = 0;
+      const start = performance.now();
+
+      function step(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic for snappier ramp
+        const current = Math.floor(target * eased);
+        el.textContent = current.toLocaleString("en-US");
+        frame++;
+        if (frame < totalFrames) requestAnimationFrame(step);
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    (async function initScanCounter() {
+      await loadCounts();
+      animateCounter('[data-counter-id="unique"]', "scan-count");
+      animateCounter('[data-counter-id="community"]', "community-count");
+    })();
+
+    // animate gauge on load based on --gauge css variable
+    (function initGauge() {
+      const gauge = document.querySelector(".gauge");
+      const donut = document.querySelector(".gauge-donut");
+      if (!gauge || !donut) return;
+      const val = parseFloat(getComputedStyle(gauge).getPropertyValue("--gauge")) || 0;
+      donut.style.setProperty("--gauge", val);
+    })();
+  </script>
+</body>
+</html>
