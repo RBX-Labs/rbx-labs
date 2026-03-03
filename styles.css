@@ -5,14 +5,14 @@
 /* ---------- TOKENS ---------- */
 
 :root {
-  --cyan: #00e5ff;
+  --cyan: #5ae6ff;
   --cyan-deep: #00b8d4;
-  --purple: #7c3aed;
+  --purple: #c8b2ff;
   --teal: #14b8a6;
   --amber: #f59e0b;
 
-  --navy: #020617;
-  --panel: #0a1428;
+  --navy: #05162a;
+  --panel: #0f2d4e;
   --white: #f8fafc;
   --muted: #94a3b8;
 
@@ -90,7 +90,7 @@ body {
 }
 
 .ng-logo-title {
-  font-family: "Space Grotesk";
+  font-family: "Geist";
   font-weight: 700;
 }
 
@@ -144,7 +144,7 @@ body {
   align-self: stretch;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .hero-stack {
@@ -153,7 +153,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--md);
-  justify-content: space-between;
+  justify-content: center;
   margin-top: 40px;
 }
 
@@ -185,7 +185,7 @@ body {
 
 .metric-value,
 .metric-number {
-  font-family: "Space Grotesk";
+  font-family: "Geist";
   font-size: 28px;
   margin-top: 6px;
 }
@@ -318,7 +318,7 @@ body {
 .intent-footer {
   margin-top: var(--md);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   gap: var(--sm);
@@ -420,7 +420,7 @@ body {
 
 .intent-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: var(--sm);
 }
@@ -438,14 +438,14 @@ body {
 }
 
 h1 {
-  font-family: "Space Grotesk";
+  font-family: "Geist";
   font-size: 42px;
   line-height: 1.1;
   margin-bottom: var(--md);
 }
 
 h2 {
-  font-family: "Space Grotesk";
+  font-family: "Geist";
   font-size: 32px;
   margin: 0 0 var(--md);
 }
@@ -522,7 +522,7 @@ h3 {
 }
 
 .hero-stat-value {
-  font-family: "Space Grotesk";
+  font-family: "Geist";
   font-size: 20px;
   margin-top: 6px;
 }
@@ -594,11 +594,12 @@ h3 {
   font-size: 11px;
   color: var(--muted);
   text-transform: uppercase;
+  white-space: nowrap;
   text-align: center;
 }
 
 .counter-value {
-  font-family: "Space Grotesk";
+  font-family: "Geist";
   font-size: 30px;
   margin: 6px 0;
   text-align: center;
@@ -1047,6 +1048,14 @@ input::placeholder {
   color: #94a3b8;
 }
 
+/* Accessibility: explicit keyboard focus ring aligned to NEXSAHA intent */
+:where(a, button, .btn, input, select, textarea):focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(90,230,255,.25);
+  border-radius: 10px;
+}
+
 .muted-note {
   color: var(--muted);
   font-size: 12px;
@@ -1107,5 +1116,14 @@ input::placeholder {
 
   .form-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 100ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 100ms !important;
+    scroll-behavior: auto !important;
   }
 }
