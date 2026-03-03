@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter+Tight:wght@400;500;600&family=Space+Mono:wght@400;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&family=Inter+Tight:wght@400;500;600&family=Space+Mono:wght@400;600&display=swap"
     rel="stylesheet"
   />
 
@@ -147,7 +147,7 @@
             <p>Fast trust score before you join. Ideal for travelers and coffee-shop work sessions.</p>
           </div>
           <div class="mode-card">
-            <h4 class="mode-title">Detailed scan (pro)</h4>
+            <h4 class="mode-title">Detailed scan (paid)</h4>
             <p>Expanded telemetry for teams, VPNs, and telcos that need to decide on behalf of users.</p>
           </div>
           <div class="mode-card">
@@ -367,19 +367,21 @@
       const container = document.querySelector(containerSelector);
       if (!el || !container) return;
       const target = parseInt(container.getAttribute("data-target-count") || "0", 10);
+      const safeTarget = Number.isFinite(target) ? target : 0;
       const duration = 1600; // ms
-      const frameRate = 1000 / 60;
-      const totalFrames = Math.round(duration / frameRate);
-      let frame = 0;
       const start = performance.now();
 
       function step(now) {
         const progress = Math.min((now - start) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic for snappier ramp
-        const current = Math.floor(target * eased);
+        const current = Math.floor(safeTarget * eased);
         el.textContent = current.toLocaleString("en-US");
-        frame++;
-        if (frame < totalFrames) requestAnimationFrame(step);
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          // Always land on the exact backend count (avoid off-by-one endings).
+          el.textContent = safeTarget.toLocaleString("en-US");
+        }
       }
 
       requestAnimationFrame(step);
