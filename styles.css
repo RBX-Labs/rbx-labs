@@ -149,8 +149,9 @@ a {
   width: 78px;
   height: 78px;
   object-fit: contain;
+  object-position: center;
   display: block;
-  transform: scale(1.45);
+  transform: translate(2px, 1px) scale(1.45);
   transform-origin: center;
   filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.18));
 }
@@ -740,7 +741,7 @@ h1 {
   font-family: "Geist", system-ui, sans-serif;
   font-weight: 600;
   text-decoration: none;
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, border-color 140ms ease, color 140ms ease;
 }
 
 .btn:hover,
@@ -786,6 +787,7 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
 }
 
 .proof-chip:first-child {
@@ -835,7 +837,6 @@ h1 {
   border-radius: 50%;
   background: linear-gradient(135deg, var(--cyan), var(--teal));
   box-shadow: 0 0 18px rgba(0, 229, 255, 0.5);
-  animation: status-pulse 1.8s ease-in-out infinite;
 }
 
 .status-readout {
@@ -882,6 +883,7 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
 }
 
 .metric-readout {
@@ -923,6 +925,9 @@ h1 {
   right: 30px;
   height: 2px;
   background: linear-gradient(90deg, rgba(0, 229, 255, 0.9), rgba(124, 58, 237, 0.7), rgba(20, 184, 166, 0.8));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .track-step {
@@ -935,6 +940,9 @@ h1 {
   text-align: center;
   color: var(--slate-light);
   font-size: 0.92rem;
+  opacity: 0.72;
+  transform: translateY(10px);
+  transition: opacity 220ms cubic-bezier(0.22, 1, 0.36, 1), transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .track-label {
@@ -1164,9 +1172,9 @@ h2 {
 .about-card,
 .founder-profile {
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
+  grid-template-columns: 180px minmax(0, 1fr);
   gap: var(--space-xl);
-  align-items: center;
+  align-items: start;
 }
 
 .about-card {
@@ -1178,7 +1186,7 @@ h2 {
 }
 
 .about-photo-wrap {
-  width: 220px;
+  width: 180px;
   aspect-ratio: 1 / 1;
   border-radius: 28px;
   overflow: hidden;
@@ -1199,10 +1207,11 @@ h2 {
 }
 
 .about-copy h2 {
-  max-width: 11ch;
-  font-size: clamp(1.9rem, 2.8vw, 3rem);
-  line-height: 1.02;
+  max-width: 9ch;
+  font-size: clamp(1.65rem, 2.2vw, 2.45rem);
+  line-height: 1.04;
   letter-spacing: -0.035em;
+  margin-bottom: var(--space-md);
 }
 
 .founder-profile {
@@ -1228,6 +1237,7 @@ h2 {
 .contact-card h2 {
   max-width: 12ch;
   font-size: clamp(2.9rem, 5vw, 4.8rem);
+  margin-bottom: var(--space-lg);
 }
 
 .about-contact-card {
@@ -1243,6 +1253,10 @@ h2 {
 .about-contact-card h2 {
   max-width: 16ch;
   font-size: clamp(2.5rem, 4.2vw, 4rem);
+}
+
+.contact-card .section-copy {
+  margin-top: var(--space-lg);
 }
 
 .about-contact-card .contact-actions {
@@ -1528,6 +1542,14 @@ h2 {
   border-color: rgba(0, 229, 255, 0.16);
 }
 
+.service-card,
+.selected-build,
+.result-card,
+.approach-panel,
+.evidence-panel {
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
 .selected-builds-footer {
   margin-top: var(--space-lg);
   display: flex;
@@ -1546,6 +1568,25 @@ h2 {
   text-decoration: underline;
 }
 
+.proof-chip:hover,
+.proof-chip:focus-within,
+.signal-metric:hover,
+.signal-metric:focus-within,
+.service-card:hover,
+.service-card:focus-within,
+.selected-build:hover,
+.selected-build:focus-within,
+.result-card:hover,
+.result-card:focus-within,
+.approach-panel:hover,
+.approach-panel:focus-within,
+.evidence-panel:hover,
+.evidence-panel:focus-within {
+  transform: translateY(-4px);
+  border-color: rgba(0, 229, 255, 0.24);
+  box-shadow: 0 18px 36px rgba(0, 229, 255, 0.08);
+}
+
 .ventures-section .venture-card {
   align-items: start;
 }
@@ -1556,45 +1597,46 @@ h2 {
 
 .js .reveal {
   opacity: 0;
-  transform: translateY(30px) scale(0.985);
+  transform: translateY(18px);
 }
 
 .reveal.is-visible {
-  animation: joyful-slide 700ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 220ms cubic-bezier(0.22, 1, 0.36, 1), transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .reveal-delay-1 {
-  animation-delay: 100ms;
+  transition-delay: 60ms;
 }
 
 .reveal-delay-2 {
-  animation-delay: 200ms;
+  transition-delay: 120ms;
 }
 
 .reveal-delay-3 {
-  animation-delay: 300ms;
+  transition-delay: 180ms;
 }
 
-@keyframes joyful-slide {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.985);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.reveal.is-visible .track-line {
+  transform: scaleX(1);
 }
 
-@keyframes status-pulse {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.22);
-  }
-  50% {
-    transform: scale(1.18);
-    box-shadow: 0 0 0 8px rgba(0, 229, 255, 0.04);
-  }
+.reveal.is-visible .track-step {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal.is-visible .track-step:nth-child(2) {
+  transition-delay: 80ms;
+}
+
+.reveal.is-visible .track-step:nth-child(3) {
+  transition-delay: 160ms;
+}
+
+.reveal.is-visible .track-step:nth-child(4) {
+  transition-delay: 240ms;
 }
 
 .btn:focus-visible,
@@ -1852,18 +1894,35 @@ h2 {
     animation: none;
     opacity: 1;
     transform: none;
-  }
-
-  .btn {
     transition: none;
   }
 
-  .status-dot {
-    animation: none;
+  .btn,
+  .site-nav a,
+  .ng-links a,
+  .proof-chip,
+  .signal-metric,
+  .service-card,
+  .selected-build,
+  .result-card,
+  .approach-panel,
+  .evidence-panel,
+  .track-line,
+  .track-step {
+    transition: none;
   }
 
   .btn:hover,
   .btn:focus-visible {
+    transform: none;
+  }
+
+  .track-line {
+    transform: scaleX(1);
+  }
+
+  .track-step {
+    opacity: 1;
     transform: none;
   }
 }
