@@ -948,17 +948,33 @@ h2 {
 }
 
 .result-card {
-  min-height: 220px;
+  min-height: 180px;
   display: flex;
-  align-items: flex-end;
-  border: var(--border-strong);
-  box-shadow: var(--shadow-cyan);
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--space-md);
+  border: var(--border-soft);
+  box-shadow: var(--shadow-rise);
+  padding-top: var(--space-lg);
 }
 
 .result-card p {
-  font-size: 1.15rem;
-  line-height: 1.5;
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.4;
   color: var(--text-strong);
+}
+
+.result-card .micro-label {
+  color: var(--cyan-soft);
+}
+
+.result-card-featured {
+  border: var(--border-strong);
+  box-shadow: var(--shadow-cyan);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--surface-panel-strong) 96%, transparent), color-mix(in srgb, var(--surface-panel) 92%, transparent)),
+    radial-gradient(circle at 12% 18%, rgba(0, 229, 255, 0.08), transparent 36%);
 }
 
 .cta-note {
@@ -986,28 +1002,74 @@ h2 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.selected-builds-section .service-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.selected-builds-section .service-card:first-child,
-.selected-builds-section .service-card:last-child {
-  grid-column: span 2;
-}
-
-.selected-builds-section .service-card:first-child {
-  border-color: rgba(0, 229, 255, 0.24);
-  box-shadow: var(--shadow-cyan);
-}
-
 .proof-strip-card .venture-copy h3,
-.selected-builds-section .service-card h3,
+.selected-build h3,
 .case-section .service-card h3 {
   max-width: 18ch;
 }
 
 .proof-strip-card {
   align-items: end;
+}
+
+.proof-strip-card .venture-pills {
+  justify-content: flex-start;
+  align-content: flex-start;
+}
+
+.selected-builds-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: var(--space-lg);
+  align-items: stretch;
+}
+
+.selected-build {
+  min-height: 220px;
+}
+
+.featured-build {
+  border-color: rgba(0, 229, 255, 0.24);
+  box-shadow: var(--shadow-cyan);
+}
+
+.selected-build:last-child {
+  grid-column: 1 / -1;
+  min-height: 180px;
+}
+
+.approach-grid,
+.who-grid,
+.case-detail-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.approach-grid .service-card,
+.who-grid .service-card,
+.case-detail-grid .service-card {
+  min-height: 0;
+}
+
+.who-grid .service-card {
+  padding-top: var(--space-lg);
+  padding-bottom: var(--space-lg);
+}
+
+.approach-grid .service-card {
+  border-color: rgba(0, 229, 255, 0.16);
+  background: color-mix(in srgb, var(--surface-elevated) 94%, transparent);
+}
+
+.case-detail-grid .service-card {
+  border-color: rgba(0, 229, 255, 0.16);
+}
+
+.ventures-section .venture-card {
+  align-items: start;
+}
+
+.ventures-section .venture-pills {
+  align-content: flex-start;
 }
 
 .js .reveal {
@@ -1076,9 +1138,18 @@ h2 {
   }
 
   .who-section .service-grid,
-  .case-section .service-grid,
-  .selected-builds-section .service-grid {
+  .case-section .service-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .approach-grid,
+  .who-grid,
+  .case-detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .selected-builds-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
   .result-grid {
@@ -1086,8 +1157,7 @@ h2 {
   }
 
   .service-card-primary,
-  .selected-builds-section .service-card:first-child,
-  .selected-builds-section .service-card:last-child {
+  .selected-build:last-child {
     grid-column: auto;
   }
 
@@ -1115,6 +1185,10 @@ h2 {
 
   .signal-grid,
   .service-grid,
+  .selected-builds-grid,
+  .approach-grid,
+  .who-grid,
+  .case-detail-grid,
   .metric-grid,
   .counter-row,
   .two-col-list,
