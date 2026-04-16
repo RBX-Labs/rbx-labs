@@ -132,23 +132,23 @@ a {
 }
 
 .brand-mark {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  border: 2px dotted rgba(0, 229, 255, 0.95);
+  width: 62px;
+  height: 62px;
+  border-radius: 18px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 229, 255, 0.12);
-  box-shadow: 0 0 32px rgba(0, 229, 255, 0.18);
+  background: rgba(4, 17, 32, 0.32);
+  border: 1px solid rgba(0, 229, 255, 0.14);
+  box-shadow: 0 14px 36px rgba(0, 229, 255, 0.12);
 }
 
-.brand-core {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--cyan), var(--teal));
-  box-shadow: 0 0 24px rgba(0, 229, 255, 0.42);
+.brand-mark img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.18));
 }
 
 .brand-copy {
