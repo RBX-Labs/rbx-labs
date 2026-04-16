@@ -189,13 +189,24 @@ h3 {
 
 .site-nav a {
   text-decoration: none;
-  font-size: 0.92rem;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--text);
+  padding: 10px 14px;
+  border-radius: 999px;
+  transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
+}
+
+.site-nav a:hover,
+.ng-links a:hover {
+  background: color-mix(in srgb, var(--surface-panel) 80%, transparent);
 }
 
 .site-nav a[aria-current="page"],
 .ng-links a[aria-current="page"] {
   color: var(--text-strong);
+  background: color-mix(in srgb, var(--surface-panel-strong) 92%, transparent);
+  box-shadow: inset 0 0 0 1px rgba(0, 229, 255, 0.18);
 }
 
 .nav-pill {
@@ -265,7 +276,11 @@ h3 {
 .ng-links a {
   text-decoration: none;
   color: var(--text);
-  font-size: 0.92rem;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 999px;
+  transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
 }
 
 .ng-links .pill {
@@ -643,8 +658,8 @@ h3 {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
   gap: var(--space-3xl);
-  align-items: center;
-  min-height: calc(100vh - 180px);
+  align-items: start;
+  min-height: 0;
 }
 
 .eyebrow,
@@ -835,8 +850,8 @@ h1 {
   max-width: 46ch;
   margin: 0;
   color: var(--slate-light);
-  font-size: 1.02rem;
-  line-height: 1.6;
+  font-size: 1.1rem;
+  line-height: 1.68;
 }
 
 .approach-model-card .card-topline {
@@ -887,8 +902,8 @@ h1 {
 
 .metric-note {
   margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.6;
+  font-size: 1.05rem;
+  line-height: 1.64;
 }
 
 .process-track {
@@ -1183,6 +1198,13 @@ h2 {
   max-width: 60ch;
 }
 
+.about-copy h2 {
+  max-width: 11ch;
+  font-size: clamp(1.9rem, 2.8vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
 .founder-profile {
   margin: var(--space-xl) 0;
 }
@@ -1206,6 +1228,27 @@ h2 {
 .contact-card h2 {
   max-width: 12ch;
   font-size: clamp(2.9rem, 5vw, 4.8rem);
+}
+
+.about-contact-card {
+  grid-template-columns: 1fr;
+  justify-items: start;
+  gap: var(--space-xl);
+}
+
+.about-contact-card .contact-copy {
+  max-width: 44rem;
+}
+
+.about-contact-card h2 {
+  max-width: 16ch;
+  font-size: clamp(2.5rem, 4.2vw, 4rem);
+}
+
+.about-contact-card .contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
 }
 
 .contact-booking {
@@ -1487,6 +1530,8 @@ h2 {
 
 .selected-builds-footer {
   margin-top: var(--space-lg);
+  display: flex;
+  justify-content: center;
 }
 
 .selected-builds-link {
