@@ -14,6 +14,7 @@
     href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&amp;family=Inter+Tight:wght@400;500;600&amp;family=Space+Mono:wght@400;700&amp;display=swap"
     rel="stylesheet"
   />
+  <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -50,8 +51,9 @@
         </h1>
         <p class="hero-body">
           RBX Labs works with founders, operators, and institutions on AI training,
-          product strategy, applied AI, and GTM consulting. The homepage is structured
-          for service clarity first. We can refine the exact positioning next.
+          product strategy, applied AI, and GTM consulting. We help teams move from
+          AI curiosity to operating capability with sharper product bets, clearer
+          narratives, and execution plans leaders can actually use.
         </p>
 
         <div class="hero-actions">
@@ -74,29 +76,29 @@
       <div class="hero-panel reveal reveal-delay-1">
         <section class="signal-card">
           <div class="card-topline">
-            <span class="status-dot"></span>
-            <span>Engagement design snapshot</span>
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="status-readout">Status: engagement design snapshot</span>
           </div>
 
           <div class="signal-grid">
             <article class="signal-metric">
               <span class="metric-label">AI training</span>
-              <strong>Capability uplift</strong>
+              <strong class="metric-readout">Capability uplift</strong>
               <span class="metric-note">Workshops, cohort sessions, executive briefings</span>
             </article>
             <article class="signal-metric">
               <span class="metric-label">Product</span>
-              <strong>Roadmap clarity</strong>
+              <strong class="metric-readout">Roadmap clarity</strong>
               <span class="metric-note">Discovery, prioritization, shipped outcomes</span>
             </article>
             <article class="signal-metric">
               <span class="metric-label">Applied AI</span>
-              <strong>Practical deployment</strong>
+              <strong class="metric-readout">Practical deployment</strong>
               <span class="metric-note">Use-case framing, workflows, operating models</span>
             </article>
             <article class="signal-metric">
               <span class="metric-label">GTM</span>
-              <strong>Message to motion</strong>
+              <strong class="metric-readout">Message to motion</strong>
               <span class="metric-note">Narrative, ICP alignment, launch structure</span>
             </article>
           </div>
@@ -105,15 +107,15 @@
             <div class="track-line"></div>
             <div class="track-step active">
               <span class="track-icon">01</span>
-              <span>Diagnose</span>
+              <span class="track-label">Diagnose</span>
             </div>
             <div class="track-step">
               <span class="track-icon">02</span>
-              <span>Design</span>
+              <span class="track-label">Design</span>
             </div>
             <div class="track-step">
               <span class="track-icon">03</span>
-              <span>Enable</span>
+              <span class="track-label">Enable</span>
             </div>
           </div>
         </section>
@@ -125,8 +127,8 @@
         <p class="eyebrow">Services</p>
         <h2>Structured offerings, not vague innovation theater.</h2>
         <p class="section-copy">
-          The page is intentionally modular so we can sharpen each offer later without
-          changing the visual system.
+          RBX Labs offers focused engagements for organizations that need practical
+          AI enablement, better product decisions, and stronger go-to-market execution.
         </p>
       </div>
 
@@ -206,7 +208,8 @@
         <p class="eyebrow">Ventures</p>
         <h2>Selected work can be featured without becoming the main site structure.</h2>
         <p class="section-copy">
-          removed product can live as a separate product property, while RBX Labs stays focused on services.
+          removed product lives as a standalone product surface, while RBX Labs remains
+          the parent brand for advisory, training, and product work.
         </p>
       </div>
 
@@ -233,11 +236,12 @@
       <div class="contact-card">
         <div>
           <p class="eyebrow">Contact</p>
-          <h2>Use this section as the conversion anchor. We can tune the copy next.</h2>
+          <h2>Planning AI training, a product reset, or a GTM push? Start the conversation here.</h2>
         </div>
         <a class="btn btn-primary" href="mailto:hello@rbxlabs.com">hello@rbxlabs.com</a>
       </div>
     </section>
   </main>
+  <script src="script.js" defer></script>
 </body>
 </html>
