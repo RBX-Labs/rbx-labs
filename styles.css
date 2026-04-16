@@ -203,8 +203,299 @@ h3 {
   padding: var(--space-2xl) 0 var(--space-3xl);
 }
 
+.ng-nav,
+.ng-main {
+  position: relative;
+  z-index: 1;
+}
+
+.ng-nav {
+  width: min(var(--max-width), calc(100% - 40px));
+  margin: 0 auto;
+  padding: 24px 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  backdrop-filter: blur(16px);
+}
+
+.ng-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.ng-logo img {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  border: var(--border-strong);
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.18);
+}
+
+.ng-logo-title {
+  font-family: "Geist", system-ui, sans-serif;
+  font-weight: 700;
+}
+
+.ng-logo-subtitle {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ng-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.ng-links a {
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.92rem;
+}
+
+.ng-links .pill {
+  background: var(--surface-panel);
+}
+
+.ng-main {
+  width: min(var(--max-width), calc(100% - 40px));
+  margin: 0 auto;
+  padding: var(--space-2xl) 0 var(--space-3xl);
+}
+
+.ng-hero {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: var(--space-3xl);
+  align-items: start;
+}
+
+.ng-hero-actions {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-top: var(--space-xl);
+}
+
+.ng-hero-subtitle {
+  color: color-mix(in srgb, var(--text) 72%, var(--muted) 28%);
+  line-height: 1.7;
+  font-size: 1.125rem;
+}
+
+.ng-hero-subtitle.compact {
+  max-width: 760px;
+}
+
+.ng-why,
+.ng-how,
+.waitlist-band {
+  margin-bottom: var(--space-3xl);
+}
+
+.hero-stack,
+.modes-stack,
+.why-grid,
+.metric-grid,
+.counter-row,
+.gauge-stats {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.hero-stack {
+  margin-top: 40px;
+}
+
+.metric-grid,
+.counter-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.why-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.scan-counter,
+.metric-card,
+.why-card,
+.mode-card,
+.intent-card,
+.waitlist-band {
+  background: var(--surface-panel);
+  border: var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-rise);
+}
+
+.scan-counter,
+.metric-card,
+.why-card,
+.mode-card {
+  padding: var(--space-md);
+}
+
+.counter-label,
+.why-label,
+.card-eyebrow,
+.pill-label,
+.stat-label {
+  font-family: "Space Mono", monospace;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.counter-value,
+.metric-number,
+.pill-readout,
+.stat-readout,
+.gauge-value {
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  color: var(--text-strong);
+}
+
+.counter-value {
+  font-size: 2.5rem;
+  margin-top: 4px;
+}
+
+.principles-row,
+.pill-row,
+.gauge-pills,
+.status-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.principle-chip,
+.pill,
+.stat-pill {
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: var(--surface-panel);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.hero-built-for {
+  grid-column: 1 / -1;
+}
+
+.intent-card {
+  padding: var(--space-xl);
+  background: var(--surface-panel-strong);
+  border: var(--border-strong);
+  box-shadow: var(--shadow-cyan);
+}
+
+.intent-header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  align-items: flex-start;
+}
+
+.status-inline {
+  align-items: center;
+}
+
+.status-readout {
+  font-family: "Space Mono", monospace;
+  color: var(--text-strong);
+}
+
+.two-col-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+  padding-left: 18px;
+}
+
+.two-col-list li {
+  color: var(--slate-light);
+  line-height: 1.6;
+}
+
+.gauge-block {
+  margin-top: var(--space-lg);
+  padding: var(--space-md);
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
+  border: var(--border-soft);
+}
+
+.gauge {
+  position: relative;
+  width: 180px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+.gauge-donut {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--cyan) 0deg calc(var(--gauge, 0) * 360deg),
+    rgba(148, 163, 184, 0.2) calc(var(--gauge, 0) * 360deg) 360deg
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent 58%, #000 60%);
+  mask: radial-gradient(farthest-side, transparent 58%, #000 60%);
+}
+
+.gauge-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.gauge-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-family: "Space Mono", monospace;
+}
+
+.gauge-pills.compact {
+  justify-content: center;
+  margin: var(--space-md) 0;
+}
+
+.stat-pill.centered {
+  min-width: 120px;
+  text-align: center;
+}
+
+.gauge-stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  text-align: center;
+}
+
+.intent-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-lg);
+}
+
+.waitlist-band {
+  padding: var(--space-xl);
+  border: var(--border-strong);
+  box-shadow: var(--shadow-cyan);
+}
+
 .hero,
-.system-strip-section,
 .who-section,
 .services-section,
 .approach-section,
@@ -215,6 +506,10 @@ h3 {
 .ventures-section,
 .contact-section {
   margin-bottom: var(--space-3xl);
+}
+
+.outcomes-section {
+  padding-top: var(--space-xl);
 }
 
 .hero {
@@ -400,13 +695,20 @@ h1 {
   border-radius: var(--radius-md);
   border: var(--border-soft);
   background: var(--surface-secondary);
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .metric-readout {
   display: block;
   margin: 8px 0 10px;
-  font-size: 1.2rem;
-  font-family: "Space Mono", monospace;
+  font-size: 1rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-family: "Geist", system-ui, sans-serif;
+  font-weight: 700;
   color: var(--text-strong);
 }
 
@@ -417,7 +719,8 @@ h1 {
 
 .metric-note {
   margin: 0;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
 }
 
 .process-track {
@@ -425,13 +728,14 @@ h1 {
   display: flex;
   justify-content: space-between;
   gap: var(--space-md);
-  margin-top: var(--space-xl);
-  padding-top: var(--space-lg);
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid rgba(0, 229, 255, 0.14);
 }
 
 .track-line {
   position: absolute;
-  top: 30px;
+  top: 54px;
   left: 30px;
   right: 30px;
   height: 2px;
@@ -510,11 +814,16 @@ h2 {
 
 .service-card {
   padding: var(--space-xl);
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .service-card-primary {
   border-color: rgba(0, 229, 255, 0.24);
   box-shadow: var(--shadow-cyan);
+  grid-column: span 2;
 }
 
 .service-card h3,
@@ -540,13 +849,6 @@ h2 {
   margin-bottom: var(--space-lg);
 }
 
-.project-chip-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-lg);
-}
-
 .micro-label {
   color: var(--cyan-soft);
   font-size: 0.7rem;
@@ -554,6 +856,12 @@ h2 {
 
 .project-copy {
   max-width: 68ch;
+}
+
+.service-card p + p,
+.approach-panel p + p,
+.venture-copy p + p {
+  margin-top: 12px;
 }
 
 .approach-list {
@@ -601,6 +909,7 @@ h2 {
 .proof-strip-card {
   border: var(--border-strong);
   box-shadow: var(--shadow-cyan);
+  margin-bottom: var(--space-xl);
 }
 
 .venture-pill {
@@ -609,19 +918,6 @@ h2 {
   border: 1px solid rgba(0, 229, 255, 0.2);
   background: var(--surface-panel);
   font-size: 0.95rem;
-}
-
-.spec-block {
-  margin: 0;
-  padding: 16px 18px;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(0, 229, 255, 0.14);
-  background: var(--surface-soft);
-  color: var(--text-strong);
-  font-family: "Space Mono", monospace;
-  font-size: 0.86rem;
-  line-height: 1.6;
-  white-space: pre-wrap;
 }
 
 .contact-card {
@@ -637,10 +933,6 @@ h2 {
   box-shadow: var(--shadow-cyan);
 }
 
-.system-strip-card {
-  min-height: 0;
-}
-
 .contact-actions {
   margin-top: 0;
   justify-content: flex-end;
@@ -648,6 +940,11 @@ h2 {
 
 .result-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.outcomes-section .section-heading {
+  max-width: 980px;
+  margin-bottom: var(--space-2xl);
 }
 
 .result-card {
@@ -666,6 +963,51 @@ h2 {
 
 .cta-note {
   max-width: 44ch;
+}
+
+.who-section,
+.services-section,
+.case-section,
+.selected-builds-section,
+.ventures-section,
+.contact-section {
+  padding-top: var(--space-xl);
+}
+
+.proof-strip-section {
+  padding-bottom: var(--space-xl);
+}
+
+.who-section .service-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.case-section .service-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.selected-builds-section .service-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.selected-builds-section .service-card:first-child,
+.selected-builds-section .service-card:last-child {
+  grid-column: span 2;
+}
+
+.selected-builds-section .service-card:first-child {
+  border-color: rgba(0, 229, 255, 0.24);
+  box-shadow: var(--shadow-cyan);
+}
+
+.proof-strip-card .venture-copy h3,
+.selected-builds-section .service-card h3,
+.case-section .service-card h3 {
+  max-width: 18ch;
+}
+
+.proof-strip-card {
+  align-items: end;
 }
 
 .js .reveal {
@@ -713,6 +1055,7 @@ h2 {
 
 .btn:focus-visible,
 .site-nav a:focus-visible,
+.ng-links a:focus-visible,
 .brand:focus-visible {
   outline: 3px solid rgba(0, 229, 255, 0.95);
   outline-offset: 4px;
@@ -721,7 +1064,10 @@ h2 {
 @media (max-width: 1100px) {
   .hero,
   .approach-layout,
-  .venture-card {
+  .venture-card,
+  .ng-hero,
+  .how-grid.two-col,
+  .why-grid {
     grid-template-columns: 1fr;
   }
 
@@ -729,8 +1075,20 @@ h2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .who-section .service-grid,
+  .case-section .service-grid,
+  .selected-builds-section .service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .result-grid {
     grid-template-columns: 1fr;
+  }
+
+  .service-card-primary,
+  .selected-builds-section .service-card:first-child,
+  .selected-builds-section .service-card:last-child {
+    grid-column: auto;
   }
 
   .hero {
@@ -740,7 +1098,9 @@ h2 {
 
 @media (max-width: 760px) {
   .site-header,
-  .page-shell {
+  .page-shell,
+  .ng-nav,
+  .ng-main {
     width: min(var(--max-width), calc(100% - 28px));
   }
 
@@ -754,7 +1114,11 @@ h2 {
   }
 
   .signal-grid,
-  .service-grid {
+  .service-grid,
+  .metric-grid,
+  .counter-row,
+  .two-col-list,
+  .gauge-stats {
     grid-template-columns: 1fr;
   }
 
@@ -762,7 +1126,13 @@ h2 {
   .hero-proof,
   .venture-pills,
   .contact-card,
-  .contact-actions {
+  .contact-actions,
+  .ng-nav,
+  .intent-header,
+  .gauge-pills,
+  .pill-row,
+  .principles-row,
+  .status-inline {
     flex-direction: column;
     align-items: stretch;
   }
@@ -774,6 +1144,15 @@ h2 {
   .track-line {
     left: 27px;
     right: 27px;
+  }
+
+  .ng-nav,
+  .intent-header,
+  .gauge-pills,
+  .pill-row,
+  .principles-row,
+  .status-inline {
+    align-items: flex-start;
   }
 
   h1 {
