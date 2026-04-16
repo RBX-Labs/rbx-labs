@@ -1,5 +1,6 @@
 const revealItems = document.querySelectorAll(".reveal");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const calendlyLinks = document.querySelectorAll("[data-calendly-link]");
 
 if (prefersReducedMotion || !("IntersectionObserver" in window)) {
   revealItems.forEach((item) => item.classList.add("is-visible"));
@@ -23,3 +24,20 @@ if (prefersReducedMotion || !("IntersectionObserver" in window)) {
 
   revealItems.forEach((item) => revealObserver.observe(item));
 }
+
+calendlyLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    const url = link.getAttribute("data-calendly-link");
+
+    if (!url || url === "YOUR_CALENDLY_LINK_HERE") {
+      return;
+    }
+
+    if (typeof window.Calendly === "undefined") {
+      return;
+    }
+
+    event.preventDefault();
+    window.Calendly.initPopupWidget({ url });
+  });
+});
