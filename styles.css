@@ -290,7 +290,7 @@ h3 {
 .ng-hero-subtitle {
   color: color-mix(in srgb, var(--text) 72%, var(--muted) 28%);
   line-height: 1.7;
-  font-size: 1.125rem;
+  font-size: 1.18rem;
 }
 
 .ng-hero-subtitle.compact {
@@ -620,8 +620,8 @@ h1 {
 .venture-copy p,
 .metric-note {
   color: var(--slate-light);
-  font-size: 1.04rem;
-  line-height: 1.65;
+  font-size: 1.1rem;
+  line-height: 1.68;
 }
 
 .hero-body {
@@ -763,6 +763,31 @@ h1 {
   font-family: "Space Mono", monospace;
 }
 
+.approach-model-card {
+  padding: 28px 30px;
+}
+
+.approach-model-copy {
+  max-width: 46ch;
+  margin: 0;
+  color: var(--slate-light);
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.approach-model-card .card-topline {
+  margin-bottom: 14px;
+}
+
+.approach-model-card .process-track {
+  margin-top: var(--space-lg);
+  padding-top: 20px;
+}
+
+.approach-hero-title {
+  max-width: 15ch;
+}
+
 .signal-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -798,8 +823,8 @@ h1 {
 
 .metric-note {
   margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.55;
+  font-size: 0.98rem;
+  line-height: 1.6;
 }
 
 .process-track {
@@ -1051,8 +1076,8 @@ h2 {
 
 .contact-card {
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(340px, 0.88fr);
-  align-items: start;
+  grid-template-columns: minmax(320px, 0.82fr) minmax(380px, 1fr);
+  align-items: stretch;
   gap: var(--space-lg);
   padding: var(--space-xl);
   border: var(--border-strong);
@@ -1063,7 +1088,16 @@ h2 {
 }
 
 .contact-copy {
-  max-width: 34rem;
+  max-width: 38rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.contact-card h2 {
+  max-width: 12ch;
+  font-size: clamp(2.9rem, 5vw, 4.8rem);
 }
 
 .contact-booking {
@@ -1074,16 +1108,12 @@ h2 {
 
 .calendly-inline-widget {
   min-width: 320px;
-  height: 700px;
+  height: 760px;
   border-radius: var(--radius-md);
   overflow: hidden;
   border: 1px solid rgba(0, 229, 255, 0.16);
   background: color-mix(in srgb, var(--surface-panel) 96%, transparent);
   box-shadow: var(--shadow-rise);
-}
-
-.contact-fallback {
-  align-self: flex-start;
 }
 
 .result-grid {
@@ -1558,11 +1588,6 @@ h2 {
   .calendly-inline-widget {
     min-width: 0;
     height: 640px;
-  }
-
-  .contact-fallback {
-    align-self: stretch;
-    text-align: center;
   }
 
   .hero-proof {
