@@ -193,6 +193,11 @@ h3 {
   color: var(--text);
 }
 
+.site-nav a[aria-current="page"],
+.ng-links a[aria-current="page"] {
+  color: var(--text-strong);
+}
+
 .nav-pill {
   padding: 10px 16px;
   border-radius: 999px;
@@ -542,6 +547,21 @@ h3 {
   text-align: center;
 }
 
+.gauge-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 16px;
+  margin-top: var(--space-md);
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.gauge-legend strong {
+  color: var(--text-strong);
+  font-weight: 600;
+}
+
 .intent-footer {
   display: flex;
   justify-content: center;
@@ -552,6 +572,50 @@ h3 {
   padding: var(--space-xl);
   border: var(--border-strong);
   box-shadow: var(--shadow-cyan);
+}
+
+.pilot-form {
+  margin-top: var(--space-xl);
+}
+
+.pilot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field span {
+  font-family: "Space Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 229, 255, 0.16);
+  background: color-mix(in srgb, var(--surface-panel) 96%, transparent);
+  color: var(--text);
+  font: inherit;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.field-wide {
+  margin-top: var(--space-md);
 }
 
 .founder-thesis {
@@ -889,11 +953,6 @@ h1 {
   z-index: -1;
 }
 
-.track-step.active .track-icon {
-  background: linear-gradient(135deg, rgba(0, 229, 255, 0.22), rgba(20, 184, 166, 0.18));
-  color: white;
-}
-
 .section-heading {
   max-width: 760px;
   margin-bottom: var(--space-xl);
@@ -1087,6 +1146,55 @@ h2 {
   box-shadow: var(--shadow-cyan);
 }
 
+.about-card,
+.founder-profile {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+.about-card {
+  padding: var(--space-xl);
+  background: var(--surface-elevated);
+  border: var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-rise);
+}
+
+.about-photo-wrap {
+  width: 220px;
+  aspect-ratio: 1 / 1;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  background: color-mix(in srgb, var(--surface-panel) 92%, transparent);
+  box-shadow: 0 18px 40px rgba(0, 229, 255, 0.12);
+}
+
+.about-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-copy {
+  max-width: 60ch;
+}
+
+.founder-profile {
+  margin: var(--space-xl) 0;
+}
+
+.founder-photo-wrap {
+  width: 180px;
+}
+
+.founder-intro {
+  padding: var(--space-lg);
+}
+
 .contact-copy {
   max-width: 38rem;
   display: flex;
@@ -1189,6 +1297,7 @@ h2 {
 .who-section,
 .services-section,
 .case-section,
+.about-section,
 .trust-band-section,
 .selected-builds-section,
 .ventures-section,
@@ -1206,6 +1315,7 @@ h2 {
 .case-section,
 .approach-section,
 .who-section,
+.about-section,
 .trust-band-section,
 .outcomes-section,
 .selected-builds-section,
@@ -1218,6 +1328,7 @@ h2 {
 .case-section::before,
 .approach-section::before,
 .who-section::before,
+.about-section::before,
 .trust-band-section::before,
 .outcomes-section::before,
 .selected-builds-section::before,
@@ -1236,6 +1347,7 @@ h2 {
 .case-section,
 .approach-section,
 .who-section,
+.about-section,
 .trust-band-section,
 .outcomes-section,
 .selected-builds-section,
@@ -1249,10 +1361,6 @@ h2 {
 }
 
 .trust-band-section .service-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.case-section .service-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
@@ -1369,8 +1477,28 @@ h2 {
   background: color-mix(in srgb, var(--surface-elevated) 94%, transparent);
 }
 
+.approach-grid .service-card strong {
+  color: var(--text-strong);
+}
+
 .case-detail-grid .service-card {
   border-color: rgba(0, 229, 255, 0.16);
+}
+
+.selected-builds-footer {
+  margin-top: var(--space-lg);
+}
+
+.selected-builds-link {
+  color: var(--cyan-soft);
+  text-decoration: none;
+  font-family: "Geist", system-ui, sans-serif;
+  font-weight: 600;
+}
+
+.selected-builds-link:hover,
+.selected-builds-link:focus-visible {
+  text-decoration: underline;
 }
 
 .ventures-section .venture-card {
@@ -1436,6 +1564,8 @@ h2 {
   .hero,
   .approach-layout,
   .venture-card,
+  .about-card,
+  .founder-profile,
   .ng-hero,
   .how-grid.two-col,
   .why-grid,
@@ -1523,6 +1653,7 @@ h2 {
   .case-detail-grid,
   .metric-grid,
   .counter-row,
+  .pilot-grid,
   .two-col-list,
   .gauge-stats {
     grid-template-columns: 1fr;
@@ -1556,7 +1687,9 @@ h2 {
   .hero,
   .venture-card,
   .proof-strip-card,
-  .contact-card {
+  .contact-card,
+  .about-card,
+  .founder-profile {
     gap: var(--space-lg);
   }
 
@@ -1566,6 +1699,7 @@ h2 {
   .selected-build,
   .venture-card,
   .contact-card,
+  .about-card,
   .signal-card,
   .approach-panel,
   .evidence-panel {
@@ -1600,6 +1734,12 @@ h2 {
 
   .contact-card {
     grid-template-columns: 1fr;
+  }
+
+  .about-photo-wrap,
+  .founder-photo-wrap {
+    width: 100%;
+    max-width: 220px;
   }
 
   .calendly-inline-widget {
