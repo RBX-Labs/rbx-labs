@@ -19,7 +19,7 @@
   />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="approach-page">
   <div class="bg-layers" aria-hidden="true"></div>
   <div class="grid-orbit" aria-hidden="true"></div>
 
@@ -38,7 +38,7 @@
       <a href="index.html#services">Services</a>
       <a href="about.html">About</a>
       <a href="approach.html" aria-current="page">Approach</a>
-      <a href="index.html#selected-builds">Selected builds</a>
+      <a href="index.html#selected-builds">Case Studies</a>
       <a class="nav-pill" href="index.html#contact">Start a conversation</a>
     </nav>
   </header>
@@ -58,40 +58,40 @@
           useful workflows, and launchable products without hiding behind strategy decks.
         </p>
 
+        <div class="hero-proof approach-proof-strip">
+          <div class="proof-chip">
+            <span class="proof-label">Workflow impact</span>
+            <span class="proof-value">30% throughput improvement at Copart</span>
+          </div>
+          <div class="proof-chip">
+            <span class="proof-label">Product reliability</span>
+            <span class="proof-value">98%+ valid itineraries in RouteWhisper</span>
+          </div>
+          <div class="proof-chip">
+            <span class="proof-label">Execution speed</span>
+            <span class="proof-value">12s P95 pipeline from prompt to usable plan</span>
+          </div>
+          <div class="proof-chip">
+            <span class="proof-label">Enablement</span>
+            <span class="proof-value">5.8K+ learners trained across AI and innovation programs</span>
+          </div>
+        </div>
+
         <div class="hero-actions">
-          <a class="btn btn-primary" href="index.html#selected-builds">See selected builds</a>
-          <a class="btn btn-secondary" href="index.html#contact">Book a session</a>
+          <a class="btn btn-primary" href="index.html#selected-builds">See case studies</a>
+          <span class="hero-action-divider" aria-hidden="true">or</span>
+          <a
+            class="btn btn-secondary"
+            href="#"
+            data-calendly-link="https://calendly.com/rishabhbanga/ai-strategy-rishabh?hide_gdpr_banner=1"
+            data-booking-title="Book a working session"
+            data-booking-body="If the approach feels right, this session is where we apply it to your actual situation and decide what should happen first."
+          >
+            Book a session
+          </a>
         </div>
       </div>
 
-      <div class="hero-panel reveal reveal-delay-1">
-        <section class="signal-card approach-model-card">
-          <div class="card-topline">
-            <span class="status-dot" aria-hidden="true"></span>
-            <span class="status-readout">Founder-led engagement model</span>
-          </div>
-
-          <p class="approach-model-copy">
-            Every engagement moves through three stages so the work gets clearer fast and ends in something the team can actually use.
-          </p>
-
-          <div class="process-track" aria-label="Approach phases">
-            <div class="track-line"></div>
-            <div class="track-step active">
-              <span class="track-icon">01</span>
-              <span class="track-label">Clarify</span>
-            </div>
-            <div class="track-step">
-              <span class="track-icon">02</span>
-              <span class="track-label">Design</span>
-            </div>
-            <div class="track-step">
-              <span class="track-icon">03</span>
-              <span class="track-label">Enable</span>
-            </div>
-          </div>
-        </section>
-      </div>
     </section>
 
     <section class="approach-section">
@@ -103,19 +103,19 @@
       </div>
 
       <div class="service-grid approach-grid">
-        <article class="service-card reveal">
+        <article class="service-card reveal" data-stage-section="clarify">
           <h3>Clarify</h3>
           <p>Start with the real workflow, the real user, and the real constraint set rather than hypothetical AI use cases.</p>
           <p><strong>Ends with:</strong> a scoped opportunity brief, priority use cases, and a clear decision on what not to build.</p>
           <p><strong>Case reference:</strong> RouteWhisper started by locking budget, accessibility, latency, and rule constraints before the itinerary system was designed around them.</p>
         </article>
-        <article class="service-card reveal reveal-delay-1">
+        <article class="service-card reveal reveal-delay-1" data-stage-section="design">
           <h3>Design</h3>
           <p>Shape the product, system, or operating model around what can ship in weeks and create value quickly.</p>
           <p><strong>Ends with:</strong> a working system design, execution plan, and success criteria the team can actually run.</p>
           <p><strong>Case reference:</strong> iPRD turned rough product inputs into interactive, executable specs instead of leaving teams with static PRDs and vague handoffs.</p>
         </article>
-        <article class="service-card reveal reveal-delay-2">
+        <article class="service-card reveal reveal-delay-2" data-stage-section="enable">
           <h3>Enable</h3>
           <p>Work alongside the team so the capability sticks, the handoff is clear, and execution does not collapse after the engagement ends.</p>
           <p><strong>Ends with:</strong> a shipped workflow, a usable operating rhythm, and a team that can keep moving without outside dependence.</p>
