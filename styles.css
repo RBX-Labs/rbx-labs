@@ -1177,6 +1177,7 @@ h1 {
   left: 30px;
   right: 30px;
   height: 2px;
+  z-index: 0;
   background: linear-gradient(90deg, rgba(0, 229, 255, 0.9), rgba(124, 58, 237, 0.7), rgba(20, 184, 166, 0.8));
   transform: scaleX(0);
   transform-origin: left center;
@@ -1213,19 +1214,20 @@ h1 {
   justify-content: center;
   position: relative;
   border: 2px dotted rgba(0, 229, 255, 0.95);
-  background: rgba(0, 229, 255, 0.1);
+  background: var(--surface-panel-strong);
   font-family: "Space Mono", monospace;
   color: var(--cyan-soft);
   box-shadow: 0 0 24px rgba(0, 229, 255, 0.12);
   isolation: isolate;
+  z-index: 1;
 }
 
 .track-icon::before {
   content: "";
   position: absolute;
-  inset: -10px;
+  inset: -14px;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--surface-panel-strong) 98%, transparent);
+  background: var(--surface-panel-strong);
   z-index: -1;
 }
 
@@ -1439,6 +1441,19 @@ h2 {
   font-size: 0.84rem;
 }
 
+.project-copy a {
+  color: var(--cyan-soft);
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 229, 255, 0.42);
+  text-underline-offset: 0.18em;
+}
+
+.project-copy a:hover,
+.project-copy a:focus-visible {
+  color: var(--cyan);
+  text-decoration-color: rgba(0, 229, 255, 0.72);
+}
+
 .venture-card {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -1582,8 +1597,31 @@ h2 {
 }
 
 .hero-panel .about-card {
-  grid-template-columns: minmax(168px, 180px) minmax(320px, 460px);
+  grid-template-columns: 1fr;
+  justify-items: center;
   justify-content: center;
+  text-align: center;
+  padding: 36px 40px;
+}
+
+.hero-panel .about-photo-wrap {
+  width: min(260px, 100%);
+}
+
+.hero-panel .about-copy {
+  max-width: 30rem;
+  margin: 0 auto;
+}
+
+.hero-panel .about-copy h2 {
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-panel .about-copy .section-copy {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .contact-card .section-copy {
@@ -1606,10 +1644,12 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  min-width: 0;
 }
 
 .calendly-inline-widget {
-  min-width: 320px;
+  min-width: 0;
+  width: 100%;
   height: 760px;
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -2078,6 +2118,10 @@ h2 {
   .section-heading h2,
   .contact-card h2 {
     max-width: 16ch;
+  }
+
+  .contact-card {
+    grid-template-columns: 1fr;
   }
 
   .about-card {

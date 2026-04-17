@@ -4,6 +4,7 @@ const calendlyLinks = document.querySelectorAll("[data-calendly-link]");
 const countupItems = document.querySelectorAll(".countup");
 const stageSections = document.querySelectorAll("[data-stage-section]");
 const stageSteps = document.querySelectorAll("[data-stage-step]");
+const autoplayTracks = document.querySelectorAll("[data-track-autoplay]");
 let activeBookingTrigger = null;
 
 function buildBookingModal() {
@@ -123,6 +124,40 @@ function setActiveStage(stageName) {
   });
 }
 
+function startTrackAutoplay() {
+  autoplayTracks.forEach((track) => {
+    const steps = Array.from(track.querySelectorAll("[data-track-step]"));
+    if (steps.length < 2) {
+      return;
+    }
+
+    let activeIndex = Math.max(steps.findIndex((step) => step.classList.contains("active")), 0);
+
+    const activateStep = (index) => {
+      steps.forEach((step, stepIndex) => {
+        const isActive = stepIndex === index;
+        step.classList.toggle("active", isActive);
+        if (isActive) {
+          step.setAttribute("aria-current", "step");
+        } else {
+          step.removeAttribute("aria-current");
+        }
+      });
+    };
+
+    activateStep(activeIndex);
+
+    if (prefersReducedMotion) {
+      return;
+    }
+
+    window.setInterval(() => {
+      activeIndex = (activeIndex + 1) % steps.length;
+      activateStep(activeIndex);
+    }, 2200);
+  });
+}
+
 if (prefersReducedMotion || !("IntersectionObserver" in window)) {
   revealItems.forEach((item) => item.classList.add("is-visible"));
   countupItems.forEach((el) => {
@@ -134,6 +169,7 @@ if (prefersReducedMotion || !("IntersectionObserver" in window)) {
   if (stageSections.length > 0) {
     setActiveStage(stageSections[0].dataset.stageSection);
   }
+  startTrackAutoplay();
 } else {
   const revealObserver = new IntersectionObserver(
     (entries, observer) => {
@@ -176,6 +212,8 @@ if (prefersReducedMotion || !("IntersectionObserver" in window)) {
 
     stageSections.forEach((section) => stageObserver.observe(section));
   }
+
+  startTrackAutoplay();
 }
 
 calendlyLinks.forEach((link) => {
