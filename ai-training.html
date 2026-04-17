@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RBX Labs | AI Training</title>
+  <meta
+    name="description"
+    content="AI training for product, operations, and cross-functional teams through workshops, sprints, and adoption programs."
+  />
+  <link rel="icon" type="image/png" sizes="1024x1024" href="rbx-logo.png" />
+  <link rel="shortcut icon" href="rbx-logo.png" />
+  <link rel="apple-touch-icon" href="rbx-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&amp;family=Inter+Tight:wght@400;500;600&amp;family=Space+Mono:wght@400;700&amp;display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    document.documentElement.classList.add('js');
+    try {
+      const storedTheme = localStorage.getItem('rbx-theme');
+      const storedContrast = localStorage.getItem('rbx-contrast');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : (prefersDark ? 'dark' : 'light');
+      document.documentElement.dataset.contrast = storedContrast === 'high' ? 'high' : 'standard';
+    } catch (error) {}
+  </script>
+</head>
+<body class="training-page">
+  <div class="bg-layers" aria-hidden="true"></div>
+  <div class="grid-orbit" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="RBX Labs home">
+      <span class="brand-mark">
+        <img src="rbx-logo.png" alt="" />
+      </span>
+      <span class="brand-copy">
+        <span class="brand-name">RBX Labs</span>
+        <span class="brand-tag">AI systems, product, and go-to-market</span>
+      </span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="ai-training.html" aria-current="page">AI Training</a>
+      <a href="about.html">About</a>
+      <a href="approach.html">Approach</a>
+      <a href="index.html#selected-builds">Case Studies</a>
+      <a class="nav-pill" href="#training-contact">Plan a training session</a>
+      <div class="display-controls" aria-label="Display controls">
+        <div class="display-group" role="group" aria-label="Color mode">
+          <button class="display-option display-option-symbol" type="button" data-theme-option="light" aria-label="Light mode" title="Light mode">
+            <span aria-hidden="true">☼</span>
+          </button>
+          <button class="display-option display-option-symbol" type="button" data-theme-option="dark" aria-label="Dark mode" title="Dark mode">
+            <span aria-hidden="true">☽</span>
+          </button>
+        </div>
+        <div class="display-group" role="group" aria-label="Contrast mode">
+          <button class="display-option display-option-symbol" type="button" data-contrast-option="standard" aria-label="Standard contrast" title="Standard contrast">
+            <span aria-hidden="true">◐</span>
+          </button>
+          <button class="display-option display-option-symbol" type="button" data-contrast-option="high" aria-label="High contrast" title="High contrast">
+            <span aria-hidden="true">◕</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <section class="hero">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">AI Training</p>
+        <h1 class="training-hero-title">
+          Your team knows AI exists.
+          <span class="gradient-text">They don't know how to use it yet.</span>
+        </h1>
+        <p class="hero-body">
+          RBX Labs runs practical AI training for teams that need more than inspiration. The format depends on how fast you need adoption to show up in the work.
+        </p>
+        <p class="hero-body">
+          Sessions are founder-led, workflow-specific, and built around what your team needs to do next, not generic AI trends.
+        </p>
+
+        <div class="hero-actions">
+          <a
+            class="btn btn-primary"
+            href="#"
+            data-calendly-link="https://calendly.com/rishabhbanga/ai-strategy-rishabh?hide_gdpr_banner=1"
+            data-booking-eyebrow="AI Training"
+            data-booking-title="Plan a training session"
+            data-booking-body="Use this session to map the team, workflow, and training format that would make AI adoption real. We’ll decide whether a workshop, sprint, or program fits best."
+          >
+            Plan a training session
+          </a>
+          <a class="btn btn-secondary" href="about.html">See credentials</a>
+        </div>
+
+        <div class="hero-proof">
+          <div class="proof-chip">
+            <span class="proof-label">Formats</span>
+            <span class="proof-value">Workshop, sprint, or multi-week program</span>
+          </div>
+          <div class="proof-chip">
+            <span class="proof-label">Best fit</span>
+            <span class="proof-value">Product, ops, GTM, and cross-functional teams adopting AI into real work</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-panel reveal reveal-delay-1">
+        <section class="signal-card training-credential-card">
+          <div class="card-topline">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="status-copy">
+              <span class="status-kicker">Credential</span>
+              <span class="status-readout">Practical training backed by institutional delivery</span>
+            </span>
+          </div>
+
+          <div class="signal-grid training-credential-grid">
+            <article class="signal-metric">
+              <span class="metric-label">Recognition</span>
+              <strong class="metric-readout training-metric-compact">Ericsson L&amp;D Rockstar</strong>
+              <span class="metric-note">Recognized for sustained delivery, habit formation, and team learning outcomes.</span>
+            </article>
+            <article class="signal-metric">
+              <span class="metric-label">Reach</span>
+              <strong class="metric-readout"><span class="countup" data-target="692">692</span></strong>
+              <span class="metric-title">Attendees trained</span>
+              <span class="metric-note">Delivered across enterprise, student, and founder audiences.</span>
+            </article>
+            <article class="signal-metric">
+              <span class="metric-label">Delivery</span>
+              <strong class="metric-readout"><span class="countup" data-target="606">606</span></strong>
+              <span class="metric-title">Hours delivered</span>
+              <span class="metric-note">Long-form training designed to build repeatable capability, not one-off excitement.</span>
+            </article>
+            <article class="signal-metric">
+              <span class="metric-label">Institutions</span>
+              <strong class="metric-readout training-metric-compact">Intel workshops</strong>
+              <span class="metric-note">BITS Pilani, CHARUSAT, and Stanford Code in Place are part of the delivery footprint.</span>
+            </article>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="services-section">
+      <div class="section-heading reveal">
+        <h2>Three ways to train the team</h2>
+        <p class="section-copy">
+          Pick the format based on how much change the team needs, how cross-functional the work is, and whether you need momentum or habit formation.
+        </p>
+      </div>
+
+      <div class="service-grid training-format-grid">
+        <article class="service-card service-pillar reveal">
+          <div class="icon-ring">01</div>
+          <span class="micro-label">Workshop</span>
+          <h3>Half-day session for one team</h3>
+          <p>Best for a specific workflow focus such as prompting, evaluation, product discovery, or AI-assisted execution.</p>
+          <p>Leaves the team with a shared mental model, a concrete workflow map, and immediate next actions.</p>
+        </article>
+        <article class="service-card service-pillar reveal reveal-delay-1">
+          <div class="icon-ring">02</div>
+          <span class="micro-label">Sprint</span>
+          <h3>2-3 days for cross-functional teams</h3>
+          <p>Best when product, operations, and leadership need alignment plus something tangible by the end.</p>
+          <p>Leaves the team with a working prototype, decision framework, and a clearer path to pilot or rollout.</p>
+        </article>
+        <article class="service-card service-pillar reveal reveal-delay-2">
+          <div class="icon-ring">03</div>
+          <span class="micro-label">Program</span>
+          <h3>4-8 weeks for adoption and habit formation</h3>
+          <p>Best when the goal is not just exposure to AI, but making it part of how the team actually operates.</p>
+          <p>Leaves the team with repeatable routines, coaching touchpoints, and usage patterns that stick.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="trust-band-section">
+      <div class="section-heading reveal">
+        <h2>Why teams bring me in for training</h2>
+      </div>
+
+      <div class="service-grid trust-band-grid">
+        <article class="service-card result-card result-card-featured reveal">
+          <span class="micro-label">Hands-on</span>
+          <p>No account managers. No handoff to a junior team. You work directly with the person who built the system.</p>
+        </article>
+        <article class="service-card result-card reveal reveal-delay-1">
+          <span class="micro-label">Specificity</span>
+          <p>The training is anchored in your workflow, your team constraints, and the decisions you need to make next.</p>
+        </article>
+        <article class="service-card result-card reveal reveal-delay-2">
+          <span class="micro-label">Commercial fit</span>
+          <p>This is the fastest path for teams that know AI matters but need a scoped format before committing to a larger build.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact-section reveal" id="training-contact">
+      <div class="contact-card">
+        <div class="contact-copy">
+          <p class="eyebrow">Next Step</p>
+          <h2>Plan the session around the team and the workflow</h2>
+          <p class="section-copy cta-note">Use a short planning call to decide whether a workshop, sprint, or longer program makes sense for your team.</p>
+          <p class="section-copy cta-note">If there is a real training need, the session should end with the right format, audience, and outcome.</p>
+        </div>
+        <div class="contact-actions">
+          <a
+            class="btn btn-primary"
+            href="#"
+            data-calendly-link="https://calendly.com/rishabhbanga/ai-strategy-rishabh?hide_gdpr_banner=1"
+            data-booking-eyebrow="AI Training"
+            data-booking-title="Plan a training session"
+            data-booking-body="Use this session to define the team, workflow, and desired outcome so the training format is clear before anything gets scheduled."
+          >
+            Plan a training session
+          </a>
+          <a class="btn btn-secondary" href="index.html#services">See all services</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js" defer></script>
+</body>
+</html>

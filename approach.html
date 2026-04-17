@@ -17,6 +17,16 @@
     href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&amp;family=Inter+Tight:wght@400;500;600&amp;family=Space+Mono:wght@400;700&amp;display=swap"
     rel="stylesheet"
   />
+  <script>
+    document.documentElement.classList.add('js');
+    try {
+      const storedTheme = localStorage.getItem('rbx-theme');
+      const storedContrast = localStorage.getItem('rbx-contrast');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : (prefersDark ? 'dark' : 'light');
+      document.documentElement.dataset.contrast = storedContrast === 'high' ? 'high' : 'standard';
+    } catch (error) {}
+  </script>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="approach-page">
@@ -35,11 +45,30 @@
     </a>
 
     <nav class="site-nav" aria-label="Primary">
-      <a href="index.html#services">Services</a>
+      <a href="index.html">Home</a>
+      <a href="ai-training.html">AI Training</a>
       <a href="about.html">About</a>
       <a href="approach.html" aria-current="page">Approach</a>
       <a href="index.html#selected-builds">Case Studies</a>
       <a class="nav-pill" href="index.html#contact">Start a conversation</a>
+      <div class="display-controls" aria-label="Display controls">
+        <div class="display-group" role="group" aria-label="Color mode">
+          <button class="display-option display-option-symbol" type="button" data-theme-option="light" aria-label="Light mode" title="Light mode">
+            <span aria-hidden="true">☼</span>
+          </button>
+          <button class="display-option display-option-symbol" type="button" data-theme-option="dark" aria-label="Dark mode" title="Dark mode">
+            <span aria-hidden="true">☽</span>
+          </button>
+        </div>
+        <div class="display-group" role="group" aria-label="Contrast mode">
+          <button class="display-option display-option-symbol" type="button" data-contrast-option="standard" aria-label="Standard contrast" title="Standard contrast">
+            <span aria-hidden="true">◐</span>
+          </button>
+          <button class="display-option display-option-symbol" type="button" data-contrast-option="high" aria-label="High contrast" title="High contrast">
+            <span aria-hidden="true">◕</span>
+          </button>
+        </div>
+      </div>
     </nav>
   </header>
 
@@ -65,7 +94,7 @@
           </div>
           <div class="proof-chip">
             <span class="proof-label">Product reliability</span>
-            <span class="proof-value">98%+ valid itineraries in Stealth TravelTech venture</span>
+            <span class="proof-value">98%+ valid itineraries in the TravelTech venture</span>
           </div>
           <div class="proof-chip">
             <span class="proof-label">Execution speed</span>
@@ -79,6 +108,7 @@
 
         <div class="hero-actions">
           <a class="btn btn-primary" href="index.html#selected-builds">See case studies</a>
+          <a class="btn btn-secondary" href="ai-training.html">Explore AI training</a>
           <span class="hero-action-divider" aria-hidden="true">or</span>
           <a
             class="btn btn-secondary"
@@ -100,6 +130,29 @@
         <p class="section-copy">
           Build something useful fast, with the team that actually has to own it after the work is done.
         </p>
+        <div class="engagement-strip">
+          <span class="engagement-chip">Typical sprint: 2-4 weeks</span>
+          <span class="engagement-chip">Founder-led delivery</span>
+          <span class="engagement-chip">Working output every stage</span>
+        </div>
+      </div>
+
+      <div class="services-stage-switcher reveal">
+        <div class="process-track" aria-label="Approach stages" data-track-autoplay="true">
+          <div class="track-line"></div>
+          <div class="track-step active" data-stage-step="clarify">
+            <span class="track-icon">01</span>
+            <span class="track-label">Clarify</span>
+          </div>
+          <div class="track-step" data-stage-step="design">
+            <span class="track-icon">02</span>
+            <span class="track-label">Design</span>
+          </div>
+          <div class="track-step" data-stage-step="enable">
+            <span class="track-icon">03</span>
+            <span class="track-label">Enable</span>
+          </div>
+        </div>
       </div>
 
       <div class="service-grid approach-grid">
@@ -107,7 +160,7 @@
           <h3>Clarify</h3>
           <p>Start with the real workflow, the real user, and the real constraint set rather than hypothetical AI use cases.</p>
           <p><strong>Ends with:</strong> a scoped opportunity brief, priority use cases, and a clear decision on what not to build.</p>
-          <p><strong>Case reference:</strong> The Stealth TravelTech venture started by locking budget, accessibility, latency, and rule constraints before the itinerary system was designed around them.</p>
+          <p><strong>Case reference:</strong> The TravelTech venture started by locking budget, accessibility, latency, and rule constraints before the itinerary system was designed around them.</p>
         </article>
         <article class="service-card reveal reveal-delay-1" data-stage-section="design">
           <h3>Design</h3>

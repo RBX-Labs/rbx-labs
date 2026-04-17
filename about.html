@@ -17,6 +17,16 @@
     href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&amp;family=Inter+Tight:wght@400;500;600&amp;family=Space+Mono:wght@400;700&amp;display=swap"
     rel="stylesheet"
   />
+  <script>
+    document.documentElement.classList.add('js');
+    try {
+      const storedTheme = localStorage.getItem('rbx-theme');
+      const storedContrast = localStorage.getItem('rbx-contrast');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : (prefersDark ? 'dark' : 'light');
+      document.documentElement.dataset.contrast = storedContrast === 'high' ? 'high' : 'standard';
+    } catch (error) {}
+  </script>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="about-page">
@@ -35,11 +45,30 @@
     </a>
 
     <nav class="site-nav" aria-label="Primary">
-      <a href="index.html#services">Services</a>
+      <a href="index.html">Home</a>
+      <a href="ai-training.html">AI Training</a>
       <a href="about.html" aria-current="page">About</a>
       <a href="approach.html">Approach</a>
       <a href="index.html#selected-builds">Case Studies</a>
       <a class="nav-pill" href="index.html#contact">Start a conversation</a>
+      <div class="display-controls" aria-label="Display controls">
+        <div class="display-group" role="group" aria-label="Color mode">
+          <button class="display-option display-option-symbol" type="button" data-theme-option="light" aria-label="Light mode" title="Light mode">
+            <span aria-hidden="true">☼</span>
+          </button>
+          <button class="display-option display-option-symbol" type="button" data-theme-option="dark" aria-label="Dark mode" title="Dark mode">
+            <span aria-hidden="true">☽</span>
+          </button>
+        </div>
+        <div class="display-group" role="group" aria-label="Contrast mode">
+          <button class="display-option display-option-symbol" type="button" data-contrast-option="standard" aria-label="Standard contrast" title="Standard contrast">
+            <span aria-hidden="true">◐</span>
+          </button>
+          <button class="display-option display-option-symbol" type="button" data-contrast-option="high" aria-label="High contrast" title="High contrast">
+            <span aria-hidden="true">◕</span>
+          </button>
+        </div>
+      </div>
     </nav>
   </header>
 
@@ -48,8 +77,8 @@
       <div class="hero-copy reveal">
         <p class="eyebrow">About</p>
         <h1>
-          I build AI products and systems
-          <span class="gradient-text">with teams that want to get past the pilot stage</span>
+          I help teams get
+          <span class="gradient-text">past the pilot stage</span>
         </h1>
         <p class="hero-body">
           I'm Rishabh Banga, founder of RBX Labs.
@@ -72,11 +101,14 @@
             <img class="about-photo" src="headshot.jpeg" alt="Rishabh Banga" />
           </div>
           <div class="about-copy">
-            <h2>Product, systems, trust, and enablement in one practice</h2>
-            <p class="section-copy">
+          <h2>Product, systems, trust, and enablement in one practice</h2>
+          <p class="section-copy">
               Beyond shipping products directly, I also advise founders and teams on AI adoption,
               product strategy, market entry, and operating models through roles with organizations
               like Twill, Expert Dojo, and TechLeader.
+            </p>
+            <p class="section-copy">
+              No account managers. No handoff to a junior team. You work directly with the person who built the system.
             </p>
             <div class="hero-actions">
               <a
@@ -204,7 +236,7 @@
       <div class="contact-card about-contact-card">
         <div class="contact-copy">
           <p class="eyebrow">Contact</p>
-          <h2>Let’s talk</h2>
+          <h2>Bring the product, workflow, or launch question</h2>
           <p class="section-copy cta-note">A short working session for founders, product leaders, and operators who need clarity on what to build next.</p>
           <p class="section-copy cta-note">Pick a time that works for you and I’ll come prepared to talk through your product, workflow, or launch question.</p>
         </div>

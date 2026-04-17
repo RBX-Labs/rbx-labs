@@ -18,7 +18,16 @@
     rel="stylesheet"
   />
   <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
-  <script>document.documentElement.classList.add('js');</script>
+  <script>
+    document.documentElement.classList.add('js');
+    try {
+      const storedTheme = localStorage.getItem('rbx-theme');
+      const storedContrast = localStorage.getItem('rbx-contrast');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : (prefersDark ? 'dark' : 'light');
+      document.documentElement.dataset.contrast = storedContrast === 'high' ? 'high' : 'standard';
+    } catch (error) {}
+  </script>
   <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -39,17 +48,36 @@
 
     <nav class="site-nav" aria-label="Primary">
       <a href="#services">Services</a>
+      <a href="ai-training.html">AI Training</a>
       <a href="about.html">About</a>
       <a href="approach.html">Approach</a>
       <a href="#selected-builds">Case Studies</a>
       <a class="nav-pill" href="#contact">Start a conversation</a>
+      <div class="display-controls" aria-label="Display controls">
+        <div class="display-group" role="group" aria-label="Color mode">
+          <button class="display-option display-option-symbol" type="button" data-theme-option="light" aria-label="Light mode" title="Light mode">
+            <span aria-hidden="true">☼</span>
+          </button>
+          <button class="display-option display-option-symbol" type="button" data-theme-option="dark" aria-label="Dark mode" title="Dark mode">
+            <span aria-hidden="true">☽</span>
+          </button>
+        </div>
+        <div class="display-group" role="group" aria-label="Contrast mode">
+          <button class="display-option display-option-symbol" type="button" data-contrast-option="standard" aria-label="Standard contrast" title="Standard contrast">
+            <span aria-hidden="true">◐</span>
+          </button>
+          <button class="display-option display-option-symbol" type="button" data-contrast-option="high" aria-label="High contrast" title="High contrast">
+            <span aria-hidden="true">◕</span>
+          </button>
+        </div>
+      </div>
     </nav>
   </header>
 
   <main class="page-shell" id="top">
     <section class="hero">
       <div class="hero-copy reveal">
-        <p class="eyebrow">Founder-led AI studio</p>
+        <p class="eyebrow">Founder-led &middot; Hands-on &middot; Ships in weeks</p>
         <h1>
           Build AI products
           <span class="gradient-text">that actually ship.</span>
@@ -61,6 +89,9 @@
           I work with founders, product teams, and operators to turn AI from
           experimentation into real products, workflows, and go-to-market execution
           without getting stuck in endless pilots or abstract strategy.
+        </p>
+        <p class="hero-body">
+          No account managers. No handoff to a junior team. You work directly with the person who built the system.
         </p>
 
         <div class="hero-actions">
@@ -82,7 +113,7 @@
             <span class="proof-value">Training, product strategy, applied AI, GTM</span>
           </div>
           <div class="proof-chip">
-            <span class="proof-label">Stealth TravelTech venture</span>
+            <span class="proof-label">TravelTech venture</span>
             <span class="proof-value">
               <span class="countup" data-target="98" data-suffix="%+">98%+</span> valid itineraries,
               <span class="countup" data-target="12" data-suffix="s">12s</span> P95 pipeline
@@ -90,7 +121,7 @@
           </div>
         </div>
 
-        <p class="hero-social-proof">Trained at Ericsson &middot; Built at Kampd &middot; Intel Software Innovator</p>
+        <p class="hero-social-proof">Microsoft &middot; NASA &middot; Ericsson &middot; Kampd &middot; Intel Software Innovator</p>
       </div>
 
       <div class="hero-panel reveal reveal-delay-1">
@@ -98,34 +129,41 @@
           <div class="card-topline">
             <span class="status-dot" aria-hidden="true"></span>
             <span class="status-copy">
-              <span class="status-kicker">Engagement model</span>
-              <span class="status-readout">What working together looks like</span>
+              <span class="status-kicker">Impact</span>
+              <span class="status-readout">The work has shown up in systems, metrics, and team adoption</span>
             </span>
           </div>
 
+          <p class="approach-model-copy">
+            Across every engagement, the goal is the same: measurable outcomes that teams can point to and build on.
+          </p>
+
           <div class="signal-grid">
             <article class="signal-metric">
-              <span class="metric-label">AI training</span>
-              <strong class="metric-readout">Get your team using AI</strong>
-              <span class="metric-note">Hands-on sessions built around real workflows, shared language, and day-to-day adoption.</span>
+              <span class="metric-label">Impact metric</span>
+              <strong class="metric-readout"><span class="countup" data-target="25" data-suffix="%">25%</span></strong>
+              <span class="metric-title">Activation Lift</span>
+              <span class="metric-note">Ranking improvements contributed to a 25% lift in activation while trust-led moderation reduced manual review by 40%.</span>
             </article>
             <article class="signal-metric">
-              <span class="metric-label">Product</span>
-              <strong class="metric-readout">Get clear on what to build</strong>
-              <span class="metric-note">Work through priorities, use cases, and tradeoffs with the team that has to ship it.</span>
+              <span class="metric-label">Impact metric</span>
+              <strong class="metric-readout"><span class="countup" data-target="40" data-suffix="%">40%</span></strong>
+              <span class="metric-title">Review Reduction</span>
+              <span class="metric-note">Trust-led moderation systems reduced the burden of manual review across high-volume content pipelines.</span>
             </article>
             <article class="signal-metric">
-              <span class="metric-label">Applied AI</span>
-              <strong class="metric-readout">Turn ideas into working systems</strong>
-              <span class="metric-note">Shape copilots, workflows, and internal tools that people will actually use.</span>
+              <span class="metric-label">Impact metric</span>
+              <strong class="metric-readout"><span class="countup" data-target="30" data-suffix="%">30%</span></strong>
+              <span class="metric-title">Throughput Gain</span>
+              <span class="metric-note">AI workflow transformation improved throughput by 30% across high-volume operational work.</span>
             </article>
             <article class="signal-metric">
-              <span class="metric-label">GTM</span>
-              <strong class="metric-readout">Bring the story to market</strong>
-              <span class="metric-note">Clarify positioning, audience, and launch motion so the work lands outside the product team.</span>
+              <span class="metric-label">Impact metric</span>
+              <strong class="metric-readout"><span class="countup" data-target="5.8" data-decimals="1" data-suffix="K+">5.8K+</span></strong>
+              <span class="metric-title">Learners Trained</span>
+              <span class="metric-note">Trained across AI, product, and innovation programs for student, founder, and enterprise audiences.</span>
             </article>
           </div>
-
           <div class="process-track" aria-label="Engagement phases" data-track-autoplay="true">
             <div class="track-line"></div>
             <div class="track-step active" data-track-step="clarify">
@@ -147,37 +185,51 @@
 
     <section class="services-section" id="services">
       <div class="section-heading reveal">
-        <h2>Where I help teams move faster</h2>
+        <h2>Where the work actually starts</h2>
         <p class="section-copy">
-          I don’t run generic consulting engagements. I work closely with a small number of teams to train, shape, and ship real AI systems.
+          I don’t run generic consulting engagements. Teams usually start with a scoped training, strategy, or system design engagement that leads to a concrete next step.
         </p>
       </div>
 
-      <div class="service-grid services-pillars">
-        <article class="service-card service-pillar reveal">
-          <div class="icon-ring">01</div>
-          <h3>AI Training</h3>
-          <p>Get your team from curiosity to actual usage, fast.</p>
-          <p>Workshops, sprints, and hands-on sessions that focus on real workflows, not theory.</p>
-        </article>
-        <article class="service-card service-pillar reveal reveal-delay-1">
-          <div class="icon-ring">02</div>
-          <h3>Product &amp; AI Strategy</h3>
-          <p>Decide what to build, and what not to.</p>
-          <p>I help teams prioritize AI use cases, shape roadmaps, and avoid dead-end experiments.</p>
-        </article>
-        <article class="service-card service-pillar reveal reveal-delay-2">
-          <div class="icon-ring">03</div>
-          <h3>Applied AI</h3>
-          <p>Turn ideas into working systems.</p>
-          <p>Copilots, workflows, and internal tools built to be used, not just demoed.</p>
-        </article>
-        <article class="service-card service-pillar reveal reveal-delay-3">
-          <div class="icon-ring">04</div>
-          <h3>GTM &amp; Positioning</h3>
-          <p>Make sure what you’re building actually lands.</p>
-          <p>Clear messaging, ICP alignment, and go-to-market structure for AI products.</p>
-        </article>
+      <div class="services-stage-switcher reveal">
+        <div class="process-track services-track" aria-label="Service stages">
+          <div class="track-line"></div>
+          <button class="track-step active" type="button" data-service-step="clarify" aria-pressed="true">
+            <span class="track-icon">01</span>
+            <span class="track-label">Clarify</span>
+          </button>
+          <button class="track-step" type="button" data-service-step="design" aria-pressed="false">
+            <span class="track-icon">02</span>
+            <span class="track-label">Design</span>
+          </button>
+          <button class="track-step" type="button" data-service-step="enable" aria-pressed="false">
+            <span class="track-icon">03</span>
+            <span class="track-label">Enable</span>
+          </button>
+        </div>
+
+        <div class="services-stage-panels">
+          <article class="service-card service-stage-card" data-service-panel="clarify">
+            <span class="micro-label">AI training + product strategy</span>
+            <h3>Get the team aligned on what is worth building</h3>
+            <p>Start with half-day workshops, working sessions, or a short discovery sprint that moves AI from vague interest to real priorities.</p>
+            <p>Use this stage to align on the workflow, the user, the constraint set, and what not to build before execution starts.</p>
+          </article>
+
+          <article class="service-card service-stage-card" data-service-panel="design" hidden>
+            <span class="micro-label">Applied AI systems</span>
+            <h3>Turn the idea into a system people can actually use</h3>
+            <p>Shape copilots, workflows, internal tools, and operating models around what can ship in weeks and work in practice.</p>
+            <p>This stage usually ends with a system design, execution path, success criteria, and a working prototype direction.</p>
+          </article>
+
+          <article class="service-card service-stage-card" data-service-panel="enable" hidden>
+            <span class="micro-label">GTM + team enablement</span>
+            <h3>Make sure the work lands with the team and the market</h3>
+            <p>Support rollout, team adoption, messaging, ICP alignment, and launch structure so the work does not stall after delivery.</p>
+            <p>The goal is not just a shipped feature. It is a system the team can run with, explain clearly, and extend without outside dependence.</p>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -224,7 +276,7 @@
 
     <section class="selected-builds-section" id="selected-builds">
       <div class="section-heading reveal">
-        <h2>Operator-led systems, not just strategy decks</h2>
+        <h2>Case studies &middot; Operator-led systems</h2>
         <p class="section-copy">
           I also build and ship products directly. These are examples of the kind of systems thinking
           and execution depth I bring into client work.
@@ -232,6 +284,36 @@
       </div>
 
       <div class="selected-builds-grid">
+        <article class="service-card selected-build selected-build-visual reveal">
+          <div class="selected-build-media">
+            <img src="planner.png" alt="TravelTech venture planner interface showing the concierge assistant and planning workflow." />
+          </div>
+          <div class="selected-build-copy">
+            <div class="selected-build-copy-top">
+              <div class="build-meta">
+                <span class="build-tag">TravelTech</span>
+                <span class="build-tag build-tag-status">Shipped</span>
+              </div>
+              <span class="micro-label">AI travel concierge</span>
+              <h3>TravelTech venture</h3>
+            </div>
+            <div class="selected-build-copy-body">
+              <p class="selected-build-lead">Architected an AI-powered travel flow for a TravelTech venture across planning, booking, and concierge support.</p>
+              <p>The work focused on connecting itinerary generation, decision support, and avatar-led travel help into one traveler experience that stayed useful before and during the trip.</p>
+            </div>
+            <div class="selected-build-metrics">
+              <span class="engagement-chip engagement-chip-metric">
+                <span class="countup" data-target="98" data-suffix="%+">98%+</span>
+                <span class="engagement-chip-copy">Valid itineraries</span>
+              </span>
+              <span class="engagement-chip engagement-chip-metric">
+                <span class="countup" data-target="12" data-suffix="s">12s</span>
+                <span class="engagement-chip-copy">P95 pipeline</span>
+              </span>
+              <span class="engagement-chip engagement-chip-wide">Planning + concierge UX</span>
+            </div>
+          </div>
+        </article>
         <article class="service-card selected-build featured-build reveal">
           <div class="build-meta">
             <span class="build-tag">Cybersecurity</span>
@@ -261,16 +343,6 @@
           <h3>Kampd</h3>
           <p>Built AI-powered trust, discovery, and moderation systems across a fast-growing community product.</p>
           <p>Included real-time trust scoring, feed ranking, and policy-driven workflows that reduced manual review while improving relevance.</p>
-        </article>
-        <article class="service-card selected-build reveal reveal-delay-3">
-          <div class="build-meta">
-            <span class="build-tag">TravelTech</span>
-            <span class="build-tag build-tag-status">Shipped</span>
-          </div>
-          <span class="micro-label">AI travel concierge</span>
-          <h3>Stealth TravelTech venture</h3>
-          <p>AI itinerary generation system converting a short prompt into a complete trip plan across flights, stays, and points of interest.</p>
-          <p>Built around rule compliance for budget, accessibility, safety, latency, and explainability.</p>
         </article>
       </div>
       <div class="selected-builds-footer reveal">

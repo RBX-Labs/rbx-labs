@@ -5,7 +5,30 @@ const countupItems = document.querySelectorAll(".countup");
 const stageSections = document.querySelectorAll("[data-stage-section]");
 const stageSteps = document.querySelectorAll("[data-stage-step]");
 const autoplayTracks = document.querySelectorAll("[data-track-autoplay]");
+const serviceSteps = document.querySelectorAll("[data-service-step]");
+const servicePanels = document.querySelectorAll("[data-service-panel]");
+const themeButtons = document.querySelectorAll("[data-theme-option]");
+const contrastButtons = document.querySelectorAll("[data-contrast-option]");
 let activeBookingTrigger = null;
+let userIsScrolling = false;
+let scrollResumeTimeoutId = null;
+const autoplayControllers = [];
+
+function applyDisplaySettings(theme, contrast) {
+  if (theme === "light" || theme === "dark") {
+    document.documentElement.dataset.theme = theme;
+  }
+
+  document.documentElement.dataset.contrast = contrast === "high" ? "high" : "standard";
+
+  themeButtons.forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.getAttribute("data-theme-option") === document.documentElement.dataset.theme));
+  });
+
+  contrastButtons.forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.getAttribute("data-contrast-option") === document.documentElement.dataset.contrast));
+  });
+}
 
 function buildBookingModal() {
   const modal = document.createElement("div");
@@ -19,7 +42,7 @@ function buildBookingModal() {
       </button>
       <div class="booking-modal__shell">
         <div class="booking-modal__intro">
-          <p class="eyebrow">Book a session</p>
+          <p class="eyebrow booking-modal__eyebrow">Book a session</p>
           <h2 id="booking-modal-title">Talk through your use case</h2>
           <p class="section-copy">Pick a time that works for you and I’ll come prepared to talk through your product, workflow, or launch question.</p>
         </div>
@@ -41,6 +64,7 @@ function buildBookingModal() {
 
 const bookingModal = calendlyLinks.length > 0 ? buildBookingModal() : null;
 const bookingFrame = bookingModal ? bookingModal.querySelector(".booking-modal__frame") : null;
+const bookingEyebrow = bookingModal ? bookingModal.querySelector(".booking-modal__eyebrow") : null;
 const bookingTitle = bookingModal ? bookingModal.querySelector("#booking-modal-title") : null;
 const bookingBody = bookingModal ? bookingModal.querySelector(".booking-modal__intro .section-copy") : null;
 
@@ -50,9 +74,11 @@ function openBookingModal(url, trigger) {
   }
 
   activeBookingTrigger = trigger || null;
-  if (trigger && bookingTitle && bookingBody) {
+  if (trigger && bookingEyebrow && bookingTitle && bookingBody) {
+    const eyebrow = trigger.getAttribute("data-booking-eyebrow");
     const title = trigger.getAttribute("data-booking-title");
     const body = trigger.getAttribute("data-booking-body");
+    bookingEyebrow.textContent = eyebrow || "Book a session";
     bookingTitle.textContent = title || "Talk through your use case";
     bookingBody.textContent = body || "Pick a time that works for you and I’ll come prepared to talk through your product, workflow, or launch question.";
   }
@@ -80,10 +106,14 @@ function closeBookingModal() {
 
 function animateCount(el, target, suffix, duration) {
   const start = performance.now();
+  const decimals = Number(el.dataset.decimals || "0");
+  el.textContent = `${decimals > 0 ? (0).toFixed(decimals) : "0"}${suffix}`;
   const update = (now) => {
     const p = Math.min((now - start) / duration, 1);
     const ease = 1 - Math.pow(1 - p, 3);
-    el.textContent = Math.round(ease * target) + suffix;
+    const value = ease * target;
+    const rounded = decimals > 0 ? value.toFixed(decimals) : Math.round(value).toString();
+    el.textContent = rounded + suffix;
     if (p < 1) {
       requestAnimationFrame(update);
     }
@@ -101,10 +131,12 @@ function triggerCountups(container) {
     const suffix = el.dataset.suffix || "";
     el.dataset.counted = "true";
     if (prefersReducedMotion) {
-      el.textContent = `${target}${suffix}`;
+      const decimals = Number(el.dataset.decimals || "0");
+      const value = decimals > 0 ? target.toFixed(decimals) : `${target}`;
+      el.textContent = `${value}${suffix}`;
       return;
     }
-    animateCount(el, target, suffix, 900);
+    animateCount(el, target, suffix, 1200);
   });
 }
 
@@ -151,10 +183,75 @@ function startTrackAutoplay() {
       return;
     }
 
-    window.setInterval(() => {
-      activeIndex = (activeIndex + 1) % steps.length;
-      activateStep(activeIndex);
-    }, 2200);
+    const controller = {
+      intervalId: null,
+      pause() {
+        if (this.intervalId !== null) {
+          window.clearInterval(this.intervalId);
+          this.intervalId = null;
+        }
+      },
+      resume() {
+        if (this.intervalId !== null || userIsScrolling) {
+          return;
+        }
+
+        this.intervalId = window.setInterval(() => {
+          activeIndex = (activeIndex + 1) % steps.length;
+          activateStep(activeIndex);
+        }, 2200);
+      },
+    };
+
+    controller.resume();
+    autoplayControllers.push(controller);
+  });
+}
+
+function pauseTrackAutoplay() {
+  autoplayControllers.forEach((controller) => controller.pause());
+}
+
+function resumeTrackAutoplay() {
+  autoplayControllers.forEach((controller) => controller.resume());
+}
+
+function scheduleAutoplayResume() {
+  if (scrollResumeTimeoutId !== null) {
+    window.clearTimeout(scrollResumeTimeoutId);
+  }
+
+  scrollResumeTimeoutId = window.setTimeout(() => {
+    userIsScrolling = false;
+    resumeTrackAutoplay();
+  }, 4000);
+}
+
+function setActiveService(serviceName) {
+  if (!serviceName) {
+    return;
+  }
+
+  serviceSteps.forEach((step) => {
+    const isActive = step.dataset.serviceStep === serviceName;
+    step.classList.toggle("active", isActive);
+    step.setAttribute("aria-pressed", String(isActive));
+  });
+
+  servicePanels.forEach((panel) => {
+    panel.hidden = panel.dataset.servicePanel !== serviceName;
+  });
+}
+
+applyDisplaySettings(document.documentElement.dataset.theme, document.documentElement.dataset.contrast);
+
+if (serviceSteps.length > 0 && servicePanels.length > 0) {
+  setActiveService(serviceSteps[0].dataset.serviceStep);
+
+  serviceSteps.forEach((step) => {
+    step.addEventListener("click", () => {
+      setActiveService(step.dataset.serviceStep);
+    });
   });
 }
 
@@ -163,7 +260,9 @@ if (prefersReducedMotion || !("IntersectionObserver" in window)) {
   countupItems.forEach((el) => {
     const target = Number(el.dataset.target || "0");
     const suffix = el.dataset.suffix || "";
-    el.textContent = `${target}${suffix}`;
+    const decimals = Number(el.dataset.decimals || "0");
+    const value = decimals > 0 ? target.toFixed(decimals) : `${target}`;
+    el.textContent = `${value}${suffix}`;
     el.dataset.counted = "true";
   });
   if (stageSections.length > 0) {
@@ -202,6 +301,9 @@ if (prefersReducedMotion || !("IntersectionObserver" in window)) {
           return;
         }
 
+        userIsScrolling = true;
+        pauseTrackAutoplay();
+        scheduleAutoplayResume();
         setActiveStage(visible[0].target.dataset.stageSection);
       },
       {
@@ -214,6 +316,18 @@ if (prefersReducedMotion || !("IntersectionObserver" in window)) {
   }
 
   startTrackAutoplay();
+}
+
+if (stageSections.length > 0 && autoplayTracks.length > 0) {
+  window.addEventListener(
+    "scroll",
+    () => {
+      userIsScrolling = true;
+      pauseTrackAutoplay();
+      scheduleAutoplayResume();
+    },
+    { passive: true }
+  );
 }
 
 calendlyLinks.forEach((link) => {
@@ -242,3 +356,35 @@ if (bookingModal) {
     }
   });
 }
+
+themeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const theme = button.getAttribute("data-theme-option");
+    if (!theme) {
+      return;
+    }
+
+    localStorage.setItem("rbx-theme", theme);
+    applyDisplaySettings(theme, document.documentElement.dataset.contrast);
+  });
+});
+
+contrastButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const contrast = button.getAttribute("data-contrast-option");
+    if (!contrast) {
+      return;
+    }
+
+    localStorage.setItem("rbx-contrast", contrast);
+    applyDisplaySettings(document.documentElement.dataset.theme, contrast);
+  });
+});
+
+window.addEventListener("beforeunload", () => {
+  if (scrollResumeTimeoutId !== null) {
+    window.clearTimeout(scrollResumeTimeoutId);
+  }
+
+  pauseTrackAutoplay();
+});
