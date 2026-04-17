@@ -1624,6 +1624,11 @@ h2 {
   margin-right: auto;
 }
 
+.hero-panel .about-copy .hero-actions {
+  justify-content: center;
+  margin-top: var(--space-lg);
+}
+
 .contact-card .section-copy {
   margin-top: var(--space-lg);
 }
