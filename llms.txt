@@ -1,0 +1,23 @@
+# RBX Labs
+
+RBX Labs is an applied AI studio. It helps companies build AI products, AI workflows, and AI-enabled go-to-market systems.
+
+## Primary pages
+- Home: https://rbx-labs.io/
+- About: https://rbx-labs.io/about.html
+- Approach: https://rbx-labs.io/approach.html
+- AI Training: https://rbx-labs.io/ai-training.html
+- Case study / product example: https://rbx-labs.io/removed product.html
+
+## What RBX Labs does
+- Builds AI-powered products and internal tools
+- Designs AI workflows that reduce manual work and improve throughput
+- Creates AI-enabled go-to-market systems for research, content, outreach, qualification, and sales support
+- Runs AI training through workshops, sprints, and adoption programs
+
+## Proof points
+- 25% activation lift from ranking improvements in a community product
+- 40% reduction in manual review from trust-led moderation systems
+- 30% throughput gain from AI workflow transformation
+- 98%+ valid itineraries with a 12-second P95 pipeline in a TravelTech venture
+- 5.8K+ learners trained across AI, product, and innovation programs

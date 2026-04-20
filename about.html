@@ -3,11 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RBX Labs | About</title>
+  <title>About RBX Labs | Founder-Led Applied AI Studio</title>
   <meta
     name="description"
     content="Learn more about RBX Labs, the founder-led AI studio built by Rishabh Banga to move companies from AI experimentation into practical execution."
   />
+  <link rel="canonical" href="https://rbx-labs.io/about.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RBX Labs" />
+  <meta property="og:title" content="About RBX Labs | Founder-Led Applied AI Studio" />
+  <meta property="og:description" content="Learn more about RBX Labs, the founder-led AI studio built by Rishabh Banga to move companies from AI experimentation into practical execution." />
+  <meta property="og:url" content="https://rbx-labs.io/about.html" />
+  <meta property="og:image" content="https://rbx-labs.io/headshot.jpeg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="About RBX Labs | Founder-Led Applied AI Studio" />
+  <meta name="twitter:description" content="Learn more about RBX Labs, the founder-led AI studio built by Rishabh Banga to move companies from AI experimentation into practical execution." />
+  <meta name="twitter:image" content="https://rbx-labs.io/headshot.jpeg" />
   <link rel="icon" type="image/png" sizes="1024x1024" href="rbx-logo.png" />
   <link rel="shortcut icon" href="rbx-logo.png" />
   <link rel="apple-touch-icon" href="rbx-logo.png" />
@@ -28,6 +39,29 @@
     } catch (error) {}
   </script>
   <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://rbx-labs.io/#organization",
+          "name": "RBX Labs",
+          "url": "https://rbx-labs.io/",
+          "logo": "https://rbx-labs.io/rbx-logo.png"
+        },
+        {
+          "@type": "Person",
+          "@id": "https://rbx-labs.io/about.html#person",
+          "name": "Rishabh Banga",
+          "jobTitle": "Founder",
+          "worksFor": {
+            "@id": "https://rbx-labs.io/#organization"
+          }
+        }
+      ]
+    }
+  </script>
 </head>
 <body class="about-page">
   <div class="bg-layers" aria-hidden="true"></div>
