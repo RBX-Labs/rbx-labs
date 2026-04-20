@@ -44,12 +44,12 @@ function buildBookingModal() {
         <div class="booking-modal__intro">
           <p class="eyebrow booking-modal__eyebrow">Book a session</p>
           <h2 id="booking-modal-title">Talk through your use case</h2>
-          <p class="section-copy">Pick a time that works for you and I’ll come prepared to talk through your product, workflow, or launch question.</p>
+          <p class="section-copy">Pick a time that works for you and use the session to talk through your product, workflow, or launch question.</p>
         </div>
         <div class="booking-modal__frame-wrap">
           <iframe
             class="booking-modal__frame"
-            title="Book a session with Rishabh Banga"
+            title="Book a session with RBX Labs"
             loading="lazy"
             referrerpolicy="strict-origin-when-cross-origin"
           ></iframe>
@@ -80,7 +80,7 @@ function openBookingModal(url, trigger) {
     const body = trigger.getAttribute("data-booking-body");
     bookingEyebrow.textContent = eyebrow || "Book a session";
     bookingTitle.textContent = title || "Talk through your use case";
-    bookingBody.textContent = body || "Pick a time that works for you and I’ll come prepared to talk through your product, workflow, or launch question.";
+    bookingBody.textContent = body || "Pick a time that works for you and use the session to talk through your product, workflow, or launch question.";
   }
   bookingFrame.src = url;
   bookingModal.hidden = false;
