@@ -247,6 +247,10 @@ h3 {
   background: color-mix(in srgb, var(--surface-panel) 94%, transparent);
 }
 
+.display-group[aria-label="Color mode"] {
+  display: none;
+}
+
 .display-option {
   border: 0;
   background: transparent;
@@ -1054,7 +1058,7 @@ h1 {
 
 .card-topline {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   margin-bottom: var(--space-xl);
   color: var(--cyan-soft);
@@ -1064,6 +1068,7 @@ h1 {
 .status-dot {
   width: 10px;
   height: 10px;
+  margin-top: 0.28rem;
   border-radius: 50%;
   background: var(--cyan);
   box-shadow: 0 0 18px rgba(0, 229, 255, 0.5);
@@ -1273,14 +1278,63 @@ h1 {
 }
 
 .training-page .contact-card {
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
 }
 
 .training-page .contact-actions {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: var(--space-md);
+}
+
+.training-next-step-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding: 24px;
+  min-height: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0, 229, 255, 0.14);
+  background:
+    radial-gradient(circle at top right, rgba(0, 229, 255, 0.08), transparent 46%),
+    color-mix(in srgb, var(--surface-panel) 94%, transparent);
+}
+
+.training-next-step-panel h3 {
+  margin: 0;
+  max-width: 18ch;
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.training-next-step-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.training-next-step-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.training-next-step-list li::before {
+  content: "";
+  flex: 0 0 9px;
+  width: 9px;
+  height: 9px;
+  margin-top: 0.45rem;
+  border-radius: 999px;
+  background: var(--cyan);
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.32);
 }
 
 .signal-grid {
@@ -1800,24 +1854,23 @@ h2 {
 }
 
 .about-contact-card {
-  grid-template-columns: 1fr;
-  justify-items: center;
-  gap: var(--space-md);
-  max-width: 640px;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  justify-items: stretch;
+  gap: var(--space-lg);
   margin: 0 auto;
-  padding: 28px 32px;
-  text-align: center;
+  padding: var(--space-xl);
+  text-align: left;
 }
 
 .about-contact-card .contact-copy {
-  max-width: 34rem;
+  max-width: 36rem;
 }
 
 .about-contact-card h2 {
-  max-width: none;
-  font-size: clamp(1.9rem, 2.6vw, 2.5rem);
-  line-height: 1.05;
-  margin-bottom: var(--space-sm);
+  max-width: 12ch;
+  font-size: clamp(2.3rem, 4vw, 3.4rem);
+  line-height: 1.02;
+  margin-bottom: var(--space-md);
 }
 
 .hero-panel .about-card {
@@ -1858,15 +1911,63 @@ h2 {
 }
 
 .about-contact-card .section-copy {
-  margin-top: var(--space-sm);
+  margin-top: var(--space-md);
 }
 
 .about-contact-card .contact-actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: var(--space-md);
-  justify-content: center;
-  margin-top: var(--space-lg);
+}
+
+.about-next-step-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding: 24px;
+  min-height: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0, 229, 255, 0.14);
+  background:
+    radial-gradient(circle at top right, rgba(0, 229, 255, 0.08), transparent 46%),
+    color-mix(in srgb, var(--surface-panel) 94%, transparent);
+}
+
+.about-next-step-panel h3 {
+  margin: 0;
+  max-width: 17ch;
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.about-next-step-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.about-next-step-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.about-next-step-list li::before {
+  content: "";
+  flex: 0 0 9px;
+  width: 9px;
+  height: 9px;
+  margin-top: 0.45rem;
+  border-radius: 999px;
+  background: var(--cyan);
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.32);
 }
 
 .contact-booking {
@@ -2576,6 +2677,10 @@ h2 {
   .hero-actions .btn,
   .contact-actions .btn {
     width: 100%;
+  }
+
+  .training-next-step-panel {
+    padding: var(--space-lg);
   }
 
   .contact-card {
