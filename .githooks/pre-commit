@@ -1,0 +1,14 @@
+#!/bin/zsh
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+RELEVANT_PATTERN='(^|/).+\.(html|css|js|png|jpg|jpeg|webp|svg|gif|avif)$'
+
+changed_files="$(git diff --cached --name-only; git diff --name-only)"
+
+if ! print -r -- "$changed_files" | rg -q "$RELEVANT_PATTERN"; then
+  exit 0
+fi
+
+echo "Running visual render validation..."
+"$ROOT_DIR/scripts/visual-render-validate.sh"

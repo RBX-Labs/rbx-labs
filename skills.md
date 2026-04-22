@@ -3,6 +3,14 @@
 ## Trigger
 Run this workflow after any HTML, CSS, JS, image, copy, layout, spacing, or interaction change in this repo.
 
+This repo also includes an executable render script and pre-commit hook:
+- script: `scripts/visual-render-validate.sh`
+- hook: `.githooks/pre-commit`
+
+For a stronger browser-backed validation layer, use an MCP-backed browser tool next:
+- `Playwright MCP` for browser validation
+- `Chrome DevTools MCP` for page inspection
+
 This is a required validation routine, not an optional cleanup step.
 
 ## Goal
