@@ -113,6 +113,49 @@
   <main class="page-shell" id="top">
     <section class="hero">
       <div class="hero-copy reveal">
+        <div class="systems-map systems-map-hero" aria-hidden="true">
+          <svg viewBox="0 0 640 420" role="presentation">
+            <defs>
+              <linearGradient id="hero-map-flow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--cyan-soft)" />
+                <stop offset="52%" stop-color="var(--cyan)" />
+                <stop offset="100%" stop-color="var(--teal)" />
+              </linearGradient>
+            </defs>
+            <g class="systems-map-grid">
+              <path d="M64 92H584" />
+              <path d="M64 160H584" />
+              <path d="M64 228H584" />
+              <path d="M64 296H584" />
+              <path d="M112 48V352" />
+              <path d="M220 48V352" />
+              <path d="M328 48V352" />
+              <path d="M436 48V352" />
+              <path d="M544 48V352" />
+            </g>
+            <g class="systems-map-links">
+              <path class="systems-map-link systems-map-link-primary" d="M104 278C162 214 208 198 258 198C314 198 348 132 406 132C470 132 500 200 564 200" />
+              <path class="systems-map-link" d="M112 130C178 130 192 88 246 88C298 88 334 164 398 164C450 164 498 108 552 108" />
+              <path class="systems-map-link" d="M112 248C158 248 214 306 274 306C330 306 360 248 416 248C470 248 510 284 560 284" />
+              <path class="systems-map-link systems-map-link-secondary" d="M216 88C246 128 264 154 294 188C320 218 352 240 404 246" />
+            </g>
+            <g class="systems-map-zones">
+              <rect x="82" y="60" width="138" height="80" rx="18" />
+              <rect x="250" y="164" width="128" height="86" rx="18" />
+              <rect x="426" y="82" width="138" height="96" rx="18" />
+            </g>
+            <g class="systems-map-nodes">
+              <circle class="systems-map-node systems-map-node-pulse" cx="104" cy="278" r="10" />
+              <circle class="systems-map-node" cx="216" cy="88" r="8" />
+              <circle class="systems-map-node systems-map-node-large" cx="258" cy="198" r="12" />
+              <circle class="systems-map-node" cx="328" cy="198" r="8" />
+              <circle class="systems-map-node systems-map-node-pulse" cx="406" cy="132" r="11" />
+              <circle class="systems-map-node" cx="444" cy="248" r="8" />
+              <circle class="systems-map-node systems-map-node-large" cx="564" cy="200" r="12" />
+              <circle class="systems-map-node" cx="560" cy="284" r="8" />
+            </g>
+          </svg>
+        </div>
         <p class="eyebrow">Applied AI &middot; Senior-level execution &middot; Direct collaboration</p>
         <h1>
           AI,
@@ -124,10 +167,6 @@
         <p class="hero-body">
           Most teams do not need more AI ideas. They need AI that ships, gets adopted, and improves how the business operates. RBX Labs focuses on practical execution over experimentation for its own sake.
         </p>
-        <p class="hero-body">
-          Applied AI. Senior-level execution. Direct collaboration.
-        </p>
-
         <div class="hero-actions">
           <a
             class="btn btn-primary"
@@ -150,7 +189,7 @@
             <span class="proof-label">TravelTech venture</span>
             <span class="proof-value">
               <span class="countup" data-target="98" data-suffix="%+">98%+</span> valid itineraries,
-              <span class="countup" data-target="12" data-suffix="s">12s</span> P95 pipeline
+              <span class="countup" data-target="12" data-suffix="s" data-suffix-class="metric-suffix-lower">12<span class="metric-suffix-lower">s</span></span> P95 pipeline
             </span>
           </div>
         </div>
@@ -269,38 +308,6 @@
       </div>
     </section>
 
-    <section class="services-section">
-      <div class="section-heading reveal">
-        <h2>Proof That Can Be Cited</h2>
-        <p class="section-copy">
-          The work shows up in product metrics, workflow performance, and production systems rather than abstract positioning alone.
-        </p>
-      </div>
-
-      <div class="service-grid services-pillars">
-        <article class="service-card service-pillar reveal">
-          <div class="icon-ring">01</div>
-          <h3>Kampd</h3>
-          <p>Feed ranking improvements contributed to a 25% lift in activation while trust-led moderation reduced manual review by 40%.</p>
-        </article>
-        <article class="service-card service-pillar reveal reveal-delay-1">
-          <div class="icon-ring">02</div>
-          <h3>Copart</h3>
-          <p>AI workflow transformation improved throughput by 30% across high-volume operational work.</p>
-        </article>
-        <article class="service-card service-pillar reveal reveal-delay-2">
-          <div class="icon-ring">03</div>
-          <h3>TravelTech venture</h3>
-          <p>AI itinerary generation delivered 98%+ valid itineraries with a 12-second P95 pipeline.</p>
-        </article>
-        <article class="service-card service-pillar reveal reveal-delay-3">
-          <div class="icon-ring">04</div>
-          <h3>Training and enablement</h3>
-          <p>Training delivery spans 5.8K+ learners across AI, product, and innovation programs for student, founder, and enterprise audiences.</p>
-        </article>
-      </div>
-    </section>
-
     <section class="contact-section reveal" id="contact">
       <div class="contact-card">
         <div class="contact-copy">
@@ -329,7 +336,7 @@
       </div>
 
       <div class="selected-builds-grid">
-        <article class="service-card selected-build selected-build-visual reveal">
+        <article class="service-card selected-build selected-build-visual selected-build-traveltech reveal">
           <div class="selected-build-media">
             <img src="planner.png" alt="TravelTech venture planner interface showing the concierge assistant and planning workflow." />
           </div>
@@ -352,14 +359,65 @@
                 <span class="engagement-chip-copy">Valid itineraries</span>
               </span>
               <span class="engagement-chip engagement-chip-metric">
-                <span class="countup" data-target="12" data-suffix="s">12s</span>
+                <span class="countup" data-target="12" data-suffix="s" data-suffix-class="metric-suffix-lower">12<span class="metric-suffix-lower">s</span></span>
                 <span class="engagement-chip-copy">P95 pipeline</span>
               </span>
               <span class="engagement-chip engagement-chip-wide">Planning + concierge UX</span>
             </div>
+            <div class="case-system-preview case-system-preview-inline" aria-hidden="true">
+              <div class="case-system-preview-header">
+                <span class="micro-label">Live system view</span>
+                <span class="case-system-preview-hint">Prompt to itinerary to concierge loop</span>
+              </div>
+              <svg viewBox="0 0 420 136" role="presentation">
+                <g class="case-system-orbit-group">
+                  <circle cx="158" cy="42" r="30" />
+                  <circle cx="282" cy="92" r="32" />
+                </g>
+                <g class="case-system-block-group">
+                  <rect x="16" y="68" width="72" height="40" rx="14" />
+                  <rect x="116" y="18" width="88" height="46" rx="16" />
+                  <rect x="244" y="72" width="92" height="42" rx="16" />
+                  <rect x="356" y="28" width="48" height="52" rx="14" />
+                </g>
+                <g class="case-system-link-group">
+                  <path class="case-system-link" d="M44 88L116 88L158 42L244 42L282 92L356 92L380 54" />
+                  <path class="case-system-link case-system-link-secondary" d="M44 88L116 88L158 92L244 92L282 54L356 54L380 54" />
+                  <path class="case-system-link case-system-link-loop" d="M282 92C250 126 194 126 158 92" />
+                </g>
+                <g class="case-system-node-group">
+                  <circle cx="44" cy="88" r="8" />
+                  <circle cx="158" cy="42" r="10" />
+                  <circle cx="158" cy="92" r="7" />
+                  <circle cx="282" cy="92" r="10" />
+                  <circle cx="282" cy="54" r="7" />
+                  <circle cx="380" cy="54" r="8" />
+                </g>
+                <g class="case-system-label-group">
+                  <text x="10" y="126">Prompt</text>
+                  <text x="128" y="18">Planner</text>
+                  <text x="252" y="126">Itinerary</text>
+                  <text x="338" y="42">Concierge</text>
+                </g>
+              </svg>
+              <div class="case-system-legend" aria-hidden="true">
+                <span class="case-system-legend-item">
+                  <span class="case-system-legend-swatch case-system-legend-swatch-cyan case-system-legend-swatch-line"></span>
+                  Core planning path
+                </span>
+                <span class="case-system-legend-item">
+                  <span class="case-system-legend-swatch case-system-legend-swatch-purple case-system-legend-swatch-line-dashed"></span>
+                  Concierge loop and secondary path
+                </span>
+                <span class="case-system-legend-item">
+                  <span class="case-system-legend-swatch case-system-legend-swatch-cyan case-system-legend-swatch-node"></span>
+                  Hollow handoff nodes
+                </span>
+              </div>
+            </div>
           </div>
         </article>
-        <article class="service-card selected-build featured-build reveal">
+        <article class="service-card selected-build selected-build-system selected-build-network featured-build reveal" tabindex="0">
           <div class="build-meta">
             <span class="build-tag">Cybersecurity</span>
             <span class="build-tag build-tag-status">Shipped</span>
@@ -368,8 +426,59 @@
           <h3>removed product</h3>
           <p>Built and shipped a first version in 30 days for pre-connection Wi-Fi trust and safety scoring.</p>
           <p>It is both an internal venture and proof of how RBX Labs takes an idea from framing to working product fast.</p>
+          <div class="case-system-preview" aria-hidden="true">
+            <div class="case-system-preview-header">
+              <span class="micro-label">Live system view</span>
+              <span class="case-system-preview-hint">Signal score to trust verdict</span>
+            </div>
+            <svg viewBox="0 0 320 120" role="presentation">
+              <g class="case-system-gate-group">
+                <rect x="18" y="38" width="56" height="52" rx="14" />
+                <rect x="104" y="12" width="56" height="42" rx="14" />
+                <rect x="192" y="68" width="56" height="42" rx="14" />
+                <rect x="264" y="30" width="38" height="48" rx="12" />
+              </g>
+              <g class="case-system-link-group">
+                <path class="case-system-link" d="M46 64L104 64L132 34L192 34L220 88L264 88L284 54" />
+                <path class="case-system-link case-system-link-secondary" d="M46 64L104 64L132 90L192 90L220 54L264 54L284 54" />
+                <path class="case-system-link case-system-link-alert" d="M132 34L132 90" />
+              </g>
+              <g class="case-system-node-group">
+                <circle cx="46" cy="64" r="8" />
+                <circle cx="132" cy="34" r="9" />
+                <circle cx="132" cy="90" r="7" />
+                <circle cx="220" cy="88" r="9" />
+                <circle cx="220" cy="54" r="7" />
+                <circle cx="284" cy="54" r="8" />
+              </g>
+              <g class="case-system-label-group">
+                <text x="8" y="102">Wi-Fi signal</text>
+                <text x="98" y="20">Risk score</text>
+                <text x="184" y="110">Trust layer</text>
+                <text x="252" y="40">Verdict</text>
+              </g>
+            </svg>
+            <div class="case-system-legend" aria-hidden="true">
+              <span class="case-system-legend-item">
+                <span class="case-system-legend-swatch case-system-legend-swatch-cyan case-system-legend-swatch-line"></span>
+                Core verified signal path
+              </span>
+              <span class="case-system-legend-item">
+                <span class="case-system-legend-swatch case-system-legend-swatch-amber case-system-legend-swatch-line-dashed"></span>
+                Dashed risk escalation path
+              </span>
+              <span class="case-system-legend-item">
+                <span class="case-system-legend-swatch case-system-legend-swatch-amber case-system-legend-swatch-square"></span>
+                Risk gate blocks
+              </span>
+              <span class="case-system-legend-item">
+                <span class="case-system-legend-swatch case-system-legend-swatch-amber case-system-legend-swatch-node"></span>
+                Hollow checkpoint nodes
+              </span>
+            </div>
+          </div>
         </article>
-        <article class="service-card selected-build reveal reveal-delay-1">
+        <article class="service-card selected-build selected-build-system selected-build-iprd reveal reveal-delay-1" tabindex="0">
           <div class="build-meta">
             <span class="build-tag">Product tooling</span>
             <span class="build-tag build-tag-status">Shipped</span>
@@ -378,8 +487,56 @@
           <h3>iPRD</h3>
           <p>Interactive PRD generation system that turns rough product thinking into executable specs in Canvas.</p>
           <p>Built to be deterministic, single-file, deployment-ready, and useful to teams beyond the first demo.</p>
+          <div class="case-system-preview" aria-hidden="true">
+            <div class="case-system-preview-header">
+              <span class="micro-label">Live system view</span>
+              <span class="case-system-preview-hint">Inputs to executable spec flow</span>
+            </div>
+            <svg viewBox="0 0 320 120" role="presentation">
+              <g class="case-system-block-group">
+                <rect x="16" y="56" width="58" height="36" rx="12" />
+                <rect x="100" y="18" width="66" height="44" rx="14" />
+                <rect x="190" y="56" width="72" height="40" rx="14" />
+                <rect x="272" y="28" width="34" height="44" rx="12" />
+              </g>
+              <g class="case-system-link-group">
+                <path class="case-system-link" d="M44 74L100 74L132 40L190 40L224 76L272 76L290 50" />
+                <path class="case-system-link case-system-link-secondary" d="M44 74L100 74L132 74L190 74L224 50L272 50L290 50" />
+              </g>
+              <g class="case-system-node-group">
+                <circle cx="44" cy="74" r="8" />
+                <circle cx="132" cy="40" r="9" />
+                <circle cx="224" cy="76" r="9" />
+                <circle cx="290" cy="50" r="8" />
+              </g>
+              <g class="case-system-label-group">
+                <text x="8" y="110">Raw inputs</text>
+                <text x="108" y="20">Structure</text>
+                <text x="190" y="108">Canvas spec</text>
+                <text x="250" y="36">Output</text>
+              </g>
+            </svg>
+            <div class="case-system-legend" aria-hidden="true">
+              <span class="case-system-legend-item">
+                <span class="case-system-legend-swatch case-system-legend-swatch-cyan case-system-legend-swatch-line"></span>
+                Core spec path
+              </span>
+              <span class="case-system-legend-item">
+                <span class="case-system-legend-swatch case-system-legend-swatch-purple case-system-legend-swatch-line-dashed"></span>
+                Dashed transform branch path
+              </span>
+              <span class="case-system-legend-item">
+                <span class="case-system-legend-swatch case-system-legend-swatch-cyan case-system-legend-swatch-node"></span>
+                Hollow handoff nodes
+              </span>
+              <span class="case-system-legend-item">
+                <span class="case-system-legend-swatch case-system-legend-swatch-cyan case-system-legend-swatch-rect-outline"></span>
+                Structured spec blocks
+              </span>
+            </div>
+          </div>
         </article>
-        <article class="service-card selected-build reveal reveal-delay-2">
+        <article class="service-card selected-build selected-build-system selected-build-kampd reveal reveal-delay-2" tabindex="0">
           <div class="build-meta">
             <span class="build-tag">Community platforms</span>
             <span class="build-tag build-tag-status">Shipped</span>
@@ -388,6 +545,56 @@
           <h3>Kampd</h3>
           <p>Built AI-powered trust, discovery, and moderation systems across a fast-growing community product.</p>
           <p>Included real-time trust scoring, feed ranking, and policy-driven workflows that reduced manual review while improving relevance.</p>
+          <div class="case-system-preview" aria-hidden="true">
+            <div class="case-system-preview-header">
+              <span class="micro-label">Live system view</span>
+              <span class="case-system-preview-hint">Trust layer to moderation flow</span>
+            </div>
+            <svg viewBox="0 0 320 120" role="presentation">
+              <g class="case-system-orbit-group">
+                <circle cx="122" cy="36" r="26" />
+                <circle cx="214" cy="84" r="28" />
+              </g>
+              <g class="case-system-link-group">
+                <path class="case-system-link" d="M38 76C74 76 78 34 122 34C162 34 168 94 214 94C244 94 260 54 290 54" />
+                <path class="case-system-link case-system-link-secondary" d="M38 76C84 76 82 94 122 94C166 94 170 50 214 50C248 50 258 54 290 54" />
+                <path class="case-system-link case-system-link-loop" d="M122 34C146 18 178 18 198 40" />
+                <path class="case-system-link case-system-link-loop" d="M214 94C184 112 150 108 128 88" />
+              </g>
+              <g class="case-system-node-group">
+                <circle cx="38" cy="76" r="10" />
+                <circle cx="122" cy="34" r="11" />
+                <circle cx="122" cy="94" r="7" />
+                <circle cx="214" cy="94" r="11" />
+                <circle cx="214" cy="50" r="7" />
+                <circle cx="290" cy="54" r="10" />
+              </g>
+              <g class="case-system-label-group">
+                <text x="18" y="108">Trust layer</text>
+                <text x="98" y="22">Ranking</text>
+                <text x="184" y="112">Signals</text>
+                <text x="248" y="40">Moderation</text>
+              </g>
+            </svg>
+            <div class="case-system-legend" aria-hidden="true">
+              <span class="case-system-legend-item">
+                <span class="case-system-legend-swatch case-system-legend-swatch-cyan case-system-legend-swatch-line"></span>
+                Core trust and ranking path
+              </span>
+              <span class="case-system-legend-item">
+                <span class="case-system-legend-swatch case-system-legend-swatch-purple case-system-legend-swatch-line-dashed"></span>
+                Dashed feedback loop paths
+              </span>
+              <span class="case-system-legend-item">
+                <span class="case-system-legend-swatch case-system-legend-swatch-cyan case-system-legend-swatch-node"></span>
+                Hollow ranking nodes
+              </span>
+              <span class="case-system-legend-item">
+                <span class="case-system-legend-swatch case-system-legend-swatch-purple case-system-legend-swatch-ring"></span>
+                Orbit layers
+              </span>
+            </div>
+          </div>
         </article>
       </div>
       <div class="selected-builds-footer reveal">

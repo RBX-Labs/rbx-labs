@@ -67,6 +67,25 @@ const bookingFrame = bookingModal ? bookingModal.querySelector(".booking-modal__
 const bookingEyebrow = bookingModal ? bookingModal.querySelector(".booking-modal__eyebrow") : null;
 const bookingTitle = bookingModal ? bookingModal.querySelector("#booking-modal-title") : null;
 const bookingBody = bookingModal ? bookingModal.querySelector(".booking-modal__intro .section-copy") : null;
+const defaultBookingUrl = calendlyLinks.length > 0 ? calendlyLinks[0].getAttribute("data-calendly-link") || "" : "";
+let bookingFrameLoadedUrl = "";
+
+function ensureBookingFrameLoaded(url) {
+  if (!bookingFrame || !url || bookingFrameLoadedUrl === url) {
+    return;
+  }
+
+  bookingFrame.src = url;
+  bookingFrameLoadedUrl = url;
+}
+
+function warmBookingModal() {
+  if (!defaultBookingUrl || defaultBookingUrl === "YOUR_CALENDLY_LINK_HERE") {
+    return;
+  }
+
+  ensureBookingFrameLoaded(defaultBookingUrl);
+}
 
 function openBookingModal(url, trigger) {
   if (!bookingModal || !bookingFrame || !url) {
@@ -82,7 +101,7 @@ function openBookingModal(url, trigger) {
     bookingTitle.textContent = title || "Talk through your use case";
     bookingBody.textContent = body || "Pick a time that works for you and use the session to talk through your product, workflow, or launch question.";
   }
-  bookingFrame.src = url;
+  ensureBookingFrameLoaded(url);
   bookingModal.hidden = false;
   document.body.classList.add("booking-modal-open");
   bookingModal.querySelector(".booking-modal__close").focus();
@@ -95,9 +114,6 @@ function closeBookingModal() {
 
   bookingModal.hidden = true;
   document.body.classList.remove("booking-modal-open");
-  if (bookingFrame) {
-    bookingFrame.src = "about:blank";
-  }
   if (activeBookingTrigger) {
     activeBookingTrigger.focus();
     activeBookingTrigger = null;
@@ -107,18 +123,27 @@ function closeBookingModal() {
 function animateCount(el, target, suffix, duration) {
   const start = performance.now();
   const decimals = Number(el.dataset.decimals || "0");
-  el.textContent = `${decimals > 0 ? (0).toFixed(decimals) : "0"}${suffix}`;
+  renderCountValue(el, decimals > 0 ? (0).toFixed(decimals) : "0", suffix);
   const update = (now) => {
     const p = Math.min((now - start) / duration, 1);
     const ease = 1 - Math.pow(1 - p, 3);
     const value = ease * target;
     const rounded = decimals > 0 ? value.toFixed(decimals) : Math.round(value).toString();
-    el.textContent = rounded + suffix;
+    renderCountValue(el, rounded, suffix);
     if (p < 1) {
       requestAnimationFrame(update);
     }
   };
   requestAnimationFrame(update);
+}
+
+function renderCountValue(el, value, suffix) {
+  const suffixClass = el.dataset.suffixClass;
+  if (suffixClass && suffix) {
+    el.innerHTML = `${value}<span class="${suffixClass}">${suffix}</span>`;
+    return;
+  }
+  el.textContent = `${value}${suffix}`;
 }
 
 function triggerCountups(container) {
@@ -133,7 +158,7 @@ function triggerCountups(container) {
     if (prefersReducedMotion) {
       const decimals = Number(el.dataset.decimals || "0");
       const value = decimals > 0 ? target.toFixed(decimals) : `${target}`;
-      el.textContent = `${value}${suffix}`;
+      renderCountValue(el, value, suffix);
       return;
     }
     animateCount(el, target, suffix, 1200);
@@ -331,6 +356,20 @@ if (stageSections.length > 0 && autoplayTracks.length > 0) {
 }
 
 calendlyLinks.forEach((link) => {
+  link.addEventListener(
+    "pointerenter",
+    () => {
+      warmBookingModal();
+    },
+    { once: true }
+  );
+  link.addEventListener(
+    "focus",
+    () => {
+      warmBookingModal();
+    },
+    { once: true }
+  );
   link.addEventListener("click", (event) => {
     const url = link.getAttribute("data-calendly-link");
 
@@ -342,6 +381,18 @@ calendlyLinks.forEach((link) => {
     openBookingModal(url, link);
   });
 });
+
+if (bookingModal && defaultBookingUrl && defaultBookingUrl !== "YOUR_CALENDLY_LINK_HERE") {
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(() => {
+      warmBookingModal();
+    }, { timeout: 2500 });
+  } else {
+    window.setTimeout(() => {
+      warmBookingModal();
+    }, 1200);
+  }
+}
 
 if (bookingModal) {
   bookingModal.addEventListener("click", (event) => {
