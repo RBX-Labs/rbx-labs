@@ -9,6 +9,8 @@ const serviceSteps = document.querySelectorAll("[data-service-step]");
 const servicePanels = document.querySelectorAll("[data-service-panel]");
 const themeButtons = document.querySelectorAll("[data-theme-option]");
 const contrastButtons = document.querySelectorAll("[data-contrast-option]");
+const holoRotatingGrids = document.querySelectorAll("[data-holo-rotate]");
+const heroSocialProofItems = document.querySelectorAll(".hero-social-proof-item");
 let activeBookingTrigger = null;
 let userIsScrolling = false;
 let scrollResumeTimeoutId = null;
@@ -137,13 +139,24 @@ function animateCount(el, target, suffix, duration) {
   requestAnimationFrame(update);
 }
 
+function formatCountValue(value) {
+  if (!/^-?\d+(\.\d+)?$/.test(value)) {
+    return value;
+  }
+
+  const [integerPart, decimalPart] = value.split(".");
+  const formattedInteger = Number(integerPart).toLocaleString("en-US");
+  return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
+}
+
 function renderCountValue(el, value, suffix) {
+  const formattedValue = formatCountValue(value);
   const suffixClass = el.dataset.suffixClass;
   if (suffixClass && suffix) {
-    el.innerHTML = `${value}<span class="${suffixClass}">${suffix}</span>`;
+    el.innerHTML = `${formattedValue}<span class="${suffixClass}">${suffix}</span>`;
     return;
   }
-  el.textContent = `${value}${suffix}`;
+  el.textContent = `${formattedValue}${suffix}`;
 }
 
 function triggerCountups(container) {
@@ -252,6 +265,59 @@ function scheduleAutoplayResume() {
   }, 4000);
 }
 
+function startHoloRotation() {
+  holoRotatingGrids.forEach((grid) => {
+    const cards = Array.from(grid.querySelectorAll(".result-card"));
+    if (cards.length < 2) {
+      return;
+    }
+
+    let activeIndex = Math.max(cards.findIndex((card) => card.classList.contains("result-card-featured")), 0);
+
+    const activateCard = (index) => {
+      cards.forEach((card, cardIndex) => {
+        card.classList.toggle("result-card-featured", cardIndex === index);
+      });
+    };
+
+    activateCard(activeIndex);
+
+    if (prefersReducedMotion) {
+      return;
+    }
+
+    window.setInterval(() => {
+      activeIndex = (activeIndex + 1) % cards.length;
+      activateCard(activeIndex);
+    }, 3000);
+  });
+}
+
+function startHeroSocialProofRotation() {
+  if (heroSocialProofItems.length === 0) {
+    return;
+  }
+
+  let activeIndex = 0;
+
+  const activateItem = (index) => {
+    heroSocialProofItems.forEach((item, itemIndex) => {
+      item.classList.toggle("is-active", itemIndex === index);
+    });
+  };
+
+  activateItem(activeIndex);
+
+  if (prefersReducedMotion) {
+    return;
+  }
+
+  window.setInterval(() => {
+    activeIndex = (activeIndex + 1) % heroSocialProofItems.length;
+    activateItem(activeIndex);
+  }, 1500);
+}
+
 function setActiveService(serviceName) {
   if (!serviceName) {
     return;
@@ -354,6 +420,9 @@ if (stageSections.length > 0 && autoplayTracks.length > 0) {
     { passive: true }
   );
 }
+
+startHoloRotation();
+startHeroSocialProofRotation();
 
 calendlyLinks.forEach((link) => {
   link.addEventListener(
