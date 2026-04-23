@@ -4,8 +4,8 @@
 Run this workflow after any HTML, CSS, JS, image, copy, layout, spacing, or interaction change in this repo.
 
 This repo also includes an executable render script and pre-commit hook:
-- script: `scripts/visual-render-validate.sh`
-- wrapper: `scripts/render-and-eval.sh`
+- script: `visual-renderer-agent/scripts/visual-render-validate.sh`
+- wrapper: `visual-renderer-agent/scripts/render-and-eval.sh`
 - hook: `.githooks/pre-commit`
 
 For a stronger browser-backed validation layer, use an MCP-backed browser tool next:
