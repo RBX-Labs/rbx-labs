@@ -112,6 +112,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: clip;
   color: var(--text);
   background: var(--surface-bg);
   font-family: "Inter Tight", system-ui, sans-serif;
@@ -162,6 +163,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-lg);
+  min-width: 0;
 }
 
 .brand {
@@ -169,6 +171,7 @@ a {
   align-items: center;
   gap: var(--space-md);
   text-decoration: none;
+  min-width: 0;
 }
 
 .brand-mark {
@@ -198,6 +201,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .brand-name,
@@ -217,6 +221,7 @@ h3 {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--muted);
+  overflow-wrap: anywhere;
 }
 
 .site-nav {
@@ -226,6 +231,7 @@ h3 {
   flex-wrap: wrap;
   justify-content: flex-end;
   flex: 1 1 auto;
+  min-width: 0;
 }
 
 .display-controls {
@@ -296,6 +302,7 @@ h3 {
   color: var(--text);
   padding: 10px 14px;
   border-radius: 999px;
+  max-width: 100%;
   transition: background 160ms ease, color 160ms ease, box-shadow 160ms ease;
 }
 
@@ -3703,6 +3710,32 @@ h2 {
 }
 
 @media (max-width: 960px) {
+  .site-header,
+  .ng-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .site-nav,
+  .ng-links {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .display-controls {
+    width: 100%;
+    margin-left: 0;
+    justify-content: flex-start;
+  }
+
+  .hero-social-proof {
+    gap: 12px;
+  }
+
+  .hero-social-proof-item.is-active {
+    transform: scale(1.45);
+  }
+
   .services-pillars {
     perspective: none;
   }
@@ -3856,7 +3889,29 @@ h2 {
     align-items: flex-start;
   }
 
+  .brand {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .brand-mark {
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
+  }
+
+  .brand-mark img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .brand-tag {
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+  }
+
   .site-nav {
+    width: 100%;
     gap: 12px;
     justify-content: flex-start;
   }
@@ -4066,7 +4121,16 @@ h2 {
   }
 
   .hero-social-proof {
+    gap: 10px;
     letter-spacing: 0.08em;
+  }
+
+  .hero-social-proof-separator {
+    display: none;
+  }
+
+  .hero-social-proof-item.is-active {
+    transform: scale(1.2);
   }
 
   .proof-chip {

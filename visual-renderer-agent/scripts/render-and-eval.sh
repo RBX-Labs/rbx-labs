@@ -71,6 +71,27 @@ trap cleanup EXIT
   echo "- unreadable text"
   echo "- obvious alignment failures"
   echo
+  echo "Return the result in this exact human-readable format:"
+  echo
+  echo "Visual QA Summary"
+  echo "- Blocking issues: <number>"
+  echo "- Overall result: PASS or FAIL"
+  echo
+  echo "Per-file results"
+  for page in "${PAGES[@]}"; do
+    echo "- ${page}: PASS or FAIL"
+    echo "  Comments: <one concise sentence covering mobile, tablet, and desktop>"
+  done
+  echo
+  echo "Rules for output:"
+  echo "- list every HTML file exactly once"
+  echo "- use PASS only when there is no blocking issue for that file"
+  echo "- use FAIL when any breakpoint for that file has a blocking issue"
+  echo "- keep comments concise and human-readable"
+  echo "- after the per-file list, add an Optional Notes section only if there are minor non-blocking issues"
+  echo "- do not narrate your process"
+  echo "- do not omit any file"
+  echo
   echo "Generated screenshot paths:"
   for image in "${images[@]}"; do
     echo "- ${image}"

@@ -21,6 +21,7 @@ The visual renderer agent runs in two stages:
    - builds the evaluation payload
    - invokes the local `codex` CLI non-interactively
    - attaches every generated screenshot to the evaluation request
+   - requires a human-readable QA report with one `PASS` or `FAIL` line per HTML file plus a concise comments line
 
 ## Evaluation Standard
 
@@ -32,6 +33,14 @@ The agent review is expected to check for:
 - spacing regressions
 - unreadable text
 - obvious alignment failures
+
+The expected report shape is:
+
+- `Visual QA Summary`
+- `Blocking issues: <number>`
+- `Overall result: PASS or FAIL`
+- one line per HTML file in the form `file.html: PASS or FAIL`
+- one `Comments:` line under each file
 
 ## Hook Integration
 
