@@ -3980,6 +3980,21 @@ h2 {
     align-items: start;
   }
 
+  .approach-page .hero {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .approach-page .hero-copy,
+  .approach-proof-strip {
+    max-width: none;
+  }
+
+  .approach-hero-rail {
+    justify-content: stretch;
+    align-self: auto;
+  }
+
   .proof-chip,
   .service-card,
   .result-card,

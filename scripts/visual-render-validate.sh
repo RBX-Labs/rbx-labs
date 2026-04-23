@@ -3,20 +3,25 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 OUT_DIR="${TMPDIR:-/tmp}/rbx-responsive"
-PAGES=(
-  "index"
-  "ai-training"
-  "approach"
-  "about"
-  "removed product"
-)
 SPECS=(
   "mobile 390 844 0.85"
   "tablet 768 1024 0.70"
   "desktop 1440 1100 0.52"
 )
+MANIFEST_FILE="$OUT_DIR/manifest.txt"
+
+typeset -a PAGES
+while IFS= read -r html_file; do
+  [[ -n "$html_file" ]] && PAGES+=("${html_file:t:r}")
+done < <(find "$ROOT_DIR" -maxdepth 1 -type f -name '*.html' | sort)
+
+if (( ${#PAGES[@]} == 0 )); then
+  echo "No root HTML pages found in $ROOT_DIR" >&2
+  exit 1
+fi
 
 mkdir -p "$OUT_DIR"
+: > "$MANIFEST_FILE"
 
 render_page() {
   local page="$1"
@@ -55,6 +60,8 @@ HTML
 for page in "${PAGES[@]}"; do
   for spec in "${SPECS[@]}"; do
     render_page "$page" ${=spec}
+    set -- ${=spec}
+    echo "$OUT_DIR/${page}-${1}.html.png" >> "$MANIFEST_FILE"
   done
 done
 
@@ -66,3 +73,4 @@ for page in "${PAGES[@]}"; do
     echo "  $OUT_DIR/${page}-${1}.html.png"
   done
 done
+echo "Manifest: $MANIFEST_FILE"

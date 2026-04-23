@@ -5,6 +5,7 @@ Run this workflow after any HTML, CSS, JS, image, copy, layout, spacing, or inte
 
 This repo also includes an executable render script and pre-commit hook:
 - script: `scripts/visual-render-validate.sh`
+- wrapper: `scripts/render-and-eval.sh`
 - hook: `.githooks/pre-commit`
 
 For a stronger browser-backed validation layer, use an MCP-backed browser tool next:
@@ -22,11 +23,14 @@ Validate the rendered site visually across:
 Do not rely on source inspection alone when a change affects presentation.
 
 ## Required Pages
-Always validate:
+Always validate every repo-root `.html` page that the site serves.
+
+At the moment that includes pages such as:
 - `index.html`
 - `ai-training.html`
 - `approach.html`
 - `about.html`
+- `code-in-place.html`
 - `removed product.html`
 
 If a change is isolated to one page, validate that page first, then validate any obviously related page.
