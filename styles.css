@@ -1500,7 +1500,7 @@ h1 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   max-width: 1420px;
   margin: 0 auto;
-  justify-content: center;
+  justify-content: normal;
 }
 
 .training-format-grid .service-pillar h3 {
@@ -1552,113 +1552,96 @@ h1 {
 
 @media (min-width: 1100px) {
   .training-format-grid.services-pillars {
-    grid-template-columns: 1fr;
-    justify-items: end;
-    align-items: center;
-    min-height: 420px;
-    max-width: min(100%, 1560px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    width: min(2100px, calc(100vw - 24px));
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 16px;
     padding: 12px 0;
-    perspective: 1800px;
+    justify-items: stretch;
   }
 
   .training-format-grid.services-pillars .service-pillar {
-    --placard-shift: 0px;
-    --placard-rotate: 0deg;
-    grid-column: 1;
-    grid-row: 1;
     position: relative;
-    justify-self: end;
-    display: grid;
-    grid-template-columns: 88px minmax(250px, 0.9fr) minmax(320px, 1.1fr);
-    grid-auto-rows: min-content;
-    column-gap: 24px;
-    row-gap: 10px;
-    align-content: start;
-    width: min(100%, clamp(58rem, 78vw, 76rem));
-    min-height: 236px;
-    padding: 28px 28px 26px;
-    transform-origin: right center;
-    transform: translateX(var(--placard-shift)) rotate(var(--placard-rotate));
+    display: flex;
+    flex-direction: column;
+    justify-self: stretch;
+    align-items: flex-start;
+    gap: 8px;
+    row-gap: 8px;
+    width: 100%;
+    min-height: 120px;
+    padding: 18px 20px 16px;
   }
 
   .training-format-grid.services-pillars .service-pillar:nth-child(1) {
-    --placard-shift: calc(-1 * clamp(18rem, 25vw, 24rem));
-    --placard-rotate: -9deg;
     z-index: 1;
   }
 
   .training-format-grid.services-pillars .service-pillar:nth-child(2) {
-    --placard-shift: calc(-1 * clamp(9rem, 13vw, 13rem));
-    --placard-rotate: -5deg;
     z-index: 2;
   }
 
   .training-format-grid.services-pillars .service-pillar:nth-child(3) {
-    --placard-shift: 0px;
-    --placard-rotate: 0deg;
     z-index: 3;
   }
 
   .training-format-grid.services-pillars .service-pillar .icon-ring {
-    grid-column: 1;
-    grid-row: 1 / span 2;
     margin-bottom: 0;
-    align-self: start;
   }
 
   .training-format-grid.services-pillars .service-pillar .micro-label {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: end;
+    display: inline-block;
+    margin-bottom: 0;
+    max-width: 7ch;
+    white-space: normal;
+    line-height: 1.35;
   }
 
   .training-format-grid.services-pillars .service-pillar h3 {
-    grid-column: 2;
-    grid-row: 2;
     max-width: 12ch;
     margin-bottom: 0;
   }
 
   .training-format-grid.services-pillars .service-pillar p:first-of-type {
-    grid-column: 3;
-    grid-row: 1 / span 2;
-    align-self: center;
     margin: 0;
+    max-width: none;
   }
 
   .training-format-grid.services-pillars .service-pillar p:last-of-type {
-    grid-column: 3;
-    grid-row: 3;
     margin: 0;
+    max-width: none;
   }
 
   .js .training-format-grid.services-pillars .service-pillar.reveal:not(.is-visible) {
     opacity: 0;
+    transform: translate3d(0, 32px, 0) scale(0.98);
     box-shadow:
       0 18px 40px rgba(6, 30, 51, 0.18),
       0 36px 72px rgba(6, 30, 51, 0.14);
   }
 
   .js .training-format-grid.services-pillars .service-pillar.reveal:nth-child(1):not(.is-visible) {
-    transform: translate3d(340%, 32px, 0) scale(0.88) rotate(-15deg);
+    transform: translate3d(0, 36px, 0) scale(0.98);
   }
 
   .js .training-format-grid.services-pillars .service-pillar.reveal:nth-child(2):not(.is-visible) {
-    transform: translate3d(220%, 18px, 0) scale(0.92) rotate(-10deg);
+    transform: translate3d(0, 44px, 0) scale(0.98);
   }
 
   .js .training-format-grid.services-pillars .service-pillar.reveal:nth-child(3):not(.is-visible) {
-    transform: translate3d(84%, 8px, 0) scale(0.97) rotate(-5deg);
-    opacity: 1;
+    transform: translate3d(0, 52px, 0) scale(0.98);
   }
 
   .training-format-grid.services-pillars .service-pillar.reveal.is-visible {
     opacity: 1;
-    transform: translateX(var(--placard-shift)) rotate(var(--placard-rotate));
+    transform: translate3d(0, 0, 0) scale(1);
     transition:
       opacity 260ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 820ms cubic-bezier(0.18, 0.9, 0.22, 1),
-      box-shadow 820ms cubic-bezier(0.18, 0.9, 0.22, 1);
+      transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 520ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .training-format-grid.services-pillars .service-pillar.reveal.is-visible:nth-child(1) {
@@ -1675,7 +1658,7 @@ h1 {
 
   .training-format-grid.services-pillars .service-pillar:hover,
   .training-format-grid.services-pillars .service-pillar:focus-within {
-    transform: translateX(var(--placard-shift)) translateY(-8px) rotate(var(--placard-rotate));
+    transform: translateY(-8px);
   }
 }
 
