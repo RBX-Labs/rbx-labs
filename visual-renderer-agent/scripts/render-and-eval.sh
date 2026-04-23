@@ -89,6 +89,7 @@ trap cleanup EXIT
   echo "- use FAIL when any breakpoint for that file has a blocking issue"
   echo "- keep comments concise and human-readable"
   echo "- after the per-file list, add an Optional Notes section only if there are minor non-blocking issues"
+  echo "- do not treat a viewport snapshot ending mid-section or mid-card as a layout issue by itself"
   echo "- do not narrate your process"
   echo "- do not omit any file"
   echo

@@ -2,6 +2,43 @@
 
 This repo includes an automated visual validation flow for the site.
 
+## Setup
+
+This renderer setup is currently macOS-only because screenshot generation depends on `qlmanage` (Quick Look).
+
+To use this flow locally:
+
+1. Make sure the scripts are executable:
+
+```sh
+chmod +x visual-renderer-agent/scripts/visual-render-validate.sh
+chmod +x visual-renderer-agent/scripts/render-and-eval.sh
+chmod +x .githooks/pre-commit
+```
+
+2. Make sure the local tools exist:
+
+- `qlmanage` for screenshot generation on macOS
+- `codex` CLI for the non-interactive agent review step
+
+3. Point Git at the repo hook directory if it is not already configured:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+4. Run the flow manually if you want to test it before commit:
+
+```sh
+visual-renderer-agent/scripts/render-and-eval.sh
+```
+
+If you only want screenshots without agent review, run:
+
+```sh
+visual-renderer-agent/scripts/visual-render-validate.sh
+```
+
 ## What It Does
 
 The visual renderer agent runs in two stages:
@@ -33,6 +70,7 @@ The agent review is expected to check for:
 - spacing regressions
 - unreadable text
 - obvious alignment failures
+- not the fact that a fixed-height viewport snapshot naturally ends mid-section or mid-card
 
 The expected report shape is:
 

@@ -17,4 +17,4 @@ else
 fi
 
 echo "Running visual render validation..."
-"$ROOT_DIR/scripts/visual-render-validate.sh"
+"$ROOT_DIR/visual-renderer-agent/scripts/render-and-eval.sh"

@@ -3973,6 +3973,10 @@ h2 {
     width: 100%;
   }
 
+  .hero-action-divider {
+    display: none;
+  }
+
   .training-next-step-panel {
     padding: var(--space-lg);
   }
