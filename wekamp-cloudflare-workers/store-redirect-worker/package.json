@@ -1,0 +1,11 @@
+{
+  "name": "store-redirect-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "wrangler:login": "npx wrangler login",
+    "secret:stream": "npx wrangler secret put STREAM_API_SECRET",
+    "deploy": "npx wrangler deploy"
+  }
+}

@@ -1,0 +1,18 @@
+name = "store-redirect-worker"
+main = "src/index.js"
+compatibility_date = "2026-04-30"
+workers_dev = false
+
+routes = [
+  { pattern = "rbx-labs.io/open", zone_name = "rbx-labs.io" },
+  { pattern = "rbx-labs.io/chat/token", zone_name = "rbx-labs.io" },
+  { pattern = "rbx-labs.io/healthz", zone_name = "rbx-labs.io" },
+  { pattern = "rbx-labs.io/u/*", zone_name = "rbx-labs.io" },
+  { pattern = "rbx-labs.io/c/*", zone_name = "rbx-labs.io" },
+  { pattern = "rbx-labs.io/k/*", zone_name = "rbx-labs.io" },
+]
+
+[vars]
+AUTH_VERIFY_URL = "https://api.kampd.com/user/v1/profile"
+CHAT_CORS_ORIGIN = "https://rbx-labs.io"
+STREAM_API_KEY = "sfa696yj7vrk"
