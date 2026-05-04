@@ -19,7 +19,7 @@ chmod +x .githooks/pre-commit
 2. Make sure the local tools exist:
 
 - `qlmanage` for screenshot generation on macOS
-- `codex` CLI for the non-interactive agent review step
+- `codex` CLI for the non-interactive agent review step. The script uses `CODEX_BIN` when set, otherwise it resolves `codex` from `PATH`.
 
 3. Point Git at the repo hook directory if it is not already configured:
 
@@ -93,6 +93,20 @@ The hook runs:
 
 ```sh
 visual-renderer-agent/scripts/render-and-eval.sh
+```
+
+This is a Git `pre-commit` hook. It runs for normal terminal commits and for commits started from VS Code's Source Control UI, as long as this repo has `core.hooksPath` set to `.githooks`. It is skipped only when the commit is created with `--no-verify` or an equivalent "no verify" option.
+
+Check hook activation with:
+
+```sh
+git config --get core.hooksPath
+```
+
+Expected output:
+
+```sh
+.githooks
 ```
 
 ## Output

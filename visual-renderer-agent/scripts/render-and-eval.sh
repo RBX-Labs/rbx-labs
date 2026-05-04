@@ -3,7 +3,9 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 RENDER_SCRIPT="$ROOT_DIR/visual-renderer-agent/scripts/visual-render-validate.sh"
-CODEX_BIN="${CODEX_BIN:-/Users/bangabot/.vscode/extensions/openai.chatgpt-26.417.40842-darwin-arm64/bin/macos-aarch64/codex}"
+if [[ -z "${CODEX_BIN:-}" ]]; then
+  CODEX_BIN="$(command -v codex || true)"
+fi
 
 OUT_DIR="${TMPDIR:-/tmp}/rbx-responsive"
 MANIFEST_FILE="$OUT_DIR/manifest.txt"
@@ -95,74 +97,70 @@ fi
 
 # ---------- CODEX VALIDATION ----------
 
-# if [[ ! -x "$CODEX_BIN" ]]; then
-#   echo "Codex CLI not found at: $CODEX_BIN" >&2
-#   echo "Use manual override if needed." >&2
-#   exit 1
-# fi
+if [[ ! -x "$CODEX_BIN" ]]; then
+  echo "Codex CLI not found at: $CODEX_BIN" >&2
+  echo "Use manual override if needed." >&2
+  exit 1
+fi
 
-# prompt_file="$(mktemp "${TMPDIR:-/tmp}/rbx-render-eval-prompt.XXXXXX.txt")"
-# cleanup() {
-#   rm -f "$prompt_file"
-# }
-# trap cleanup EXIT
+prompt_file="$(mktemp "${TMPDIR:-/tmp}/rbx-render-eval-prompt.XXXXXX.txt")"
+cleanup() {
+  rm -f "$prompt_file"
+}
+trap cleanup EXIT
 
-# {
-#   echo "Renderer finished."
-#   echo
-#   echo "Evaluate all generated screenshots for:"
-#   for page in "${PAGES[@]}"; do
-#     echo "- ${page}"
-#   done
-#   echo
-#   echo "Across:"
-#   for breakpoint in "${BREAKPOINTS[@]}"; do
-#     echo "- ${breakpoint}"
-#   done
-#   echo
-#   echo "Report:"
-#   echo "- blocking issues first"
-#   echo "- layout overlap"
-#   echo "- broken stacking"
-#   echo "- spacing regressions"
-#   echo "- unreadable text"
-#   echo "- obvious alignment failures"
-#   echo
-#   echo "Return the result in this exact human-readable format:"
-#   echo
-#   echo "Visual QA Summary"
-#   echo "- Blocking issues: <number>"
-#   echo "- Overall result: PASS or FAIL"
-#   echo
-#   echo "Per-file results"
-#   for page in "${PAGES[@]}"; do
-#     echo "- ${page}: PASS or FAIL"
-#     echo "  Comments: <one concise sentence>"
-#   done
-#   echo
-#   echo "Generated screenshot paths:"
-#   for image in "${images[@]}"; do
-#     echo "- ${image}"
-#   done
-# } > "$prompt_file"
+{
+  echo "Renderer finished."
+  echo
+  echo "Evaluate all generated screenshots for:"
+  for page in "${PAGES[@]}"; do
+    echo "- ${page}"
+  done
+  echo
+  echo "Across:"
+  for breakpoint in "${BREAKPOINTS[@]}"; do
+    echo "- ${breakpoint}"
+  done
+  echo
+  echo "Report:"
+  echo "- blocking issues first"
+  echo "- layout overlap"
+  echo "- broken stacking"
+  echo "- spacing regressions"
+  echo "- unreadable text"
+  echo "- obvious alignment failures"
+  echo
+  echo "Return the result in this exact human-readable format:"
+  echo
+  echo "Visual QA Summary"
+  echo "- Blocking issues: <number>"
+  echo "- Overall result: PASS or FAIL"
+  echo
+  echo "Per-file results"
+  for page in "${PAGES[@]}"; do
+    echo "- ${page}: PASS or FAIL"
+    echo "  Comments: <one concise sentence>"
+  done
+  echo
+  echo "Generated screenshot paths:"
+  for image in "${images[@]}"; do
+    echo "- ${image}"
+  done
+} > "$prompt_file"
 
-# echo "Running agent visual evaluation..."
+echo "Running agent visual evaluation..."
 
-# typeset -a codex_args
-# codex_args=(
-#   exec
-#   --full-auto
-#   --cd "$ROOT_DIR"
-#   --add-dir "$OUT_DIR"
-#   -
-# )
+typeset -a codex_args
+codex_args=(
+  exec
+  --full-auto
+  --cd "$ROOT_DIR"
+  --add-dir "$OUT_DIR"
+  -
+)
 
-# for image in "${images[@]}"; do
-#   codex_args+=(-i "$image")
-# done
+for image in "${images[@]}"; do
+  codex_args+=(-i "$image")
+done
 
-# "$CODEX_BIN" "${codex_args[@]}" < "$prompt_file"
-
-echo "Codex visual evaluation temporarily disabled."
-echo "Rendered screenshots are available at: $OUT_DIR"
-exit 0
+"$CODEX_BIN" "${codex_args[@]}" < "$prompt_file"
