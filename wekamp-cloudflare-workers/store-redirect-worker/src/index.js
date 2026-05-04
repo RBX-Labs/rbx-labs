@@ -54,7 +54,7 @@ async function streamToken(request, env) {
     return withCors(json({ error: "Method not allowed" }, 405), env);
   }
 
-  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL || !env.USER_PROFILE_URL) {
+  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL) {
     return withCors(json({ error: "Service not configured" }, 500), env);
   }
 
@@ -192,7 +192,7 @@ async function syncStreamProfile(request, env) {
     return withCors(json({ error: "Method not allowed" }, 405), env);
   }
 
-  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL) {
+  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL || !env.USER_PROFILE_URL) {
     return withCors(json({ error: "Service not configured" }, 500), env);
   }
 
@@ -257,22 +257,6 @@ async function readJson(request) {
   } catch {
     return json({ error: "Malformed JSON" }, 400);
   }
-}
-
-function streamUserFromBody(body) {
-  if (!body || typeof body !== "object") return null;
-
-  const userId = normalizeUserId(body.userId);
-  if (!userId) return null;
-
-  const user = { id: userId };
-  if (typeof body.name === "string" && body.name.trim()) {
-    user.name = body.name.trim();
-  }
-  if (typeof body.image === "string" && body.image.trim()) {
-    user.image = body.image.trim();
-  }
-  return user;
 }
 
 function normalizeUserId(value) {
@@ -743,6 +727,5 @@ export {
   streamUserFromBackendProfile,
   syncStreamProfile,
   streamToken,
-  streamUserFromBody,
   upsertStreamUser,
 };

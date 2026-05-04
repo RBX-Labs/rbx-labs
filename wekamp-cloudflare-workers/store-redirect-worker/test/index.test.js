@@ -9,7 +9,6 @@ import worker, {
   signStreamServerToken,
   signStreamToken,
   streamUserFromBackendProfile,
-  streamUserFromBody,
 } from "../src/index.js";
 
 if (!globalThis.crypto) {
@@ -72,30 +71,6 @@ describe("Stream token signing", () => {
     assert.equal(payload.server, true);
     assert.equal(typeof payload.iat, "number");
     assert.equal(typeof payload.exp, "number");
-  });
-});
-
-describe("streamUserFromBody", () => {
-  it("builds a Stream user payload with optional profile fields", () => {
-    assert.deepEqual(
-      streamUserFromBody({
-        userId: ` ${callerId} `,
-        name: " Test User ",
-        image: " https://example.com/avatar.png ",
-      }),
-      {
-        id: callerId,
-        name: "Test User",
-        image: "https://example.com/avatar.png",
-      },
-    );
-  });
-
-  it("rejects missing or invalid user ids", () => {
-    assert.equal(streamUserFromBody({}), null);
-    assert.equal(streamUserFromBody({ userId: "" }), null);
-    assert.equal(streamUserFromBody({ userId: "user-123" }), null);
-    assert.equal(streamUserFromBody({ userId: "x".repeat(256) }), null);
   });
 });
 
