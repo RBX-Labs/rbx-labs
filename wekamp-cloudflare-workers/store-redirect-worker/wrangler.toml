@@ -19,3 +19,4 @@ routes = [
 AUTH_VERIFY_URL = "https://api.kampd.com/user/v1/profile"
 CHAT_CORS_ORIGIN = "https://rbx-labs.io"
 STREAM_API_KEY = "sfa696yj7vrk"
+USER_PROFILE_URL = "https://api.kampd.com/user/v1/profile"

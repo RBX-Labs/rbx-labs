@@ -5,6 +5,7 @@ const WEKAMP_LOGO_DATA_URI =
   "data:image/png;base64,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"
 const SHARE_ROUTE_TYPES = new Set(["u", "c", "k"]);
 const STREAM_TOKEN_TTL_SECONDS = 60 * 60;
+const MONGO_OBJECT_ID_PATTERN = /^[a-fA-F0-9]{24}$/;
 const AUTH_VERIFY_FORWARD_HEADERS = [
   "authorization",
   "idtoken",
@@ -53,12 +54,12 @@ async function streamToken(request, env) {
     return withCors(json({ error: "Method not allowed" }, 405), env);
   }
 
-  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL) {
+  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL || !env.USER_PROFILE_URL) {
     return withCors(json({ error: "Service not configured" }, 500), env);
   }
 
   try {
-    const userId = await verifyAppAuth(request, env);
+    const userId = normalizeUserId(await verifyAppAuth(request, env));
     if (!userId) {
       return withCors(json({ error: "Invalid auth token" }, 401), env);
     }
@@ -90,12 +91,12 @@ async function ensureStreamUser(request, env) {
     return withCors(json({ error: "Method not allowed" }, 405), env);
   }
 
-  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL) {
+  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL || !env.USER_PROFILE_URL) {
     return withCors(json({ error: "Service not configured" }, 500), env);
   }
 
   try {
-    const authenticatedUserId = await verifyAppAuth(request, env);
+    const authenticatedUserId = normalizeUserId(await verifyAppAuth(request, env));
     if (!authenticatedUserId) {
       return withCors(json({ error: "Invalid auth token" }, 401), env);
     }
@@ -108,7 +109,31 @@ async function ensureStreamUser(request, env) {
       return withCors(json({ error: "Missing userId" }, 400), env);
     }
 
-    const user = { id: userId };
+    const targetProfile = await fetchBackendProfile(request, env, userId);
+    if (targetProfile.status === 404) {
+      return withCors(json({ error: "Target user not found" }, 404), env);
+    }
+    if (targetProfile.status === 401 || targetProfile.status === 403) {
+      return withCors(json({ error: "Invalid auth token" }, 401), env);
+    }
+    if (!targetProfile.ok) {
+      return withCors(json({ error: "Target user lookup failed" }, 502), env);
+    }
+
+    if (
+      targetProfile.profile.isBlocked ||
+      targetProfile.profile.isBlockedBy ||
+      targetProfile.profile.isDeactivated ||
+      (!targetProfile.profile.canMessage && userId !== authenticatedUserId)
+    ) {
+      return withCors(json({ error: "Messaging target is not allowed" }, 403), env);
+    }
+
+    const user = streamUserFromBackendProfile(targetProfile.profile);
+    if (!user || user.id !== userId) {
+      return withCors(json({ error: "Target user lookup failed" }, 502), env);
+    }
+
     const streamRes = await upsertStreamUser(user, env);
     if (!streamRes.ok) {
       return withCors(json({ error: "Stream user upsert failed" }, 502), env);
@@ -134,7 +159,7 @@ async function dmChannelId(request, env) {
   }
 
   try {
-    const authenticatedUserId = await verifyAppAuth(request, env);
+    const authenticatedUserId = normalizeUserId(await verifyAppAuth(request, env));
     if (!authenticatedUserId) {
       return withCors(json({ error: "Invalid auth token" }, 401), env);
     }
@@ -172,7 +197,7 @@ async function syncStreamProfile(request, env) {
   }
 
   try {
-    const authenticatedUserId = await verifyAppAuth(request, env);
+    const authenticatedUserId = normalizeUserId(await verifyAppAuth(request, env));
     if (!authenticatedUserId) {
       return withCors(json({ error: "Invalid auth token" }, 401), env);
     }
@@ -180,13 +205,20 @@ async function syncStreamProfile(request, env) {
     const body = await readJson(request);
     if (body instanceof Response) return withCors(body, env);
 
-    const user = streamUserFromBody({
-      userId: authenticatedUserId,
-      name: body?.name,
-      image: body?.image,
-    });
-    if (!user) {
-      return withCors(json({ error: "Missing user id" }, 401), env);
+    const profileLookup = await fetchBackendProfile(request, env, authenticatedUserId);
+    if (profileLookup.status === 404) {
+      return withCors(json({ error: "Profile not found" }, 404), env);
+    }
+    if (profileLookup.status === 401 || profileLookup.status === 403) {
+      return withCors(json({ error: "Invalid auth token" }, 401), env);
+    }
+    if (!profileLookup.ok) {
+      return withCors(json({ error: "Profile lookup failed" }, 502), env);
+    }
+
+    const user = streamUserFromBackendProfile(profileLookup.profile);
+    if (!user || user.id !== authenticatedUserId) {
+      return withCors(json({ error: "Profile lookup failed" }, 502), env);
     }
 
     const streamRes = await upsertStreamUser(user, env);
@@ -245,9 +277,66 @@ function streamUserFromBody(body) {
 
 function normalizeUserId(value) {
   if (typeof value !== "string") return "";
-  const userId = value.trim();
-  if (!userId || userId.length > 255 || userId.includes(":")) return "";
+  const userId = value.trim().toLowerCase();
+  if (!MONGO_OBJECT_ID_PATTERN.test(userId)) return "";
   return userId;
+}
+
+async function fetchBackendProfile(request, env, userId) {
+  const baseUrl = (env.USER_PROFILE_URL || "").replace(/\/+$/, "");
+  if (!baseUrl) return { ok: false, status: 500, profile: null };
+
+  const profileRes = await fetch(`${baseUrl}/${encodeURIComponent(userId)}`, {
+    method: "GET",
+    headers: authVerifyHeaders(request),
+  });
+
+  if (!profileRes.ok) {
+    return { ok: false, status: profileRes.status, profile: null };
+  }
+
+  const data = await profileRes.json();
+  const profile = parseBackendProfile(data);
+  if (!profile) return { ok: false, status: profileRes.status, profile: null };
+
+  return { ok: true, status: profileRes.status, profile };
+}
+
+function parseBackendProfile(data) {
+  const payload = data?.payload || data?.payLoad || data;
+  const user = payload?.user;
+  if (!user || typeof user !== "object") return null;
+
+  const id = normalizeUserId(user.id || user._id || user.userId);
+  if (!id) return null;
+
+  return {
+    id,
+    fullName: typeof user.fullName === "string" ? user.fullName.trim() : "",
+    avatar: typeof user.avatar === "string" ? user.avatar.trim() : "",
+    canMessage: payload.canMessage === true,
+    isBlocked: payload.isBlocked === true,
+    isBlockedBy: payload.isBlockedBy === true,
+    isDeactivated: payload.isDeactivated === true,
+  };
+}
+
+function streamUserFromBackendProfile(profile) {
+  if (!profile || profile.isDeactivated || profile.isBlocked || profile.isBlockedBy) return null;
+
+  const user = { id: profile.id };
+  if (profile.fullName) user.name = profile.fullName.slice(0, 120);
+  if (isHttpsUrl(profile.avatar)) user.image = profile.avatar;
+  return user;
+}
+
+function isHttpsUrl(value) {
+  if (typeof value !== "string" || !value.trim()) return false;
+  try {
+    return new URL(value).protocol === "https:";
+  } catch {
+    return false;
+  }
 }
 
 function deterministicDmChannel(userIdA, userIdB) {
@@ -321,7 +410,7 @@ function extractUserId(profile) {
   ];
 
   const userId = candidates.find((value) => typeof value === "string" && value);
-  return userId || null;
+  return normalizeUserId(userId) || null;
 }
 
 async function signStreamToken(userId, secret, issuedAt, expiresAt) {
@@ -645,9 +734,13 @@ export {
   dmChannelId,
   ensureStreamUser,
   extractUserId,
+  fetchBackendProfile,
+  isHttpsUrl,
   normalizeUserId,
+  parseBackendProfile,
   signStreamServerToken,
   signStreamToken,
+  streamUserFromBackendProfile,
   syncStreamProfile,
   streamToken,
   streamUserFromBody,

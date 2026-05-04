@@ -63,7 +63,7 @@ Content-Type: application/json
 
 ```json
 {
-  "userId": "target-mongo-style-user-id"
+  "userId": "68958d4340ec8662569c641f"
 }
 ```
 
@@ -73,7 +73,15 @@ Response:
 {}
 ```
 
-The route authenticates the caller through the same `AUTH_VERIFY_URL` flow as `/chat/token`, then upserts only the requested `userId` into Stream using a server-side Stream REST call signed with `STREAM_API_SECRET`. The `userId` must be the same Mongo-style id used in DM channel `members`. This route intentionally ignores `name` and `image`; profile fields should be changed only through `/chat/sync-profile` for the authenticated user.
+The route authenticates the caller through the same `AUTH_VERIFY_URL` flow as `/chat/token`, validates `userId` as a Mongo ObjectId (`/^[a-fA-F0-9]{24}$/`), then calls `GET ${USER_PROFILE_URL}/${userId}` with the same auth headers. It upserts the Stream user only when the backend confirms the target exists and `canMessage` is allowed. Stream profile fields come from backend-owned `payload.user.fullName` and `payload.user.avatar`; caller-supplied `name` and `image` are ignored.
+
+Failure responses:
+
+- `400 {"error":"Missing userId"}` for missing or invalid target ids
+- `401 {"error":"Invalid auth token"}` for failed caller auth
+- `403 {"error":"Messaging target is not allowed"}` when backend profile rules disallow messaging
+- `404 {"error":"Target user not found"}` when the target user does not exist
+- `502 {"error":"Target user lookup failed"}` when the backend profile response is unavailable or malformed
 
 ## Stream Chat DM Channel ID
 
@@ -89,7 +97,7 @@ Content-Type: application/json
 
 ```json
 {
-  "otherUserId": "target-mongo-style-user-id"
+  "otherUserId": "68958d4340ec8662569c641f"
 }
 ```
 
@@ -104,7 +112,7 @@ Response:
 }
 ```
 
-The route derives the caller id from verified auth, accepts only the other user id, sorts the two ids, and returns `dm_<lowerId>_<higherId>`. Frontend should use this `channelId` when opening 1:1 DMs to prevent duplicate channels for the same pair.
+The route derives the caller id from verified auth, accepts only the other user id, validates both as Mongo ObjectIds (`/^[a-fA-F0-9]{24}$/`), lowercases them, sorts the two ids, and returns `dm_<lowerId>_<higherId>`. Frontend should use this `channelId` when opening 1:1 DMs to prevent duplicate channels for the same pair.
 
 ## Stream Chat Sync Profile
 
@@ -119,10 +127,7 @@ Content-Type: application/json
 ```
 
 ```json
-{
-  "name": "Optional display name",
-  "image": "https://optional.example/avatar.png"
-}
+{}
 ```
 
 Response:
@@ -131,7 +136,7 @@ Response:
 {}
 ```
 
-The route derives the current user id from verified auth and upserts that user into Stream with the latest `name` and/or `image`. The request body cannot override the user id.
+The route derives the current user id from verified auth, looks up `GET ${USER_PROFILE_URL}/${currentUserId}`, and upserts Stream with backend-owned `payload.user.fullName` and `payload.user.avatar`. Caller-supplied `name`, `image`, or `userId` values are ignored.
 
 The known public API base URL is:
 
@@ -175,6 +180,7 @@ Required Worker settings:
 - `STREAM_API_KEY` env var in `wrangler.toml`; fill in the Stream public key before deploy
 - `AUTH_VERIFY_URL` env var in `wrangler.toml`
 - `CHAT_CORS_ORIGIN` env var in `wrangler.toml`
+- `USER_PROFILE_URL` env var in `wrangler.toml`
 - `STREAM_API_SECRET` secret
 
 Set the secret with:
@@ -254,15 +260,17 @@ curl -i -X POST https://rbx-labs.io/chat/ensure-user \
   -H "Device-Identity: test-device" \
   -H "System: ios" \
   -H "Content-Type: application/json" \
-  --data '{"userId":"<target-user-id>"}'
+  --data '{"userId":"68958d4340ec8662569c641f"}'
 ```
+
+Expected Stream upsert behavior: the Worker looks up `https://api.kampd.com/user/v1/profile/68958d4340ec8662569c641f` and upserts Stream with backend-owned `id`, `fullName`, and `avatar`. A target blocked by profile rules should return `403`; a non-existent target should return `404`.
 
 ```bash
 curl -i -X POST https://rbx-labs.io/chat/dm-channel-id \
   -H "Authorization: <access-token>" \
   -H "idToken: <id-token>" \
   -H "Content-Type: application/json" \
-  --data '{"otherUserId":"<target-user-id>"}'
+  --data '{"otherUserId":"68958d4340ec8662569c641f"}'
 ```
 
 ```bash
@@ -270,7 +278,7 @@ curl -i -X POST https://rbx-labs.io/chat/sync-profile \
   -H "Authorization: <access-token>" \
   -H "idToken: <id-token>" \
   -H "Content-Type: application/json" \
-  --data '{"name":"Optional Name","image":"https://example.com/avatar.png"}'
+  --data '{}'
 ```
 
 For live Stream REST verification after deploy:

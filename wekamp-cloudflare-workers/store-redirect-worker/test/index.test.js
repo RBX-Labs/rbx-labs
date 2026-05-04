@@ -5,8 +5,10 @@ import worker, {
   deterministicDmChannel,
   extractUserId,
   normalizeUserId,
+  parseBackendProfile,
   signStreamServerToken,
   signStreamToken,
+  streamUserFromBackendProfile,
   streamUserFromBody,
 } from "../src/index.js";
 
@@ -19,9 +21,13 @@ if (!globalThis.crypto) {
 const env = {
   STREAM_API_KEY: "stream-key",
   STREAM_API_SECRET: "stream-secret",
-  AUTH_VERIFY_URL: "https://api.kampd.com/auth/v1/me",
+  AUTH_VERIFY_URL: "https://api.kampd.com/user/v1/profile",
+  USER_PROFILE_URL: "https://api.kampd.com/user/v1/profile",
   CHAT_CORS_ORIGIN: "https://rbx-labs.io",
 };
+
+const callerId = "68da010a706dfc75b410fa37";
+const targetId = "68958d4340ec8662569c641f";
 
 afterEach(() => {
   globalThis.fetch = undefined;
@@ -29,12 +35,13 @@ afterEach(() => {
 
 describe("extractUserId", () => {
   it("reads user id from common backend response shapes", () => {
-    assert.equal(extractUserId({ userId: "u1" }), "u1");
-    assert.equal(extractUserId({ payload: { user: { id: "u2" } } }), "u2");
-    assert.equal(extractUserId({ data: { user_id: "u3" } }), "u3");
+    assert.equal(extractUserId({ userId: callerId }), callerId);
+    assert.equal(extractUserId({ payload: { user: { id: targetId } } }), targetId);
+    assert.equal(extractUserId({ data: { user_id: callerId.toUpperCase() } }), callerId);
   });
 
-  it("returns null when no user id is present", () => {
+  it("returns null when no valid Mongo ObjectId is present", () => {
+    assert.equal(extractUserId({ userId: "u1" }), null);
     assert.equal(extractUserId({ payload: { user: {} } }), null);
     assert.equal(extractUserId(null), null);
   });
@@ -72,12 +79,12 @@ describe("streamUserFromBody", () => {
   it("builds a Stream user payload with optional profile fields", () => {
     assert.deepEqual(
       streamUserFromBody({
-        userId: " user-123 ",
+        userId: ` ${callerId} `,
         name: " Test User ",
         image: " https://example.com/avatar.png ",
       }),
       {
-        id: "user-123",
+        id: callerId,
         name: "Test User",
         image: "https://example.com/avatar.png",
       },
@@ -87,7 +94,70 @@ describe("streamUserFromBody", () => {
   it("rejects missing or invalid user ids", () => {
     assert.equal(streamUserFromBody({}), null);
     assert.equal(streamUserFromBody({ userId: "" }), null);
+    assert.equal(streamUserFromBody({ userId: "user-123" }), null);
     assert.equal(streamUserFromBody({ userId: "x".repeat(256) }), null);
+  });
+});
+
+describe("backend profile mapping", () => {
+  it("maps backend profile responses into Stream users", () => {
+    const profile = parseBackendProfile({
+      payload: {
+        user: {
+          id: targetId,
+          fullName: " Target User ",
+          avatar: "https://static.kampd.com/user/avatar.png",
+        },
+        canMessage: true,
+      },
+      status: { error: false },
+    });
+
+    assert.deepEqual(profile, {
+      id: targetId,
+      fullName: "Target User",
+      avatar: "https://static.kampd.com/user/avatar.png",
+      canMessage: true,
+      isBlocked: false,
+      isBlockedBy: false,
+      isDeactivated: false,
+    });
+    assert.deepEqual(streamUserFromBackendProfile(profile), {
+      id: targetId,
+      name: "Target User",
+      image: "https://static.kampd.com/user/avatar.png",
+    });
+  });
+
+  it("rejects invalid profile users and unsafe avatars", () => {
+    assert.equal(parseBackendProfile({ payload: { user: { id: "user-123" } } }), null);
+    assert.deepEqual(
+      streamUserFromBackendProfile({
+        id: targetId,
+        fullName: "Target User",
+        avatar: "http://static.kampd.com/user/avatar.png",
+        canMessage: true,
+        isBlocked: false,
+        isBlockedBy: false,
+        isDeactivated: false,
+      }),
+      {
+        id: targetId,
+        name: "Target User",
+      },
+    );
+    assert.equal(
+      streamUserFromBackendProfile({
+        id: targetId,
+        fullName: "Target User",
+        avatar: "https://static.kampd.com/user/avatar.png",
+        canMessage: true,
+        isBlocked: true,
+        isBlockedBy: false,
+        isDeactivated: false,
+      }),
+      null,
+    );
   });
 });
 
@@ -110,7 +180,9 @@ describe("deterministic DM channel ids", () => {
   });
 
   it("rejects invalid member ids", () => {
+    assert.equal(normalizeUserId(` ${callerId.toUpperCase()} `), callerId);
     assert.equal(normalizeUserId(" messaging:bad "), "");
+    assert.equal(normalizeUserId("user-123"), "");
     assert.equal(deterministicDmChannel("same", "same"), null);
   });
 });
@@ -159,7 +231,7 @@ describe("POST /chat/token", () => {
     let verifyRequest;
     globalThis.fetch = async (url, init) => {
       verifyRequest = { url, init };
-      return Response.json({ payload: { user: { id: "user-123" } } });
+      return Response.json({ payload: { user: { id: callerId } } });
     };
 
     const response = await worker.fetch(
@@ -168,7 +240,7 @@ describe("POST /chat/token", () => {
         headers: {
           authorization: "Bearer app-token",
           idtoken: "id-token",
-          "user-identity": "user-123",
+          "user-identity": callerId,
           "device-identity": "device-123",
           system: "ios",
         },
@@ -179,13 +251,13 @@ describe("POST /chat/token", () => {
 
     assert.equal(response.status, 200);
     assert.equal(body.apiKey, "stream-key");
-    assert.equal(body.userId, "user-123");
+    assert.equal(body.userId, callerId);
     assert.equal(typeof body.token, "string");
     assert.equal(typeof body.expiresAt, "number");
     assert.equal(verifyRequest.url, env.AUTH_VERIFY_URL);
     assert.equal(verifyRequest.init.headers.get("authorization"), "Bearer app-token");
     assert.equal(verifyRequest.init.headers.get("idtoken"), "id-token");
-    assert.equal(verifyRequest.init.headers.get("user-identity"), "user-123");
+    assert.equal(verifyRequest.init.headers.get("user-identity"), callerId);
     assert.equal(verifyRequest.init.headers.get("device-identity"), "device-123");
     assert.equal(verifyRequest.init.headers.get("system"), "ios");
   });
@@ -193,7 +265,7 @@ describe("POST /chat/token", () => {
 
 describe("POST /chat/dm-channel-id", () => {
   it("authenticates and returns a deterministic channel id", async () => {
-    globalThis.fetch = async () => Response.json({ payload: { user: { id: "68da010a706dfc75b410fa37" } } });
+    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
 
     const response = await worker.fetch(
       new Request("https://rbx-labs.io/chat/dm-channel-id", {
@@ -202,7 +274,7 @@ describe("POST /chat/dm-channel-id", () => {
           authorization: "Bearer app-token",
           "content-type": "application/json",
         },
-        body: JSON.stringify({ otherUserId: "68958d4340ec8662569c641f" }),
+        body: JSON.stringify({ otherUserId: targetId }),
       }),
       env,
     );
@@ -217,7 +289,7 @@ describe("POST /chat/dm-channel-id", () => {
   });
 
   it("requires the other member id", async () => {
-    globalThis.fetch = async () => Response.json({ payload: { user: { id: "caller-123" } } });
+    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
 
     const response = await worker.fetch(
       new Request("https://rbx-labs.io/chat/dm-channel-id", {
@@ -236,7 +308,7 @@ describe("POST /chat/dm-channel-id", () => {
   });
 
   it("returns a bad request for malformed JSON", async () => {
-    globalThis.fetch = async () => Response.json({ payload: { user: { id: "caller-123" } } });
+    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
 
     const response = await worker.fetch(
       new Request("https://rbx-labs.io/chat/dm-channel-id", {
@@ -257,7 +329,7 @@ describe("POST /chat/dm-channel-id", () => {
 
 describe("POST /chat/ensure-user", () => {
   it("requires a target user id", async () => {
-    globalThis.fetch = async () => Response.json({ payload: { user: { id: "caller-123" } } });
+    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
 
     const response = await worker.fetch(
       new Request("https://rbx-labs.io/chat/ensure-user", {
@@ -275,12 +347,69 @@ describe("POST /chat/ensure-user", () => {
     assert.deepEqual(await response.json(), { error: "Missing userId" });
   });
 
-  it("authenticates then upserts only the Stream user id", async () => {
+  it("rejects non-Mongo target ids before backend lookup", async () => {
+    const calls = [];
+    globalThis.fetch = async (url) => {
+      calls.push(url);
+      return Response.json({ payload: { user: { id: callerId } } });
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/ensure-user", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ userId: "target-456" }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 400);
+    assert.deepEqual(await response.json(), { error: "Missing userId" });
+    assert.deepEqual(calls, [env.AUTH_VERIFY_URL]);
+  });
+
+  it("fails closed when target profile lookup configuration is missing", async () => {
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/ensure-user", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ userId: targetId }),
+      }),
+      { ...env, USER_PROFILE_URL: "" },
+    );
+
+    assert.equal(response.status, 500);
+    assert.deepEqual(await response.json(), { error: "Service not configured" });
+  });
+
+  it("authenticates, validates target profile, then upserts backend-owned Stream user data", async () => {
     const calls = [];
     globalThis.fetch = async (url, init) => {
       calls.push({ url, init });
       if (url === env.AUTH_VERIFY_URL) {
-        return Response.json({ payload: { user: { id: "caller-123" } } });
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
+        return Response.json({
+          payload: {
+            user: {
+              id: targetId,
+              fullName: "Target User",
+              avatar: "https://static.kampd.com/user/avatar.png",
+            },
+            canMessage: true,
+            isBlocked: false,
+            isBlockedBy: false,
+            isDeactivated: false,
+          },
+          status: { error: false },
+        });
       }
       return Response.json({ users: {} });
     };
@@ -294,9 +423,9 @@ describe("POST /chat/ensure-user", () => {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          userId: "target-456",
-          name: "Target User",
-          image: "https://example.com/target.png",
+          userId: targetId,
+          name: "Caller supplied name should be ignored",
+          image: "https://example.com/ignored.png",
         }),
       }),
       env,
@@ -304,26 +433,31 @@ describe("POST /chat/ensure-user", () => {
 
     assert.equal(response.status, 200);
     assert.deepEqual(await response.json(), {});
-    assert.equal(calls.length, 2);
+    assert.equal(calls.length, 3);
     assert.equal(calls[0].url, env.AUTH_VERIFY_URL);
+    assert.equal(calls[1].url, `${env.USER_PROFILE_URL}/${targetId}`);
+    assert.equal(calls[1].init.headers.get("authorization"), "Bearer app-token");
+    assert.equal(calls[1].init.headers.get("idtoken"), "id-token");
     assert.equal(
-      calls[1].url,
+      calls[2].url,
       `https://chat.stream-io-api.com/users?api_key=${env.STREAM_API_KEY}`,
     );
-    assert.equal(calls[1].init.method, "POST");
-    assert.equal(calls[1].init.headers["stream-auth-type"], "jwt");
-    assert.equal(typeof calls[1].init.headers.authorization, "string");
-    assert.deepEqual(JSON.parse(calls[1].init.body), {
+    assert.equal(calls[2].init.method, "POST");
+    assert.equal(calls[2].init.headers["stream-auth-type"], "jwt");
+    assert.equal(typeof calls[2].init.headers.authorization, "string");
+    assert.deepEqual(JSON.parse(calls[2].init.body), {
       users: {
-        "target-456": {
-          id: "target-456",
+        [targetId]: {
+          id: targetId,
+          name: "Target User",
+          image: "https://static.kampd.com/user/avatar.png",
         },
       },
     });
   });
 
   it("returns a bad request for malformed JSON", async () => {
-    globalThis.fetch = async () => Response.json({ payload: { user: { id: "caller-123" } } });
+    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
 
     const response = await worker.fetch(
       new Request("https://rbx-labs.io/chat/ensure-user", {
@@ -344,7 +478,15 @@ describe("POST /chat/ensure-user", () => {
   it("returns a bad gateway response when Stream rejects the upsert", async () => {
     globalThis.fetch = async (url) => {
       if (url === env.AUTH_VERIFY_URL) {
-        return Response.json({ payload: { user: { id: "caller-123" } } });
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
+        return Response.json({
+          payload: {
+            user: { id: targetId, fullName: "Target User", avatar: "" },
+            canMessage: true,
+          },
+        });
       }
       return new Response("stream failed", { status: 500 });
     };
@@ -356,13 +498,131 @@ describe("POST /chat/ensure-user", () => {
           authorization: "Bearer app-token",
           "content-type": "application/json",
         },
-        body: JSON.stringify({ userId: "target-456" }),
+        body: JSON.stringify({ userId: targetId }),
       }),
       env,
     );
 
     assert.equal(response.status, 502);
     assert.deepEqual(await response.json(), { error: "Stream user upsert failed" });
+  });
+
+  it("returns not found when the backend target profile does not exist", async () => {
+    globalThis.fetch = async (url) => {
+      if (url === env.AUTH_VERIFY_URL) {
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      return Response.json({ error: "not found" }, { status: 404 });
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/ensure-user", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ userId: targetId }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 404);
+    assert.deepEqual(await response.json(), { error: "Target user not found" });
+  });
+
+  it("rejects target users that backend says cannot be messaged", async () => {
+    globalThis.fetch = async (url) => {
+      if (url === env.AUTH_VERIFY_URL) {
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
+        return Response.json({
+          payload: {
+            user: { id: targetId, fullName: "Target User", avatar: "" },
+            canMessage: false,
+            isBlocked: false,
+            isBlockedBy: false,
+            isDeactivated: false,
+          },
+        });
+      }
+      throw new Error(`unexpected fetch ${url}`);
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/ensure-user", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ userId: targetId }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 403);
+    assert.deepEqual(await response.json(), { error: "Messaging target is not allowed" });
+  });
+
+  it("rejects blocked or deactivated target users even with a truthy canMessage field", async () => {
+    globalThis.fetch = async (url) => {
+      if (url === env.AUTH_VERIFY_URL) {
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
+        return Response.json({
+          payload: {
+            user: { id: targetId, fullName: "Target User", avatar: "" },
+            canMessage: true,
+            isBlocked: true,
+            isBlockedBy: false,
+            isDeactivated: false,
+          },
+        });
+      }
+      throw new Error(`unexpected fetch ${url}`);
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/ensure-user", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ userId: targetId }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 403);
+    assert.deepEqual(await response.json(), { error: "Messaging target is not allowed" });
+  });
+
+  it("returns bad gateway when target profile payload is malformed", async () => {
+    globalThis.fetch = async (url) => {
+      if (url === env.AUTH_VERIFY_URL) {
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      return Response.json({ payload: { user: { id: "not-a-mongo-id" }, canMessage: true } });
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/ensure-user", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ userId: targetId }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 502);
+    assert.deepEqual(await response.json(), { error: "Target user lookup failed" });
   });
 });
 
@@ -372,7 +632,22 @@ describe("POST /chat/sync-profile", () => {
     globalThis.fetch = async (url, init) => {
       calls.push({ url, init });
       if (url === env.AUTH_VERIFY_URL) {
-        return Response.json({ payload: { user: { id: "caller-123" } } });
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      if (url === `${env.USER_PROFILE_URL}/${callerId}`) {
+        return Response.json({
+          payload: {
+            user: {
+              id: callerId,
+              fullName: "Caller Name",
+              avatar: "https://static.kampd.com/user/caller.png",
+            },
+            canMessage: true,
+            isBlocked: false,
+            isBlockedBy: false,
+            isDeactivated: false,
+          },
+        });
       }
       return Response.json({ users: {} });
     };
@@ -385,8 +660,8 @@ describe("POST /chat/sync-profile", () => {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          name: "Caller Name",
-          image: "https://example.com/caller.png",
+          name: "Caller supplied name should be ignored",
+          image: "https://example.com/ignored.png",
         }),
       }),
       env,
@@ -394,21 +669,22 @@ describe("POST /chat/sync-profile", () => {
 
     assert.equal(response.status, 200);
     assert.deepEqual(await response.json(), {});
-    assert.equal(calls.length, 2);
+    assert.equal(calls.length, 3);
     assert.equal(calls[0].url, env.AUTH_VERIFY_URL);
-    assert.deepEqual(JSON.parse(calls[1].init.body), {
+    assert.equal(calls[1].url, `${env.USER_PROFILE_URL}/${callerId}`);
+    assert.deepEqual(JSON.parse(calls[2].init.body), {
       users: {
-        "caller-123": {
-          id: "caller-123",
+        [callerId]: {
+          id: callerId,
           name: "Caller Name",
-          image: "https://example.com/caller.png",
+          image: "https://static.kampd.com/user/caller.png",
         },
       },
     });
   });
 
   it("returns a bad request for malformed JSON", async () => {
-    globalThis.fetch = async () => Response.json({ payload: { user: { id: "caller-123" } } });
+    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
 
     const response = await worker.fetch(
       new Request("https://rbx-labs.io/chat/sync-profile", {
@@ -429,7 +705,15 @@ describe("POST /chat/sync-profile", () => {
   it("returns a bad gateway response when Stream rejects profile sync", async () => {
     globalThis.fetch = async (url) => {
       if (url === env.AUTH_VERIFY_URL) {
-        return Response.json({ payload: { user: { id: "caller-123" } } });
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      if (url === `${env.USER_PROFILE_URL}/${callerId}`) {
+        return Response.json({
+          payload: {
+            user: { id: callerId, fullName: "Caller Name", avatar: "" },
+            canMessage: true,
+          },
+        });
       }
       return new Response("stream failed", { status: 500 });
     };
@@ -448,6 +732,30 @@ describe("POST /chat/sync-profile", () => {
 
     assert.equal(response.status, 502);
     assert.deepEqual(await response.json(), { error: "Stream profile sync failed" });
+  });
+
+  it("returns bad gateway when current profile lookup is malformed", async () => {
+    globalThis.fetch = async (url) => {
+      if (url === env.AUTH_VERIFY_URL) {
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      return Response.json({ payload: { user: { id: "not-a-mongo-id" } } });
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/sync-profile", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({}),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 502);
+    assert.deepEqual(await response.json(), { error: "Profile lookup failed" });
   });
 });
 
