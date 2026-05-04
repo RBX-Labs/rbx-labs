@@ -57,27 +57,10 @@ async function streamToken(request, env) {
     return withCors(json({ error: "Service not configured" }, 500), env);
   }
 
-  const auth = request.headers.get("authorization") || "";
-  if (!auth) {
-    return withCors(json({ error: "Unauthorized" }, 401), env);
-  }
-
   try {
-    const verifyHeaders = authVerifyHeaders(request);
-
-    const verifyRes = await fetch(env.AUTH_VERIFY_URL, {
-      method: "GET",
-      headers: verifyHeaders,
-    });
-
-    if (!verifyRes.ok) {
-      return withCors(json({ error: "Invalid auth token" }, 401), env);
-    }
-
-    const profile = await verifyRes.json();
-    const userId = extractUserId(profile);
+    const userId = await verifyAppAuth(request, env);
     if (!userId) {
-      return withCors(json({ error: "Missing user id" }, 401), env);
+      return withCors(json({ error: "Invalid auth token" }, 401), env);
     }
 
     const now = Math.floor(Date.now() / 1000);
@@ -96,6 +79,210 @@ async function streamToken(request, env) {
   } catch {
     return withCors(json({ error: "Internal error" }, 500), env);
   }
+}
+
+async function ensureStreamUser(request, env) {
+  if (request.method === "OPTIONS") {
+    return withCors(new Response(null, { status: 204 }), env);
+  }
+
+  if (request.method !== "POST") {
+    return withCors(json({ error: "Method not allowed" }, 405), env);
+  }
+
+  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL) {
+    return withCors(json({ error: "Service not configured" }, 500), env);
+  }
+
+  try {
+    const authenticatedUserId = await verifyAppAuth(request, env);
+    if (!authenticatedUserId) {
+      return withCors(json({ error: "Invalid auth token" }, 401), env);
+    }
+
+    const body = await readJson(request);
+    if (body instanceof Response) return withCors(body, env);
+
+    const userId = normalizeUserId(body.userId);
+    if (!userId) {
+      return withCors(json({ error: "Missing userId" }, 400), env);
+    }
+
+    const user = { id: userId };
+    const streamRes = await upsertStreamUser(user, env);
+    if (!streamRes.ok) {
+      return withCors(json({ error: "Stream user upsert failed" }, 502), env);
+    }
+
+    return withCors(json({}), env);
+  } catch {
+    return withCors(json({ error: "Internal error" }, 500), env);
+  }
+}
+
+async function dmChannelId(request, env) {
+  if (request.method === "OPTIONS") {
+    return withCors(new Response(null, { status: 204 }), env);
+  }
+
+  if (request.method !== "POST") {
+    return withCors(json({ error: "Method not allowed" }, 405), env);
+  }
+
+  if (!env.AUTH_VERIFY_URL) {
+    return withCors(json({ error: "Service not configured" }, 500), env);
+  }
+
+  try {
+    const authenticatedUserId = await verifyAppAuth(request, env);
+    if (!authenticatedUserId) {
+      return withCors(json({ error: "Invalid auth token" }, 401), env);
+    }
+
+    const body = await readJson(request);
+    if (body instanceof Response) return withCors(body, env);
+
+    const otherUserId = normalizeUserId(body?.otherUserId);
+    if (!otherUserId) {
+      return withCors(json({ error: "Missing otherUserId" }, 400), env);
+    }
+
+    const result = deterministicDmChannel(authenticatedUserId, otherUserId);
+    if (!result) {
+      return withCors(json({ error: "Invalid member ids" }, 400), env);
+    }
+
+    return withCors(json(result), env);
+  } catch {
+    return withCors(json({ error: "Internal error" }, 500), env);
+  }
+}
+
+async function syncStreamProfile(request, env) {
+  if (request.method === "OPTIONS") {
+    return withCors(new Response(null, { status: 204 }), env);
+  }
+
+  if (request.method !== "POST") {
+    return withCors(json({ error: "Method not allowed" }, 405), env);
+  }
+
+  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL) {
+    return withCors(json({ error: "Service not configured" }, 500), env);
+  }
+
+  try {
+    const authenticatedUserId = await verifyAppAuth(request, env);
+    if (!authenticatedUserId) {
+      return withCors(json({ error: "Invalid auth token" }, 401), env);
+    }
+
+    const body = await readJson(request);
+    if (body instanceof Response) return withCors(body, env);
+
+    const user = streamUserFromBody({
+      userId: authenticatedUserId,
+      name: body?.name,
+      image: body?.image,
+    });
+    if (!user) {
+      return withCors(json({ error: "Missing user id" }, 401), env);
+    }
+
+    const streamRes = await upsertStreamUser(user, env);
+    if (!streamRes.ok) {
+      return withCors(json({ error: "Stream profile sync failed" }, 502), env);
+    }
+
+    return withCors(json({}), env);
+  } catch {
+    return withCors(json({ error: "Internal error" }, 500), env);
+  }
+}
+
+async function verifyAppAuth(request, env) {
+  const auth = request.headers.get("authorization") || "";
+  if (!auth) return null;
+
+  const verifyHeaders = authVerifyHeaders(request);
+
+  const verifyRes = await fetch(env.AUTH_VERIFY_URL, {
+    method: "GET",
+    headers: verifyHeaders,
+  });
+
+  if (!verifyRes.ok) return null;
+
+  const profile = await verifyRes.json();
+  return extractUserId(profile);
+}
+
+async function readJson(request) {
+  try {
+    const text = await request.text();
+    if (!text) return {};
+    return JSON.parse(text);
+  } catch {
+    return json({ error: "Malformed JSON" }, 400);
+  }
+}
+
+function streamUserFromBody(body) {
+  if (!body || typeof body !== "object") return null;
+
+  const userId = normalizeUserId(body.userId);
+  if (!userId) return null;
+
+  const user = { id: userId };
+  if (typeof body.name === "string" && body.name.trim()) {
+    user.name = body.name.trim();
+  }
+  if (typeof body.image === "string" && body.image.trim()) {
+    user.image = body.image.trim();
+  }
+  return user;
+}
+
+function normalizeUserId(value) {
+  if (typeof value !== "string") return "";
+  const userId = value.trim();
+  if (!userId || userId.length > 255 || userId.includes(":")) return "";
+  return userId;
+}
+
+function deterministicDmChannel(userIdA, userIdB) {
+  const first = normalizeUserId(userIdA);
+  const second = normalizeUserId(userIdB);
+  if (!first || !second || first === second) return null;
+
+  const memberIds = [first, second].sort();
+  const channelId = `dm_${memberIds[0]}_${memberIds[1]}`;
+  return {
+    channelType: "messaging",
+    channelId,
+    cid: `messaging:${channelId}`,
+    memberIds,
+  };
+}
+
+async function upsertStreamUser(user, env) {
+  const token = await signStreamServerToken(env.STREAM_API_SECRET);
+  const baseUrl = (env.STREAM_CHAT_BASE_URL || "https://chat.stream-io-api.com").replace(/\/+$/, "");
+  const url = `${baseUrl}/users?api_key=${encodeURIComponent(env.STREAM_API_KEY)}`;
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "authorization": token,
+      "content-type": "application/json",
+      "stream-auth-type": "jwt",
+    },
+    body: JSON.stringify({
+      users: {
+        [user.id]: user,
+      },
+    }),
+  });
 }
 
 function authVerifyHeaders(request) {
@@ -138,8 +325,16 @@ function extractUserId(profile) {
 }
 
 async function signStreamToken(userId, secret, issuedAt, expiresAt) {
+  return signJwt({ user_id: userId, iat: issuedAt, exp: expiresAt }, secret);
+}
+
+async function signStreamServerToken(secret) {
+  const now = Math.floor(Date.now() / 1000);
+  return signJwt({ server: true, iat: now, exp: now + STREAM_TOKEN_TTL_SECONDS }, secret);
+}
+
+async function signJwt(payload, secret) {
   const header = { alg: "HS256", typ: "JWT" };
-  const payload = { user_id: userId, iat: issuedAt, exp: expiresAt };
   const encodedHeader = base64UrlEncode(JSON.stringify(header));
   const encodedPayload = base64UrlEncode(JSON.stringify(payload));
   const signingInput = `${encodedHeader}.${encodedPayload}`;
@@ -200,7 +395,7 @@ function storeChoicePage() {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Get WeKamp</title>
+  <title>WeKamp Early Access</title>
   <style>
     :root {
       color-scheme: light;
@@ -357,8 +552,8 @@ function storeChoicePage() {
     </div>
 
     <section class="panel" aria-labelledby="title">
-      <h1 id="title">Get WeKamp</h1>
-      <p>Choose your platform to continue. We could not confidently detect this browser or device.</p>
+      <h1 id="title">You're in!!!</h1>
+      <p>WeKamp Early Access</p>
       <div class="actions">
         <a class="store-badge app-store" href="${IOS_URL}" aria-label="Download WeKamp on the App Store">
           <svg class="platform-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -403,12 +598,34 @@ export default {
       return Response.json({
         ok: true,
         service: "store-redirect-worker",
-        routes: ["/open", "/chat/token", "/u/:token", "/c/:token", "/k/:token", "/healthz"],
+        routes: [
+          "/open",
+          "/chat/token",
+          "/chat/ensure-user",
+          "/chat/dm-channel-id",
+          "/chat/sync-profile",
+          "/u/:token",
+          "/c/:token",
+          "/k/:token",
+          "/healthz",
+        ],
       });
     }
 
     if (url.pathname === "/chat/token") {
       return streamToken(request, env);
+    }
+
+    if (url.pathname === "/chat/ensure-user") {
+      return ensureStreamUser(request, env);
+    }
+
+    if (url.pathname === "/chat/dm-channel-id") {
+      return dmChannelId(request, env);
+    }
+
+    if (url.pathname === "/chat/sync-profile") {
+      return syncStreamProfile(request, env);
     }
 
     if (url.pathname === "/open") {
@@ -423,4 +640,16 @@ export default {
   },
 };
 
-export { extractUserId, signStreamToken, streamToken };
+export {
+  deterministicDmChannel,
+  dmChannelId,
+  ensureStreamUser,
+  extractUserId,
+  normalizeUserId,
+  signStreamServerToken,
+  signStreamToken,
+  syncStreamProfile,
+  streamToken,
+  streamUserFromBody,
+  upsertStreamUser,
+};

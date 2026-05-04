@@ -6,6 +6,9 @@ workers_dev = false
 routes = [
   { pattern = "rbx-labs.io/open", zone_name = "rbx-labs.io" },
   { pattern = "rbx-labs.io/chat/token", zone_name = "rbx-labs.io" },
+  { pattern = "rbx-labs.io/chat/ensure-user", zone_name = "rbx-labs.io" },
+  { pattern = "rbx-labs.io/chat/dm-channel-id", zone_name = "rbx-labs.io" },
+  { pattern = "rbx-labs.io/chat/sync-profile", zone_name = "rbx-labs.io" },
   { pattern = "rbx-labs.io/healthz", zone_name = "rbx-labs.io" },
   { pattern = "rbx-labs.io/u/*", zone_name = "rbx-labs.io" },
   { pattern = "rbx-labs.io/c/*", zone_name = "rbx-labs.io" },
