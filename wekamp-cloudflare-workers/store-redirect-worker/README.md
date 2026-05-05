@@ -159,6 +159,8 @@ The route derives the caller id from verified auth and includes it automatically
 
 The `channelId` is derived from the server-owned group id: `group_<groupId>`. This allows multiple separate groups with the same exact members, as long as each group has a different backend-owned `groupId`. Frontend should not invent `groupId`; it should use the `groupId` returned by the Go backend route `POST /chat/v1/groups`.
 
+Temporary operational fallback while infra completes `/chat/*` path RCA: FE may create the backend chat record through `POST /user/v1/chat/groups` instead. The returned `groupId` contract is the same.
+
 Current limitation: group creation currently validates each member's profile and `canMessage` flags independently. It does not enforce group-level authorization such as "same Kamp", "same org", or "caller can invite this exact set". Reconsider this later with a backend endpoint such as `POST /chat/v1/group/validate-members` if group membership needs stronger business rules.
 
 After deploy, run one live smoke test with real auth against Cloudflare + Go profile + Stream for this route. Unit tests cover the Worker behavior, but they do not prove the deployed route, auth proxy headers, backend profile response, and Stream REST call all work together.
@@ -280,6 +282,8 @@ Response:
 ```
 
 The route uses the same group member validation rules as `/chat/group-channel-id`, then upserts the validated users to Stream Video. `groupId` must be backend-owned; FE should use the `groupId` returned by the Go backend route `POST /chat/v1/groups`.
+
+Temporary operational fallback while infra completes `/chat/*` path RCA: FE may create the backend chat record through `POST /user/v1/chat/groups` instead. The returned `groupId` contract is the same.
 
 Current limitation: call routes validate member profiles and `canMessage` flags independently. They do not yet enforce call-specific business rules, ringing eligibility, or membership in a backend-owned chat/group object. Reconsider this with a backend validation endpoint before opening calls beyond trusted user flows.
 
