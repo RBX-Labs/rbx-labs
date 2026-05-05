@@ -8,6 +8,7 @@ const STREAM_TOKEN_TTL_SECONDS = 60 * 60;
 const MONGO_OBJECT_ID_PATTERN = /^[a-fA-F0-9]{24}$/;
 const GROUP_CHAT_MIN_MEMBERS = 3;
 const GROUP_CHAT_MAX_MEMBERS = 50;
+const DEFAULT_CALL_TYPE = "default";
 const AUTH_VERIFY_FORWARD_HEADERS = [
   "authorization",
   "idtoken",
@@ -84,6 +85,10 @@ async function streamToken(request, env) {
   }
 }
 
+async function callToken(request, env) {
+  return streamToken(request, env);
+}
+
 async function ensureStreamUser(request, env) {
   if (request.method === "OPTIONS") {
     return withCors(new Response(null, { status: 204 }), env);
@@ -147,6 +152,62 @@ async function ensureStreamUser(request, env) {
   }
 }
 
+async function callDmId(request, env) {
+  if (request.method === "OPTIONS") {
+    return withCors(new Response(null, { status: 204 }), env);
+  }
+
+  if (request.method !== "POST") {
+    return withCors(json({ error: "Method not allowed" }, 405), env);
+  }
+
+  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL || !env.USER_PROFILE_URL) {
+    return withCors(json({ error: "Service not configured" }, 500), env);
+  }
+
+  try {
+    const authenticatedUserId = normalizeUserId(await verifyAppAuth(request, env));
+    if (!authenticatedUserId) {
+      return withCors(json({ error: "Invalid auth token" }, 401), env);
+    }
+
+    const body = await readJson(request);
+    if (body instanceof Response) return withCors(body, env);
+
+    const otherUserId = normalizeUserId(body?.otherUserId);
+    if (!otherUserId) {
+      return withCors(json({ error: "Missing otherUserId" }, 400), env);
+    }
+
+    const result = deterministicDmCall(authenticatedUserId, otherUserId);
+    if (!result) {
+      return withCors(json({ error: "Invalid member ids" }, 400), env);
+    }
+
+    const users = [];
+    for (const memberId of result.memberIds) {
+      const profileLookup = await fetchBackendProfile(request, env, memberId);
+      const errorResponse = profileLookupError(profileLookup, memberId, authenticatedUserId, "Call member");
+      if (errorResponse) return withCors(errorResponse, env);
+
+      const user = streamUserFromBackendProfile(profileLookup.profile);
+      if (!user || user.id !== memberId) {
+        return withCors(json({ error: "Call member lookup failed", userId: memberId }, 502), env);
+      }
+      users.push(user);
+    }
+
+    const streamRes = await upsertStreamVideoUsers(users, env);
+    if (!streamRes.ok) {
+      return withCors(json({ error: "Stream video user upsert failed" }, 502), env);
+    }
+
+    return withCors(json(result), env);
+  } catch {
+    return withCors(json({ error: "Internal error" }, 500), env);
+  }
+}
+
 async function dmChannelId(request, env) {
   if (request.method === "OPTIONS") {
     return withCors(new Response(null, { status: 204 }), env);
@@ -177,6 +238,79 @@ async function dmChannelId(request, env) {
     const result = deterministicDmChannel(authenticatedUserId, otherUserId);
     if (!result) {
       return withCors(json({ error: "Invalid member ids" }, 400), env);
+    }
+
+    return withCors(json(result), env);
+  } catch {
+    return withCors(json({ error: "Internal error" }, 500), env);
+  }
+}
+
+async function callGroupId(request, env) {
+  if (request.method === "OPTIONS") {
+    return withCors(new Response(null, { status: 204 }), env);
+  }
+
+  if (request.method !== "POST") {
+    return withCors(json({ error: "Method not allowed" }, 405), env);
+  }
+
+  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL || !env.USER_PROFILE_URL) {
+    return withCors(json({ error: "Service not configured" }, 500), env);
+  }
+
+  try {
+    const authenticatedUserId = normalizeUserId(await verifyAppAuth(request, env));
+    if (!authenticatedUserId) {
+      return withCors(json({ error: "Invalid auth token" }, 401), env);
+    }
+
+    const body = await readJson(request);
+    if (body instanceof Response) return withCors(body, env);
+
+    const groupId = normalizeUserId(body?.groupId);
+    if (!groupId) {
+      return withCors(json({ error: "Missing groupId" }, 400), env);
+    }
+
+    const requestedMemberIds = Array.isArray(body?.memberIds) ? body.memberIds : [];
+    const requestedNormalizedMemberIds = normalizedUniqueUserIds(requestedMemberIds);
+    if (requestedNormalizedMemberIds.includes(authenticatedUserId)) {
+      return withCors(json({ error: "Caller must not be included in memberIds" }, 400), env);
+    }
+    if (requestedNormalizedMemberIds.length !== requestedMemberIds.length) {
+      return withCors(json({ error: "Invalid memberIds" }, 400), env);
+    }
+
+    const memberIds = normalizedUniqueUserIds([authenticatedUserId, ...requestedNormalizedMemberIds]);
+    if (memberIds.length < GROUP_CHAT_MIN_MEMBERS) {
+      return withCors(json({ error: "At least two other memberIds are required" }, 400), env);
+    }
+    if (memberIds.length > GROUP_CHAT_MAX_MEMBERS) {
+      return withCors(json({ error: "Too many memberIds" }, 400), env);
+    }
+
+    const result = deterministicGroupCall(memberIds, groupId);
+    if (!result) {
+      return withCors(json({ error: "Invalid call members" }, 400), env);
+    }
+
+    const users = [];
+    for (const memberId of memberIds) {
+      const profileLookup = await fetchBackendProfile(request, env, memberId);
+      const errorResponse = profileLookupError(profileLookup, memberId, authenticatedUserId, "Call member");
+      if (errorResponse) return withCors(errorResponse, env);
+
+      const user = streamUserFromBackendProfile(profileLookup.profile);
+      if (!user || user.id !== memberId) {
+        return withCors(json({ error: "Call member lookup failed", userId: memberId }, 502), env);
+      }
+      users.push(user);
+    }
+
+    const streamRes = await upsertStreamVideoUsers(users, env);
+    if (!streamRes.ok) {
+      return withCors(json({ error: "Stream video user upsert failed" }, 502), env);
     }
 
     return withCors(json(result), env);
@@ -423,6 +557,13 @@ function deterministicDmChannel(userIdA, userIdB) {
   };
 }
 
+function deterministicDmCall(userIdA, userIdB) {
+  const channel = deterministicDmChannel(userIdA, userIdB);
+  if (!channel) return null;
+
+  return callContract(`dm_${channel.memberIds[0]}_${channel.memberIds[1]}`, channel.memberIds);
+}
+
 function deterministicGroupChannel(userIds, groupId) {
   const normalizedGroupId = normalizeUserId(groupId);
   if (!normalizedGroupId) return null;
@@ -435,6 +576,22 @@ function deterministicGroupChannel(userIds, groupId) {
     channelType: "messaging",
     channelId,
     cid: `messaging:${channelId}`,
+    memberIds,
+  };
+}
+
+function deterministicGroupCall(userIds, groupId) {
+  const channel = deterministicGroupChannel(userIds, groupId);
+  if (!channel) return null;
+
+  return callContract(channel.channelId, channel.memberIds);
+}
+
+function callContract(callId, memberIds) {
+  return {
+    callType: DEFAULT_CALL_TYPE,
+    callId,
+    callCid: `${DEFAULT_CALL_TYPE}:${callId}`,
     memberIds,
   };
 }
@@ -473,6 +630,47 @@ async function upsertStreamUsers(users, env) {
       users: usersById,
     }),
   });
+}
+
+async function upsertStreamVideoUsers(users, env) {
+  const token = await signStreamServerToken(env.STREAM_API_SECRET);
+  const baseUrl = (env.STREAM_VIDEO_BASE_URL || "https://video.stream-io-api.com/api/v2").replace(/\/+$/, "");
+  const url = `${baseUrl}/users?api_key=${encodeURIComponent(env.STREAM_API_KEY)}`;
+  const usersById = {};
+  for (const user of users) usersById[user.id] = user;
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "authorization": token,
+      "content-type": "application/json",
+      "stream-auth-type": "jwt",
+    },
+    body: JSON.stringify({
+      users: usersById,
+    }),
+  });
+}
+
+function profileLookupError(profileLookup, memberId, authenticatedUserId, label) {
+  if (profileLookup.status === 404) {
+    return json({ error: `${label} not found`, userId: memberId }, 404);
+  }
+  if (profileLookup.status === 401 || profileLookup.status === 403) {
+    return json({ error: "Invalid auth token" }, 401);
+  }
+  if (!profileLookup.ok) {
+    return json({ error: `${label} lookup failed`, userId: memberId }, 502);
+  }
+  if (
+    profileLookup.profile.isBlocked ||
+    profileLookup.profile.isBlockedBy ||
+    profileLookup.profile.isDeactivated ||
+    (!profileLookup.profile.canMessage && memberId !== authenticatedUserId)
+  ) {
+    return json({ error: `${label} is not allowed`, userId: memberId }, 403);
+  }
+  return null;
 }
 
 function authVerifyHeaders(request) {
@@ -795,6 +993,9 @@ export default {
           "/chat/dm-channel-id",
           "/chat/group-channel-id",
           "/chat/sync-profile",
+          "/call/token",
+          "/call/dm-id",
+          "/call/group-id",
           "/u/:token",
           "/c/:token",
           "/k/:token",
@@ -823,6 +1024,18 @@ export default {
       return syncStreamProfile(request, env);
     }
 
+    if (url.pathname === "/call/token") {
+      return callToken(request, env);
+    }
+
+    if (url.pathname === "/call/dm-id") {
+      return callDmId(request, env);
+    }
+
+    if (url.pathname === "/call/group-id") {
+      return callGroupId(request, env);
+    }
+
     if (url.pathname === "/open") {
       return storeRedirect(request);
     }
@@ -837,11 +1050,17 @@ export default {
 
 export {
   deterministicDmChannel,
+  deterministicDmCall,
   deterministicGroupChannel,
+  deterministicGroupCall,
   dmChannelId,
   ensureStreamUser,
   extractUserId,
   fetchBackendProfile,
+  callDmId,
+  callGroupId,
+  callToken,
+  callContract,
   groupChannelId,
   isHttpsUrl,
   normalizeUserId,
@@ -854,4 +1073,5 @@ export {
   streamToken,
   upsertStreamUser,
   upsertStreamUsers,
+  upsertStreamVideoUsers,
 };

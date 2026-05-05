@@ -1,6 +1,6 @@
 # Store Redirect Worker
 
-Cloudflare Worker for platform-aware app-store redirects, browser fallback choices, Stream Chat token minting, and Stream user provisioning.
+Cloudflare Worker for platform-aware app-store redirects, browser fallback choices, Stream Chat token minting, Stream Video token minting, and Stream user provisioning.
 
 ## Routes
 
@@ -13,6 +13,9 @@ Cloudflare Worker for platform-aware app-store redirects, browser fallback choic
 - `POST /chat/dm-channel-id` -> returns the canonical deterministic 1:1 DM channel id
 - `POST /chat/group-channel-id` -> validates group members, upserts Stream users, and returns the canonical group channel id
 - `POST /chat/sync-profile` -> syncs the authenticated user's Stream profile fields
+- `POST /call/token` -> validates the app auth token and returns a Stream Video user token
+- `POST /call/dm-id` -> validates call members, upserts Stream Video users, and returns the canonical 1:1 call id
+- `POST /call/group-id` -> validates call members, upserts Stream Video users, and returns the canonical group call id
 - `GET /healthz` -> JSON health response
 
 ## Redirect Policy
@@ -154,7 +157,7 @@ Response:
 
 The route derives the caller id from verified auth and includes it automatically. `memberIds` must contain the other users only; including the caller returns `400 {"error":"Caller must not be included in memberIds"}`. `groupId` and all `memberIds` must be Mongo ObjectIds. The route requires at least 3 total members, caps groups at 50 total members, validates each member through `GET ${USER_PROFILE_URL}/${memberId}`, and upserts all valid Stream users with backend-owned profile fields before returning the channel contract.
 
-The `channelId` is derived from the server-owned group id: `group_<groupId>`. This allows multiple separate groups with the same exact members, as long as each group has a different backend-owned `groupId`. Frontend should not invent `groupId`; it should come from the backend object for the chat room, Kamp, event, project, or team.
+The `channelId` is derived from the server-owned group id: `group_<groupId>`. This allows multiple separate groups with the same exact members, as long as each group has a different backend-owned `groupId`. Frontend should not invent `groupId`; it should use the `groupId` returned by the Go backend route `POST /chat/v1/groups`.
 
 Current limitation: group creation currently validates each member's profile and `canMessage` flags independently. It does not enforce group-level authorization such as "same Kamp", "same org", or "caller can invite this exact set". Reconsider this later with a backend endpoint such as `POST /chat/v1/group/validate-members` if group membership needs stronger business rules.
 
@@ -183,6 +186,102 @@ Response:
 ```
 
 The route derives the current user id from verified auth, looks up `GET ${USER_PROFILE_URL}/${currentUserId}`, and upserts Stream with backend-owned `payload.user.fullName` and `payload.user.avatar`. Caller-supplied `name`, `image`, or `userId` values are ignored.
+
+## Stream Video Call Token
+
+`POST /call/token`
+
+Request:
+
+```http
+Authorization: Bearer <app-token>
+idToken: <optional-id-token>
+```
+
+Response:
+
+```json
+{
+  "token": "stream-user-jwt",
+  "apiKey": "stream-public-api-key",
+  "userId": "app-user-id",
+  "expiresAt": 1714555555
+}
+```
+
+This route uses the same verified user id and one-hour Stream JWT format as `/chat/token`. FE should pass `apiKey`, `userId`, and `token` into `StreamVideo`.
+
+## Stream Video DM Call ID
+
+`POST /call/dm-id`
+
+Request:
+
+```http
+Authorization: <access-token>
+idToken: <id-token>
+Content-Type: application/json
+```
+
+```json
+{
+  "otherUserId": "68958d4340ec8662569c641f"
+}
+```
+
+Response:
+
+```json
+{
+  "callType": "default",
+  "callId": "dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
+  "callCid": "default:dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
+  "memberIds": ["68958d4340ec8662569c641f", "68da010a706dfc75b410fa37"]
+}
+```
+
+The route derives the caller id from verified auth, validates `otherUserId`, validates both profiles through `GET ${USER_PROFILE_URL}/${memberId}`, upserts both users to Stream Video via `https://video.stream-io-api.com/api/v2/users`, and returns the deterministic 1:1 call contract.
+
+## Stream Video Group Call ID
+
+`POST /call/group-id`
+
+Request:
+
+```http
+Authorization: <access-token>
+idToken: <id-token>
+Content-Type: application/json
+```
+
+```json
+{
+  "groupId": "681112223333444455556666",
+  "memberIds": [
+    "68958d4340ec8662569c641f",
+    "67f30c04dcfb927c52fba1f4"
+  ]
+}
+```
+
+Response:
+
+```json
+{
+  "callType": "default",
+  "callId": "group_681112223333444455556666",
+  "callCid": "default:group_681112223333444455556666",
+  "memberIds": [
+    "67f30c04dcfb927c52fba1f4",
+    "68958d4340ec8662569c641f",
+    "68da010a706dfc75b410fa37"
+  ]
+}
+```
+
+The route uses the same group member validation rules as `/chat/group-channel-id`, then upserts the validated users to Stream Video. `groupId` must be backend-owned; FE should use the `groupId` returned by the Go backend route `POST /chat/v1/groups`.
+
+Current limitation: call routes validate member profiles and `canMessage` flags independently. They do not yet enforce call-specific business rules, ringing eligibility, or membership in a backend-owned chat/group object. Reconsider this with a backend validation endpoint before opening calls beyond trusted user flows.
 
 The known public API base URL is:
 
@@ -265,8 +364,11 @@ Then in Cloudflare Worker settings:
 4. Add custom domain route `rbx-labs.io/chat/dm-channel-id`
 5. Add custom domain route `rbx-labs.io/chat/group-channel-id`
 6. Add custom domain route `rbx-labs.io/chat/sync-profile`
-7. Add custom domain routes `rbx-labs.io/u/*`, `rbx-labs.io/c/*`, and `rbx-labs.io/k/*`
-8. Add custom domain route `rbx-labs.io/healthz`
+7. Add custom domain route `rbx-labs.io/call/token`
+8. Add custom domain route `rbx-labs.io/call/dm-id`
+9. Add custom domain route `rbx-labs.io/call/group-id`
+10. Add custom domain routes `rbx-labs.io/u/*`, `rbx-labs.io/c/*`, and `rbx-labs.io/k/*`
+11. Add custom domain route `rbx-labs.io/healthz`
 
 ## Smoke Checks
 
@@ -321,6 +423,14 @@ curl -i -X POST https://rbx-labs.io/chat/dm-channel-id \
 ```
 
 ```bash
+curl -i -X POST https://rbx-labs.io/chat/group-channel-id \
+  -H "Authorization: <access-token>" \
+  -H "idToken: <id-token>" \
+  -H "Content-Type: application/json" \
+  --data '{"groupId":"681112223333444455556666","memberIds":["68958d4340ec8662569c641f","67f30c04dcfb927c52fba1f4"]}'
+```
+
+```bash
 curl -i -X POST https://rbx-labs.io/chat/sync-profile \
   -H "Authorization: <access-token>" \
   -H "idToken: <id-token>" \
@@ -328,8 +438,31 @@ curl -i -X POST https://rbx-labs.io/chat/sync-profile \
   --data '{}'
 ```
 
+```bash
+curl -i -X POST https://rbx-labs.io/call/token \
+  -H "Authorization: <access-token>" \
+  -H "idToken: <id-token>"
+```
+
+```bash
+curl -i -X POST https://rbx-labs.io/call/dm-id \
+  -H "Authorization: <access-token>" \
+  -H "idToken: <id-token>" \
+  -H "Content-Type: application/json" \
+  --data '{"otherUserId":"68958d4340ec8662569c641f"}'
+```
+
+```bash
+curl -i -X POST https://rbx-labs.io/call/group-id \
+  -H "Authorization: <access-token>" \
+  -H "idToken: <id-token>" \
+  -H "Content-Type: application/json" \
+  --data '{"groupId":"681112223333444455556666","memberIds":["68958d4340ec8662569c641f","67f30c04dcfb927c52fba1f4"]}'
+```
+
 For live Stream REST verification after deploy:
 
 1. Call `/chat/ensure-user` with a real target user id and expect `200 {}`.
 2. Call `/chat/sync-profile` for the logged-in user and expect `200 {}`.
-3. Confirm both users appear in the Stream dashboard or can be queried by the Stream client.
+3. Call `/call/dm-id` or `/call/group-id` with real user ids and expect a call contract plus successful Stream Video user upsert.
+4. Confirm users appear in the Stream dashboard or can be queried by the relevant Stream Chat/Video client.

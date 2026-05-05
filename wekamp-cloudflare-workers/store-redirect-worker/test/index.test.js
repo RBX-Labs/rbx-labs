@@ -2,7 +2,9 @@ import assert from "node:assert/strict";
 import { webcrypto } from "node:crypto";
 import { afterEach, describe, it } from "node:test";
 import worker, {
+  deterministicDmCall,
   deterministicDmChannel,
+  deterministicGroupCall,
   deterministicGroupChannel,
   extractUserId,
   normalizeUserId,
@@ -193,6 +195,26 @@ describe("deterministic group channel ids", () => {
   });
 });
 
+describe("deterministic call ids", () => {
+  it("uses the DM member pair for stable 1:1 call ids", () => {
+    assert.deepEqual(deterministicDmCall(callerId, targetId), {
+      callType: "default",
+      callId: "dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
+      callCid: "default:dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
+      memberIds: [targetId, callerId],
+    });
+  });
+
+  it("uses the server-owned group id for group call ids", () => {
+    assert.deepEqual(deterministicGroupCall([callerId, targetId, groupMemberId], groupId), {
+      callType: "default",
+      callId: "group_681112223333444455556666",
+      callCid: "default:group_681112223333444455556666",
+      memberIds: [groupMemberId, targetId, callerId],
+    });
+  });
+});
+
 describe("POST /chat/token", () => {
   it("handles CORS preflight", async () => {
     const response = await worker.fetch(
@@ -269,6 +291,27 @@ describe("POST /chat/token", () => {
   });
 });
 
+describe("POST /call/token", () => {
+  it("returns the Stream Video token contract", async () => {
+    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/call/token", {
+        method: "POST",
+        headers: { authorization: "Bearer app-token" },
+      }),
+      env,
+    );
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.apiKey, "stream-key");
+    assert.equal(body.userId, callerId);
+    assert.equal(typeof body.token, "string");
+    assert.equal(typeof body.expiresAt, "number");
+  });
+});
+
 describe("POST /chat/dm-channel-id", () => {
   it("authenticates and returns a deterministic channel id", async () => {
     globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
@@ -318,6 +361,85 @@ describe("POST /chat/dm-channel-id", () => {
 
     const response = await worker.fetch(
       new Request("https://rbx-labs.io/chat/dm-channel-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: "{",
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 400);
+    assert.deepEqual(await response.json(), { error: "Malformed JSON" });
+  });
+});
+
+describe("POST /call/dm-id", () => {
+  it("authenticates, validates both members, upserts Stream Video users, and returns a call contract", async () => {
+    const calls = [];
+    globalThis.fetch = async (url, init) => {
+      calls.push({ url, init });
+      if (url === env.AUTH_VERIFY_URL) {
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      if (url === `${env.USER_PROFILE_URL}/${callerId}`) {
+        return profileResponse(callerId, "Caller Name", "https://static.kampd.com/user/caller.png");
+      }
+      if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
+        return profileResponse(targetId, "Target User", "https://static.kampd.com/user/target.png");
+      }
+      return Response.json({ users: {} });
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/call/dm-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ otherUserId: targetId }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 200);
+    assert.deepEqual(await response.json(), {
+      callType: "default",
+      callId: "dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
+      callCid: "default:dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
+      memberIds: [targetId, callerId],
+    });
+    assert.equal(calls[0].url, env.AUTH_VERIFY_URL);
+    assert.equal(calls[1].url, `${env.USER_PROFILE_URL}/${targetId}`);
+    assert.equal(calls[2].url, `${env.USER_PROFILE_URL}/${callerId}`);
+    assert.equal(
+      calls[3].url,
+      `https://video.stream-io-api.com/api/v2/users?api_key=${env.STREAM_API_KEY}`,
+    );
+    assert.deepEqual(JSON.parse(calls[3].init.body), {
+      users: {
+        [targetId]: {
+          id: targetId,
+          name: "Target User",
+          image: "https://static.kampd.com/user/target.png",
+        },
+        [callerId]: {
+          id: callerId,
+          name: "Caller Name",
+          image: "https://static.kampd.com/user/caller.png",
+        },
+      },
+    });
+  });
+
+  it("rejects malformed JSON", async () => {
+    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/call/dm-id", {
         method: "POST",
         headers: {
           authorization: "Bearer app-token",
@@ -595,6 +717,108 @@ describe("POST /chat/group-channel-id", () => {
 
     assert.equal(response.status, 400);
     assert.deepEqual(await response.json(), { error: "Malformed JSON" });
+  });
+});
+
+describe("POST /call/group-id", () => {
+  it("authenticates, validates group members, upserts Stream Video users, and returns a call contract", async () => {
+    const calls = [];
+    globalThis.fetch = async (url, init) => {
+      calls.push({ url, init });
+      if (url === env.AUTH_VERIFY_URL) {
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      if (url === `${env.USER_PROFILE_URL}/${callerId}`) {
+        return profileResponse(callerId, "Caller Name", "https://static.kampd.com/user/caller.png");
+      }
+      if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
+        return profileResponse(targetId, "Target User", "");
+      }
+      if (url === `${env.USER_PROFILE_URL}/${groupMemberId}`) {
+        return profileResponse(groupMemberId, "Group Member", "");
+      }
+      return Response.json({ users: {} });
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/call/group-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ groupId, memberIds: [targetId, groupMemberId] }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 200);
+    assert.deepEqual(await response.json(), {
+      callType: "default",
+      callId: "group_681112223333444455556666",
+      callCid: "default:group_681112223333444455556666",
+      memberIds: [groupMemberId, targetId, callerId],
+    });
+    assert.equal(calls[0].url, env.AUTH_VERIFY_URL);
+    assert.equal(calls[1].url, `${env.USER_PROFILE_URL}/${callerId}`);
+    assert.equal(calls[2].url, `${env.USER_PROFILE_URL}/${targetId}`);
+    assert.equal(calls[3].url, `${env.USER_PROFILE_URL}/${groupMemberId}`);
+    assert.equal(
+      calls[4].url,
+      `https://video.stream-io-api.com/api/v2/users?api_key=${env.STREAM_API_KEY}`,
+    );
+  });
+
+  it("returns a specific error when memberIds includes the caller", async () => {
+    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/call/group-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ groupId, memberIds: [callerId, targetId] }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 400);
+    assert.deepEqual(await response.json(), { error: "Caller must not be included in memberIds" });
+  });
+
+  it("returns bad gateway when Stream Video rejects the user upsert", async () => {
+    globalThis.fetch = async (url) => {
+      if (url === env.AUTH_VERIFY_URL) {
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      if (url === `${env.USER_PROFILE_URL}/${callerId}`) {
+        return profileResponse(callerId, "Caller Name", "");
+      }
+      if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
+        return profileResponse(targetId, "Target User", "");
+      }
+      if (url === `${env.USER_PROFILE_URL}/${groupMemberId}`) {
+        return profileResponse(groupMemberId, "Group Member", "");
+      }
+      return new Response("stream failed", { status: 500 });
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/call/group-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ groupId, memberIds: [targetId, groupMemberId] }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 502);
+    assert.deepEqual(await response.json(), { error: "Stream video user upsert failed" });
   });
 });
 
