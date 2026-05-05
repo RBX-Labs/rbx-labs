@@ -3,6 +3,7 @@ import { webcrypto } from "node:crypto";
 import { afterEach, describe, it } from "node:test";
 import worker, {
   deterministicDmChannel,
+  deterministicGroupChannel,
   extractUserId,
   normalizeUserId,
   parseBackendProfile,
@@ -27,6 +28,8 @@ const env = {
 
 const callerId = "68da010a706dfc75b410fa37";
 const targetId = "68958d4340ec8662569c641f";
+const groupMemberId = "67f30c04dcfb927c52fba1f4";
+const groupId = "681112223333444455556666";
 
 afterEach(() => {
   globalThis.fetch = undefined;
@@ -162,6 +165,34 @@ describe("deterministic DM channel ids", () => {
   });
 });
 
+describe("deterministic group channel ids", () => {
+  it("uses a server-owned group id and sorts member ids into a stable group channel", () => {
+    const result = deterministicGroupChannel([callerId, targetId, groupMemberId], groupId);
+    const reversed = deterministicGroupChannel([groupMemberId, callerId, targetId], groupId);
+
+    assert.deepEqual(result, {
+      channelType: "messaging",
+      channelId: "group_681112223333444455556666",
+      cid: "messaging:group_681112223333444455556666",
+      memberIds: [groupMemberId, targetId, callerId],
+    });
+    assert.equal(result.channelId, reversed.channelId);
+  });
+
+  it("allows different groups with the same exact members", () => {
+    assert.notEqual(
+      deterministicGroupChannel([callerId, targetId, groupMemberId], groupId).channelId,
+      deterministicGroupChannel([callerId, targetId, groupMemberId], "681112223333444455556667").channelId,
+    );
+  });
+
+  it("rejects missing group ids or groups with fewer than three unique valid members", () => {
+    assert.equal(deterministicGroupChannel([callerId, targetId, groupMemberId], ""), null);
+    assert.equal(deterministicGroupChannel([callerId, targetId], groupId), null);
+    assert.equal(deterministicGroupChannel([callerId, targetId, "not-a-mongo-id"], groupId), null);
+  });
+});
+
 describe("POST /chat/token", () => {
   it("handles CORS preflight", async () => {
     const response = await worker.fetch(
@@ -287,6 +318,271 @@ describe("POST /chat/dm-channel-id", () => {
 
     const response = await worker.fetch(
       new Request("https://rbx-labs.io/chat/dm-channel-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: "{",
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 400);
+    assert.deepEqual(await response.json(), { error: "Malformed JSON" });
+  });
+});
+
+describe("POST /chat/group-channel-id", () => {
+  it("authenticates, validates every member, upserts users, and returns a deterministic group channel", async () => {
+    const calls = [];
+    globalThis.fetch = async (url, init) => {
+      calls.push({ url, init });
+      if (url === env.AUTH_VERIFY_URL) {
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      if (url === `${env.USER_PROFILE_URL}/${callerId}`) {
+        return profileResponse(callerId, "Caller Name", "https://static.kampd.com/user/caller.png");
+      }
+      if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
+        return profileResponse(targetId, "Target User", "https://static.kampd.com/user/target.png");
+      }
+      if (url === `${env.USER_PROFILE_URL}/${groupMemberId}`) {
+        return profileResponse(groupMemberId, "Group Member", "");
+      }
+      return Response.json({ users: {} });
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/group-channel-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          idtoken: "id-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ groupId, memberIds: [targetId, groupMemberId] }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 200);
+    assert.deepEqual(await response.json(), {
+      channelType: "messaging",
+      channelId: "group_681112223333444455556666",
+      cid: "messaging:group_681112223333444455556666",
+      memberIds: [groupMemberId, targetId, callerId],
+    });
+    assert.equal(calls.length, 5);
+    assert.equal(calls[0].url, env.AUTH_VERIFY_URL);
+    assert.equal(calls[1].url, `${env.USER_PROFILE_URL}/${callerId}`);
+    assert.equal(calls[2].url, `${env.USER_PROFILE_URL}/${targetId}`);
+    assert.equal(calls[3].url, `${env.USER_PROFILE_URL}/${groupMemberId}`);
+    assert.equal(
+      calls[4].url,
+      `https://chat.stream-io-api.com/users?api_key=${env.STREAM_API_KEY}`,
+    );
+    assert.deepEqual(JSON.parse(calls[4].init.body), {
+      users: {
+        [callerId]: {
+          id: callerId,
+          name: "Caller Name",
+          image: "https://static.kampd.com/user/caller.png",
+        },
+        [targetId]: {
+          id: targetId,
+          name: "Target User",
+          image: "https://static.kampd.com/user/target.png",
+        },
+        [groupMemberId]: {
+          id: groupMemberId,
+          name: "Group Member",
+        },
+      },
+    });
+  });
+
+  it("requires at least two other member ids", async () => {
+    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/group-channel-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ groupId, memberIds: [targetId] }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 400);
+    assert.deepEqual(await response.json(), { error: "At least two other memberIds are required" });
+  });
+
+  it("requires a server-owned group id", async () => {
+    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/group-channel-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ memberIds: [targetId, groupMemberId] }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 400);
+    assert.deepEqual(await response.json(), { error: "Missing groupId" });
+  });
+
+  it("rejects invalid or duplicate member ids before backend lookups", async () => {
+    const calls = [];
+    globalThis.fetch = async (url) => {
+      calls.push(url);
+      return Response.json({ payload: { user: { id: callerId } } });
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/group-channel-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ groupId, memberIds: [targetId, "not-a-mongo-id"] }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 400);
+    assert.deepEqual(await response.json(), { error: "Invalid memberIds" });
+    assert.deepEqual(calls, [env.AUTH_VERIFY_URL]);
+  });
+
+  it("returns a specific error when memberIds includes the caller", async () => {
+    const calls = [];
+    globalThis.fetch = async (url) => {
+      calls.push(url);
+      return Response.json({ payload: { user: { id: callerId } } });
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/group-channel-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ groupId, memberIds: [callerId, targetId] }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 400);
+    assert.deepEqual(await response.json(), { error: "Caller must not be included in memberIds" });
+    assert.deepEqual(calls, [env.AUTH_VERIFY_URL]);
+  });
+
+  it("rejects groups above the configured member cap before backend lookups", async () => {
+    const calls = [];
+    globalThis.fetch = async (url) => {
+      calls.push(url);
+      return Response.json({ payload: { user: { id: callerId } } });
+    };
+    const memberIds = Array.from({ length: 50 }, (_, index) =>
+      `${(index + 1).toString(16).padStart(24, "0")}`,
+    );
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/group-channel-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ groupId, memberIds }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 400);
+    assert.deepEqual(await response.json(), { error: "Too many memberIds" });
+    assert.deepEqual(calls, [env.AUTH_VERIFY_URL]);
+  });
+
+  it("returns not found when any member does not exist", async () => {
+    globalThis.fetch = async (url) => {
+      if (url === env.AUTH_VERIFY_URL) {
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      if (url === `${env.USER_PROFILE_URL}/${callerId}`) {
+        return profileResponse(callerId, "Caller Name", "");
+      }
+      if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
+        return Response.json({ error: "not found" }, { status: 404 });
+      }
+      throw new Error(`unexpected fetch ${url}`);
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/group-channel-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ groupId, memberIds: [targetId, groupMemberId] }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 404);
+    assert.deepEqual(await response.json(), { error: "Member user not found", userId: targetId });
+  });
+
+  it("rejects blocked members", async () => {
+    globalThis.fetch = async (url) => {
+      if (url === env.AUTH_VERIFY_URL) {
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      if (url === `${env.USER_PROFILE_URL}/${callerId}`) {
+        return profileResponse(callerId, "Caller Name", "");
+      }
+      if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
+        return profileResponse(targetId, "Target User", "", { isBlocked: true });
+      }
+      throw new Error(`unexpected fetch ${url}`);
+    };
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/group-channel-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ groupId, memberIds: [targetId, groupMemberId] }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 403);
+    assert.deepEqual(await response.json(), {
+      error: "Messaging member is not allowed",
+      userId: targetId,
+    });
+  });
+
+  it("returns a bad request for malformed JSON", async () => {
+    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/group-channel-id", {
         method: "POST",
         headers: {
           authorization: "Bearer app-token",
@@ -738,4 +1034,16 @@ function decodeJwtPart(value) {
   const padded = value.padEnd(value.length + ((4 - (value.length % 4)) % 4), "=");
   const json = Buffer.from(padded.replace(/-/g, "+").replace(/_/g, "/"), "base64").toString("utf8");
   return JSON.parse(json);
+}
+
+function profileResponse(id, fullName, avatar, flags = {}) {
+  return Response.json({
+    payload: {
+      user: { id, fullName, avatar },
+      canMessage: flags.canMessage ?? true,
+      isBlocked: flags.isBlocked ?? false,
+      isBlockedBy: flags.isBlockedBy ?? false,
+      isDeactivated: flags.isDeactivated ?? false,
+    },
+  });
 }

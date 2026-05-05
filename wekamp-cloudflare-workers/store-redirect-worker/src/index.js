@@ -6,6 +6,8 @@ const WEKAMP_LOGO_DATA_URI =
 const SHARE_ROUTE_TYPES = new Set(["u", "c", "k"]);
 const STREAM_TOKEN_TTL_SECONDS = 60 * 60;
 const MONGO_OBJECT_ID_PATTERN = /^[a-fA-F0-9]{24}$/;
+const GROUP_CHAT_MIN_MEMBERS = 3;
+const GROUP_CHAT_MAX_MEMBERS = 50;
 const AUTH_VERIFY_FORWARD_HEADERS = [
   "authorization",
   "idtoken",
@@ -183,6 +185,89 @@ async function dmChannelId(request, env) {
   }
 }
 
+async function groupChannelId(request, env) {
+  if (request.method === "OPTIONS") {
+    return withCors(new Response(null, { status: 204 }), env);
+  }
+
+  if (request.method !== "POST") {
+    return withCors(json({ error: "Method not allowed" }, 405), env);
+  }
+
+  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL || !env.USER_PROFILE_URL) {
+    return withCors(json({ error: "Service not configured" }, 500), env);
+  }
+
+  try {
+    const authenticatedUserId = normalizeUserId(await verifyAppAuth(request, env));
+    if (!authenticatedUserId) {
+      return withCors(json({ error: "Invalid auth token" }, 401), env);
+    }
+
+    const body = await readJson(request);
+    if (body instanceof Response) return withCors(body, env);
+
+    const groupId = normalizeUserId(body?.groupId);
+    if (!groupId) {
+      return withCors(json({ error: "Missing groupId" }, 400), env);
+    }
+
+    const requestedMemberIds = Array.isArray(body?.memberIds) ? body.memberIds : [];
+    const requestedNormalizedMemberIds = normalizedUniqueUserIds(requestedMemberIds);
+    if (requestedNormalizedMemberIds.includes(authenticatedUserId)) {
+      return withCors(json({ error: "Caller must not be included in memberIds" }, 400), env);
+    }
+    if (requestedNormalizedMemberIds.length !== requestedMemberIds.length) {
+      return withCors(json({ error: "Invalid memberIds" }, 400), env);
+    }
+
+    const memberIds = normalizedUniqueUserIds([authenticatedUserId, ...requestedNormalizedMemberIds]);
+    if (memberIds.length < GROUP_CHAT_MIN_MEMBERS) {
+      return withCors(json({ error: "At least two other memberIds are required" }, 400), env);
+    }
+    if (memberIds.length > GROUP_CHAT_MAX_MEMBERS) {
+      return withCors(json({ error: "Too many memberIds" }, 400), env);
+    }
+
+    const users = [];
+    for (const memberId of memberIds) {
+      const profileLookup = await fetchBackendProfile(request, env, memberId);
+      if (profileLookup.status === 404) {
+        return withCors(json({ error: "Member user not found", userId: memberId }, 404), env);
+      }
+      if (profileLookup.status === 401 || profileLookup.status === 403) {
+        return withCors(json({ error: "Invalid auth token" }, 401), env);
+      }
+      if (!profileLookup.ok) {
+        return withCors(json({ error: "Member lookup failed", userId: memberId }, 502), env);
+      }
+      if (
+        profileLookup.profile.isBlocked ||
+        profileLookup.profile.isBlockedBy ||
+        profileLookup.profile.isDeactivated ||
+        (!profileLookup.profile.canMessage && memberId !== authenticatedUserId)
+      ) {
+        return withCors(json({ error: "Messaging member is not allowed", userId: memberId }, 403), env);
+      }
+
+      const user = streamUserFromBackendProfile(profileLookup.profile);
+      if (!user || user.id !== memberId) {
+        return withCors(json({ error: "Member lookup failed", userId: memberId }, 502), env);
+      }
+      users.push(user);
+    }
+
+    const streamRes = await upsertStreamUsers(users, env);
+    if (!streamRes.ok) {
+      return withCors(json({ error: "Stream user upsert failed" }, 502), env);
+    }
+
+    return withCors(json(deterministicGroupChannel(memberIds, groupId)), env);
+  } catch {
+    return withCors(json({ error: "Internal error" }, 500), env);
+  }
+}
+
 async function syncStreamProfile(request, env) {
   if (request.method === "OPTIONS") {
     return withCors(new Response(null, { status: 204 }), env);
@@ -338,10 +423,44 @@ function deterministicDmChannel(userIdA, userIdB) {
   };
 }
 
+function deterministicGroupChannel(userIds, groupId) {
+  const normalizedGroupId = normalizeUserId(groupId);
+  if (!normalizedGroupId) return null;
+
+  const memberIds = normalizedUniqueUserIds(userIds).sort();
+  if (memberIds.length < GROUP_CHAT_MIN_MEMBERS) return null;
+
+  const channelId = `group_${normalizedGroupId}`;
+  return {
+    channelType: "messaging",
+    channelId,
+    cid: `messaging:${channelId}`,
+    memberIds,
+  };
+}
+
+function normalizedUniqueUserIds(values) {
+  const ids = [];
+  const seen = new Set();
+  for (const value of values) {
+    const id = normalizeUserId(value);
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    ids.push(id);
+  }
+  return ids;
+}
+
 async function upsertStreamUser(user, env) {
+  return upsertStreamUsers([user], env);
+}
+
+async function upsertStreamUsers(users, env) {
   const token = await signStreamServerToken(env.STREAM_API_SECRET);
   const baseUrl = (env.STREAM_CHAT_BASE_URL || "https://chat.stream-io-api.com").replace(/\/+$/, "");
   const url = `${baseUrl}/users?api_key=${encodeURIComponent(env.STREAM_API_KEY)}`;
+  const usersById = {};
+  for (const user of users) usersById[user.id] = user;
 
   return fetch(url, {
     method: "POST",
@@ -351,9 +470,7 @@ async function upsertStreamUser(user, env) {
       "stream-auth-type": "jwt",
     },
     body: JSON.stringify({
-      users: {
-        [user.id]: user,
-      },
+      users: usersById,
     }),
   });
 }
@@ -676,6 +793,7 @@ export default {
           "/chat/token",
           "/chat/ensure-user",
           "/chat/dm-channel-id",
+          "/chat/group-channel-id",
           "/chat/sync-profile",
           "/u/:token",
           "/c/:token",
@@ -697,6 +815,10 @@ export default {
       return dmChannelId(request, env);
     }
 
+    if (url.pathname === "/chat/group-channel-id") {
+      return groupChannelId(request, env);
+    }
+
     if (url.pathname === "/chat/sync-profile") {
       return syncStreamProfile(request, env);
     }
@@ -715,12 +837,15 @@ export default {
 
 export {
   deterministicDmChannel,
+  deterministicGroupChannel,
   dmChannelId,
   ensureStreamUser,
   extractUserId,
   fetchBackendProfile,
+  groupChannelId,
   isHttpsUrl,
   normalizeUserId,
+  normalizedUniqueUserIds,
   parseBackendProfile,
   signStreamServerToken,
   signStreamToken,
@@ -728,4 +853,5 @@ export {
   syncStreamProfile,
   streamToken,
   upsertStreamUser,
+  upsertStreamUsers,
 };

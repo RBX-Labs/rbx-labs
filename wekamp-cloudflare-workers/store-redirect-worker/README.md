@@ -11,6 +11,7 @@ Cloudflare Worker for platform-aware app-store redirects, browser fallback choic
 - `POST /chat/token` -> validates the app auth token and returns a Stream Chat user token
 - `POST /chat/ensure-user` -> validates the app auth token and upserts a Stream Chat user
 - `POST /chat/dm-channel-id` -> returns the canonical deterministic 1:1 DM channel id
+- `POST /chat/group-channel-id` -> validates group members, upserts Stream users, and returns the canonical group channel id
 - `POST /chat/sync-profile` -> syncs the authenticated user's Stream profile fields
 - `GET /healthz` -> JSON health response
 
@@ -113,6 +114,51 @@ Response:
 ```
 
 The route derives the caller id from verified auth, accepts only the other user id, validates both as Mongo ObjectIds (`/^[a-fA-F0-9]{24}$/`), lowercases them, sorts the two ids, and returns `dm_<lowerId>_<higherId>`. Frontend should use this `channelId` when opening 1:1 DMs to prevent duplicate channels for the same pair.
+
+## Stream Chat Group Channel ID
+
+`POST /chat/group-channel-id`
+
+Request:
+
+```http
+Authorization: <access-token>
+idToken: <id-token>
+Content-Type: application/json
+```
+
+```json
+{
+  "groupId": "681112223333444455556666",
+  "memberIds": [
+    "68958d4340ec8662569c641f",
+    "67f30c04dcfb927c52fba1f4"
+  ]
+}
+```
+
+Response:
+
+```json
+{
+  "channelType": "messaging",
+  "channelId": "group_681112223333444455556666",
+  "cid": "messaging:group_681112223333444455556666",
+  "memberIds": [
+    "67f30c04dcfb927c52fba1f4",
+    "68958d4340ec8662569c641f",
+    "68da010a706dfc75b410fa37"
+  ]
+}
+```
+
+The route derives the caller id from verified auth and includes it automatically. `memberIds` must contain the other users only; including the caller returns `400 {"error":"Caller must not be included in memberIds"}`. `groupId` and all `memberIds` must be Mongo ObjectIds. The route requires at least 3 total members, caps groups at 50 total members, validates each member through `GET ${USER_PROFILE_URL}/${memberId}`, and upserts all valid Stream users with backend-owned profile fields before returning the channel contract.
+
+The `channelId` is derived from the server-owned group id: `group_<groupId>`. This allows multiple separate groups with the same exact members, as long as each group has a different backend-owned `groupId`. Frontend should not invent `groupId`; it should come from the backend object for the chat room, Kamp, event, project, or team.
+
+Current limitation: group creation currently validates each member's profile and `canMessage` flags independently. It does not enforce group-level authorization such as "same Kamp", "same org", or "caller can invite this exact set". Reconsider this later with a backend endpoint such as `POST /chat/v1/group/validate-members` if group membership needs stronger business rules.
+
+After deploy, run one live smoke test with real auth against Cloudflare + Go profile + Stream for this route. Unit tests cover the Worker behavior, but they do not prove the deployed route, auth proxy headers, backend profile response, and Stream REST call all work together.
 
 ## Stream Chat Sync Profile
 
@@ -217,9 +263,10 @@ Then in Cloudflare Worker settings:
 2. Add custom domain route `rbx-labs.io/chat/token`
 3. Add custom domain route `rbx-labs.io/chat/ensure-user`
 4. Add custom domain route `rbx-labs.io/chat/dm-channel-id`
-5. Add custom domain route `rbx-labs.io/chat/sync-profile`
-6. Add custom domain routes `rbx-labs.io/u/*`, `rbx-labs.io/c/*`, and `rbx-labs.io/k/*`
-7. Add custom domain route `rbx-labs.io/healthz`
+5. Add custom domain route `rbx-labs.io/chat/group-channel-id`
+6. Add custom domain route `rbx-labs.io/chat/sync-profile`
+7. Add custom domain routes `rbx-labs.io/u/*`, `rbx-labs.io/c/*`, and `rbx-labs.io/k/*`
+8. Add custom domain route `rbx-labs.io/healthz`
 
 ## Smoke Checks
 
