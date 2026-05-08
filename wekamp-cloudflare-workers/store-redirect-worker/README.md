@@ -2,6 +2,8 @@
 
 Cloudflare Worker for platform-aware app-store redirects, browser fallback choices, Stream Chat token minting, Stream Video token minting, and Stream user provisioning.
 
+It also includes a thin scheduled trigger for the backend-owned `Ecosystm Research Agent`.
+
 ## Routes
 
 - `GET /open` -> platform redirect or store choice page
@@ -12,11 +14,57 @@ Cloudflare Worker for platform-aware app-store redirects, browser fallback choic
 - `POST /chat/ensure-user` -> validates the app auth token and upserts a Stream Chat user
 - `POST /chat/dm-channel-id` -> returns the canonical deterministic 1:1 DM channel id
 - `POST /chat/group-channel-id` -> validates group members, upserts Stream users, and returns the canonical group channel id
+- `POST /chat/broadcast-channel-id` -> validates broadcast members, upserts Stream users, and returns canonical broadcast channel metadata plus owner/member role hints
 - `POST /chat/sync-profile` -> syncs the authenticated user's Stream profile fields
 - `POST /call/token` -> validates the app auth token and returns a Stream Video user token
-- `POST /call/dm-id` -> validates call members, upserts Stream Video users, and returns the canonical 1:1 call id
-- `POST /call/group-id` -> validates call members, upserts Stream Video users, and returns the canonical group call id
+- `POST /call/dm-id` -> validates call members, upserts Stream Video users, and returns a fresh 1:1 call session id plus a stable conversation id
+- `POST /call/group-id` -> validates call members, upserts Stream Video users, and returns a fresh group call session id plus a stable conversation id
 - `GET /healthz` -> JSON health response
+
+## Scheduled Research Trigger
+
+- Cron: `*/30 * * * *`
+- Handler: Worker `scheduled()` event
+- Target backend endpoint: `POST /ampy/agent/research/tick`
+
+The Worker does not perform research reasoning. It only builds the bounded
+research tick payload and calls the backend.
+
+Required env:
+
+- `RESEARCH_AGENT_TICK_URL`
+- `RESEARCH_AGENT_KAMP_ID`
+
+Optional env:
+
+- `RESEARCH_AGENT_KEY` default `ecosystm_research_agent`
+- `RESEARCH_AGENT_PERSONA_ID` default `ecosystm_research_persona_v1`
+- `RESEARCH_AGENT_MAX_THEMES` default `5`
+- `RESEARCH_AGENT_DRY_RUN` default `false`
+- `RESEARCH_AGENT_AUTO_PUBLISH` default `false`
+- `RESEARCH_AGENT_SHARED_SECRET` sent as `Authorization: Bearer <secret>`
+
+Scheduled payload:
+
+```json
+{
+  "agentKey": "ecosystm_research_agent",
+  "kampId": "68da010a706dfc75b410fa37",
+  "personaId": "ecosystm_research_persona_v1",
+  "runType": "scheduled",
+  "maxThemes": 5,
+  "dryRun": false,
+  "autoPublish": false,
+  "traceId": "ecosystm_research_agent:2026-05-07T10:30:00.000Z:<uuid>",
+  "scheduledFor": "2026-05-07T10:30:00.000Z",
+  "idempotencyKey": "ecosystm_research_agent:2026-05-07T10:30:00.000Z"
+}
+```
+
+Current responsibility boundary:
+
+- Worker: scheduling, payload construction, backend invocation
+- Backend: research brief, source collection, LLM orchestration, scoring, dedupe, persistence, publish decisions
 
 ## Redirect Policy
 
@@ -159,11 +207,70 @@ The route derives the caller id from verified auth and includes it automatically
 
 The `channelId` is derived from the server-owned group id: `group_<groupId>`. This allows multiple separate groups with the same exact members, as long as each group has a different backend-owned `groupId`. Frontend should not invent `groupId`; it should use the `groupId` returned by the Go backend route `POST /chat/v1/groups`.
 
-Temporary operational fallback while infra completes `/chat/*` path RCA: FE may create the backend chat record through `POST /user/v1/chat/groups` instead. The returned `groupId` contract is the same.
-
 Current limitation: group creation currently validates each member's profile and `canMessage` flags independently. It does not enforce group-level authorization such as "same Kamp", "same org", or "caller can invite this exact set". Reconsider this later with a backend endpoint such as `POST /chat/v1/group/validate-members` if group membership needs stronger business rules.
 
 After deploy, run one live smoke test with real auth against Cloudflare + Go profile + Stream for this route. Unit tests cover the Worker behavior, but they do not prove the deployed route, auth proxy headers, backend profile response, and Stream REST call all work together.
+
+## Stream Chat Broadcast Channel ID
+
+`POST /chat/broadcast-channel-id`
+
+Request:
+
+```http
+Authorization: <access-token>
+idToken: <id-token>
+Content-Type: application/json
+```
+
+```json
+{
+  "broadcastId": "681112223333444455556666",
+  "memberIds": [
+    "68958d4340ec8662569c641f"
+  ],
+  "allowMemberPosting": false,
+  "allowReplies": true
+}
+```
+
+Response:
+
+```json
+{
+  "channelType": "broadcast",
+  "channelId": "broadcast_681112223333444455556666",
+  "cid": "broadcast:broadcast_681112223333444455556666",
+  "memberIds": [
+    "68958d4340ec8662569c641f",
+    "68da010a706dfc75b410fa37"
+  ],
+  "createdById": "68da010a706dfc75b410fa37",
+  "memberRoles": [
+    {
+      "userId": "68958d4340ec8662569c641f",
+      "channelRole": "channel_member"
+    },
+    {
+      "userId": "68da010a706dfc75b410fa37",
+      "channelRole": "channel_moderator"
+    }
+  ],
+  "broadcast": {
+    "allowMemberPosting": false,
+    "allowReplies": true,
+    "publisherIds": ["68da010a706dfc75b410fa37"]
+  }
+}
+```
+
+The route derives the caller id from verified auth and treats that caller as the broadcast creator. `broadcastId` must be backend-owned, `memberIds` must contain the other recipients only, and each member is validated through `GET ${USER_PROFILE_URL}/${memberId}` before Stream Chat users are upserted.
+
+Important permission note:
+
+- This helper returns canonical broadcast channel metadata and owner/member role hints.
+- Creator-only posting is enforced correctly only when the Stream app has a `broadcast` channel type (or equivalent value from `STREAM_BROADCAST_CHANNEL_TYPE`) whose permission policy allows `channel_moderator`/admin users to create messages while regular `channel_member` users cannot.
+- The helper itself does not mutate Stream permission policies. It prepares the canonical ids, validated member list, and role hints that FE/server-side channel creation should use.
 
 ## Stream Chat Sync Profile
 
@@ -236,13 +343,14 @@ Response:
 ```json
 {
   "callType": "default",
-  "callId": "dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
-  "callCid": "default:dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
+  "conversationId": "dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
+  "callId": "dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37_123e4567e89b12d3a456426614174000",
+  "callCid": "default:dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37_123e4567e89b12d3a456426614174000",
   "memberIds": ["68958d4340ec8662569c641f", "68da010a706dfc75b410fa37"]
 }
 ```
 
-The route derives the caller id from verified auth, validates `otherUserId`, validates both profiles through `GET ${USER_PROFILE_URL}/${memberId}`, upserts both users to Stream Video via `https://video.stream-io-api.com/api/v2/users`, and returns the deterministic 1:1 call contract.
+The route derives the caller id from verified auth, validates `otherUserId`, validates both profiles through `GET ${USER_PROFILE_URL}/${memberId}`, upserts both users to Stream Video via `https://video.stream-io-api.com/api/v2/users`, and returns a fresh call session contract for each attempt. `conversationId` stays stable for the same DM pair, while `callId` is unique per outgoing call attempt so repeated ringing does not reuse the same Stream Video call session.
 
 ## Stream Video Group Call ID
 
@@ -271,8 +379,9 @@ Response:
 ```json
 {
   "callType": "default",
-  "callId": "group_681112223333444455556666",
-  "callCid": "default:group_681112223333444455556666",
+  "conversationId": "group_681112223333444455556666",
+  "callId": "group_681112223333444455556666_123e4567e89b12d3a456426614174000",
+  "callCid": "default:group_681112223333444455556666_123e4567e89b12d3a456426614174000",
   "memberIds": [
     "67f30c04dcfb927c52fba1f4",
     "68958d4340ec8662569c641f",
@@ -281,9 +390,9 @@ Response:
 }
 ```
 
-The route uses the same group member validation rules as `/chat/group-channel-id`, then upserts the validated users to Stream Video. `groupId` must be backend-owned; FE should use the `groupId` returned by the Go backend route `POST /chat/v1/groups`.
+The route uses the same group member validation rules as `/chat/group-channel-id`, then upserts the validated users to Stream Video. `groupId` must be backend-owned; FE should use the `groupId` returned by the Go backend route `POST /chat/v1/groups`. `conversationId` stays stable for the same backend group, while `callId` is unique per outgoing call attempt.
 
-Temporary operational fallback while infra completes `/chat/*` path RCA: FE may create the backend chat record through `POST /user/v1/chat/groups` instead. The returned `groupId` contract is the same.
+Important: for ringing/incoming-call flows, FE should use the returned `callId` for the actual Stream Video call session and should not cache or reconstruct it from `conversationId`. Reusing the same `callId` across multiple call attempts can suppress or delay subsequent incoming-call behavior on Stream Video.
 
 Current limitation: call routes validate member profiles and `canMessage` flags independently. They do not yet enforce call-specific business rules, ringing eligibility, or membership in a backend-owned chat/group object. Reconsider this with a backend validation endpoint before opening calls beyond trusted user flows.
 

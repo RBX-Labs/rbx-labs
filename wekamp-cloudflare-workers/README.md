@@ -9,6 +9,7 @@ Cloudflare Workers for WeKamp routes hosted under the RBX Labs Cloudflare zone.
     - Share-link browser fallbacks, 
     - Stream Chat token minting/provisioning, and 
     - Stream Video call token/id helpers.
+    - Research-agent cron trigger for backend `POST /ampy/agent/research/tick`.
 
 ## Deploy
 

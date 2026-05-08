@@ -9,6 +9,11 @@ const MONGO_OBJECT_ID_PATTERN = /^[a-fA-F0-9]{24}$/;
 const GROUP_CHAT_MIN_MEMBERS = 3;
 const GROUP_CHAT_MAX_MEMBERS = 50;
 const DEFAULT_CALL_TYPE = "default";
+const BROADCAST_CHAT_MIN_MEMBERS = 2;
+const DEFAULT_BROADCAST_CHANNEL_TYPE = "broadcast";
+const DEFAULT_RESEARCH_AGENT_KEY = "ecosystm_research_agent";
+const DEFAULT_RESEARCH_PERSONA_ID = "ecosystm_research_persona_v1";
+const DEFAULT_RESEARCH_MAX_THEMES = 5;
 const AUTH_VERIFY_FORWARD_HEADERS = [
   "authorization",
   "idtoken",
@@ -21,6 +26,99 @@ const AUTH_VERIFY_FORWARD_HEADERS = [
   "device-screen",
   "deviceip",
 ];
+
+function parseBooleanEnv(value, fallback = false) {
+  if (typeof value !== "string") return fallback;
+  const normalized = value.trim().toLowerCase();
+  if (["1", "true", "yes", "on"].includes(normalized)) return true;
+  if (["0", "false", "no", "off"].includes(normalized)) return false;
+  return fallback;
+}
+
+function parsePositiveInteger(value, fallback) {
+  const parsed = Number.parseInt(value, 10);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function isoStringFromScheduledTime(scheduledTime) {
+  const date =
+    scheduledTime instanceof Date
+      ? scheduledTime
+      : new Date(typeof scheduledTime === "number" ? scheduledTime : Date.now());
+  return Number.isNaN(date.getTime()) ? new Date().toISOString() : date.toISOString();
+}
+
+function buildResearchIdempotencyKey(agentKey, scheduledForIso) {
+  return `${agentKey}:${scheduledForIso}`;
+}
+
+function generateTraceId(agentKey, scheduledForIso) {
+  const randomPart =
+    typeof crypto?.randomUUID === "function"
+      ? crypto.randomUUID()
+      : Math.random().toString(16).slice(2);
+  return `${agentKey}:${scheduledForIso}:${randomPart}`;
+}
+
+function buildResearchTickPayload(env, scheduledTime = Date.now()) {
+  const agentKey = (env.RESEARCH_AGENT_KEY || DEFAULT_RESEARCH_AGENT_KEY).trim();
+  const scheduledFor = isoStringFromScheduledTime(scheduledTime);
+  return {
+    agentKey,
+    kampId: (env.RESEARCH_AGENT_KAMP_ID || "").trim(),
+    personaId: (env.RESEARCH_AGENT_PERSONA_ID || DEFAULT_RESEARCH_PERSONA_ID).trim(),
+    runType: "scheduled",
+    maxThemes: parsePositiveInteger(env.RESEARCH_AGENT_MAX_THEMES, DEFAULT_RESEARCH_MAX_THEMES),
+    dryRun: parseBooleanEnv(env.RESEARCH_AGENT_DRY_RUN, false),
+    autoPublish: parseBooleanEnv(env.RESEARCH_AGENT_AUTO_PUBLISH, false),
+    traceId: generateTraceId(agentKey, scheduledFor),
+    scheduledFor,
+    idempotencyKey: buildResearchIdempotencyKey(agentKey, scheduledFor),
+  };
+}
+
+function missingResearchConfig(env) {
+  return !env.RESEARCH_AGENT_TICK_URL || !env.RESEARCH_AGENT_KAMP_ID;
+}
+
+async function triggerResearchAgent(env, scheduledTime = Date.now(), fetchImpl = fetch) {
+  if (missingResearchConfig(env)) {
+    return {
+      ok: false,
+      status: 500,
+      error: "Research scheduler not configured",
+    };
+  }
+
+  const payload = buildResearchTickPayload(env, scheduledTime);
+  const headers = {
+    "content-type": "application/json",
+  };
+
+  if (env.RESEARCH_AGENT_SHARED_SECRET) {
+    headers.authorization = `Bearer ${env.RESEARCH_AGENT_SHARED_SECRET}`;
+  }
+
+  const response = await fetchImpl(env.RESEARCH_AGENT_TICK_URL, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(payload),
+  });
+
+  let body = null;
+  try {
+    body = await response.clone().json();
+  } catch {
+    body = null;
+  }
+
+  return {
+    ok: response.ok,
+    status: response.status,
+    payload,
+    body,
+  };
+}
 
 function pickRedirect(userAgent) {
   const ua = (userAgent || "").toLowerCase();
@@ -402,6 +500,99 @@ async function groupChannelId(request, env) {
   }
 }
 
+async function broadcastChannelId(request, env) {
+  if (request.method === "OPTIONS") {
+    return withCors(new Response(null, { status: 204 }), env);
+  }
+
+  if (request.method !== "POST") {
+    return withCors(json({ error: "Method not allowed" }, 405), env);
+  }
+
+  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL || !env.USER_PROFILE_URL) {
+    return withCors(json({ error: "Service not configured" }, 500), env);
+  }
+
+  try {
+    const authenticatedUserId = normalizeUserId(await verifyAppAuth(request, env));
+    if (!authenticatedUserId) {
+      return withCors(json({ error: "Invalid auth token" }, 401), env);
+    }
+
+    const body = await readJson(request);
+    if (body instanceof Response) return withCors(body, env);
+
+    const broadcastId = normalizeUserId(body?.broadcastId);
+    if (!broadcastId) {
+      return withCors(json({ error: "Missing broadcastId" }, 400), env);
+    }
+
+    const requestedMemberIds = Array.isArray(body?.memberIds) ? body.memberIds : [];
+    const requestedNormalizedMemberIds = normalizedUniqueUserIds(requestedMemberIds);
+    if (requestedNormalizedMemberIds.includes(authenticatedUserId)) {
+      return withCors(json({ error: "Caller must not be included in memberIds" }, 400), env);
+    }
+    if (requestedNormalizedMemberIds.length !== requestedMemberIds.length) {
+      return withCors(json({ error: "Invalid memberIds" }, 400), env);
+    }
+
+    const memberIds = normalizedUniqueUserIds([authenticatedUserId, ...requestedNormalizedMemberIds]);
+    if (memberIds.length < BROADCAST_CHAT_MIN_MEMBERS) {
+      return withCors(json({ error: "At least one other memberId is required" }, 400), env);
+    }
+    if (memberIds.length > GROUP_CHAT_MAX_MEMBERS) {
+      return withCors(json({ error: "Too many memberIds" }, 400), env);
+    }
+
+    const users = [];
+    for (const memberId of memberIds) {
+      const profileLookup = await fetchBackendProfile(request, env, memberId);
+      if (profileLookup.status === 404) {
+        return withCors(json({ error: "Member user not found", userId: memberId }, 404), env);
+      }
+      if (profileLookup.status === 401 || profileLookup.status === 403) {
+        return withCors(json({ error: "Invalid auth token" }, 401), env);
+      }
+      if (!profileLookup.ok) {
+        return withCors(json({ error: "Member lookup failed", userId: memberId }, 502), env);
+      }
+      if (
+        profileLookup.profile.isBlocked ||
+        profileLookup.profile.isBlockedBy ||
+        profileLookup.profile.isDeactivated ||
+        (!profileLookup.profile.canMessage && memberId !== authenticatedUserId)
+      ) {
+        return withCors(json({ error: "Messaging member is not allowed", userId: memberId }, 403), env);
+      }
+
+      const user = streamUserFromBackendProfile(profileLookup.profile);
+      if (!user || user.id !== memberId) {
+        return withCors(json({ error: "Member lookup failed", userId: memberId }, 502), env);
+      }
+      users.push(user);
+    }
+
+    const streamRes = await upsertStreamUsers(users, env);
+    if (!streamRes.ok) {
+      return withCors(json({ error: "Stream user upsert failed" }, 502), env);
+    }
+
+    return withCors(
+      json(
+        deterministicBroadcastChannel(memberIds, broadcastId, {
+          channelType: env.STREAM_BROADCAST_CHANNEL_TYPE,
+          createdById: authenticatedUserId,
+          allowMemberPosting: body?.allowMemberPosting === true,
+          allowReplies: body?.allowReplies === true,
+        }),
+      ),
+      env,
+    );
+  } catch {
+    return withCors(json({ error: "Internal error" }, 500), env);
+  }
+}
+
 async function syncStreamProfile(request, env) {
   if (request.method === "OPTIONS") {
     return withCors(new Response(null, { status: 204 }), env);
@@ -587,9 +778,54 @@ function deterministicGroupCall(userIds, groupId) {
   return callContract(channel.channelId, channel.memberIds);
 }
 
-function callContract(callId, memberIds) {
+function deterministicBroadcastChannel(userIds, broadcastId, options = {}) {
+  const normalizedBroadcastId = normalizeUserId(broadcastId);
+  if (!normalizedBroadcastId) return null;
+
+  const memberIds = normalizedUniqueUserIds(userIds).sort();
+  if (memberIds.length < BROADCAST_CHAT_MIN_MEMBERS) return null;
+
+  const channelType =
+    typeof options.channelType === "string" && options.channelType.trim()
+      ? options.channelType.trim()
+      : DEFAULT_BROADCAST_CHANNEL_TYPE;
+  const channelId = `broadcast_${normalizedBroadcastId}`;
+  const createdById = normalizeUserId(options.createdById) || "";
+  const allowMemberPosting = options.allowMemberPosting === true;
+  const allowReplies = options.allowReplies === true;
+
+  return {
+    channelType,
+    channelId,
+    cid: `${channelType}:${channelId}`,
+    memberIds,
+    createdById,
+    memberRoles: memberIds.map((userId) => ({
+      userId,
+      channelRole:
+        allowMemberPosting || userId === createdById ? "channel_moderator" : "channel_member",
+    })),
+    broadcast: {
+      allowMemberPosting,
+      allowReplies,
+      publisherIds: allowMemberPosting ? memberIds : createdById ? [createdById] : [],
+    },
+  };
+}
+
+function buildCallId(conversationId) {
+  const randomPart =
+    typeof crypto?.randomUUID === "function"
+      ? crypto.randomUUID().replace(/-/g, "")
+      : Math.random().toString(16).slice(2);
+  return `${conversationId}_${randomPart}`;
+}
+
+function callContract(conversationId, memberIds) {
+  const callId = buildCallId(conversationId);
   return {
     callType: DEFAULT_CALL_TYPE,
+    conversationId,
     callId,
     callCid: `${DEFAULT_CALL_TYPE}:${callId}`,
     memberIds,
@@ -979,6 +1215,14 @@ function storeChoicePage() {
 }
 
 export default {
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(
+      triggerResearchAgent(env, event?.scheduledTime ?? Date.now()).catch((error) => {
+        console.error("research-agent scheduled trigger failed", error);
+      }),
+    );
+  },
+
   async fetch(request, env) {
     const url = new URL(request.url);
 
@@ -992,6 +1236,7 @@ export default {
           "/chat/ensure-user",
           "/chat/dm-channel-id",
           "/chat/group-channel-id",
+          "/chat/broadcast-channel-id",
           "/chat/sync-profile",
           "/call/token",
           "/call/dm-id",
@@ -1018,6 +1263,10 @@ export default {
 
     if (url.pathname === "/chat/group-channel-id") {
       return groupChannelId(request, env);
+    }
+
+    if (url.pathname === "/chat/broadcast-channel-id") {
+      return broadcastChannelId(request, env);
     }
 
     if (url.pathname === "/chat/sync-profile") {
@@ -1049,10 +1298,14 @@ export default {
 };
 
 export {
+  buildResearchIdempotencyKey,
+  buildResearchTickPayload,
   deterministicDmChannel,
   deterministicDmCall,
   deterministicGroupChannel,
   deterministicGroupCall,
+  deterministicBroadcastChannel,
+  broadcastChannelId,
   dmChannelId,
   ensureStreamUser,
   extractUserId,
@@ -1071,6 +1324,7 @@ export {
   streamUserFromBackendProfile,
   syncStreamProfile,
   streamToken,
+  triggerResearchAgent,
   upsertStreamUser,
   upsertStreamUsers,
   upsertStreamVideoUsers,

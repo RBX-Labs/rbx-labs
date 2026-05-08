@@ -2,6 +2,10 @@ import assert from "node:assert/strict";
 import { webcrypto } from "node:crypto";
 import { afterEach, describe, it } from "node:test";
 import worker, {
+  buildResearchIdempotencyKey,
+  buildResearchTickPayload,
+  broadcastChannelId,
+  deterministicBroadcastChannel,
   deterministicDmCall,
   deterministicDmChannel,
   deterministicGroupCall,
@@ -12,6 +16,7 @@ import worker, {
   signStreamServerToken,
   signStreamToken,
   streamUserFromBackendProfile,
+  triggerResearchAgent,
 } from "../src/index.js";
 
 if (!globalThis.crypto) {
@@ -26,6 +31,10 @@ const env = {
   AUTH_VERIFY_URL: "https://api.kampd.com/user/v1/profile",
   USER_PROFILE_URL: "https://api.kampd.com/user/v1/profile",
   CHAT_CORS_ORIGIN: "https://rbx-labs.io",
+  RESEARCH_AGENT_TICK_URL: "https://api.kampd.com/ampy/agent/research/tick",
+  RESEARCH_AGENT_KAMP_ID: "68da010a706dfc75b410fa37",
+  RESEARCH_AGENT_PERSONA_ID: "ecosystm_research_persona_v1",
+  RESEARCH_AGENT_SHARED_SECRET: "worker-secret",
 };
 
 const callerId = "68da010a706dfc75b410fa37";
@@ -195,23 +204,169 @@ describe("deterministic group channel ids", () => {
   });
 });
 
-describe("deterministic call ids", () => {
-  it("uses the DM member pair for stable 1:1 call ids", () => {
-    assert.deepEqual(deterministicDmCall(callerId, targetId), {
-      callType: "default",
-      callId: "dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
-      callCid: "default:dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
+describe("deterministic broadcast channel ids", () => {
+  it("uses a server-owned broadcast id and returns creator/member role hints", () => {
+    const result = deterministicBroadcastChannel([callerId, targetId], groupId, {
+      createdById: callerId,
+      allowMemberPosting: false,
+      allowReplies: true,
+    });
+
+    assert.deepEqual(result, {
+      channelType: "broadcast",
+      channelId: "broadcast_681112223333444455556666",
+      cid: "broadcast:broadcast_681112223333444455556666",
       memberIds: [targetId, callerId],
+      createdById: callerId,
+      memberRoles: [
+        { userId: targetId, channelRole: "channel_member" },
+        { userId: callerId, channelRole: "channel_moderator" },
+      ],
+      broadcast: {
+        allowMemberPosting: false,
+        allowReplies: true,
+        publisherIds: [callerId],
+      },
     });
   });
 
+  it("rejects missing ids or broadcasts with fewer than two unique valid members", () => {
+    assert.equal(deterministicBroadcastChannel([callerId], "", {}), null);
+    assert.equal(deterministicBroadcastChannel([callerId], groupId, {}), null);
+    assert.equal(deterministicBroadcastChannel(["not-a-mongo-id", callerId], groupId, {}), null);
+  });
+});
+
+describe("deterministic call ids", () => {
+  it("uses the DM member pair for stable 1:1 call ids", () => {
+    const originalRandomUUID = globalThis.crypto.randomUUID;
+    globalThis.crypto.randomUUID = () => "123e4567-e89b-12d3-a456-426614174000";
+    try {
+      assert.deepEqual(deterministicDmCall(callerId, targetId), {
+        callType: "default",
+        conversationId: "dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
+        callId: "dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37_123e4567e89b12d3a456426614174000",
+        callCid:
+          "default:dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37_123e4567e89b12d3a456426614174000",
+        memberIds: [targetId, callerId],
+      });
+    } finally {
+      globalThis.crypto.randomUUID = originalRandomUUID;
+    }
+  });
+
   it("uses the server-owned group id for group call ids", () => {
-    assert.deepEqual(deterministicGroupCall([callerId, targetId, groupMemberId], groupId), {
-      callType: "default",
-      callId: "group_681112223333444455556666",
-      callCid: "default:group_681112223333444455556666",
-      memberIds: [groupMemberId, targetId, callerId],
-    });
+    const originalRandomUUID = globalThis.crypto.randomUUID;
+    globalThis.crypto.randomUUID = () => "123e4567-e89b-12d3-a456-426614174000";
+    try {
+      assert.deepEqual(deterministicGroupCall([callerId, targetId, groupMemberId], groupId), {
+        callType: "default",
+        conversationId: "group_681112223333444455556666",
+        callId: "group_681112223333444455556666_123e4567e89b12d3a456426614174000",
+        callCid: "default:group_681112223333444455556666_123e4567e89b12d3a456426614174000",
+        memberIds: [groupMemberId, targetId, callerId],
+      });
+    } finally {
+      globalThis.crypto.randomUUID = originalRandomUUID;
+    }
+  });
+});
+
+describe("research agent scheduler", () => {
+  it("builds a stable scheduled payload", () => {
+    const scheduledTime = Date.UTC(2026, 4, 7, 10, 0, 0);
+    const payload = buildResearchTickPayload(
+      {
+        ...env,
+        RESEARCH_AGENT_KEY: "ecosystm_research_agent",
+        RESEARCH_AGENT_MAX_THEMES: "7",
+        RESEARCH_AGENT_DRY_RUN: "true",
+        RESEARCH_AGENT_AUTO_PUBLISH: "false",
+      },
+      scheduledTime,
+    );
+
+    assert.equal(payload.agentKey, "ecosystm_research_agent");
+    assert.equal(payload.kampId, callerId);
+    assert.equal(payload.personaId, "ecosystm_research_persona_v1");
+    assert.equal(payload.runType, "scheduled");
+    assert.equal(payload.maxThemes, 7);
+    assert.equal(payload.dryRun, true);
+    assert.equal(payload.autoPublish, false);
+    assert.equal(payload.scheduledFor, "2026-05-07T10:00:00.000Z");
+    assert.equal(
+      payload.idempotencyKey,
+      buildResearchIdempotencyKey("ecosystm_research_agent", "2026-05-07T10:00:00.000Z"),
+    );
+    assert.match(payload.traceId, /^ecosystm_research_agent:2026-05-07T10:00:00\.000Z:/);
+  });
+
+  it("fails closed when research scheduler config is missing", async () => {
+    const result = await triggerResearchAgent({}, Date.UTC(2026, 4, 7, 10, 0, 0));
+
+    assert.equal(result.ok, false);
+    assert.equal(result.status, 500);
+    assert.equal(result.error, "Research scheduler not configured");
+  });
+
+  it("posts the bounded research tick contract to the backend", async () => {
+    let requestUrl = "";
+    let requestInit = null;
+    globalThis.fetch = async (url, init) => {
+      requestUrl = url;
+      requestInit = init;
+      return Response.json({ status: "accepted", runId: "run-123" }, { status: 202 });
+    };
+
+    const result = await triggerResearchAgent(
+      {
+        ...env,
+        RESEARCH_AGENT_MAX_THEMES: "5",
+        RESEARCH_AGENT_DRY_RUN: "false",
+        RESEARCH_AGENT_AUTO_PUBLISH: "true",
+      },
+      Date.UTC(2026, 4, 7, 10, 30, 0),
+      globalThis.fetch,
+    );
+
+    assert.equal(requestUrl, env.RESEARCH_AGENT_TICK_URL);
+    assert.equal(requestInit.method, "POST");
+    assert.equal(requestInit.headers.authorization, "Bearer worker-secret");
+    assert.equal(requestInit.headers["content-type"], "application/json");
+
+    const body = JSON.parse(requestInit.body);
+    assert.equal(body.kampId, callerId);
+    assert.equal(body.personaId, "ecosystm_research_persona_v1");
+    assert.equal(body.maxThemes, 5);
+    assert.equal(body.autoPublish, true);
+    assert.equal(body.scheduledFor, "2026-05-07T10:30:00.000Z");
+
+    assert.equal(result.ok, true);
+    assert.equal(result.status, 202);
+    assert.deepEqual(result.body, { status: "accepted", runId: "run-123" });
+  });
+
+  it("registers the scheduled trigger through waitUntil", async () => {
+    let awaited = false;
+    let requestSeen = false;
+    globalThis.fetch = async () => {
+      requestSeen = true;
+      return Response.json({ status: "accepted" }, { status: 202 });
+    };
+
+    await worker.scheduled(
+      { scheduledTime: Date.UTC(2026, 4, 7, 11, 0, 0) },
+      env,
+      {
+        waitUntil(promise) {
+          awaited = true;
+          return promise;
+        },
+      },
+    );
+
+    assert.equal(awaited, true);
+    assert.equal(requestSeen, true);
   });
 });
 
@@ -378,61 +533,69 @@ describe("POST /chat/dm-channel-id", () => {
 
 describe("POST /call/dm-id", () => {
   it("authenticates, validates both members, upserts Stream Video users, and returns a call contract", async () => {
+    const originalRandomUUID = globalThis.crypto.randomUUID;
+    globalThis.crypto.randomUUID = () => "123e4567-e89b-12d3-a456-426614174000";
     const calls = [];
-    globalThis.fetch = async (url, init) => {
-      calls.push({ url, init });
-      if (url === env.AUTH_VERIFY_URL) {
-        return Response.json({ payload: { user: { id: callerId } } });
-      }
-      if (url === `${env.USER_PROFILE_URL}/${callerId}`) {
-        return profileResponse(callerId, "Caller Name", "https://static.kampd.com/user/caller.png");
-      }
-      if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
-        return profileResponse(targetId, "Target User", "https://static.kampd.com/user/target.png");
-      }
-      return Response.json({ users: {} });
-    };
+    try {
+      globalThis.fetch = async (url, init) => {
+        calls.push({ url, init });
+        if (url === env.AUTH_VERIFY_URL) {
+          return Response.json({ payload: { user: { id: callerId } } });
+        }
+        if (url === `${env.USER_PROFILE_URL}/${callerId}`) {
+          return profileResponse(callerId, "Caller Name", "https://static.kampd.com/user/caller.png");
+        }
+        if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
+          return profileResponse(targetId, "Target User", "https://static.kampd.com/user/target.png");
+        }
+        return Response.json({ users: {} });
+      };
 
-    const response = await worker.fetch(
-      new Request("https://rbx-labs.io/call/dm-id", {
-        method: "POST",
-        headers: {
-          authorization: "Bearer app-token",
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({ otherUserId: targetId }),
-      }),
-      env,
-    );
+      const response = await worker.fetch(
+        new Request("https://rbx-labs.io/call/dm-id", {
+          method: "POST",
+          headers: {
+            authorization: "Bearer app-token",
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ otherUserId: targetId }),
+        }),
+        env,
+      );
 
-    assert.equal(response.status, 200);
-    assert.deepEqual(await response.json(), {
-      callType: "default",
-      callId: "dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
-      callCid: "default:dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
-      memberIds: [targetId, callerId],
-    });
-    assert.equal(calls[0].url, env.AUTH_VERIFY_URL);
-    assert.equal(calls[1].url, `${env.USER_PROFILE_URL}/${targetId}`);
-    assert.equal(calls[2].url, `${env.USER_PROFILE_URL}/${callerId}`);
-    assert.equal(
-      calls[3].url,
-      `https://video.stream-io-api.com/api/v2/users?api_key=${env.STREAM_API_KEY}`,
-    );
-    assert.deepEqual(JSON.parse(calls[3].init.body), {
-      users: {
-        [targetId]: {
-          id: targetId,
-          name: "Target User",
-          image: "https://static.kampd.com/user/target.png",
+      assert.equal(response.status, 200);
+      assert.deepEqual(await response.json(), {
+        callType: "default",
+        conversationId: "dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
+        callId: "dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37_123e4567e89b12d3a456426614174000",
+        callCid:
+          "default:dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37_123e4567e89b12d3a456426614174000",
+        memberIds: [targetId, callerId],
+      });
+      assert.equal(calls[0].url, env.AUTH_VERIFY_URL);
+      assert.equal(calls[1].url, `${env.USER_PROFILE_URL}/${targetId}`);
+      assert.equal(calls[2].url, `${env.USER_PROFILE_URL}/${callerId}`);
+      assert.equal(
+        calls[3].url,
+        `https://video.stream-io-api.com/api/v2/users?api_key=${env.STREAM_API_KEY}`,
+      );
+      assert.deepEqual(JSON.parse(calls[3].init.body), {
+        users: {
+          [targetId]: {
+            id: targetId,
+            name: "Target User",
+            image: "https://static.kampd.com/user/target.png",
+          },
+          [callerId]: {
+            id: callerId,
+            name: "Caller Name",
+            image: "https://static.kampd.com/user/caller.png",
+          },
         },
-        [callerId]: {
-          id: callerId,
-          name: "Caller Name",
-          image: "https://static.kampd.com/user/caller.png",
-        },
-      },
-    });
+      });
+    } finally {
+      globalThis.crypto.randomUUID = originalRandomUUID;
+    }
   });
 
   it("rejects malformed JSON", async () => {
@@ -720,8 +883,8 @@ describe("POST /chat/group-channel-id", () => {
   });
 });
 
-describe("POST /call/group-id", () => {
-  it("authenticates, validates group members, upserts Stream Video users, and returns a call contract", async () => {
+describe("POST /chat/broadcast-channel-id", () => {
+  it("authenticates, validates members, upserts users, and returns canonical broadcast metadata", async () => {
     const calls = [];
     globalThis.fetch = async (url, init) => {
       calls.push({ url, init });
@@ -732,41 +895,130 @@ describe("POST /call/group-id", () => {
         return profileResponse(callerId, "Caller Name", "https://static.kampd.com/user/caller.png");
       }
       if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
-        return profileResponse(targetId, "Target User", "");
-      }
-      if (url === `${env.USER_PROFILE_URL}/${groupMemberId}`) {
-        return profileResponse(groupMemberId, "Group Member", "");
+        return profileResponse(targetId, "Target User", "https://static.kampd.com/user/target.png");
       }
       return Response.json({ users: {} });
     };
 
     const response = await worker.fetch(
-      new Request("https://rbx-labs.io/call/group-id", {
+      new Request("https://rbx-labs.io/chat/broadcast-channel-id", {
         method: "POST",
         headers: {
           authorization: "Bearer app-token",
+          idtoken: "id-token",
           "content-type": "application/json",
         },
-        body: JSON.stringify({ groupId, memberIds: [targetId, groupMemberId] }),
+        body: JSON.stringify({
+          broadcastId: groupId,
+          memberIds: [targetId],
+          allowMemberPosting: false,
+          allowReplies: true,
+        }),
       }),
       env,
     );
 
     assert.equal(response.status, 200);
     assert.deepEqual(await response.json(), {
-      callType: "default",
-      callId: "group_681112223333444455556666",
-      callCid: "default:group_681112223333444455556666",
-      memberIds: [groupMemberId, targetId, callerId],
+      channelType: "broadcast",
+      channelId: "broadcast_681112223333444455556666",
+      cid: "broadcast:broadcast_681112223333444455556666",
+      memberIds: [targetId, callerId],
+      createdById: callerId,
+      memberRoles: [
+        { userId: targetId, channelRole: "channel_member" },
+        { userId: callerId, channelRole: "channel_moderator" },
+      ],
+      broadcast: {
+        allowMemberPosting: false,
+        allowReplies: true,
+        publisherIds: [callerId],
+      },
     });
+    assert.equal(calls.length, 4);
     assert.equal(calls[0].url, env.AUTH_VERIFY_URL);
     assert.equal(calls[1].url, `${env.USER_PROFILE_URL}/${callerId}`);
     assert.equal(calls[2].url, `${env.USER_PROFILE_URL}/${targetId}`);
-    assert.equal(calls[3].url, `${env.USER_PROFILE_URL}/${groupMemberId}`);
     assert.equal(
-      calls[4].url,
-      `https://video.stream-io-api.com/api/v2/users?api_key=${env.STREAM_API_KEY}`,
+      calls[3].url,
+      `https://chat.stream-io-api.com/users?api_key=${env.STREAM_API_KEY}`,
     );
+  });
+
+  it("requires at least one other member id", async () => {
+    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
+
+    const response = await worker.fetch(
+      new Request("https://rbx-labs.io/chat/broadcast-channel-id", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer app-token",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ broadcastId: groupId, memberIds: [] }),
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 400);
+    assert.deepEqual(await response.json(), { error: "At least one other memberId is required" });
+  });
+});
+
+describe("POST /call/group-id", () => {
+  it("authenticates, validates group members, upserts Stream Video users, and returns a call contract", async () => {
+    const originalRandomUUID = globalThis.crypto.randomUUID;
+    globalThis.crypto.randomUUID = () => "123e4567-e89b-12d3-a456-426614174000";
+    const calls = [];
+    try {
+      globalThis.fetch = async (url, init) => {
+        calls.push({ url, init });
+        if (url === env.AUTH_VERIFY_URL) {
+          return Response.json({ payload: { user: { id: callerId } } });
+        }
+        if (url === `${env.USER_PROFILE_URL}/${callerId}`) {
+          return profileResponse(callerId, "Caller Name", "https://static.kampd.com/user/caller.png");
+        }
+        if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
+          return profileResponse(targetId, "Target User", "");
+        }
+        if (url === `${env.USER_PROFILE_URL}/${groupMemberId}`) {
+          return profileResponse(groupMemberId, "Group Member", "");
+        }
+        return Response.json({ users: {} });
+      };
+
+      const response = await worker.fetch(
+        new Request("https://rbx-labs.io/call/group-id", {
+          method: "POST",
+          headers: {
+            authorization: "Bearer app-token",
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ groupId, memberIds: [targetId, groupMemberId] }),
+        }),
+        env,
+      );
+
+      assert.equal(response.status, 200);
+      assert.deepEqual(await response.json(), {
+        callType: "default",
+        conversationId: "group_681112223333444455556666",
+        callId: "group_681112223333444455556666_123e4567e89b12d3a456426614174000",
+        callCid: "default:group_681112223333444455556666_123e4567e89b12d3a456426614174000",
+        memberIds: [groupMemberId, targetId, callerId],
+      });
+      assert.equal(calls[0].url, env.AUTH_VERIFY_URL);
+      assert.equal(calls[1].url, `${env.USER_PROFILE_URL}/${callerId}`);
+      assert.equal(calls[2].url, `${env.USER_PROFILE_URL}/${targetId}`);
+      assert.equal(calls[3].url, `${env.USER_PROFILE_URL}/${groupMemberId}`);
+      assert.equal(
+        calls[4].url,
+        `https://video.stream-io-api.com/api/v2/users?api_key=${env.STREAM_API_KEY}`,
+      );
+    } finally {
+      globalThis.crypto.randomUUID = originalRandomUUID;
+    }
   });
 
   it("returns a specific error when memberIds includes the caller", async () => {

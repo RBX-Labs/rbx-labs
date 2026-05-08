@@ -9,7 +9,6 @@ routes = [
   { pattern = "rbx-labs.io/chat/ensure-user", zone_name = "rbx-labs.io" },
   { pattern = "rbx-labs.io/chat/dm-channel-id", zone_name = "rbx-labs.io" },
   { pattern = "rbx-labs.io/chat/group-channel-id", zone_name = "rbx-labs.io" },
-  { pattern = "rbx-labs.io/chat/broadcast-channel-id", zone_name = "rbx-labs.io" },
   { pattern = "rbx-labs.io/chat/sync-profile", zone_name = "rbx-labs.io" },
   { pattern = "rbx-labs.io/call/token", zone_name = "rbx-labs.io" },
   { pattern = "rbx-labs.io/call/dm-id", zone_name = "rbx-labs.io" },
@@ -30,7 +29,7 @@ STREAM_API_KEY = "sfa696yj7vrk"
 USER_PROFILE_URL = "https://api.kampd.com/user/v1/profile"
 RESEARCH_AGENT_TICK_URL = "https://api.kampd.com/ampy/agent/research/tick"
 RESEARCH_AGENT_KAMP_ID = "69fcd01874e71bd714459277"
-RESEARCH_AGENT_PERSONA_ID = "ecosystm_research_persona_v1"
+RESEARCH_AGENT_PERSONA_ID = ecosystm_research_persona_v1
 RESEARCH_AGENT_MAX_THEMES = 5
-RESEARCH_AGENT_DRY_RUN = false
-RESEARCH_AGENT_AUTO_PUBLISH = true
+RESEARCH_AGENT_DRY_RUN = true
+RESEARCH_AGENT_AUTO_PUBLISH = false
