@@ -2,11 +2,11 @@
 
 ## Objective
 Add a thin Cloudflare Worker scheduler that triggers the backend-owned
-`Ecosystm Research Agent` every 30 minutes without moving research logic,
+`Ecosystm Research Agent` every 12 hours without moving research logic,
 memory, or LLM calls into the Worker.
 
 ## Scope
-- Cron trigger every 30 minutes.
+- Cron trigger every 12 hours.
 - Build the bounded research tick payload.
 - Call backend `POST /ampy/agent/research/tick`.
 - Pass audit metadata:
@@ -28,7 +28,7 @@ memory, or LLM calls into the Worker.
 - Worker-owned memory or audit persistence.
 
 ## Runtime Contract
-- Cron: `*/30 * * * *`
+- Cron: `0 */12 * * *`
 - Required env:
   - `RESEARCH_AGENT_TICK_URL`
   - `RESEARCH_AGENT_KAMP_ID`

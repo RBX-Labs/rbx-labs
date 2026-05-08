@@ -28,6 +28,8 @@ const AUTH_VERIFY_FORWARD_HEADERS = [
 ];
 
 function parseBooleanEnv(value, fallback = false) {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "number") return value !== 0;
   if (typeof value !== "string") return fallback;
   const normalized = value.trim().toLowerCase();
   if (["1", "true", "yes", "on"].includes(normalized)) return true;

@@ -21,7 +21,7 @@ routes = [
 ]
 
 [triggers]
-crons = ["*/30 * * * *"]
+crons = ["0 */12 * * *"]
 
 [vars]
 AUTH_VERIFY_URL = "https://api.kampd.com/user/v1/profile"

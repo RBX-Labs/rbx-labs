@@ -23,7 +23,7 @@ It also includes a thin scheduled trigger for the backend-owned `Ecosystm Resear
 
 ## Scheduled Research Trigger
 
-- Cron: `*/30 * * * *`
+- Cron: `0 */12 * * *`
 - Handler: Worker `scheduled()` event
 - Target backend endpoint: `POST /ampy/agent/research/tick`
 
