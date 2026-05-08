@@ -3,15 +3,27 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 RELEVANT_PATTERN='(^|/).+\.(html|css|js|png|jpg|jpeg|webp|svg|gif|avif)$'
+SKIP_PATTERN='^wekamp-cloudflare-workers(/|$)'
 
 changed_files="$(git diff --cached --name-only; git diff --name-only)"
+candidate_files="$changed_files"
 
 if command -v rg >/dev/null 2>&1; then
-  if ! print -r -- "$changed_files" | rg -q "$RELEVANT_PATTERN"; then
+  candidate_files="$(print -r -- "$changed_files" | rg -v "$SKIP_PATTERN" || true)"
+else
+  candidate_files="$(print -r -- "$changed_files" | grep -Ev "$SKIP_PATTERN" || true)"
+fi
+
+if [ -z "${candidate_files//$'\n'/}" ]; then
+  exit 0
+fi
+
+if command -v rg >/dev/null 2>&1; then
+  if ! print -r -- "$candidate_files" | rg -q "$RELEVANT_PATTERN"; then
     exit 0
   fi
 else
-  if ! print -r -- "$changed_files" | grep -Eq "$RELEVANT_PATTERN"; then
+  if ! print -r -- "$candidate_files" | grep -Eq "$RELEVANT_PATTERN"; then
     exit 0
   fi
 fi

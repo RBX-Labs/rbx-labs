@@ -8,6 +8,9 @@ This repo also includes an executable render script and pre-commit hook:
 - wrapper: `visual-renderer-agent/scripts/render-and-eval.sh`
 - hook: `.githooks/pre-commit`
 
+The hook skips pure changes under:
+- `wekamp-cloudflare-workers/**`
+
 For a stronger browser-backed validation layer, use an MCP-backed browser tool next:
 - `Playwright MCP` for browser validation
 - `Chrome DevTools MCP` for page inspection

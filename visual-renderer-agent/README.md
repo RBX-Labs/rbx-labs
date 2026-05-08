@@ -89,6 +89,10 @@ The git hook at `.githooks/pre-commit` triggers this flow automatically when rel
 - `.js`
 - common image asset formats
 
+The hook intentionally ignores changes that are only inside:
+
+- `wekamp-cloudflare-workers/**`
+
 The hook runs:
 
 ```sh
