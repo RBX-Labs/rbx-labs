@@ -44,6 +44,10 @@ Optional env:
 - `RESEARCH_AGENT_AUTO_PUBLISH` default `false`
 - `RESEARCH_AGENT_SHARED_SECRET` sent as `Authorization: Bearer <secret>`
 
+Current repo-configured runtime values in `wrangler.toml`:
+- `RESEARCH_AGENT_DRY_RUN = false`
+- `RESEARCH_AGENT_AUTO_PUBLISH = true`
+
 Scheduled payload:
 
 ```json
@@ -54,7 +58,7 @@ Scheduled payload:
   "runType": "scheduled",
   "maxThemes": 5,
   "dryRun": false,
-  "autoPublish": false,
+  "autoPublish": true,
   "traceId": "ecosystm_research_agent:2026-05-07T10:30:00.000Z:<uuid>",
   "scheduledFor": "2026-05-07T10:30:00.000Z",
   "idempotencyKey": "ecosystm_research_agent:2026-05-07T10:30:00.000Z"
