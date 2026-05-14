@@ -12,9 +12,9 @@ It also includes a thin scheduled trigger for the backend-owned `Ecosystm Resear
 - `GET /k/:token` -> platform redirect or store choice page
 - `POST /chat/token` -> validates the app auth token and returns a Stream Chat user token
 - `POST /chat/ensure-user` -> validates the app auth token and upserts a Stream Chat user
-- `POST /chat/dm-channel-id` -> returns the canonical deterministic 1:1 DM channel id
-- `POST /chat/group-channel-id` -> validates group members, upserts Stream users, and returns the canonical group channel id
-- `POST /chat/broadcast-channel-id` -> validates broadcast members, upserts Stream users, and returns canonical broadcast channel metadata plus owner/member role hints
+- `POST /chat/dm-channel-id` -> validates both members, upserts Stream users, materializes the canonical 1:1 DM channel, and returns the channel contract
+- `POST /chat/group-channel-id` -> validates group members, upserts Stream users, materializes the canonical group channel, and returns the channel contract
+- `POST /chat/broadcast-channel-id` -> validates broadcast members, upserts Stream users, materializes the canonical broadcast channel, and returns canonical broadcast channel metadata plus owner/member role hints
 - `POST /chat/sync-profile` -> syncs the authenticated user's Stream profile fields
 - `POST /call/token` -> validates the app auth token and returns a Stream Video user token
 - `POST /call/dm-id` -> validates call members, upserts Stream Video users, and returns a fresh 1:1 call session id plus a stable conversation id
@@ -168,7 +168,7 @@ Response:
 }
 ```
 
-The route derives the caller id from verified auth, accepts only the other user id, validates both as Mongo ObjectIds (`/^[a-fA-F0-9]{24}$/`), lowercases them, sorts the two ids, and returns `dm_<lowerId>_<higherId>`. Frontend should use this `channelId` when opening 1:1 DMs to prevent duplicate channels for the same pair.
+The route derives the caller id from verified auth, accepts only the other user id, validates both as Mongo ObjectIds (`/^[a-fA-F0-9]{24}$/`), lowercases them, sorts the two ids, upserts both Stream Chat users with backend-owned profile fields, and materializes `messaging:dm_<lowerId>_<higherId>` in Stream with both members before returning the channel contract. Frontend should use this `channelId` when opening 1:1 DMs to prevent duplicate channels for the same pair.
 
 ## Stream Chat Group Channel ID
 
@@ -207,7 +207,7 @@ Response:
 }
 ```
 
-The route derives the caller id from verified auth and includes it automatically. `memberIds` must contain the other users only; including the caller returns `400 {"error":"Caller must not be included in memberIds"}`. `groupId` and all `memberIds` must be Mongo ObjectIds. The route requires at least 3 total members, caps groups at 50 total members, validates each member through `GET ${USER_PROFILE_URL}/${memberId}`, and upserts all valid Stream users with backend-owned profile fields before returning the channel contract.
+The route derives the caller id from verified auth and includes it automatically. `memberIds` must contain the other users only; including the caller returns `400 {"error":"Caller must not be included in memberIds"}`. `groupId` and all `memberIds` must be Mongo ObjectIds. The route requires at least 3 total members, caps groups at 50 total members, validates each member through `GET ${USER_PROFILE_URL}/${memberId}`, upserts all valid Stream users with backend-owned profile fields, and materializes `messaging:group_<groupId>` in Stream with the full validated member set before returning the channel contract.
 
 The `channelId` is derived from the server-owned group id: `group_<groupId>`. This allows multiple separate groups with the same exact members, as long as each group has a different backend-owned `groupId`. Frontend should not invent `groupId`; it should use the `groupId` returned by the Go backend route `POST /chat/v1/groups`.
 
@@ -268,13 +268,13 @@ Response:
 }
 ```
 
-The route derives the caller id from verified auth and treats that caller as the broadcast creator. `broadcastId` must be backend-owned, `memberIds` must contain the other recipients only, and each member is validated through `GET ${USER_PROFILE_URL}/${memberId}` before Stream Chat users are upserted.
+The route derives the caller id from verified auth and treats that caller as the broadcast creator. `broadcastId` must be backend-owned, `memberIds` must contain the other recipients only, and each member is validated through `GET ${USER_PROFILE_URL}/${memberId}` before Stream Chat users are upserted. The Worker then materializes `broadcast:broadcast_<broadcastId>` (or the configured `STREAM_BROADCAST_CHANNEL_TYPE`) in Stream with the validated members and channel roles returned in the response.
 
 Important permission note:
 
-- This helper returns canonical broadcast channel metadata and owner/member role hints.
+- This helper now returns canonical broadcast channel metadata and also materializes the Stream channel with the validated members and role hints.
 - Creator-only posting is enforced correctly only when the Stream app has a `broadcast` channel type (or equivalent value from `STREAM_BROADCAST_CHANNEL_TYPE`) whose permission policy allows `channel_moderator`/admin users to create messages while regular `channel_member` users cannot.
-- The helper itself does not mutate Stream permission policies. It prepares the canonical ids, validated member list, and role hints that FE/server-side channel creation should use.
+- The helper itself does not mutate Stream permission policies. It prepares the canonical ids, validates the member list, and writes the member roles into the created channel state.
 
 ## Stream Chat Sync Profile
 
@@ -480,12 +480,13 @@ Then in Cloudflare Worker settings:
 3. Add custom domain route `rbx-labs.io/chat/ensure-user`
 4. Add custom domain route `rbx-labs.io/chat/dm-channel-id`
 5. Add custom domain route `rbx-labs.io/chat/group-channel-id`
-6. Add custom domain route `rbx-labs.io/chat/sync-profile`
-7. Add custom domain route `rbx-labs.io/call/token`
-8. Add custom domain route `rbx-labs.io/call/dm-id`
-9. Add custom domain route `rbx-labs.io/call/group-id`
-10. Add custom domain routes `rbx-labs.io/u/*`, `rbx-labs.io/c/*`, and `rbx-labs.io/k/*`
-11. Add custom domain route `rbx-labs.io/healthz`
+6. Add custom domain route `rbx-labs.io/chat/broadcast-channel-id`
+7. Add custom domain route `rbx-labs.io/chat/sync-profile`
+8. Add custom domain route `rbx-labs.io/call/token`
+9. Add custom domain route `rbx-labs.io/call/dm-id`
+10. Add custom domain route `rbx-labs.io/call/group-id`
+11. Add custom domain routes `rbx-labs.io/u/*`, `rbx-labs.io/c/*`, and `rbx-labs.io/k/*`
+12. Add custom domain route `rbx-labs.io/healthz`
 
 ## Smoke Checks
 

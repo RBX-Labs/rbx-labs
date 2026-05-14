@@ -468,8 +468,21 @@ describe("POST /call/token", () => {
 });
 
 describe("POST /chat/dm-channel-id", () => {
-  it("authenticates and returns a deterministic channel id", async () => {
-    globalThis.fetch = async () => Response.json({ payload: { user: { id: callerId } } });
+  it("authenticates, upserts chat users, materializes the channel, and returns a deterministic channel id", async () => {
+    const calls = [];
+    globalThis.fetch = async (url, init) => {
+      calls.push({ url, init });
+      if (url === env.AUTH_VERIFY_URL) {
+        return Response.json({ payload: { user: { id: callerId } } });
+      }
+      if (url === `${env.USER_PROFILE_URL}/${callerId}`) {
+        return profileResponse(callerId, "Caller Name", "https://static.kampd.com/user/caller.png");
+      }
+      if (url === `${env.USER_PROFILE_URL}/${targetId}`) {
+        return profileResponse(targetId, "Target User", "https://static.kampd.com/user/target.png");
+      }
+      return Response.json({});
+    };
 
     const response = await worker.fetch(
       new Request("https://rbx-labs.io/chat/dm-channel-id", {
@@ -489,6 +502,41 @@ describe("POST /chat/dm-channel-id", () => {
       channelId: "dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
       cid: "messaging:dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37",
       memberIds: ["68958d4340ec8662569c641f", "68da010a706dfc75b410fa37"],
+    });
+    assert.equal(calls.length, 5);
+    assert.equal(calls[0].url, env.AUTH_VERIFY_URL);
+    assert.equal(calls[1].url, `${env.USER_PROFILE_URL}/${targetId}`);
+    assert.equal(calls[2].url, `${env.USER_PROFILE_URL}/${callerId}`);
+    assert.equal(
+      calls[3].url,
+      `https://chat.stream-io-api.com/users?api_key=${env.STREAM_API_KEY}`,
+    );
+    assert.deepEqual(JSON.parse(calls[3].init.body), {
+      users: {
+        [targetId]: {
+          id: targetId,
+          name: "Target User",
+          image: "https://static.kampd.com/user/target.png",
+        },
+        [callerId]: {
+          id: callerId,
+          name: "Caller Name",
+          image: "https://static.kampd.com/user/caller.png",
+        },
+      },
+    });
+    assert.equal(
+      calls[4].url,
+      `https://chat.stream-io-api.com/channels/messaging/dm_68958d4340ec8662569c641f_68da010a706dfc75b410fa37?api_key=${env.STREAM_API_KEY}`,
+    );
+    assert.deepEqual(JSON.parse(calls[4].init.body), {
+      data: {
+        created_by_id: callerId,
+        members: [
+          { user_id: targetId },
+          { user_id: callerId },
+        ],
+      },
     });
   });
 
@@ -658,7 +706,7 @@ describe("POST /chat/group-channel-id", () => {
       cid: "messaging:group_681112223333444455556666",
       memberIds: [groupMemberId, targetId, callerId],
     });
-    assert.equal(calls.length, 5);
+    assert.equal(calls.length, 6);
     assert.equal(calls[0].url, env.AUTH_VERIFY_URL);
     assert.equal(calls[1].url, `${env.USER_PROFILE_URL}/${callerId}`);
     assert.equal(calls[2].url, `${env.USER_PROFILE_URL}/${targetId}`);
@@ -683,6 +731,20 @@ describe("POST /chat/group-channel-id", () => {
           id: groupMemberId,
           name: "Group Member",
         },
+      },
+    });
+    assert.equal(
+      calls[5].url,
+      `https://chat.stream-io-api.com/channels/messaging/group_${groupId}?api_key=${env.STREAM_API_KEY}`,
+    );
+    assert.deepEqual(JSON.parse(calls[5].init.body), {
+      data: {
+        created_by_id: callerId,
+        members: [
+          { user_id: groupMemberId },
+          { user_id: targetId },
+          { user_id: callerId },
+        ],
       },
     });
   });
@@ -935,7 +997,7 @@ describe("POST /chat/broadcast-channel-id", () => {
         publisherIds: [callerId],
       },
     });
-    assert.equal(calls.length, 4);
+    assert.equal(calls.length, 5);
     assert.equal(calls[0].url, env.AUTH_VERIFY_URL);
     assert.equal(calls[1].url, `${env.USER_PROFILE_URL}/${callerId}`);
     assert.equal(calls[2].url, `${env.USER_PROFILE_URL}/${targetId}`);
@@ -943,6 +1005,24 @@ describe("POST /chat/broadcast-channel-id", () => {
       calls[3].url,
       `https://chat.stream-io-api.com/users?api_key=${env.STREAM_API_KEY}`,
     );
+    assert.equal(
+      calls[4].url,
+      `https://chat.stream-io-api.com/channels/broadcast/broadcast_${groupId}?api_key=${env.STREAM_API_KEY}`,
+    );
+    assert.deepEqual(JSON.parse(calls[4].init.body), {
+      data: {
+        created_by_id: callerId,
+        members: [
+          { user_id: targetId, channel_role: "channel_member" },
+          { user_id: callerId, channel_role: "channel_moderator" },
+        ],
+        wekamp_broadcast: {
+          allowMemberPosting: false,
+          allowReplies: true,
+          publisherIds: [callerId],
+        },
+      },
+    });
   });
 
   it("requires at least one other member id", async () => {

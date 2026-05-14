@@ -27,6 +27,37 @@ const AUTH_VERIFY_FORWARD_HEADERS = [
   "deviceip",
 ];
 
+function requestContext(request) {
+  return {
+    requestId:
+      request.headers.get("cf-ray") ||
+      request.headers.get("x-request-id") ||
+      request.headers.get("x-correlation-id") ||
+      "",
+    method: request.method,
+    path: (() => {
+      try {
+        return new URL(request.url).pathname;
+      } catch {
+        return "";
+      }
+    })(),
+  };
+}
+
+function logEvent(level, event, fields = {}) {
+  const logger =
+    level === "error" ? console.error : level === "warn" ? console.warn : console.log;
+  logger(
+    JSON.stringify({
+      ts: new Date().toISOString(),
+      level,
+      event,
+      ...fields,
+    }),
+  );
+}
+
 function parseBooleanEnv(value, fallback = false) {
   if (typeof value === "boolean") return value;
   if (typeof value === "number") return value !== 0;
@@ -190,6 +221,7 @@ async function callToken(request, env) {
 }
 
 async function ensureStreamUser(request, env) {
+  const ctx = requestContext(request);
   if (request.method === "OPTIONS") {
     return withCors(new Response(null, { status: 204 }), env);
   }
@@ -243,11 +275,23 @@ async function ensureStreamUser(request, env) {
 
     const streamRes = await upsertStreamUser(user, env);
     if (!streamRes.ok) {
+      logEvent("error", "chat.ensure_user.stream_user_upsert_failed", {
+        ...ctx,
+        authenticatedUserId,
+        targetUserId: userId,
+        streamStatus: streamRes.status,
+      });
       return withCors(json({ error: "Stream user upsert failed" }, 502), env);
     }
 
+    logEvent("info", "chat.ensure_user.success", {
+      ...ctx,
+      authenticatedUserId,
+      targetUserId: userId,
+    });
     return withCors(json({}), env);
   } catch {
+    logEvent("error", "chat.ensure_user.internal_error", ctx);
     return withCors(json({ error: "Internal error" }, 500), env);
   }
 }
@@ -309,6 +353,7 @@ async function callDmId(request, env) {
 }
 
 async function dmChannelId(request, env) {
+  const ctx = requestContext(request);
   if (request.method === "OPTIONS") {
     return withCors(new Response(null, { status: 204 }), env);
   }
@@ -317,7 +362,7 @@ async function dmChannelId(request, env) {
     return withCors(json({ error: "Method not allowed" }, 405), env);
   }
 
-  if (!env.AUTH_VERIFY_URL) {
+  if (!env.STREAM_API_KEY || !env.STREAM_API_SECRET || !env.AUTH_VERIFY_URL || !env.USER_PROFILE_URL) {
     return withCors(json({ error: "Service not configured" }, 500), env);
   }
 
@@ -340,8 +385,59 @@ async function dmChannelId(request, env) {
       return withCors(json({ error: "Invalid member ids" }, 400), env);
     }
 
+    const users = [];
+    for (const memberId of result.memberIds) {
+      const profileLookup = await fetchBackendProfile(request, env, memberId);
+      const errorResponse = profileLookupError(profileLookup, memberId, authenticatedUserId, "Chat member");
+      if (errorResponse) return withCors(errorResponse, env);
+
+      const user = streamUserFromBackendProfile(profileLookup.profile);
+      if (!user || user.id !== memberId) {
+        return withCors(json({ error: "Chat member lookup failed", userId: memberId }, 502), env);
+      }
+      users.push(user);
+    }
+
+    const streamUserRes = await upsertStreamUsers(users, env);
+    if (!streamUserRes.ok) {
+      logEvent("error", "chat.dm.stream_user_upsert_failed", {
+        ...ctx,
+        authenticatedUserId,
+        otherUserId,
+        channelId: result.channelId,
+        memberCount: result.memberIds.length,
+        streamStatus: streamUserRes.status,
+      });
+      return withCors(json({ error: "Stream user upsert failed" }, 502), env);
+    }
+
+    const streamChannelRes = await upsertStreamChannel(result, env, {
+      createdById: authenticatedUserId,
+    });
+    if (!streamChannelRes.ok) {
+      logEvent("error", "chat.dm.stream_channel_upsert_failed", {
+        ...ctx,
+        authenticatedUserId,
+        otherUserId,
+        channelType: result.channelType,
+        channelId: result.channelId,
+        memberCount: result.memberIds.length,
+        streamStatus: streamChannelRes.status,
+      });
+      return withCors(json({ error: "Stream channel upsert failed" }, 502), env);
+    }
+
+    logEvent("info", "chat.dm.success", {
+      ...ctx,
+      authenticatedUserId,
+      otherUserId,
+      channelType: result.channelType,
+      channelId: result.channelId,
+      memberCount: result.memberIds.length,
+    });
     return withCors(json(result), env);
   } catch {
+    logEvent("error", "chat.dm.internal_error", ctx);
     return withCors(json({ error: "Internal error" }, 500), env);
   }
 }
@@ -420,6 +516,7 @@ async function callGroupId(request, env) {
 }
 
 async function groupChannelId(request, env) {
+  const ctx = requestContext(request);
   if (request.method === "OPTIONS") {
     return withCors(new Response(null, { status: 204 }), env);
   }
@@ -491,18 +588,52 @@ async function groupChannelId(request, env) {
       users.push(user);
     }
 
-    const streamRes = await upsertStreamUsers(users, env);
-    if (!streamRes.ok) {
+    const streamUserRes = await upsertStreamUsers(users, env);
+    if (!streamUserRes.ok) {
+      logEvent("error", "chat.group.stream_user_upsert_failed", {
+        ...ctx,
+        authenticatedUserId,
+        groupId,
+        memberCount: memberIds.length,
+        streamStatus: streamUserRes.status,
+      });
       return withCors(json({ error: "Stream user upsert failed" }, 502), env);
     }
 
-    return withCors(json(deterministicGroupChannel(memberIds, groupId)), env);
+    const result = deterministicGroupChannel(memberIds, groupId);
+    const streamChannelRes = await upsertStreamChannel(result, env, {
+      createdById: authenticatedUserId,
+    });
+    if (!streamChannelRes.ok) {
+      logEvent("error", "chat.group.stream_channel_upsert_failed", {
+        ...ctx,
+        authenticatedUserId,
+        groupId,
+        channelType: result.channelType,
+        channelId: result.channelId,
+        memberCount: result.memberIds.length,
+        streamStatus: streamChannelRes.status,
+      });
+      return withCors(json({ error: "Stream channel upsert failed" }, 502), env);
+    }
+
+    logEvent("info", "chat.group.success", {
+      ...ctx,
+      authenticatedUserId,
+      groupId,
+      channelType: result.channelType,
+      channelId: result.channelId,
+      memberCount: result.memberIds.length,
+    });
+    return withCors(json(result), env);
   } catch {
+    logEvent("error", "chat.group.internal_error", ctx);
     return withCors(json({ error: "Internal error" }, 500), env);
   }
 }
 
 async function broadcastChannelId(request, env) {
+  const ctx = requestContext(request);
   if (request.method === "OPTIONS") {
     return withCors(new Response(null, { status: 204 }), env);
   }
@@ -574,23 +705,59 @@ async function broadcastChannelId(request, env) {
       users.push(user);
     }
 
-    const streamRes = await upsertStreamUsers(users, env);
-    if (!streamRes.ok) {
+    const streamUserRes = await upsertStreamUsers(users, env);
+    if (!streamUserRes.ok) {
+      logEvent("error", "chat.broadcast.stream_user_upsert_failed", {
+        ...ctx,
+        authenticatedUserId,
+        broadcastId,
+        memberCount: memberIds.length,
+        streamStatus: streamUserRes.status,
+      });
       return withCors(json({ error: "Stream user upsert failed" }, 502), env);
     }
 
+    const result = deterministicBroadcastChannel(memberIds, broadcastId, {
+      channelType: env.STREAM_BROADCAST_CHANNEL_TYPE,
+      createdById: authenticatedUserId,
+      allowMemberPosting: body?.allowMemberPosting === true,
+      allowReplies: body?.allowReplies === true,
+    });
+    const streamChannelRes = await upsertStreamChannel(result, env, {
+      createdById: authenticatedUserId,
+      customData: {
+        wekamp_broadcast: result.broadcast,
+      },
+    });
+    if (!streamChannelRes.ok) {
+      logEvent("error", "chat.broadcast.stream_channel_upsert_failed", {
+        ...ctx,
+        authenticatedUserId,
+        broadcastId,
+        channelType: result.channelType,
+        channelId: result.channelId,
+        memberCount: result.memberIds.length,
+        streamStatus: streamChannelRes.status,
+      });
+      return withCors(json({ error: "Stream channel upsert failed" }, 502), env);
+    }
+
+    logEvent("info", "chat.broadcast.success", {
+      ...ctx,
+      authenticatedUserId,
+      broadcastId,
+      channelType: result.channelType,
+      channelId: result.channelId,
+      memberCount: result.memberIds.length,
+      allowMemberPosting: result.broadcast?.allowMemberPosting === true,
+      allowReplies: result.broadcast?.allowReplies === true,
+    });
     return withCors(
-      json(
-        deterministicBroadcastChannel(memberIds, broadcastId, {
-          channelType: env.STREAM_BROADCAST_CHANNEL_TYPE,
-          createdById: authenticatedUserId,
-          allowMemberPosting: body?.allowMemberPosting === true,
-          allowReplies: body?.allowReplies === true,
-        }),
-      ),
+      json(result),
       env,
     );
   } catch {
+    logEvent("error", "chat.broadcast.internal_error", ctx);
     return withCors(json({ error: "Internal error" }, 500), env);
   }
 }
@@ -866,6 +1033,35 @@ async function upsertStreamUsers(users, env) {
     },
     body: JSON.stringify({
       users: usersById,
+    }),
+  });
+}
+
+async function upsertStreamChannel(channel, env, options = {}) {
+  const token = await signStreamServerToken(env.STREAM_API_SECRET);
+  const baseUrl = (env.STREAM_CHAT_BASE_URL || "https://chat.stream-io-api.com").replace(/\/+$/, "");
+  const url = `${baseUrl}/channels/${encodeURIComponent(channel.channelType)}/${encodeURIComponent(channel.channelId)}?api_key=${encodeURIComponent(env.STREAM_API_KEY)}`;
+  const memberRequests = Array.isArray(channel.memberRoles) && channel.memberRoles.length
+    ? channel.memberRoles.map((member) => ({
+        user_id: member.userId,
+        ...(member.channelRole ? { channel_role: member.channelRole } : {}),
+      }))
+    : channel.memberIds.map((userId) => ({ user_id: userId }));
+  const createdById = normalizeUserId(options.createdById) || "";
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      authorization: token,
+      "content-type": "application/json",
+      "stream-auth-type": "jwt",
+    },
+    body: JSON.stringify({
+      data: {
+        created_by_id: createdById || undefined,
+        members: memberRequests,
+        ...(options.customData && typeof options.customData === "object" ? options.customData : {}),
+      },
     }),
   });
 }
