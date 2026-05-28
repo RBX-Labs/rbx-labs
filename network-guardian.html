@@ -14,22 +14,306 @@
   <meta property="og:title" content="Network Guardian | Pre-Connection Wi-Fi Trust" />
   <meta property="og:description" content="Network Guardian is an RBX Labs product for pre-connection Wi-Fi trust scoring using on-device checks, BSSID reputation, and real-time confidence signals." />
   <meta property="og:url" content="https://rbx-labs.io/network-guardian.html" />
-  <meta property="og:image" content="https://rbx-labs.io/assets/branding/ng-logo.png" />
+  <meta property="og:image" content="https://rbx-labs.io/assets/branding/logos/ng_logo.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Network Guardian | Pre-Connection Wi-Fi Trust" />
   <meta name="twitter:description" content="Network Guardian is an RBX Labs product for pre-connection Wi-Fi trust scoring using on-device checks, BSSID reputation, and real-time confidence signals." />
-  <meta name="twitter:image" content="https://rbx-labs.io/assets/branding/ng-logo.png" />
-  <link rel="icon" type="image/png" sizes="1024x1024" href="assets/branding/rbx-logo.png" />
-  <link rel="shortcut icon" href="assets/branding/rbx-logo.png" />
-  <link rel="apple-touch-icon" href="assets/branding/rbx-logo.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&amp;family=Inter+Tight:wght@400;500;600&amp;family=Space+Mono:wght@400;600&amp;display=swap"
-    rel="stylesheet"
-  />
+  <meta name="twitter:image" content="https://rbx-labs.io/assets/branding/logos/ng_logo.png" />
+  <link rel="icon" type="image/png" sizes="1024x1024" href="assets/branding/logos/ng_logo.png" />
+  <link rel="shortcut icon" href="assets/branding/logos/ng_logo.png" />
+  <link rel="apple-touch-icon" href="assets/branding/logos/ng_logo.png" />
   <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="network-guardian.css" />
+  <style>
+    .leaderboard-section {
+      background: var(--panel-soft);
+      border: 1px solid var(--panel-line);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 1rem;
+      padding: 1.25rem;
+    }
+    .leaderboard-tabs {
+      display: grid;
+      gap: 0.5rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .leaderboard-tab {
+      background: rgba(5, 16, 29, 0.9);
+      border: 1px solid rgba(84, 130, 165, 0.28);
+      border-radius: 0.2rem;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 0.55rem 0.8rem;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .leaderboard-tab.is-active {
+      border-color: rgba(46, 219, 255, 0.55);
+      color: var(--cyan);
+    }
+    .leaderboard-layout {
+      display: grid;
+      gap: 0.8rem;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    }
+    .leaderboard-table,
+    .leaderboard-side {
+      background: rgba(5, 16, 29, 0.88);
+      border: 1px solid rgba(84, 130, 165, 0.28);
+      border-radius: 0.2rem;
+      padding: 0.8rem;
+    }
+    .leaderboard-head,
+    .leaderboard-row {
+      align-items: center;
+      display: grid;
+      gap: 0.6rem;
+      grid-template-columns: 56px minmax(0, 1fr) 130px 90px;
+    }
+    .leaderboard-head {
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.25rem 0.2rem 0.55rem;
+      text-transform: uppercase;
+    }
+    .leaderboard-row {
+      border-top: 1px solid rgba(84, 130, 165, 0.2);
+      min-height: 3.15rem;
+      padding: 0.38rem 0.2rem;
+    }
+    .rank-badge {
+      align-items: center;
+      border: 1px solid rgba(84, 130, 165, 0.44);
+      border-radius: 999px;
+      color: var(--copy);
+      display: inline-flex;
+      font-size: 0.9rem;
+      font-weight: 800;
+      height: 2rem;
+      justify-content: center;
+      width: 2rem;
+    }
+    .rank-1 { color: #ffd25e; border-color: rgba(255, 210, 94, 0.64); }
+    .rank-2 { color: #d6e3ef; border-color: rgba(214, 227, 239, 0.6); }
+    .rank-3 { color: #f0a15d; border-color: rgba(240, 161, 93, 0.6); }
+    .leaderboard-network { color: var(--copy); font-size: 0.96rem; font-weight: 600; line-height: 1.2; }
+    .leaderboard-segment { color: var(--muted); font-size: 0.75rem; }
+    .leaderboard-score { color: var(--cyan); font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; text-align: right; }
+    .leaderboard-delta { font-size: 0.9rem; font-weight: 700; text-align: right; }
+    .leaderboard-delta.up { color: var(--green); }
+    .leaderboard-delta.down { color: var(--red); }
+    .leaderboard-side { display: grid; gap: 0.8rem; grid-template-rows: auto auto 1fr; }
+    .side-card { background: rgba(4, 14, 26, 0.92); border: 1px solid rgba(84, 130, 165, 0.26); border-radius: 0.2rem; padding: 0.75rem; }
+    .side-metric { color: var(--cyan); font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; margin-top: 0.2rem; }
+    .telemetry-note { color: var(--muted); font-size: 0.78rem; line-height: 1.45; margin-top: 0.3rem; }
+    .leaderboard-cta { align-items: center; border: 1px solid rgba(84, 130, 165, 0.3); border-radius: 0.2rem; color: var(--cyan); display: inline-flex; font-size: 0.92rem; font-weight: 700; gap: 0.5rem; justify-content: space-between; padding: 0.72rem 0.84rem; width: 100%; }
+    .leaderboard-sparkline { margin-top: 0.45rem; width: 100%; height: 44px; display: block; }
+    .leaderboard-sparkline .grid { stroke: rgba(72, 150, 180, 0.2); stroke-width: 1; }
+    .leaderboard-sparkline .line { fill: none; stroke: #2edbff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .why-now-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .why-now-item {
+      border: 1px solid rgba(84, 130, 165, 0.28);
+      border-radius: 0.7rem;
+      padding: 1rem;
+      background: rgba(5, 16, 29, 0.88);
+    }
+    .why-now-item p { margin: 0; color: var(--copy); line-height: 1.35; }
+    .trust-org-grid div {
+      display: grid;
+      gap: 0.55rem;
+      justify-items: center;
+      align-content: center;
+      min-width: 0;
+      text-align: center;
+      padding: 1rem 0.75rem;
+      font-size: clamp(0.9rem, 1.45vw, 1.65rem);
+      letter-spacing: 0.06em;
+      line-height: 1.06;
+      text-wrap: balance;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .trust-org-grid .theme-icon,
+    .capability-web-grid .theme-icon {
+      width: 3.5rem;
+      height: 3.5rem;
+      flex: 0 0 3.5rem;
+    }
+    .trust-org-grid .theme-icon img,
+    .capability-web-grid .theme-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .business-model-grid .capability-card { min-height: 14rem; padding-top: 1rem; }
+    .business-model-grid .capability-icon { width: 3.2rem; height: 3.2rem; flex: 0 0 3.2rem; margin-bottom: 0.8rem; }
+    .business-model-grid h3 { font-size: 1.25rem; letter-spacing: -0.02em; line-height: 1.06; margin-bottom: 0.45rem; }
+    .card-subcopy {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.45;
+      margin: 0 0 0.8rem;
+    }
+    .card-link {
+      color: var(--cyan);
+      font-size: 0.94rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .expansion-grid {
+      display: grid;
+      gap: 0.9rem;
+      grid-template-columns: minmax(0, 1fr) 84px minmax(0, 1fr);
+      align-items: stretch;
+    }
+    .expansion-card {
+      background: rgba(5, 16, 29, 0.88);
+      border: 1px solid rgba(84, 130, 165, 0.28);
+      border-radius: 0.2rem;
+      padding: 1rem;
+    }
+    .expansion-card h3 {
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin: 0 0 0.65rem;
+    }
+    .expansion-card ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+    .expansion-arrow {
+      align-self: center;
+      background: rgba(5, 16, 29, 0.88);
+      border: 1px solid rgba(84, 130, 165, 0.28);
+      border-radius: 999px;
+      color: var(--cyan);
+      font-size: 1.7rem;
+      font-weight: 700;
+      line-height: 1;
+      justify-self: center;
+      padding: 0.55rem 0.8rem;
+    }
+    .price-line {
+      color: var(--copy);
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 0.2rem 0 0;
+      line-height: 1.05;
+    }
+    .price-line small {
+      color: var(--muted);
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+    #operations .section-header {
+      align-items: start;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    }
+    #operations .section-copy {
+      max-width: 44ch;
+      margin: 0;
+    }
+    .pilot-copy h2 {
+      max-width: 14ch;
+    }
+    .pilot-copy .section-copy {
+      max-width: 100%;
+    }
+    @media (max-width: 1100px) {
+      .expansion-grid {
+        grid-template-columns: 1fr;
+      }
+      .expansion-arrow {
+        justify-self: center;
+      }
+    }
+    .metric-block {
+      align-items: start;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .metric-icon {
+      width: 2.25rem;
+      height: 2.25rem;
+      object-fit: contain;
+    }
+    .metric-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 0.28rem;
+      width: 100%;
+    }
+    .hero-lead,
+    .hero-copy .section-copy {
+      font-size: 0.94rem;
+      line-height: 1.5;
+      max-width: 44ch;
+      width: 100%;
+    }
+    .signal-band {
+      align-items: center;
+      display: flex;
+      gap: 1.1rem;
+      justify-content: center;
+      margin-top: 0.2rem;
+      width: 100%;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+    .signal-band .safe { color: #57d878; }
+    .signal-band .caution { color: #f4c84b; }
+    .signal-band .unsafe { color: #f57c60; }
+    .incident-card .theme-icon {
+      width: 2.1rem;
+      height: 2.1rem;
+      margin-bottom: 0.2rem;
+    }
+    .incident-card .theme-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    @media (max-width: 1100px) {
+      .leaderboard-layout { grid-template-columns: 1fr; }
+      .why-now-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      #operations .section-header {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 720px) {
+      .leaderboard-tabs,
+      .why-now-grid {
+        grid-template-columns: 1fr;
+      }
+      .leaderboard-head,
+      .leaderboard-row {
+        grid-template-columns: 44px minmax(0, 1fr) 90px 70px;
+      }
+      .pilot-copy h2 {
+        max-width: 100%;
+      }
+      .hero-lead,
+      .hero-copy .section-copy {
+        max-width: 100%;
+      }
+    }
+  </style>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -48,426 +332,494 @@
   </script>
 </head>
 <body>
-  <div class="bg-layers" aria-hidden="true"></div>
-  <div class="grid-orbit" aria-hidden="true"></div>
+  <div class="site-noise" aria-hidden="true"></div>
+  <div class="site-grid" aria-hidden="true"></div>
 
   <header class="ng-nav">
-    <div class="ng-logo">
-      <img src="assets/branding/ng-logo.png" alt="Network Guardian" />
-      <div>
-        <div class="ng-logo-title">Network Guardian</div>
-        <div class="ng-logo-subtitle">Pre-Connection Wi-Fi Trust</div>
-      </div>
-    </div>
-    <nav class="ng-links">
-      <a href="index.html">RBX Labs</a>
-      <a href="about.html">About</a>
-      <a href="#home">Home</a>
-      <a href="#why">Why now</a>
-      <a href="#solution">How it works</a>
-      <a href="#waitlist" class="pill">Join waitlist</a>
+    <a class="ng-brand" href="#home" aria-label="Network Guardian home">
+      <img class="ng-brand-shield" src="assets/branding/logos/ng_logo.png" alt="" />
+      <span class="ng-brand-copy">
+        <span class="ng-brand-name">Network Guardian</span>
+        <span class="ng-brand-tagline">Pre-Connection Wi-Fi Trust</span>
+      </span>
+    </a>
+
+    <nav class="ng-links" aria-label="Primary">
+      <a href="#capabilities">Capabilities</a>
+      <a href="#operations">Operations</a>
+      <a href="#telemetry">Telemetry</a>
+      <a href="#trust">Trust</a>
+      <a href="#pilot">Pilot</a>
     </nav>
+
+    <div class="nav-status">
+      <span>STATUS</span>
+      <span class="status-dot" aria-hidden="true"></span>
+    </div>
   </header>
 
-  <main class="ng-main">
-    <section class="ng-hero reveal" id="home">
-      <div class="hero-left">
-        <p class="eyebrow">ANDROID APP · PRE-CONNECTION WI-FI TRUST · REAL-TIME SCORING</p>
+  <main class="ng-shell" id="home">
+    <section class="hero-panel reveal">
+      <div class="hero-copy">
+        <p class="eyebrow">PRE-CONNECTION WI-FI TRUST · LIVE SCORING · MOBILE SECURITY</p>
         <h1>
-          Trust Wi-Fi
-          <span class="gradient-text">before you connect</span>
+          <span class="hero-line">SEE EVERYTHING.</span>
+          <span class="hero-line">UNDERSTAND FASTER.</span>
+          <span class="hero-line hero-line-accent">ACT FIRST.</span>
         </h1>
-        <p class="ng-hero-subtitle">
-          Network Guardian helps people assess a Wi-Fi network before they rely on it.
-          It combines on-device checks, network reputation, and trust signals into a simple verdict:
-          Safe, Caution, or Unsafe.
+        <p class="hero-lead">
+          Network Guardian converts Wi-Fi diagnostics, reputation history, and confidence signals into a pre-connection trust decision.
         </p>
+        <p class="section-copy">Scan before you connect. Every scan strengthens the trust graph.</p>
 
-        <div class="ng-hero-actions">
-          <a class="btn btn-primary" href="#waitlist">Start a pilot conversation</a>
-          <a class="btn btn-ghost" href="#solution">See how it works</a>
+        <div class="hero-actions">
+          <a class="action-primary" href="#capabilities">Explore capabilities</a>
+          <a class="action-secondary" href="#pilot">Start a pilot</a>
         </div>
       </div>
 
-      <div class="hero-right">
-        <div class="hero-stack">
-          <div class="counter-row">
-            <div class="scan-counter">
-              <div class="counter-label">Scans completed</div>
-              <div class="counter-value"><span class="countup" data-target="600" data-suffix="+">600+</span></div>
-            </div>
-            <div class="scan-counter">
-              <div class="counter-label">Networks analyzed</div>
-              <div class="counter-value"><span class="countup" data-target="55" data-suffix="+">55+</span></div>
-            </div>
+      <div class="hero-visual">
+        <div class="visual-glow" aria-hidden="true"></div>
+        <div class="visual-telemetry">
+          <div class="hero-media" aria-hidden="true">
+            <img class="hero-asset hero-asset-animated hero-asset-dark" src="assets/branding/hero/networkguardian_hero.svg" alt="" />
+            <picture>
+              <source srcset="assets/branding/hero/networkguardian_hero.avif" type="image/avif" />
+              <source srcset="assets/branding/hero/networkguardian_hero.webp" type="image/webp" />
+              <img class="hero-asset hero-asset-static hero-asset-dark hero-asset-fallback" src="assets/branding/hero/networkguardian_hero.png" alt="" />
+            </picture>
+            <img class="hero-asset hero-asset-animated hero-asset-light" src="assets/branding/hero/networkguardian_hero_light.svg" alt="" />
+            <picture>
+              <source srcset="assets/branding/hero/networkguardian_hero_light.avif" type="image/avif" />
+              <source srcset="assets/branding/hero/networkguardian_hero_light.webp" type="image/webp" />
+              <img class="hero-asset hero-asset-static hero-asset-light hero-asset-fallback" src="assets/branding/hero/networkguardian_hero_light.png" alt="" />
+            </picture>
           </div>
-
-          <div class="metric-grid">
-            <div class="metric-card">
-              <div class="metric-number">0-100 trust score</div>
-              <div class="metric-label">Before connection</div>
-            </div>
-            <div class="metric-card">
-              <div class="metric-number">Safe / Caution / Unsafe</div>
-              <div class="metric-label">Simple verdict</div>
-            </div>
+          <div class="telemetry-callout">
+            <span class="callout-label">Global telemetry</span>
+            <span class="callout-value">
+              <span class="theme-icon theme-icon-inline" aria-hidden="true">
+                <img class="theme-icon-dark" src="assets/branding/icons/ng_live_monitoring.png" alt="" />
+                <img class="theme-icon-light" src="assets/branding/icons/ng_live_monitoring_light.png" alt="" />
+              </span>
+              <span class="callout-dot" aria-hidden="true"></span>Live feed
+            </span>
           </div>
-
-          <div class="principles-row">
-            <span class="principle-chip">Know your network</span>
-            <span class="principle-chip">Pre-connection protection</span>
-            <span class="principle-chip">Trust before traffic</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="built-for hero-built-for">
-        <span class="pill-label">Initial wedge</span>
-        <div class="pill-row">
-          <span class="pill">Travelers</span>
-          <span class="pill">Remote workers</span>
-          <span class="pill">Students</span>
-          <span class="pill">Hotel and airport users</span>
-          <span class="pill">Cafe and campus networks</span>
         </div>
       </div>
     </section>
 
-    <section class="ng-section reveal" id="problem">
-      <div class="why-header">
-        <p class="eyebrow">The problem</p>
-        <h2>People still make a blind network decision every day</h2>
-        <p class="ng-hero-subtitle compact">
-          VPNs protect traffic after connection. OS warnings are shallow. Most users still lack a
-          clear trust signal before they choose a network.
-        </p>
-      </div>
-
-      <div class="fact-grid">
-        <div class="fact-card">
-          <div class="fact-value"><span class="countup" data-target="628" data-suffix="M+">628M+</span></div>
-          <div class="fact-label">Public Wi-Fi hotspots worldwide</div>
-          <a class="fact-source" href="https://www.cisco.com/c/en/us/solutions/collateral/executive-perspectives/annual-internet-report/white-paper-c11-741490.html" target="_blank" rel="noopener noreferrer">Cisco Report, 2023</a>
-        </div>
-        <div class="fact-card">
-          <div class="fact-value"><span class="countup" data-target="30" data-suffix="%+">30%+</span></div>
-          <div class="fact-label">Users rely on public Wi-Fi</div>
-          <a class="fact-source" href="https://www.statista.com/statistics/1450721/public-wifi-usage-reasons-us/" target="_blank" rel="noopener noreferrer">Statista, 2023</a>
-        </div>
-        <div class="fact-card">
-          <div class="fact-value"><span class="countup" data-target="40" data-suffix="%">40%</span></div>
-          <div class="fact-label">Reported data compromise</div>
-          <a class="fact-source" href="https://www.statista.com/statistics/1450743/public-wifi-use-personal-data-compromise-us/" target="_blank" rel="noopener noreferrer">Statista, 2024</a>
-        </div>
-        <div class="fact-card">
-          <div class="fact-value"><span class="countup" data-target="43" data-suffix="%">43%</span></div>
-          <div class="fact-label">Reported security incidents</div>
-          <a class="fact-source" href="https://www.forbes.com/advisor/business/public-wifi-risks/" target="_blank" rel="noopener noreferrer">Forbes survey, 2023</a>
-        </div>
-      </div>
-
-      <div class="why-grid evidence-grid">
-        <div class="why-card">
-          <div class="why-label">Spoofed networks in the wild</div>
-          <p>Users often cannot tell the difference between a legitimate network and a spoofed one before they connect.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-label">Reactive tools miss the moment</div>
-          <p>Most security tools respond after exposure. The risky decision happens before the first packet leaves the device.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-label">The missing layer</div>
-          <p>The gap is simple: a clear trust signal before a person, app, or agent commits to the network.</p>
-        </div>
-      </div>
+    <section class="metric-strip reveal reveal-delay-1" aria-label="Key metrics">
+      <article class="metric-block">
+        <span class="metric-copy">
+          <span class="metric-value"><span class="countup" data-target="4.6" data-decimals="1" data-suffix="B">4.6B</span></span>
+          <span class="metric-label">Public Wi-Fi users exposed</span>
+        </span>
+      </article>
+      <article class="metric-block">
+        <span class="metric-copy">
+          <span class="metric-value">$<span class="countup" data-target="10.5" data-decimals="1" data-suffix="T">10.5T</span></span>
+          <span class="metric-label">Annual cybercrime cost</span>
+        </span>
+      </article>
+      <article class="metric-block">
+        <span class="metric-copy">
+          <span class="metric-value"><span class="countup" data-target="78">78</span>/100</span>
+          <span class="metric-label">Network trust score</span>
+        </span>
+      </article>
+      <article class="metric-block">
+        <span class="metric-copy">
+          <span class="metric-value"><span class="countup" data-target="600" data-suffix="+">600+</span></span>
+          <span class="metric-label">Scans completed</span>
+        </span>
+      </article>
     </section>
 
-    <section class="ng-how reveal" id="solution">
-      <div class="how-header">
-        <p class="eyebrow">The solution</p>
-        <h2>Diagnose, score, decide</h2>
-        <p class="ng-hero-subtitle compact">
-          Network Guardian turns technical network signals into a decision a user can actually act on.
+    <section class="operations-section reveal" id="operations">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">How we operate</p>
+          <h2>DATA IN. SIGNAL OUT. IMPACT ALWAYS.</h2>
+        </div>
+        <p class="section-copy">
+          We combine deep network visibility, advanced machine learning, and human expertise to deliver outcomes that matter in the real world.
         </p>
       </div>
 
-      <div class="trust-engine-stage">
-        <article class="trust-stage-panel trust-stage-signals">
-          <div class="trust-stage-header">
-            <div class="process-step-top">
-              <span class="process-step-number">01</span>
-              <span class="process-step-line" aria-hidden="true"></span>
-            </div>
-            <p class="card-eyebrow">Diagnose</p>
-            <h3>Read the network</h3>
-          </div>
-          <p class="trust-stage-copy">
-            Raw checks become usable input. The goal is not more diagnostics. It is a cleaner trust decision.
-          </p>
-          <div class="signal-chip-cloud">
-            <span class="signal-chip">DNS sanity</span>
-            <span class="signal-chip">TLS validation</span>
-            <span class="signal-chip">Captive portal</span>
-            <span class="signal-chip">Proxy detection</span>
-            <span class="signal-chip">Gateway integrity</span>
-            <span class="signal-chip">Latency</span>
-            <span class="signal-chip">Packet loss</span>
-            <span class="signal-chip">BSSID history</span>
-          </div>
-        </article>
-
-        <article class="trust-stage-panel trust-stage-score">
-          <div class="intent-card elevated trust-engine-core">
-            <div class="intent-header">
-              <div>
-                <div class="process-step-top process-step-top-centered">
-                  <span class="process-step-number">02</span>
-                  <span class="process-step-line" aria-hidden="true"></span>
-                </div>
-                <p class="card-eyebrow">Score</p>
-                <h3>Turn raw signals into a trust score</h3>
-              </div>
-              <div class="status-inline">
-                <span class="status-dot" aria-hidden="true"></span>
-                <span class="status-readout">Express and detailed scans live</span>
-              </div>
-            </div>
-            <div class="gauge-block">
-              <div
-                class="gauge"
-                style="--gauge:0.82;"
-                data-gauge="0.82"
-                role="img"
-                aria-label="Trust score 82 out of 100, caution"
-              >
-                <div class="gauge-donut"></div>
-                <div class="gauge-center">
-                  <div class="gauge-value"><span class="countup" data-target="82">82</span></div>
-                  <div class="gauge-label">Caution</div>
-                </div>
-              </div>
-              <div class="gauge-pills compact">
-                <div class="stat-pill centered">
-                  <span class="pill-label">Verdict</span>
-                  <span class="pill-value pill-readout">Caution</span>
-                </div>
-                <div class="stat-pill centered">
-                  <span class="pill-label">Mode</span>
-                  <span class="pill-value pill-readout">Detailed</span>
-                </div>
-              </div>
-              <div class="gauge-stats">
-                <div>
-                  <div class="stat-number stat-readout"><span class="countup" data-target="100">100</span></div>
-                  <div class="stat-label">Security</div>
-                </div>
-                <div>
-                  <div class="stat-number stat-readout"><span class="countup" data-target="76">76</span></div>
-                  <div class="stat-label">Stability</div>
-                </div>
-                <div>
-                  <div class="stat-number stat-readout"><span class="countup" data-target="54">54</span></div>
-                  <div class="stat-label">Community</div>
-                </div>
-              </div>
-              <div class="gauge-legend" aria-label="Trust score thresholds">
-                <span><strong>Safe</strong> 85-100</span>
-                <span><strong>Caution</strong> 60-84</span>
-                <span><strong>Unsafe</strong> 0-59</span>
-              </div>
+      <div class="operations-grid">
+        <article class="operation-card">
+          <div class="operation-flow">
+            <span class="theme-icon operation-icon" aria-hidden="true">
+              <img class="theme-icon-dark" src="assets/branding/icons/ng_scanning_light.png" alt="" />
+              <img class="theme-icon-light" src="assets/branding/icons/ng_scanning.png" alt="" />
+            </span>
+            <div class="operation-copy">
+              <h3>Collect</h3>
+              <p>Telemetry from across your environment.</p>
             </div>
           </div>
         </article>
-
-        <article class="trust-stage-panel trust-stage-decision">
-          <div class="trust-stage-header">
-            <div class="process-step-top">
-              <span class="process-step-number">03</span>
+        <article class="operation-card">
+          <div class="operation-flow">
+            <span class="theme-icon operation-icon" aria-hidden="true">
+              <img class="theme-icon-dark" src="assets/branding/icons/ng_alert_light.png" alt="" />
+              <img class="theme-icon-light" src="assets/branding/icons/ng_alert.png" alt="" />
+            </span>
+            <div class="operation-copy">
+              <h3>Detect</h3>
+              <p>Anomalies faster than humans can.</p>
             </div>
-            <p class="card-eyebrow">Decide</p>
-            <h3>Make the call before connection</h3>
           </div>
-          <p class="trust-stage-copy">
-            The output is simple enough for a person to trust and structured enough for a product to use.
-          </p>
-          <div class="verdict-stack" aria-label="Decision states">
-            <div class="verdict-card verdict-card-safe">
-              <span class="verdict-name">Safe</span>
-              <span class="verdict-range">85-100</span>
+        </article>
+        <article class="operation-card">
+          <div class="operation-flow">
+            <span class="theme-icon operation-icon" aria-hidden="true">
+              <img class="theme-icon-dark" src="assets/branding/icons/ng_insights_light.png" alt="" />
+              <img class="theme-icon-light" src="assets/branding/icons/ng_insights.png" alt="" />
+            </span>
+            <div class="operation-copy">
+              <h3>Decide</h3>
+              <p>Convert threat signals into action.</p>
             </div>
-            <div class="verdict-card verdict-card-caution is-active">
-              <span class="verdict-name">Caution</span>
-              <span class="verdict-range">60-84</span>
-            </div>
-            <div class="verdict-card verdict-card-unsafe">
-              <span class="verdict-name">Unsafe</span>
-              <span class="verdict-range">0-59</span>
+          </div>
+        </article>
+        <article class="operation-card">
+          <div class="operation-flow">
+            <span class="theme-icon operation-icon" aria-hidden="true">
+              <img class="theme-icon-dark" src="assets/branding/icons/ng_decisions_light.png" alt="" />
+              <img class="theme-icon-light" src="assets/branding/icons/ng_decisions.png" alt="" />
+            </span>
+            <div class="operation-copy">
+              <h3>Defend</h3>
+              <p>Automated response with human oversight.</p>
             </div>
           </div>
         </article>
       </div>
-    </section>
-
-    <section class="ng-section reveal">
-      <div class="why-header">
-        <p class="eyebrow">Traction</p>
-        <h2>Working product, early signal, clear expansion path</h2>
-        <p class="ng-hero-subtitle compact">
-          The product is already live enough to show signal, and simple enough to explain where it expands next.
-        </p>
-      </div>
-      <div class="fact-grid traction-grid">
-        <div class="fact-card">
-          <div class="fact-value"><span class="countup" data-target="600" data-suffix="+">600+</span></div>
-          <div class="fact-label">Community scans completed</div>
-        </div>
-        <div class="fact-card">
-          <div class="fact-value"><span class="countup" data-target="70" data-suffix="+">70+</span></div>
-          <div class="fact-label">Unique networks evaluated</div>
-        </div>
-        <div class="fact-card">
-          <div class="fact-value">Flutter</div>
-          <div class="fact-label">Android app front end</div>
-        </div>
-        <div class="fact-card">
-          <div class="fact-value">FastAPI + Postgres</div>
-          <div class="fact-label">Backend and data layer</div>
-        </div>
-      </div>
-      <div class="why-grid">
-        <div class="why-card">
-          <div class="why-label">Key features</div>
-          <p>Network choice guidance, express and detailed diagnostics, trust scoring by BSSID, and a growing Wi-Fi reputation graph.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-label">Today</div>
-          <p>A consumer wedge with a real scanning product and a reputation graph that strengthens as usage grows.</p>
-        </div>
-        <div class="why-card">
-          <div class="why-label">Next</div>
-          <p>SDK and trust data products for VPNs, travel platforms, enterprise security, telcos, router OEMs, and mobile trust layers.</p>
-        </div>
+      <div class="signal-band">
+        <span class="safe">Safe (70-100)</span>
+        <span class="caution">Caution (40-69)</span>
+        <span class="unsafe">Unsafe (0-39)</span>
       </div>
     </section>
 
-    <section class="waitlist-band reveal" id="waitlist">
-      <div class="waitlist-content">
-        <p class="eyebrow">The network you trust should earn it</p>
-        <h2>Network Guardian is building the trust layer the internet never had</h2>
-        <p class="ng-hero-subtitle compact">
-          If you are exploring a consumer, enterprise, travel, telecom, or trust-data use case,
-          start with a short working session and see whether there is a real pilot fit.
-        </p>
-        <div class="market-grid cta-grid">
-          <div class="intent-card">
-            <p class="eyebrow">Best for</p>
-            <h3>Book a pilot call</h3>
-            <p class="ng-hero-subtitle compact">
-              Use this if you want to discuss a pilot, distribution angle, product roadmap, or partner use case live.
-            </p>
-            <div class="ng-hero-actions">
-              <a
-                class="btn btn-primary"
-                href="https://calendly.com/rishabhbanga/ai-strategy-rishabh?hide_gdpr_banner=1"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Book a pilot call
-              </a>
+    <section class="telemetry-section reveal" id="telemetry">
+      <div class="telemetry-board">
+        <aside class="board-panel board-panel-left">
+          <div class="panel-label">Live system overview</div>
+          <div class="activity-card threat-card">
+            <div class="threat-title">THREAT ACTIVITY</div>
+            <div class="threat-level">HIGH</div>
+            <div class="threat-range">LAST 24H</div>
+
+            <svg
+              class="threat-chart"
+              viewBox="0 0 126 114"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <defs>
+                <filter id="tealGlow" x="-40%" y="-80%" width="180%" height="260%">
+                  <feGaussianBlur stdDeviation="1.6" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+
+                <linearGradient id="sparkGradient" x1="0" x2="1" y1="0" y2="0">
+                  <stop offset="0%" stop-color="#2a7f85" />
+                  <stop offset="55%" stop-color="#2fd0d2" />
+                  <stop offset="100%" stop-color="#34b7b5" />
+                </linearGradient>
+              </defs>
+
+              <path d="M0 24 H126 M0 48 H126 M0 72 H126 M0 96 H126" class="grid-line" />
+              <path d="M20 0 V114 M40 0 V114 M60 0 V114 M80 0 V114 M100 0 V114" class="grid-line" />
+
+              <path
+                class="sparkline-glow"
+                d="M 3 78
+                  C 8 77, 11 79, 15 78
+                  C 19 77, 21 75, 23 75
+                  C 26 77, 28 79, 31 78
+                  C 34 78, 36 76, 39 72
+                  C 42 68, 46 68, 49 70
+                  C 52 73, 53 75, 56 74
+                  C 60 74, 63 71, 66 72
+                  C 69 73, 72 75, 75 71
+                  C 78 66, 80 60, 84 58
+                  C 88 58, 90 64, 92 69
+                  C 94 73, 96 75, 98 72
+                  C 101 67, 102 63, 105 59
+                  C 107 57, 109 58, 111 60"
+              />
+
+              <path
+                class="sparkline"
+                d="M 3 78
+                  C 8 77, 11 79, 15 78
+                  C 19 77, 21 75, 23 75
+                  C 26 77, 28 79, 31 78
+                  C 34 78, 36 76, 39 72
+                  C 42 68, 46 68, 49 70
+                  C 52 73, 53 75, 56 74
+                  C 60 74, 63 71, 66 72
+                  C 69 73, 72 75, 75 71
+                  C 78 66, 80 60, 84 58
+                  C 88 58, 90 64, 92 69
+                  C 94 73, 96 75, 98 72
+                  C 101 67, 102 63, 105 59
+                  C 107 57, 109 58, 111 60"
+              />
+            </svg>
+          </div>
+          <div class="threat-list">
+            <span class="panel-label">Top signals</span>
+            <ol>
+              <li>C2 communication</li>
+              <li>Data exfiltration</li>
+              <li>Lateral movement</li>
+            </ol>
+          </div>
+        </aside>
+
+        <div class="board-map">
+          <div class="panel-label">Live network telemetry</div>
+          <div class="map-surface" aria-hidden="true">
+            <div class="telemetry-media">
+              <img class="telemetry-asset telemetry-asset-animated telemetry-asset-dark" src="assets/branding/telemetry/telemetry_map.svg" alt="" />
+              <picture>
+                <source srcset="assets/branding/telemetry/telemetry_map.avif" type="image/avif" />
+                <source srcset="assets/branding/telemetry/telemetry_map.webp" type="image/webp" />
+                <img class="telemetry-asset telemetry-asset-static telemetry-asset-dark telemetry-asset-fallback" src="assets/branding/telemetry/telemetry_map.png" alt="" />
+              </picture>
+              <img class="telemetry-asset telemetry-asset-animated telemetry-asset-light" src="assets/branding/telemetry/telemetry_map_light.svg" alt="" />
+              <picture>
+                <source srcset="assets/branding/telemetry/telemetry_map_light.avif" type="image/avif" />
+                <source srcset="assets/branding/telemetry/telemetry_map_light.webp" type="image/webp" />
+                <img class="telemetry-asset telemetry-asset-static telemetry-asset-light telemetry-asset-fallback" src="assets/branding/telemetry/telemetry_map_light.png" alt="" />
+              </picture>
             </div>
           </div>
-          <div class="intent-card">
-            <p class="eyebrow">Alternative</p>
-            <h3>Email directly</h3>
-            <p class="ng-hero-subtitle compact">
-              Prefer async? Send the use case, company context, and what you want to explore.
-            </p>
-            <div class="ng-hero-actions">
-              <a
-                class="btn btn-primary"
-                href="mailto:rishabh@rbx-labs.io?subject=Network%20Guardian%20pilot%20interest"
-              >
-                Email pilot interest
-              </a>
-              <a class="btn btn-ghost" href="index.html#selected-builds">Back to RBX Labs</a>
-            </div>
+        </div>
+
+        <aside class="board-panel board-panel-right">
+          <div class="incident-card">
+            <img class="incident-card-icon" src="assets/branding/icons/ng_alert.png" alt="" />
+            <span class="panel-label">Active incidents</span>
+            <strong><span class="countup" data-target="12">12</span></strong>
+            <span class="delta">-3% vs 24h</span>
           </div>
-        </div>
+          <div class="incident-card">
+            <img class="incident-card-icon" src="assets/branding/icons/ng_security.png" alt="" />
+            <span class="panel-label">Resolved today</span>
+            <strong><span class="countup" data-target="87">87</span></strong>
+            <span class="delta positive">+15%</span>
+          </div>
+          <a class="dashboard-link" href="#capabilities">View dashboard</a>
+        </aside>
       </div>
     </section>
 
-    <section id="why" class="ng-why reveal">
-      <div class="why-header">
-        <p class="eyebrow">Why now</p>
-        <h2>The timing is real</h2>
-        <p class="ng-hero-subtitle compact">
-          Work is distributed, network choice is constant, and more people, apps, and AI systems
-          now depend on networks they do not control.
+    <section class="leaderboard-section reveal" id="leaderboard">
+      <div class="section-header">
+        <div><p class="eyebrow">Global trust leaderboard</p><h2>GLOBAL TRUST LEADERBOARD</h2></div>
+        <p class="section-copy">Real-time ranking of networks, contributors, and countries improving pre-connection trust.</p>
+      </div>
+      <div class="leaderboard-tabs" aria-label="Leaderboard views">
+        <div class="leaderboard-tab is-active">Networks</div>
+        <div class="leaderboard-tab">Contributors</div>
+        <div class="leaderboard-tab">Countries</div>
+      </div>
+      <div class="leaderboard-layout">
+        <div class="leaderboard-table" role="table" aria-label="Top network leaderboard">
+          <div class="leaderboard-head" role="row">
+            <span>Rank</span><span>Network</span><span style="text-align:right;">Trust score</span><span style="text-align:right;">Trend</span>
+          </div>
+          <div class="leaderboard-row" role="row"><span class="rank-badge rank-1">1</span><div><div class="leaderboard-network">CyberSentinel Network</div><div class="leaderboard-segment">Enterprise network</div></div><span class="leaderboard-score">98.6</span><span class="leaderboard-delta up">+2.4</span></div>
+          <div class="leaderboard-row" role="row"><span class="rank-badge rank-2">2</span><div><div class="leaderboard-network">NetShield Pro</div><div class="leaderboard-segment">Enterprise network</div></div><span class="leaderboard-score">95.4</span><span class="leaderboard-delta up">+1.8</span></div>
+          <div class="leaderboard-row" role="row"><span class="rank-badge rank-3">3</span><div><div class="leaderboard-network">ThreatHunter Grid</div><div class="leaderboard-segment">Enterprise network</div></div><span class="leaderboard-score">93.1</span><span class="leaderboard-delta up">+0.9</span></div>
+          <div class="leaderboard-row" role="row"><span class="rank-badge">4</span><div><div class="leaderboard-network">SecureMesh Core</div><div class="leaderboard-segment">Business network</div></div><span class="leaderboard-score">91.2</span><span class="leaderboard-delta down">-0.6</span></div>
+          <div class="leaderboard-row" role="row"><span class="rank-badge">5</span><div><div class="leaderboard-network">DefendLink Network</div><div class="leaderboard-segment">Business network</div></div><span class="leaderboard-score">89.7</span><span class="leaderboard-delta up">+1.1</span></div>
+        </div>
+        <aside class="leaderboard-side">
+          <div class="side-card">
+            <div class="panel-label">Live feed status</div>
+            <div class="side-metric">19,284 events / 24h</div>
+            <p class="telemetry-note">Telemetry stream from live scans. Feed updates continuously from production scan traffic.</p>
+          </div>
+          <div class="side-card">
+            <div class="panel-label">Capture quality</div>
+            <div class="side-metric">99.7% uptime</div>
+            <p class="telemetry-note">Trend lines reflect recent risk mix and region-weighted scan density.</p>
+            <svg class="leaderboard-sparkline" viewBox="0 0 260 44" aria-hidden="true">
+              <path class="grid" d="M0 11 H260 M0 22 H260 M0 33 H260" />
+              <path class="line" d="M4 30 C20 29,24 24,36 24 C52 24,58 28,70 27 C84 26,92 20,104 18 C118 16,124 22,136 21 C150 20,160 14,172 14 C188 14,196 20,208 18 C222 16,234 10,256 11" />
+            </svg>
+          </div>
+          <a class="leaderboard-cta" href="#">View full networks leaderboard <span aria-hidden="true">→</span></a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="capabilities-section reveal" id="capabilities">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">Capability stack</p>
+          <h2>BUILT FOR REAL-WORLD NETWORK DECISIONS.</h2>
+        </div>
+        <p class="section-copy">
+          The current wedge is a mobile trust layer for travelers, remote workers, students, and public-network users. The longer-term expansion path is a reusable trust data layer for partners that need pre-connection network intelligence.
         </p>
       </div>
-      <div class="why-grid">
-        <div class="why-card">
-          <div class="why-label">Work is everywhere now</div>
-          <p>Remote work, travel, hybrid campuses, and constant mobility have turned network choice into a daily security decision.</p>
+
+      <div class="capability-grid">
+        <article class="capability-card">
+          <span class="theme-icon capability-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/ng_wifi_trust_light.png" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/ng_wifi_trust.png" alt="" />
+          </span>
+          <h3>Travelers / remote workers / students</h3>
+          <p class="card-subcopy">Scan any Wi-Fi, get instant trust scores, and connect with confidence.</p>
+          <a class="card-link" href="#pilot">Learn more →</a>
+        </article>
+        <article class="capability-card">
+          <span class="theme-icon capability-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/ng_network_activity_light.png" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/ng_network_activity.png" alt="" />
+          </span>
+          <h3>Teams and SMBs</h3>
+          <p class="card-subcopy">Protect employees and guests with real-time network trust insights.</p>
+          <a class="card-link" href="#pilot">Learn more →</a>
+        </article>
+        <article class="capability-card">
+          <span class="theme-icon capability-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/ng_seamless_light.png" alt="" />
+              <img class="theme-icon-light" src="assets/branding/icons/ng_seamless.png" alt="" />
+          </span>
+          <h3>Partners integrating trust checks</h3>
+          <p class="card-subcopy">Embed Network Guardian into your apps and platforms via SDK/API.</p>
+          <a class="card-link" href="#pilot">Learn more →</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="trust-section reveal" id="trust">
+      <p class="eyebrow">Who it serves</p>
+      <div class="trust-grid trust-org-grid">
+        <div>
+          <span class="theme-icon" aria-hidden="true"><img src="assets/branding/icons/web-pack/ng_web_pricing.svg" alt="" /></span>
+          <span>FORTUNE<br />500</span>
         </div>
-        <div class="why-card">
-          <div class="why-label">Existing tools are reactive</div>
-          <p>VPNs act after connection. OS warnings stay generic. Enterprise tools protect network owners, not the person choosing the Wi-Fi.</p>
+        <div>
+          <span class="theme-icon" aria-hidden="true"><img src="assets/branding/icons/web-pack/ng_web_policy.svg" alt="" /></span>
+          <span>GOVERNMENT<br />AGENCIES</span>
         </div>
-        <div class="why-card">
-          <div class="why-label">AI agents need trust too</div>
-          <p>Apps and AI agents increasingly send credentials and sensitive context. They need a trust signal before they rely on the network.</p>
+        <div>
+          <span class="theme-icon" aria-hidden="true"><img src="assets/branding/icons/web-pack/ng_web_compliance.svg" alt="" /></span>
+          <span>CRITICAL<br />INFRASTRUCTURE</span>
+        </div>
+        <div>
+          <span class="theme-icon" aria-hidden="true"><img src="assets/branding/icons/web-pack/ng_web_telemetry.svg" alt="" /></span>
+          <span>GLOBAL<br />ENTERPRISES</span>
+        </div>
+        <div>
+          <span class="theme-icon" aria-hidden="true"><img src="assets/branding/icons/web-pack/ng_web_trust_graph.svg" alt="" /></span>
+          <span>INNOVATION<br />PARTNERS</span>
         </div>
       </div>
     </section>
 
-    <section class="ng-section reveal">
-      <div class="why-header">
-        <p class="eyebrow">The thesis</p>
-        <h2>Every scan improves the trust graph</h2>
-        <p class="ng-hero-subtitle compact">
-          Network Guardian is not just a scanning tool. Over time, it becomes a user-side trust layer for Wi-Fi infrastructure.
-        </p>
-      </div>
-      <div class="moat-grid">
-        <div class="why-card"><div class="why-label">Historical behavior</div><p>Historical BSSID behavior improves future trust decisions.</p></div>
-        <div class="why-card"><div class="why-label">Stability baselines</div><p>Repeated scans create context for whether a network is normal or drifting.</p></div>
-        <div class="why-card"><div class="why-label">Community signal</div><p>Community reports reinforce or challenge trust scores over time.</p></div>
-        <div class="why-card"><div class="why-label">Infrastructure context</div><p>Operator and infrastructure context improves accuracy as the graph grows.</p></div>
+    <section class="operations-section reveal">
+      <div class="section-header"><div><p class="eyebrow">Why now</p><h2>WHY NOW</h2></div></div>
+      <div class="why-now-grid capability-web-grid">
+        <article class="why-now-item"><span class="theme-icon" aria-hidden="true"><img src="assets/branding/icons/web-pack/ng_web_telemetry.svg" alt="" /></span><p>Public Wi-Fi remains risky</p></article>
+        <article class="why-now-item"><span class="theme-icon" aria-hidden="true"><img src="assets/branding/icons/web-pack/ng_web_sector.svg" alt="" /></span><p>Hybrid work increased exposure</p></article>
+        <article class="why-now-item"><span class="theme-icon" aria-hidden="true"><img src="assets/branding/icons/web-pack/ng_web_risk_trend.svg" alt="" /></span><p>Reactive tools are too late</p></article>
+        <article class="why-now-item"><span class="theme-icon" aria-hidden="true"><img src="assets/branding/icons/web-pack/ng_web_api.svg" alt="" /></span><p>AI agents need pre-connection trust context</p></article>
       </div>
     </section>
 
-    <section class="ng-section reveal">
-      <div class="market-grid">
-        <div class="intent-card">
-          <p class="eyebrow">Business model</p>
-          <h2>Consumers pay for protection. Partners buy access.</h2>
-          <p class="ng-hero-subtitle compact">
-            The product can start as a consumer protection layer and expand into partner-facing trust infrastructure.
-          </p>
-          <ul class="two-col-list">
-            <li><span class="micro-label">01</span> Freemium consumer app with paid detailed scans, monitoring, and travel security features</li>
-            <li><span class="micro-label">02</span> B2B SDK and API licensing for products that need pre-connection network intelligence</li>
-            <li><span class="micro-label">03</span> Trust data layer for security, travel, telecom, and device partners</li>
+    <section class="operations-section reveal">
+      <div class="section-header">
+        <div><p class="eyebrow">Expansion path</p><h2>TODAY VS NEXT</h2></div>
+        <p class="section-copy"><strong>Today:</strong> consumer trust app<br><strong>Next:</strong> SDK/API + trust data layer for partners</p>
+      </div>
+      <div class="expansion-grid">
+        <article class="expansion-card">
+          <h3>Today: Consumer trust app</h3>
+          <ul>
+            <li>Mobile app with real-time scoring</li>
+            <li>Crowdsourced threat intelligence</li>
+            <li>Consumer and SMB coverage</li>
           </ul>
-        </div>
+        </article>
+        <div class="expansion-arrow" aria-hidden="true">→</div>
+        <article class="expansion-card">
+          <h3>Next: SDK/API + trust data layer</h3>
+          <ul>
+            <li>Agentic pre-connection policies</li>
+            <li>Enterprise dashboards and SSO</li>
+            <li>Global trust data marketplace</li>
+          </ul>
+        </article>
+      </div>
+    </section>
 
-        <div class="intent-card">
-          <p class="eyebrow">Why this can exist</p>
-          <h2>Built from real network and trust-system experience</h2>
-          <p class="ng-hero-subtitle compact">
-            Network Guardian is shaped by experience across telecom operations, BSS systems,
-            and AI trust infrastructure.
-          </p>
-          <div class="pill-row">
-            <span class="pill">Network operations</span>
-            <span class="pill">BSS systems</span>
-            <span class="pill">AI trust systems</span>
-          </div>
-        </div>
+    <section class="operations-section reveal">
+      <div class="section-header"><div><p class="eyebrow">Business model</p><h2>BUSINESS MODEL</h2></div></div>
+      <div class="capability-grid business-model-grid capability-web-grid">
+        <article class="capability-card">
+          <span class="theme-icon capability-icon" aria-hidden="true"><img src="assets/branding/icons/web-pack/ng_web_pricing.svg" alt="" /></span>
+          <h3>Consumer Premium</h3>
+          <p class="card-subcopy">Freemium → Premium</p>
+          <p class="price-line">$4.99 <small>/ mo</small></p>
+          <p class="card-subcopy">7-day free trial</p>
+        </article>
+        <article class="capability-card">
+          <span class="theme-icon capability-icon" aria-hidden="true"><img src="assets/branding/icons/web-pack/ng_web_api.svg" alt="" /></span>
+          <h3>B2B SDK/API</h3>
+          <p class="card-subcopy">Usage-based pricing</p>
+          <p class="price-line" style="font-size:1.7rem">Developer / Team Plans</p>
+        </article>
+        <article class="capability-card">
+          <span class="theme-icon capability-icon" aria-hidden="true"><img src="assets/branding/icons/web-pack/ng_web_compliance.svg" alt="" /></span>
+          <h3>Trust Data Layer</h3>
+          <p class="card-subcopy">Data access and insights</p>
+          <p class="price-line" style="font-size:1.7rem">Enterprise Subscriptions</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="pilot-section reveal" id="pilot">
+      <div class="pilot-copy">
+        <p class="eyebrow">Pilot access</p>
+        <h2>Turn pre-connection trust into a product advantage.</h2>
+        <p class="section-copy">
+          For consumer rollout, partner integration, or trust-data pilots.
+        </p>
+      </div>
+      <div class="pilot-actions">
+        <a
+          class="action-primary"
+          href="https://calendly.com/rishabhbanga/ai-strategy-rishabh?hide_gdpr_banner=1"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Book a pilot call
+        </a>
+        <a
+          class="action-secondary"
+          href="mailto:rishabh@rbx-labs.io?subject=Network%20Guardian%20pilot%20interest"
+        >
+          Email pilot interest
+        </a>
       </div>
     </section>
   </main>
+
   <script src="script.js" defer></script>
 </body>
 </html>

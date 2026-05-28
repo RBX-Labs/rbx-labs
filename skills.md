@@ -19,8 +19,12 @@ This is a required validation routine, not an optional cleanup step.
 
 ## Goal
 Validate the rendered site visually across:
-- mobile
-- tablet
+- phone portrait
+- phone landscape
+- flip portrait
+- fold portrait
+- tablet portrait
+- tablet landscape
 - desktop
 
 Do not rely on source inspection alone when a change affects presentation.
@@ -40,8 +44,12 @@ If a change is isolated to one page, validate that page first, then validate any
 
 ## Required Viewports
 Use these sizes:
-- mobile: `390x844`
-- tablet: `768x1024`
+- phone portrait: `390x844`
+- phone landscape: `844x390`
+- flip portrait: `320x720`
+- fold portrait: `673x841`
+- tablet portrait: `768x1024`
+- tablet landscape: `1024x768`
 - desktop: `1440x1100`
 
 ## Required Validation Standard
@@ -88,3 +96,38 @@ If a render reveals a layout issue:
 - recheck
 
 Do not stop at “source looks correct.”
+
+## Design Compare/Assess Workflow
+When asked to compare or assess designs:
+1. Produce a visual comparison board, not text-only feedback.
+2. Default board format:
+- six panels in a 3x2 matrix
+- top row: before desktop, before tablet, before phone
+- bottom row: after desktop, after tablet, after phone
+3. Add concise callouts on the board for key changes (for example section rhythm, style variants, CTA hierarchy, mobile spacing).
+4. Keep the assessment tied to rendered output across breakpoints, not source inspection.
+5. If asked to "only show visually", return visual artifacts first and avoid code changes in that step.
+6. Screenshot rule for design assessments:
+- always use full-screen or full-section captures, not cropped snippets
+- include dynamic UI/data states in captures when relevant (for example tables, telemetry graphs, expanded panels, active tabs)
+- if a critical data surface is missing from a capture, re-render and include it before reporting
+
+## Resume PDF Naming Rule
+When generating or exporting any resume PDF, always name the output file exactly:
+- `RishabhBanga_Resume.pdf`
+
+Apply this naming consistently across all role-specific resume generation workflows.
+
+## Resume Rejection Learnings
+- Record every rejection with: company, role, country, date, stage reached, source artifact (email/screenshot/ATS status), and applied resume variant path.
+- Geography triage rule:
+  - US role: visa/work authorization can be treated as a potential primary filter.
+  - Canada role: do not assume visa. Open a content/process investigation (JD-match gaps, missing keywords, seniority mismatch, location mismatch, application quality, timing, or recruiter availability) and document findings.
+- Verified role-location checks tied to current rejection discussion:
+  - Acumatica `Senior Product Manager - Reporting & Analytics`: external listings captured as `Montreal, Quebec, Canada` (Canada-based signal present).
+  - CADchat `Product Manager/Head of Product`: external listing captured as `fully remote` with no clear Canada-only constraint in the captured artifact; treat as location-unconfirmed until official posting artifact is stored.
+- Evidence-based resume-gap learning for Acumatica-style Reporting/Analytics roles:
+  - When JD scope emphasizes ERP-native reporting ownership (for example GI/Reports/ARM/Dashboards/Pivots, reporting architecture modernization, and self-serve analytics), the resume must show explicit, named ownership of reporting/BI platform surfaces and large-scale analytics UX/performance outcomes.
+  - If those explicit ERP/reporting markers are missing or only implicit, classify as probable content-positioning miss (not visa) for Canada-based outcomes.
+- Time-investment protection rule:
+  - If repeated PM applications are not converting, require a rejection-cause entry before generating the next broad resume wave.

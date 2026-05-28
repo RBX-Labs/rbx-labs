@@ -1,5 +1,12 @@
 const revealItems = document.querySelectorAll(".reveal");
-const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const qaParams = new URLSearchParams(window.location.search);
+const qaTheme = qaParams.get("qa_theme");
+const qaContrast = qaParams.get("qa_contrast");
+const qaStaticMode = qaParams.get("qa_static") === "1";
+const qaVisualMode = qaParams.get("qa_visual");
+const prefersReducedMotion = typeof window.matchMedia === "function"
+  ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  : false;
 const calendlyLinks = document.querySelectorAll("[data-calendly-link]");
 const countupItems = document.querySelectorAll(".countup");
 const stageSections = document.querySelectorAll("[data-stage-section]");
@@ -15,6 +22,11 @@ let activeBookingTrigger = null;
 let userIsScrolling = false;
 let scrollResumeTimeoutId = null;
 const autoplayControllers = [];
+const managedIntervalControllers = [];
+
+function revealAllContentFallback() {
+  revealItems.forEach((item) => item.classList.add("is-visible"));
+}
 
 function applyDisplaySettings(theme, contrast) {
   if (theme === "light" || theme === "dark") {
@@ -230,7 +242,7 @@ function startTrackAutoplay() {
         }
       },
       resume() {
-        if (this.intervalId !== null || userIsScrolling) {
+        if (this.intervalId !== null || userIsScrolling || document.hidden) {
           return;
         }
 
@@ -265,6 +277,34 @@ function scheduleAutoplayResume() {
   }, 4000);
 }
 
+function createManagedInterval(callback, durationMs) {
+  const controller = {
+    intervalId: null,
+    pause() {
+      if (this.intervalId !== null) {
+        window.clearInterval(this.intervalId);
+        this.intervalId = null;
+      }
+    },
+    resume() {
+      if (this.intervalId !== null || document.hidden || prefersReducedMotion) {
+        return;
+      }
+      this.intervalId = window.setInterval(callback, durationMs);
+    },
+  };
+  managedIntervalControllers.push(controller);
+  return controller;
+}
+
+function pauseManagedIntervals() {
+  managedIntervalControllers.forEach((controller) => controller.pause());
+}
+
+function resumeManagedIntervals() {
+  managedIntervalControllers.forEach((controller) => controller.resume());
+}
+
 function startHoloRotation() {
   holoRotatingGrids.forEach((grid) => {
     const cards = Array.from(grid.querySelectorAll(".result-card"));
@@ -286,10 +326,11 @@ function startHoloRotation() {
       return;
     }
 
-    window.setInterval(() => {
+    const controller = createManagedInterval(() => {
       activeIndex = (activeIndex + 1) % cards.length;
       activateCard(activeIndex);
     }, 3000);
+    controller.resume();
   });
 }
 
@@ -312,10 +353,11 @@ function startHeroSocialProofRotation() {
     return;
   }
 
-  window.setInterval(() => {
+  const controller = createManagedInterval(() => {
     activeIndex = (activeIndex + 1) % heroSocialProofItems.length;
     activateItem(activeIndex);
   }, 1500);
+  controller.resume();
 }
 
 function setActiveService(serviceName) {
@@ -334,7 +376,21 @@ function setActiveService(serviceName) {
   });
 }
 
-applyDisplaySettings(document.documentElement.dataset.theme, document.documentElement.dataset.contrast);
+try {
+  if (qaVisualMode === "png" || qaVisualMode === "svg") {
+    document.documentElement.dataset.qaVisual = qaVisualMode;
+  }
+
+  if (qaTheme === "light" || qaTheme === "dark") {
+    document.documentElement.dataset.theme = qaTheme;
+  }
+  if (qaContrast === "high" || qaContrast === "standard") {
+    document.documentElement.dataset.contrast = qaContrast;
+  }
+
+  document.documentElement.dataset.js = "ready";
+
+  applyDisplaySettings(document.documentElement.dataset.theme, document.documentElement.dataset.contrast);
 
 if (serviceSteps.length > 0 && servicePanels.length > 0) {
   setActiveService(serviceSteps[0].dataset.serviceStep);
@@ -346,7 +402,7 @@ if (serviceSteps.length > 0 && servicePanels.length > 0) {
   });
 }
 
-if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+if (qaStaticMode || prefersReducedMotion || !("IntersectionObserver" in window)) {
   revealItems.forEach((item) => item.classList.add("is-visible"));
   countupItems.forEach((el) => {
     const target = Number(el.dataset.target || "0");
@@ -501,10 +557,42 @@ contrastButtons.forEach((button) => {
   });
 });
 
-window.addEventListener("beforeunload", () => {
-  if (scrollResumeTimeoutId !== null) {
-    window.clearTimeout(scrollResumeTimeoutId);
-  }
+  window.addEventListener("beforeunload", () => {
+    if (scrollResumeTimeoutId !== null) {
+      window.clearTimeout(scrollResumeTimeoutId);
+    }
 
-  pauseTrackAutoplay();
-});
+    pauseTrackAutoplay();
+    pauseManagedIntervals();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      pauseTrackAutoplay();
+      pauseManagedIntervals();
+      if (scrollResumeTimeoutId !== null) {
+        window.clearTimeout(scrollResumeTimeoutId);
+      }
+      return;
+    }
+
+    if (!userIsScrolling) {
+      resumeTrackAutoplay();
+    }
+    resumeManagedIntervals();
+  });
+
+  // Safety net: if sections remain hidden due to partial init/cached script mismatch,
+  // unhide them after first paint window.
+  window.setTimeout(() => {
+    const hasVisibleReveal = Array.from(revealItems).some((item) => item.classList.contains("is-visible"));
+    if (!hasVisibleReveal && revealItems.length > 0) {
+      document.documentElement.removeAttribute("data-js");
+      revealAllContentFallback();
+    }
+  }, 1200);
+} catch (error) {
+  document.documentElement.removeAttribute("data-js");
+  revealAllContentFallback();
+  console.error("Network Guardian init failed; falling back to static render.", error);
+}
