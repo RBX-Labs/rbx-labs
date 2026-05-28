@@ -24,6 +24,20 @@ let scrollResumeTimeoutId = null;
 const autoplayControllers = [];
 const managedIntervalControllers = [];
 
+function applyConnectionMode() {
+  const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  if (!connection) {
+    return;
+  }
+
+  const effectiveType = typeof connection.effectiveType === "string" ? connection.effectiveType : "";
+  const saveData = connection.saveData === true;
+  const isSlowType = /(^|-)2g$|3g/.test(effectiveType);
+  if (saveData || isSlowType) {
+    document.documentElement.dataset.connection = "slow";
+  }
+}
+
 function revealAllContentFallback() {
   revealItems.forEach((item) => item.classList.add("is-visible"));
 }
@@ -389,6 +403,7 @@ try {
   }
 
   document.documentElement.dataset.js = "ready";
+  applyConnectionMode();
 
   applyDisplaySettings(document.documentElement.dataset.theme, document.documentElement.dataset.contrast);
 
