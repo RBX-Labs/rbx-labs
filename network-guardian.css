@@ -542,8 +542,38 @@ h1 span {
   background: transparent;
 }
 
+.hero-asset-video,
+.telemetry-asset-video {
+  display: block;
+}
+
+.hero-asset-image,
+.telemetry-asset-image {
+  display: none;
+}
+
 .hero-asset-light,
 .telemetry-asset-light {
+  display: none;
+}
+
+html[data-connection="slow"] .hero-asset-video,
+html[data-connection="slow"] .telemetry-asset-video {
+  display: none;
+}
+
+html[data-connection="slow"] .hero-asset-image.hero-asset-dark,
+html[data-connection="slow"] .telemetry-asset-image.telemetry-asset-dark {
+  display: block;
+}
+
+html[data-connection="slow"][data-theme="light"] .hero-asset-image.hero-asset-light,
+html[data-connection="slow"][data-theme="light"] .telemetry-asset-image.telemetry-asset-light {
+  display: block;
+}
+
+html[data-connection="slow"][data-theme="light"] .hero-asset-image.hero-asset-dark,
+html[data-connection="slow"][data-theme="light"] .telemetry-asset-image.telemetry-asset-dark {
   display: none;
 }
 
