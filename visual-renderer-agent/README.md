@@ -39,6 +39,14 @@ If you only want screenshots without agent review, run:
 visual-renderer-agent/scripts/visual-render-validate.sh
 ```
 
+To export a reusable PNG mockup artifact for Network Guardian after rendering:
+
+```sh
+visual-renderer-agent/scripts/export-ng-mockup.sh
+```
+
+`export-ng-mockup.sh` uses headless Chrome for the full-length mockup export, because macOS `qlmanage` thumbnails are capped and can cut off lower sections/footer.
+
 ## What It Does
 
 The visual renderer agent runs in two stages:
@@ -46,9 +54,16 @@ The visual renderer agent runs in two stages:
 1. `visual-renderer-agent/scripts/visual-render-validate.sh`
    - discovers every repo-root `.html` page automatically
    - renders each page at:
-     - mobile `390x844`
-     - tablet `768x1024`
+     - phone portrait `390x844`
+     - phone landscape `844x390`
+     - flip portrait `320x720`
+     - fold portrait `673x841`
+     - tablet portrait `768x1024`
+     - tablet landscape `1024x768`
      - desktop `1440x1100`
+   - emits two PNG variants per breakpoint:
+     - viewport capture: `page-breakpoint.html.png`
+     - full-length capture: `page-breakpoint-full.html.png`
    - writes screenshots to `${TMPDIR:-/tmp}/rbx-responsive`
    - writes a screenshot manifest to `${TMPDIR:-/tmp}/rbx-responsive/manifest.txt`
 
@@ -58,12 +73,51 @@ The visual renderer agent runs in two stages:
    - builds the evaluation payload
    - invokes the local `codex` CLI non-interactively
    - attaches every generated screenshot to the evaluation request
-   - requires a human-readable QA report with one `PASS` or `FAIL` line per HTML file plus a concise comments line
+   - attaches concept-board and icon-system reference images when present
+  - requires a human-readable QA report with one `PASS` or `FAIL` line per HTML file plus a concise comments line
+
+Additional always-on audits run as part of stage 1:
+
+- `visual-renderer-agent/scripts/network-perf-audit.sh`
+  - compares paired SVG/PNG branding assets
+  - reports low-network vs fast-network transfer estimates
+  - writes `${TMPDIR:-/tmp}/rbx-responsive/network-performance-report.txt`
+
+- `visual-renderer-agent/scripts/runtime-resilience-audit.sh`
+  - validates local asset references resolve on disk
+  - verifies reveal fail-safe guardrails exist in JS and CSS
+  - verifies theme icon exclusivity rules exist (prevents dark+light overlap)
+  - writes `${TMPDIR:-/tmp}/rbx-responsive/runtime-resilience-report.txt`
+  - must report `Overall: PASS` or `render-and-eval.sh` exits early
+
+- `visual-renderer-agent/scripts/concept-parity-audit.sh`
+  - enforces section-level concept checks for Network Guardian:
+    - hero line structure and clipping guard
+    - metric-row target parity (`78/100`)
+    - How We Operate icon sizing floor
+    - Live System Overview right-column icon-source and sizing checks
+    - trust-row typography scale/tracking checks
+  - writes `${TMPDIR:-/tmp}/rbx-responsive/concept-parity-report.txt`
+  - must report `Overall: PASS` or `render-and-eval.sh` exits early
+
+- `visual-renderer-agent/scripts/lighthouse-style-audit.sh`
+  - runs a local Lighthouse performance audit for `network-guardian.html` (mobile + desktop) when the `lighthouse` CLI is available
+  - always writes `${TMPDIR:-/tmp}/rbx-responsive/lighthouse-style-report.txt`
+  - when Lighthouse CLI is unavailable, falls back to static Lighthouse-style checks:
+    - reduced-motion guard presence
+    - hidden-tab animation pause lifecycle guard
+    - fallback PNG payload size check
+    - head-blocking script check
 
 ## Evaluation Standard
 
 The agent review is expected to check for:
 
+- concept fidelity first, not only runtime breakage
+- approved logo lockup usage and the absence of unofficial/fallback shields
+- icon-system fidelity, including icon size and emphasis relative to the concept
+- connectivity impact awareness (via generated low/fast transfer report)
+- runtime resilience to single-JS-failure states and stale cache outcomes
 - blocking issues first
 - layout overlap
 - broken stacking
@@ -71,6 +125,14 @@ The agent review is expected to check for:
 - unreadable text
 - obvious alignment failures
 - not the fact that a fixed-height viewport snapshot naturally ends mid-section or mid-card
+
+Automated render review is necessary but not sufficient. Like the stronger WeKamp mobile flow, this renderer must be treated as a smoke-and-fidelity aid, and significant presentation changes still require explicit human comparison against the approved concept board.
+
+Current Network Guardian references:
+
+- Concept board image: `assets/ng-ui-revamp-concepts-dark-light.png`
+- Icon system: `assets/branding/reference/ng_icon_system.png`
+- Concept HTML companion: `network-guardian-concept-v2.html`
 
 The expected report shape is:
 
@@ -127,12 +189,25 @@ The manifest is written to:
 ${TMPDIR:-/tmp}/rbx-responsive/manifest.txt
 ```
 
+Reusable mockup exports are written to:
+
+```sh
+assets/mockups/network-guardian-mockup-desktop.png
+assets/mockups/network-guardian-mockup-desktop-YYYY-MM-DD.png
+assets/mockups/network-guardian-mockup-desktop-full.png
+assets/mockups/network-guardian-mockup-desktop-full-YYYY-MM-DD.png
+```
+
 Typical files look like:
 
-- `index-mobile.html.png`
-- `index-tablet.html.png`
+- `index-phone-portrait.html.png`
+- `index-phone-landscape.html.png`
+- `index-flip-portrait.html.png`
+- `index-fold-portrait.html.png`
+- `index-tablet-portrait.html.png`
+- `index-tablet-landscape.html.png`
 - `index-desktop.html.png`
-- `ai-training-mobile.html.png`
+- `ai-training-phone-portrait.html.png`
 
 ## Why This Exists
 

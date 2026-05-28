@@ -726,15 +726,20 @@ h2 {
   background: rgba(4, 20, 34, 0.85);
   border: 1px solid rgba(65, 127, 168, 0.45);
   border-radius: 999px;
-  display: inline-flex;
+  display: inline-grid;
   flex: 0 0 auto;
   justify-content: center;
-  padding: 0.38rem;
-  width: 2.5rem;
+  place-items: center;
+  padding: 0.32rem;
+  width: 3rem;
+  height: 3rem;
 }
 
 .operation-icon img {
-  width: 1.5rem;
+  width: 1.9rem;
+  height: 1.9rem;
+  object-fit: contain;
+  object-position: center;
 }
 
 .operation-copy h3 {
@@ -986,10 +991,10 @@ h3 {
 
 .incident-card-icon {
   display: block;
-  height: 1.65rem;
+  height: 2rem;
   margin-bottom: 0.42rem;
   object-fit: contain;
-  width: 1.65rem;
+  width: 2rem;
 }
 
 .incident-card .panel-label {

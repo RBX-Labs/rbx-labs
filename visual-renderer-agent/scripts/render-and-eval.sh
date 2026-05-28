@@ -9,12 +9,23 @@ fi
 
 OUT_DIR="${TMPDIR:-/tmp}/rbx-responsive"
 MANIFEST_FILE="$OUT_DIR/manifest.txt"
+PERF_REPORT="$OUT_DIR/network-performance-report.txt"
+RUNTIME_REPORT="$OUT_DIR/runtime-resilience-report.txt"
+CONCEPT_REPORT="$OUT_DIR/concept-parity-report.txt"
+LIGHTHOUSE_STYLE_REPORT="$OUT_DIR/lighthouse-style-report.txt"
 OVERRIDE_FILE="$ROOT_DIR/.git/.visual-qa-override"
 OVERRIDE_LOG="$OUT_DIR/manual-override.txt"
+REFERENCE_CONCEPT_BOARD="$ROOT_DIR/assets/ng-ui-revamp-concepts-dark-light.png"
+REFERENCE_ICON_SYSTEM="$ROOT_DIR/assets/branding/reference/ng_icon_system.png"
+REFERENCE_CONCEPT_HTML="$ROOT_DIR/network-guardian-concept-v2.html"
 
 BREAKPOINTS=(
-  "mobile 390x844"
-  "tablet 768x1024"
+  "phone-portrait 390x844"
+  "phone-landscape 844x390"
+  "flip-portrait 320x720"
+  "fold-portrait 673x841"
+  "tablet-portrait 768x1024"
+  "tablet-landscape 1024x768"
   "desktop 1440x1100"
 )
 
@@ -45,6 +56,36 @@ if (( ${#images[@]} == 0 )); then
   echo "No generated screenshots found in manifest." >&2
   exit 1
 fi
+
+if [[ ! -f "$RUNTIME_REPORT" ]]; then
+  echo "Runtime resilience report not found: $RUNTIME_REPORT" >&2
+  exit 1
+fi
+
+if ! rg -q '^Overall: PASS$' "$RUNTIME_REPORT"; then
+  echo "Runtime resilience checks failed. Fix blocking runtime issues before visual eval." >&2
+  echo "See: $RUNTIME_REPORT" >&2
+  exit 1
+fi
+
+if [[ ! -f "$CONCEPT_REPORT" ]]; then
+  echo "Concept parity report not found: $CONCEPT_REPORT" >&2
+  exit 1
+fi
+
+if ! rg -q '^Overall: PASS$' "$CONCEPT_REPORT"; then
+  echo "Concept parity checks failed. Resolve section-level mismatches before visual eval." >&2
+  echo "See: $CONCEPT_REPORT" >&2
+  exit 1
+fi
+
+typeset -a reference_images
+for candidate in \
+  "$REFERENCE_CONCEPT_BOARD" \
+  "$REFERENCE_ICON_SYSTEM"
+do
+  [[ -f "$candidate" ]] && reference_images+=("$candidate")
+done
 
 # ---------- MANUAL OVERRIDE DETECTION ----------
 MANUAL_OVERRIDE=0
@@ -112,6 +153,26 @@ trap cleanup EXIT
 {
   echo "Renderer finished."
   echo
+  echo "Use the attached concept board and icon-system references as source of truth."
+  if [[ -f "$PERF_REPORT" ]]; then
+    echo "- Connectivity report: $PERF_REPORT"
+  fi
+  if [[ -f "$RUNTIME_REPORT" ]]; then
+    echo "- Runtime resilience report: $RUNTIME_REPORT"
+  fi
+  if [[ -f "$CONCEPT_REPORT" ]]; then
+    echo "- Concept parity report: $CONCEPT_REPORT"
+  fi
+  if [[ -f "$LIGHTHOUSE_STYLE_REPORT" ]]; then
+    echo "- Lighthouse-style report: $LIGHTHOUSE_STYLE_REPORT"
+  fi
+  if [[ -f "$REFERENCE_CONCEPT_HTML" ]]; then
+    echo "- Canonical concept HTML: $REFERENCE_CONCEPT_HTML"
+  fi
+  for reference_image in "${reference_images[@]}"; do
+    echo "- Reference image: $reference_image"
+  done
+  echo
   echo "Evaluate all generated screenshots for:"
   for page in "${PAGES[@]}"; do
     echo "- ${page}"
@@ -122,13 +183,23 @@ trap cleanup EXIT
     echo "- ${breakpoint}"
   done
   echo
+  echo "This is a fidelity review, not only a breakage review."
+  echo "Fail a page if it materially diverges from the concept board even when the layout is technically stable."
+  echo
   echo "Report:"
   echo "- blocking issues first"
+  echo "- concept mismatches first when they affect hierarchy, composition, scale, or brand fidelity"
   echo "- layout overlap"
   echo "- broken stacking"
   echo "- spacing regressions"
   echo "- unreadable text"
   echo "- obvious alignment failures"
+  echo "- icon scale mismatches; icons that read materially smaller or weaker than concept are blocking"
+  echo "- wrong brand asset usage; fail if a fallback, hand-drawn, placeholder, or unofficial shield/logo appears"
+  echo "- logo lockup mismatches; fail if the displayed lockup does not match approved NG logo variants"
+  echo "- missing or incorrect icon-system references on concept-driven surfaces"
+  echo "- visual hierarchy mismatches in panels, cards, CTAs, and top-of-screen composition"
+  echo "- note whether each screenshot looks production-faithful, not merely unbroken"
   echo
   echo "Return the result in this exact human-readable format:"
   echo
@@ -161,6 +232,10 @@ codex_args=(
 
 for image in "${images[@]}"; do
   codex_args+=(-i "$image")
+done
+
+for reference_image in "${reference_images[@]}"; do
+  codex_args+=(-i "$reference_image")
 done
 
 "$CODEX_BIN" "${codex_args[@]}" < "$prompt_file"
