@@ -3,9 +3,17 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 OUT_DIR="${TMPDIR:-/tmp}/rbx-responsive"
+PERF_SCRIPT="$ROOT_DIR/visual-renderer-agent/scripts/network-perf-audit.sh"
+RUNTIME_SCRIPT="$ROOT_DIR/visual-renderer-agent/scripts/runtime-resilience-audit.sh"
+CONCEPT_SCRIPT="$ROOT_DIR/visual-renderer-agent/scripts/concept-parity-audit.sh"
+LIGHTHOUSE_STYLE_SCRIPT="$ROOT_DIR/visual-renderer-agent/scripts/lighthouse-style-audit.sh"
 SPECS=(
-  "mobile 390 844 0.85"
-  "tablet 768 1024 0.70"
+  "phone-portrait 390 844 0.85"
+  "phone-landscape 844 390 0.72"
+  "flip-portrait 320 720 0.95"
+  "fold-portrait 673 841 0.78"
+  "tablet-portrait 768 1024 0.70"
+  "tablet-landscape 1024 768 0.62"
   "desktop 1440 1100 0.52"
 )
 MANIFEST_FILE="$OUT_DIR/manifest.txt"
@@ -57,11 +65,52 @@ HTML
   qlmanage -t -s 1600 -o "$OUT_DIR" "$wrapper" >/dev/null
 }
 
+render_page_full() {
+  local page="$1"
+  local label="$2"
+  local width="$3"
+  local height="$4"
+  local scale="$5"
+  local wrapper="$OUT_DIR/${page}-${label}-full.html"
+  local full_height=$((height * 12))
+  local viewport_height
+  viewport_height="$(awk -v h="$full_height" -v s="$scale" 'BEGIN { printf "%d", (h * s) + 140 }')"
+
+  cat > "$wrapper" <<HTML
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+html,body{margin:0;background:#061224}
+.viewport{width:1600px;height:${viewport_height}px;position:relative;background:#061224}
+.device{width:${width}px;height:${full_height}px;transform:scale(${scale});transform-origin:top left;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 24px 80px rgba(0,0,0,.35);border-radius:24px;overflow:hidden;position:absolute;left:40px;top:40px;background:#061224}
+iframe{width:${width}px;height:${full_height}px;border:0;display:block}
+.label{position:absolute;right:40px;top:40px;color:#dbe7f4;font:600 28px/1.2 Arial,sans-serif;text-align:right}
+.label small{display:block;color:#8ea3b8;font:400 18px/1.4 Arial,sans-serif;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="viewport">
+  <div class="device"><iframe src="file://${ROOT_DIR}/${page}.html"></iframe></div>
+  <div class="label">${page}.html<br><small>${label} full ${width}x${full_height}</small></div>
+</div>
+</body>
+</html>
+HTML
+
+  # Quick Look thumbnails cap visible detail when size is too small.
+  # Use a larger output size so "-full" captures actually include lower sections.
+  qlmanage -t -s 5000 -o "$OUT_DIR" "$wrapper" >/dev/null
+}
+
 for page in "${PAGES[@]}"; do
   for spec in "${SPECS[@]}"; do
     render_page "$page" ${=spec}
+    render_page_full "$page" ${=spec}
     set -- ${=spec}
     echo "$OUT_DIR/${page}-${1}.html.png" >> "$MANIFEST_FILE"
+    echo "$OUT_DIR/${page}-${1}-full.html.png" >> "$MANIFEST_FILE"
   done
 done
 
@@ -71,6 +120,41 @@ for page in "${PAGES[@]}"; do
   for spec in "${SPECS[@]}"; do
     set -- ${=spec}
     echo "  $OUT_DIR/${page}-${1}.html.png"
+    echo "  $OUT_DIR/${page}-${1}-full.html.png"
   done
 done
 echo "Manifest: $MANIFEST_FILE"
+cat <<'EOF'
+
+Manual review is still required for concept-fidelity changes.
+Minimum review checklist:
+  - Compare against the approved concept board, not only the live page structure
+  - Check logo variant, brand lockup, and icon-system usage
+  - Treat undersized icons or weak icon emphasis as blocking
+  - Check first viewport hierarchy, not just overflow and clipping
+  - Review below-the-fold sections separately when the concept includes them
+EOF
+
+if [[ -x "$PERF_SCRIPT" ]]; then
+  "$PERF_SCRIPT"
+else
+  echo "Performance script missing or not executable: $PERF_SCRIPT" >&2
+fi
+
+if [[ -x "$RUNTIME_SCRIPT" ]]; then
+  "$RUNTIME_SCRIPT"
+else
+  echo "Runtime resilience script missing or not executable: $RUNTIME_SCRIPT" >&2
+fi
+
+if [[ -x "$CONCEPT_SCRIPT" ]]; then
+  "$CONCEPT_SCRIPT"
+else
+  echo "Concept parity script missing or not executable: $CONCEPT_SCRIPT" >&2
+fi
+
+if [[ -x "$LIGHTHOUSE_STYLE_SCRIPT" ]]; then
+  "$LIGHTHOUSE_STYLE_SCRIPT"
+else
+  echo "Lighthouse-style script missing or not executable: $LIGHTHOUSE_STYLE_SCRIPT" >&2
+fi
