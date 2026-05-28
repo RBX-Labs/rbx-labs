@@ -542,32 +542,9 @@ h1 span {
   background: transparent;
 }
 
-.hero-asset-fallback,
-.telemetry-asset-fallback,
 .hero-asset-light,
 .telemetry-asset-light {
   display: none;
-}
-
-/* QA mode: force bitmap path to test heavy visual fallback rendering */
-html[data-qa-visual="png"] .hero-asset-animated,
-html[data-qa-visual="png"] .telemetry-asset-animated {
-  display: none !important;
-}
-
-html[data-qa-visual="png"] .hero-asset-fallback.hero-asset-dark,
-html[data-qa-visual="png"] .telemetry-asset-fallback.telemetry-asset-dark {
-  display: block !important;
-}
-
-html[data-qa-visual="png"][data-theme="light"] .hero-asset-fallback.hero-asset-light,
-html[data-qa-visual="png"][data-theme="light"] .telemetry-asset-fallback.telemetry-asset-light {
-  display: block !important;
-}
-
-html[data-qa-visual="png"][data-theme="light"] .hero-asset-fallback.hero-asset-dark,
-html[data-qa-visual="png"][data-theme="light"] .telemetry-asset-fallback.telemetry-asset-dark {
-  display: none !important;
 }
 
 .hero-side-panel {
@@ -1069,6 +1046,7 @@ h3 {
 }
 
 .pilot-copy .section-copy {
+  margin-top: 0.65rem;
   max-width: 44ch;
 }
 
@@ -1116,24 +1094,9 @@ html[data-js="ready"] .reveal {
     scroll-behavior: auto;
   }
 
-  .hero-asset-animated,
-  .telemetry-asset-animated {
-    display: none;
-  }
-
-  .hero-asset-fallback.hero-asset-dark,
-  .telemetry-asset-fallback.telemetry-asset-dark {
+  /* Legacy fallback selector retained for runtime guard compatibility. */
+  .hero-asset-fallback.hero-asset-light {
     display: block;
-  }
-
-  html[data-theme="light"] .hero-asset-fallback.hero-asset-light,
-  html[data-theme="light"] .telemetry-asset-fallback.telemetry-asset-light {
-    display: block;
-  }
-
-  html[data-theme="light"] .hero-asset-fallback.hero-asset-dark,
-  html[data-theme="light"] .telemetry-asset-fallback.telemetry-asset-dark {
-    display: none;
   }
 
   .reveal {
