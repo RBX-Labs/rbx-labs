@@ -18,6 +18,7 @@ const themeButtons = document.querySelectorAll("[data-theme-option]");
 const contrastButtons = document.querySelectorAll("[data-contrast-option]");
 const holoRotatingGrids = document.querySelectorAll("[data-holo-rotate]");
 const heroSocialProofItems = document.querySelectorAll(".hero-social-proof-item");
+const animatedMediaVideos = document.querySelectorAll(".hero-asset-video, .telemetry-asset-video");
 let activeBookingTrigger = null;
 let userIsScrolling = false;
 let scrollResumeTimeoutId = null;
@@ -36,6 +37,21 @@ function applyConnectionMode() {
   if (saveData || isSlowType) {
     document.documentElement.dataset.connection = "slow";
   }
+}
+
+function ensureAnimatedMediaPlayback() {
+  animatedMediaVideos.forEach((video) => {
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    const playAttempt = video.play();
+    if (playAttempt && typeof playAttempt.catch === "function") {
+      playAttempt.catch(() => {
+        // Fallback mode keeps corresponding WebP visible when autoplay is blocked.
+        document.documentElement.dataset.connection = "slow";
+      });
+    }
+  });
 }
 
 function revealAllContentFallback() {
@@ -404,6 +420,7 @@ try {
 
   document.documentElement.dataset.js = "ready";
   applyConnectionMode();
+  ensureAnimatedMediaPlayback();
 
   applyDisplaySettings(document.documentElement.dataset.theme, document.documentElement.dataset.contrast);
 
