@@ -7,12 +7,7 @@ const qaVisualMode = qaParams.get("qa_visual");
 const prefersReducedMotion = typeof window.matchMedia === "function"
   ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
   : false;
-const calendlyWidgetCssUrl = "https://assets.calendly.com/assets/external/widget.css";
-const calendlyWidgetScriptUrl = "https://assets.calendly.com/assets/external/widget.js";
 const calendlyLinks = document.querySelectorAll("[data-calendly-link]");
-const calendlyShells = document.querySelectorAll("[data-calendly-shell]");
-const calendlyLoadButtons = document.querySelectorAll("[data-calendly-load]");
-const contactSection = document.querySelector("#contact");
 const countupItems = document.querySelectorAll(".countup");
 const stageSections = document.querySelectorAll("[data-stage-section]");
 const stageSteps = document.querySelectorAll("[data-stage-step]");
@@ -27,8 +22,6 @@ const animatedMediaVideos = document.querySelectorAll(".hero-asset-video, .telem
 let activeBookingTrigger = null;
 let userIsScrolling = false;
 let scrollResumeTimeoutId = null;
-let calendlyResourcesPromise = null;
-let calendlySectionObserver = null;
 const autoplayControllers = [];
 const managedIntervalControllers = [];
 
@@ -79,113 +72,6 @@ function applyDisplaySettings(theme, contrast) {
   contrastButtons.forEach((button) => {
     button.setAttribute("aria-pressed", String(button.getAttribute("data-contrast-option") === document.documentElement.dataset.contrast));
   });
-}
-
-function setCalendlyShellState(state) {
-  calendlyShells.forEach((shell) => {
-    shell.dataset.calendlyState = state;
-  });
-}
-
-function markCalendlyShellLoaded() {
-  calendlyShells.forEach((shell) => {
-    const placeholder = shell.querySelector("[data-calendly-placeholder]");
-    if (placeholder) {
-      placeholder.hidden = true;
-    }
-    shell.dataset.calendlyState = "ready";
-  });
-}
-
-function ensureCalendlyStylesheet() {
-  if (document.querySelector('link[href="' + calendlyWidgetCssUrl + '"]')) {
-    return;
-  }
-
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = calendlyWidgetCssUrl;
-  document.head.append(link);
-}
-
-function ensureCalendlyScript() {
-  if (window.Calendly) {
-    markCalendlyShellLoaded();
-    return Promise.resolve();
-  }
-
-  const existingScript = document.querySelector(`script[src="${calendlyWidgetScriptUrl}"]`);
-  if (existingScript && existingScript.dataset.loaded === "true") {
-    markCalendlyShellLoaded();
-    return Promise.resolve();
-  }
-
-  if (!calendlyResourcesPromise) {
-    calendlyResourcesPromise = new Promise((resolve, reject) => {
-      const script = existingScript || document.createElement("script");
-      script.src = calendlyWidgetScriptUrl;
-      script.async = true;
-      script.addEventListener(
-        "load",
-        () => {
-          script.dataset.loaded = "true";
-          resolve();
-        },
-        { once: true }
-      );
-      script.addEventListener(
-        "error",
-        () => {
-          calendlyResourcesPromise = null;
-          reject(new Error("Failed to load Calendly widget script."));
-        },
-        { once: true }
-      );
-      if (!existingScript) {
-        document.head.append(script);
-      }
-    }).then(() => {
-      markCalendlyShellLoaded();
-    });
-  }
-
-  return calendlyResourcesPromise;
-}
-
-function warmCalendlyInlineWidget() {
-  if (!calendlyShells.length) {
-    return;
-  }
-
-  setCalendlyShellState("loading");
-  ensureCalendlyStylesheet();
-  void ensureCalendlyScript().catch(() => {
-    setCalendlyShellState("error");
-  });
-}
-
-function observeCalendlyContactSection() {
-  if (!contactSection || calendlySectionObserver || !("IntersectionObserver" in window)) {
-    return;
-  }
-
-  calendlySectionObserver = new IntersectionObserver(
-    (entries, observer) => {
-      const visible = entries.some((entry) => entry.isIntersecting);
-      if (!visible) {
-        return;
-      }
-
-      warmCalendlyInlineWidget();
-      observer.disconnect();
-    },
-    {
-      threshold: 0.05,
-      rootMargin: "300px 0px",
-    }
-  );
-
-  calendlySectionObserver.observe(contactSection);
 }
 
 function buildBookingModal() {
@@ -625,18 +511,6 @@ if (stageSections.length > 0 && autoplayTracks.length > 0) {
 
 startHoloRotation();
 startHeroSocialProofRotation();
-
-calendlyLoadButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    warmCalendlyInlineWidget();
-  });
-});
-
-if (contactSection && window.location.hash === "#contact") {
-  warmCalendlyInlineWidget();
-}
-
-observeCalendlyContactSection();
 
 calendlyLinks.forEach((link) => {
   link.addEventListener(
