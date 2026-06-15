@@ -24,11 +24,14 @@
   <link rel="apple-touch-icon" href="assets/branding/logos/rbx-logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://assets.calendly.com" />
+  <link rel="preconnect" href="https://calendly.com" />
+  <link rel="dns-prefetch" href="https://assets.calendly.com" />
+  <link rel="dns-prefetch" href="https://calendly.com" />
   <link
     href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&amp;family=Inter+Tight:wght@400;500;600&amp;family=Space+Mono:wght@400;700&amp;display=swap"
     rel="stylesheet"
   />
-  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
   <script>
     document.documentElement.classList.add('js');
     try {
@@ -38,8 +41,7 @@
       document.documentElement.dataset.theme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : (prefersDark ? 'dark' : 'light');
       document.documentElement.dataset.contrast = storedContrast === 'high' ? 'high' : 'standard';
     } catch (error) {}
-  </script>
-  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    </script>
   <link rel="stylesheet" href="styles.css" />
   <script type="application/ld+json">
     {
@@ -324,11 +326,25 @@
           <p class="section-copy cta-note">Start a conversation about the product, workflow, or execution system you want to make real.</p>
         </div>
         <div class="contact-booking">
-          <div
-            class="calendly-inline-widget"
-            data-url="https://calendly.com/rishabhbanga/30-min-chat"
-            aria-label="Book a session with RBX Labs"
-          ></div>
+          <div class="calendly-shell" data-calendly-shell data-calendly-state="idle">
+            <div class="calendly-shell__frame">
+              <div
+                class="calendly-inline-widget"
+                data-url="https://calendly.com/rishabhbanga/30-min-chat"
+                aria-label="Book a session with RBX Labs"
+              ></div>
+            </div>
+            <div class="calendly-shell__placeholder" data-calendly-placeholder>
+              <p class="micro-label">Scheduler</p>
+              <h3>Book a 30-minute chat</h3>
+              <p>
+                The calendar is loaded on demand so the page opens faster. Load it here or use the booking modal above.
+              </p>
+              <button class="btn btn-secondary calendly-shell__button" type="button" data-calendly-load>
+                Load calendar
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
