@@ -7,6 +7,7 @@ const qaVisualMode = qaParams.get("qa_visual");
 const prefersReducedMotion = typeof window.matchMedia === "function"
   ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
   : false;
+const themedLogoImages = document.querySelectorAll("[data-theme-logo]");
 const calendlyLinks = document.querySelectorAll("[data-calendly-link]");
 const countupItems = document.querySelectorAll(".countup");
 const stageSections = document.querySelectorAll("[data-stage-section]");
@@ -64,6 +65,14 @@ function applyDisplaySettings(theme, contrast) {
   }
 
   document.documentElement.dataset.contrast = contrast === "high" ? "high" : "standard";
+  themedLogoImages.forEach((img) => {
+    const lightSrc = img.getAttribute("data-theme-logo-light");
+    const darkSrc = img.getAttribute("data-theme-logo-dark");
+    const nextSrc = document.documentElement.dataset.theme === "dark" && darkSrc ? darkSrc : lightSrc;
+    if (nextSrc && img.getAttribute("src") !== nextSrc) {
+      img.setAttribute("src", nextSrc);
+    }
+  });
 
   themeButtons.forEach((button) => {
     button.setAttribute("aria-pressed", String(button.getAttribute("data-theme-option") === document.documentElement.dataset.theme));
