@@ -411,23 +411,11 @@ function prepareAutoScrollRail(rail) {
     return null;
   }
 
-  originalItems.forEach((item) => {
-    const clone = item.cloneNode(true);
-    clone.setAttribute("aria-hidden", "true");
-    clone.setAttribute("inert", "");
-    clone.classList.add("is-clone");
-    clone.querySelectorAll("a, button, input, select, textarea, [tabindex]").forEach((focusable) => {
-      focusable.setAttribute("tabindex", "-1");
-      focusable.setAttribute("aria-hidden", "true");
-    });
-    track.appendChild(clone);
-  });
-
   track.dataset.autoScrollReady = "true";
 
-  let baseWidth = 0;
+  let maxScroll = 0;
   const measure = () => {
-    baseWidth = track.scrollWidth / 2;
+    maxScroll = Math.max(track.scrollWidth - rail.clientWidth, 0);
   };
 
   measure();
@@ -441,19 +429,19 @@ function prepareAutoScrollRail(rail) {
   const speed = Number(rail.dataset.autoScrollSpeed || "0.45");
 
   const controller = createManagedInterval(() => {
-    if (baseWidth <= 0) {
+    if (maxScroll <= 0) {
       measure();
-      if (baseWidth <= 0) {
+      if (maxScroll <= 0) {
         return;
       }
     }
 
     rail.scrollLeft += speed * direction;
 
-    if (direction > 0 && rail.scrollLeft >= baseWidth) {
-      rail.scrollLeft -= baseWidth;
+    if (direction > 0 && rail.scrollLeft >= maxScroll) {
+      rail.scrollLeft = 0;
     } else if (direction < 0 && rail.scrollLeft <= 0) {
-      rail.scrollLeft += baseWidth;
+      rail.scrollLeft = maxScroll;
     }
   }, 16);
   controller.resume();
