@@ -3060,10 +3060,6 @@ h2 {
   box-shadow: var(--shadow-rise);
 }
 
-.auto-scroll-track .is-clone {
-  pointer-events: none;
-}
-
 .auto-scroll-card h3 {
   margin: 0;
   font-size: 1.35rem;
@@ -3086,6 +3082,22 @@ h2 {
     radial-gradient(circle at top right, rgba(124, 58, 237, 0.1), transparent 32%),
     radial-gradient(circle at bottom left, rgba(0, 229, 255, 0.08), transparent 30%),
     color-mix(in srgb, var(--surface-panel) 94%, transparent);
+}
+
+.event-card-media {
+  overflow: hidden;
+  border-radius: calc(var(--radius-md) - 4px);
+  border: 1px solid rgba(0, 229, 255, 0.14);
+  background: rgba(4, 15, 24, 0.22);
+  aspect-ratio: 4 / 3;
+}
+
+.event-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .event-card .micro-label {
