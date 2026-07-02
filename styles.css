@@ -3236,6 +3236,8 @@ h2 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
+  align-items: center;
+  justify-items: start;
 }
 
 .selected-build-metrics .engagement-chip {
@@ -3280,6 +3282,24 @@ h2 {
 .engagement-chip-centered {
   justify-content: center;
   text-align: center;
+}
+
+.selected-build-metrics .training-curriculum-pill {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 52px;
+  padding: 0 18px;
+  border-radius: 999px;
+  align-self: center;
+  justify-self: center;
+  font-size: 0.86rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.selected-build-metrics .training-curriculum-pill:hover {
+  transform: translateY(-1px);
 }
 
 .featured-build {
