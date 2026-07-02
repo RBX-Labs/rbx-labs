@@ -20,6 +20,7 @@ const contrastButtons = document.querySelectorAll("[data-contrast-option]");
 const holoRotatingGrids = document.querySelectorAll("[data-holo-rotate]");
 const heroSocialProofItems = document.querySelectorAll(".hero-social-proof-item");
 const animatedMediaVideos = document.querySelectorAll(".hero-asset-video, .telemetry-asset-video");
+const autoScrollRails = document.querySelectorAll("[data-auto-scroll-rail]");
 let activeBookingTrigger = null;
 let userIsScrolling = false;
 let scrollResumeTimeoutId = null;
@@ -399,6 +400,82 @@ function startHeroSocialProofRotation() {
   controller.resume();
 }
 
+function prepareAutoScrollRail(rail) {
+  const track = rail.querySelector("[data-auto-scroll-track]");
+  if (!track || track.dataset.autoScrollReady === "true") {
+    return null;
+  }
+
+  const originalItems = Array.from(track.children);
+  if (originalItems.length < 2) {
+    return null;
+  }
+
+  originalItems.forEach((item) => {
+    const clone = item.cloneNode(true);
+    clone.setAttribute("aria-hidden", "true");
+    clone.setAttribute("inert", "");
+    clone.classList.add("is-clone");
+    clone.querySelectorAll("a, button, input, select, textarea, [tabindex]").forEach((focusable) => {
+      focusable.setAttribute("tabindex", "-1");
+      focusable.setAttribute("aria-hidden", "true");
+    });
+    track.appendChild(clone);
+  });
+
+  track.dataset.autoScrollReady = "true";
+
+  let baseWidth = 0;
+  const measure = () => {
+    baseWidth = track.scrollWidth / 2;
+  };
+
+  measure();
+  window.addEventListener("resize", measure, { passive: true });
+
+  if (prefersReducedMotion) {
+    return null;
+  }
+
+  const direction = rail.dataset.autoScrollDirection === "reverse" ? -1 : 1;
+  const speed = Number(rail.dataset.autoScrollSpeed || "0.45");
+
+  const controller = createManagedInterval(() => {
+    if (baseWidth <= 0) {
+      measure();
+      if (baseWidth <= 0) {
+        return;
+      }
+    }
+
+    rail.scrollLeft += speed * direction;
+
+    if (direction > 0 && rail.scrollLeft >= baseWidth) {
+      rail.scrollLeft -= baseWidth;
+    } else if (direction < 0 && rail.scrollLeft <= 0) {
+      rail.scrollLeft += baseWidth;
+    }
+  }, 16);
+  controller.resume();
+
+  rail.addEventListener("mouseenter", () => controller.pause());
+  rail.addEventListener("mouseleave", () => controller.resume());
+  rail.addEventListener("focusin", () => controller.pause());
+  rail.addEventListener("focusout", () => {
+    if (!rail.contains(document.activeElement)) {
+      controller.resume();
+    }
+  });
+
+  return controller;
+}
+
+function startAutoScrollRails() {
+  autoScrollRails.forEach((rail) => {
+    prepareAutoScrollRail(rail);
+  });
+}
+
 function setActiveService(serviceName) {
   if (!serviceName) {
     return;
@@ -520,6 +597,7 @@ if (stageSections.length > 0 && autoplayTracks.length > 0) {
 
 startHoloRotation();
 startHeroSocialProofRotation();
+startAutoScrollRails();
 
 calendlyLinks.forEach((link) => {
   link.addEventListener(

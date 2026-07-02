@@ -3009,6 +3009,127 @@ h2 {
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
 }
 
+.training-weeks-section,
+.training-events-section {
+  scroll-margin-top: 120px;
+}
+
+.auto-scroll-shell {
+  position: relative;
+}
+
+.auto-scroll-viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 2px 4px 12px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.auto-scroll-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.auto-scroll-track {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 16px;
+  width: max-content;
+  min-width: 100%;
+}
+
+.curriculum-rail .auto-scroll-track {
+  grid-auto-columns: minmax(260px, 316px);
+}
+
+.events-rail .auto-scroll-track {
+  grid-auto-columns: minmax(280px, 340px);
+}
+
+.auto-scroll-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 100%;
+  padding: 22px;
+  border-radius: calc(var(--radius-lg) - 2px);
+  border: 1px solid rgba(0, 229, 255, 0.14);
+  background:
+    radial-gradient(circle at top right, rgba(0, 229, 255, 0.1), transparent 34%),
+    color-mix(in srgb, var(--surface-panel) 94%, transparent);
+  box-shadow: var(--shadow-rise);
+}
+
+.auto-scroll-track .is-clone {
+  pointer-events: none;
+}
+
+.auto-scroll-card h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.auto-scroll-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.58;
+}
+
+.auto-scroll-card .training-week-cta {
+  margin-top: auto;
+}
+
+.event-card {
+  background:
+    radial-gradient(circle at top right, rgba(124, 58, 237, 0.1), transparent 32%),
+    radial-gradient(circle at bottom left, rgba(0, 229, 255, 0.08), transparent 30%),
+    color-mix(in srgb, var(--surface-panel) 94%, transparent);
+}
+
+.event-card .micro-label {
+  line-height: 1.35;
+}
+
+.training-week-topline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.training-week-topline .micro-label {
+  margin-bottom: 0;
+}
+
+.training-week-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  background: color-mix(in srgb, var(--surface-panel) 88%, transparent);
+  color: var(--text-strong);
+}
+
+.training-week-card-active {
+  border-color: rgba(0, 229, 255, 0.24);
+  box-shadow: var(--shadow-cyan);
+  background:
+    radial-gradient(circle at top right, rgba(0, 229, 255, 0.14), transparent 30%),
+    linear-gradient(180deg, color-mix(in srgb, var(--surface-panel-strong) 98%, transparent), color-mix(in srgb, var(--surface-panel) 95%, transparent));
+}
+
+.training-week-cta {
+  width: fit-content;
+}
+
 .hero-curriculum {
   align-items: stretch;
 }
