@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">All Things Open 2026 session poster</title>
+  <desc id="desc">Gradient poster for AI Systems Fail Silently — Building Trust Layers with Open Source for Reliable AI.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06162b" />
+      <stop offset="55%" stop-color="#12385f" />
+      <stop offset="100%" stop-color="#0a1c35" />
+    </linearGradient>
+    <radialGradient id="glow" cx="36%" cy="18%" r="72%">
+      <stop offset="0%" stop-color="#79f0ff" stop-opacity="0.6" />
+      <stop offset="55%" stop-color="#7c3aed" stop-opacity="0.16" />
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1b84c6" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg)" />
+  <rect width="1200" height="900" fill="url(#glow)" />
+  <g opacity="0.18" fill="none" stroke="#d9f7ff" stroke-width="2">
+    <path d="M140 170h220M118 198h250M120 226h210" />
+    <path d="M810 140c60 0 116 24 160 66" />
+    <path d="M780 200c72-32 160-28 220 18" />
+  </g>
+  <g transform="translate(78 84)">
+    <rect x="0" y="0" width="1044" height="732" rx="42" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" />
+    <text x="0" y="58" fill="#dff7ff" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="0.08em">ALL THINGS OPEN 2026</text>
+    <text x="0" y="130" fill="#7fefff" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="700">AI Systems Fail Silently</text>
+    <text x="0" y="182" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="700">Building Trust Layers with</text>
+    <text x="0" y="234" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="700">Open Source for Reliable AI</text>
+    <text x="0" y="300" fill="#cfe8ff" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="500">October 19-20, 2026</text>
+    <text x="0" y="340" fill="#cfe8ff" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="500">Rishabh Banga</text>
+    <rect x="0" y="386" width="470" height="208" rx="28" fill="rgba(255,255,255,0.08)" stroke="rgba(127,239,255,0.28)" />
+    <rect x="28" y="416" width="72" height="72" rx="18" fill="url(#panel)" />
+    <text x="127" y="453" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700">Trust layer architecture</text>
+    <text x="127" y="494" fill="#d9f7ff" font-family="Inter, Arial, sans-serif" font-size="22">Real-time scoring across confidence, retrieval,</text>
+    <text x="127" y="526" fill="#d9f7ff" font-family="Inter, Arial, sans-serif" font-size="22">and contextual signals for safer AI workflows.</text>
+    <text x="127" y="568" fill="#8feeff" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="0.12em">SPEAKER SESSION</text>
+  </g>
+  <g transform="translate(690 150)">
+    <rect x="0" y="0" width="370" height="236" rx="34" fill="#1c73c7" opacity="0.96" transform="skewX(-12) rotate(10 185 118)" />
+    <rect x="0" y="0" width="370" height="236" rx="34" fill="none" stroke="rgba(255,255,255,0.45)" transform="skewX(-12) rotate(10 185 118)" />
+    <rect x="6" y="248" width="370" height="236" rx="34" fill="#6b5cff" opacity="0.9" transform="skewX(-12) rotate(10 191 366)" />
+    <rect x="12" y="496" width="370" height="236" rx="34" fill="#1fb7d8" opacity="0.92" transform="skewX(-12) rotate(10 197 614)" />
+    <g fill="none" stroke="#ffffff" stroke-width="6" opacity="0.8">
+      <circle cx="146" cy="116" r="18" />
+      <circle cx="188" cy="92" r="18" />
+      <circle cx="238" cy="128" r="18" />
+      <circle cx="198" cy="166" r="18" />
+      <path d="M146 116l42-24 50 36-40 38-52-50z" />
+    </g>
+    <text x="118" y="214" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="700" transform="skewX(12) rotate(-10 185 118)">TRUST</text>
+  </g>
+</svg>
