@@ -428,6 +428,10 @@ function prepareAutoScrollRail(rail) {
   const direction = rail.dataset.autoScrollDirection === "reverse" ? -1 : 1;
   const speed = Number(rail.dataset.autoScrollSpeed || "0.45");
 
+  if (direction < 0) {
+    rail.scrollLeft = maxScroll;
+  }
+
   const controller = createManagedInterval(() => {
     if (maxScroll <= 0) {
       measure();

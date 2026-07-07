@@ -3014,8 +3014,32 @@ h2 {
   scroll-margin-top: 120px;
 }
 
+.training-events-section {
+  padding-top: 12px;
+}
+
+.training-events-section .section-heading {
+  margin-bottom: calc(var(--space-xl) + 12px);
+}
+
+.featured-events-curriculum {
+  margin-bottom: var(--space-xl);
+}
+
 .auto-scroll-shell {
   position: relative;
+}
+
+.events-rail {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 2px 4px 12px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.events-rail::-webkit-scrollbar {
+  display: none;
 }
 
 .auto-scroll-viewport {
