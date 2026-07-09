@@ -21,6 +21,10 @@ const holoRotatingGrids = document.querySelectorAll("[data-holo-rotate]");
 const heroSocialProofItems = document.querySelectorAll(".hero-social-proof-item");
 const animatedMediaVideos = document.querySelectorAll(".hero-asset-video, .telemetry-asset-video");
 const autoScrollRails = document.querySelectorAll("[data-auto-scroll-rail]");
+const bannerSlides = document.querySelectorAll("[data-banner-slideshow]");
+const naturalFrameMedia = document.querySelectorAll(
+  ".selected-build-training-media"
+);
 let activeBookingTrigger = null;
 let userIsScrolling = false;
 let scrollResumeTimeoutId = null;
@@ -400,6 +404,112 @@ function startHeroSocialProofRotation() {
   controller.resume();
 }
 
+function getNaturalFrameSource(root) {
+  if (!root) {
+    return null;
+  }
+
+  if (root.classList.contains("selected-build-training-media")) {
+    const activeSlide = root.querySelector(".training-banner-slide.is-active");
+    if (activeSlide) {
+      return activeSlide;
+    }
+  }
+
+  return root.querySelector("img");
+}
+
+function updateNaturalFrameAspect(root, source) {
+  if (!root || !source) {
+    return;
+  }
+
+  const width = source.naturalWidth || source.width || 16;
+  const height = source.naturalHeight || source.height || 9;
+  root.style.setProperty("--natural-frame-aspect", `${width} / ${height}`);
+}
+
+function startNaturalFrameMedia() {
+  naturalFrameMedia.forEach((root) => {
+    if (root.dataset.naturalFrameReady === "true") {
+      return;
+    }
+
+    const images = Array.from(root.querySelectorAll("img"));
+    if (images.length === 0) {
+      return;
+    }
+
+    root.dataset.naturalFrameReady = "true";
+
+    const refresh = () => {
+      updateNaturalFrameAspect(root, getNaturalFrameSource(root));
+    };
+
+    images.forEach((image) => {
+      if (image.complete && image.naturalWidth > 0) {
+        return;
+      }
+
+      image.addEventListener("load", refresh, { once: true });
+    });
+
+    refresh();
+  });
+}
+
+function startBannerSlides() {
+  bannerSlides.forEach((panel) => {
+    const slides = Array.from(panel.querySelectorAll(".training-banner-slide"));
+    if (slides.length < 2) {
+      return;
+    }
+
+    let activeIndex = Math.max(slides.findIndex((slide) => slide.classList.contains("is-active")), 0);
+
+    const updatePanelAspect = (slide) => {
+      if (!slide) {
+        return;
+      }
+
+      const width = slide.naturalWidth || 16;
+      const height = slide.naturalHeight || 9;
+      panel.style.setProperty("--natural-frame-aspect", `${width} / ${height}`);
+    };
+
+    const activateSlide = (index) => {
+      slides.forEach((slide, slideIndex) => {
+        slide.classList.toggle("is-active", slideIndex === index);
+      });
+      updatePanelAspect(slides[index]);
+    };
+
+    slides.forEach((slide) => {
+      if (slide.complete && slide.naturalWidth > 0) {
+        return;
+      }
+
+      slide.addEventListener("load", () => {
+        if (slide.classList.contains("is-active")) {
+          updatePanelAspect(slide);
+        }
+      }, { once: true });
+    });
+
+    activateSlide(activeIndex);
+
+    if (prefersReducedMotion) {
+      return;
+    }
+
+    const controller = createManagedInterval(() => {
+      activeIndex = (activeIndex + 1) % slides.length;
+      activateSlide(activeIndex);
+    }, 4000);
+    controller.resume();
+  });
+}
+
 function prepareAutoScrollRail(rail) {
   const track = rail.querySelector("[data-auto-scroll-track]");
   if (!track || track.dataset.autoScrollReady === "true") {
@@ -502,7 +612,7 @@ try {
 
   applyDisplaySettings(document.documentElement.dataset.theme, document.documentElement.dataset.contrast);
 
-if (serviceSteps.length > 0 && servicePanels.length > 0) {
+  if (serviceSteps.length > 0 && servicePanels.length > 0) {
   setActiveService(serviceSteps[0].dataset.serviceStep);
 
   serviceSteps.forEach((step) => {
@@ -587,9 +697,11 @@ if (stageSections.length > 0 && autoplayTracks.length > 0) {
   );
 }
 
-startHoloRotation();
-startHeroSocialProofRotation();
-startAutoScrollRails();
+  startHoloRotation();
+  startHeroSocialProofRotation();
+  startNaturalFrameMedia();
+  startBannerSlides();
+  startAutoScrollRails();
 
 calendlyLinks.forEach((link) => {
   link.addEventListener(
