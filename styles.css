@@ -1661,11 +1661,6 @@ h1 {
     transform: translateY(-8px);
   }
 
-  .selected-build-training .selected-build-training-media {
-    aspect-ratio: var(--banner-aspect, 16 / 9);
-    min-height: clamp(420px, 38vw, 860px);
-    max-height: min(86vh, 920px);
-  }
 }
 
 .training-metric-compact {
@@ -2991,10 +2986,10 @@ h2 {
   position: absolute;
   inset: 0;
   margin: auto;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  max-height: none;
+  width: min(92%, 760px);
+  max-width: 92%;
+  max-height: 92%;
+  height: auto;
   object-fit: contain;
   object-position: center center;
   opacity: 0.96;
