@@ -1660,6 +1660,12 @@ h1 {
   .training-format-grid.services-pillars .service-pillar:focus-within {
     transform: translateY(-8px);
   }
+
+  .selected-build-training .selected-build-training-media {
+    aspect-ratio: var(--banner-aspect, 16 / 9);
+    min-height: clamp(420px, 38vw, 860px);
+    max-height: min(86vh, 920px);
+  }
 }
 
 .training-metric-compact {
@@ -1760,14 +1766,16 @@ h1 {
   border: 1px solid rgba(0, 229, 255, 0.14);
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--surface-panel-strong) 94%, transparent), color-mix(in srgb, var(--surface-panel) 90%, transparent));
+  aspect-ratio: 16 / 9;
   min-height: 180px;
+  max-height: min(78vh, 760px);
 }
 
 .training-week-media img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 }
 
@@ -2923,6 +2931,16 @@ h2 {
   -webkit-backdrop-filter: none;
 }
 
+.selected-build-training .selected-build-training-media {
+  aspect-ratio: var(--natural-frame-aspect, 16 / 9);
+  min-height: clamp(360px, 42vw, 760px);
+  max-height: min(84vh, 900px);
+  transition:
+    aspect-ratio 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    min-height 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    max-height 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .training-banner-panel {
   position: relative;
   width: 100%;
@@ -2940,13 +2958,31 @@ h2 {
   overflow: hidden;
 }
 
+.training-banner-slideshow {
+  isolation: isolate;
+}
+
+.training-banner-slide {
+  opacity: 0;
+  transition:
+    opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform: scale(1.015);
+  pointer-events: none;
+}
+
+.training-banner-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
 .training-banner-panel::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(4, 17, 32, 0.18) 0%, rgba(4, 17, 32, 0.34) 42%, rgba(4, 17, 32, 0.82) 100%),
-    radial-gradient(circle at 50% 24%, rgba(4, 17, 32, 0.08), transparent 42%);
+    linear-gradient(180deg, rgba(4, 17, 32, 0.04) 0%, rgba(4, 17, 32, 0.1) 42%, rgba(4, 17, 32, 0.28) 100%),
+    radial-gradient(circle at 50% 24%, rgba(4, 17, 32, 0.025), transparent 42%);
   z-index: 0;
   pointer-events: none;
 }
@@ -2955,58 +2991,13 @@ h2 {
   position: absolute;
   inset: 0;
   margin: auto;
-  width: min(92%, 760px);
-  max-width: 92%;
-  max-height: 92%;
-  height: auto;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
   object-fit: contain;
   object-position: center center;
   opacity: 0.96;
-}
-
-.training-banner-panel > *:not(.training-banner-image) {
-  position: relative;
-  z-index: 2;
-}
-
-.training-banner-panel > .training-banner-image {
-  z-index: 0;
-}
-
-.training-banner-kicker {
-  display: inline-flex;
-  align-items: center;
-  width: fit-content;
-  min-height: 34px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(4, 17, 32, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #ffffff;
-  font-family: "Geist", system-ui, sans-serif;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  text-transform: none;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-}
-
-.training-banner-panel strong {
-  color: #f6fbff;
-  font-family: "Geist", system-ui, sans-serif;
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  line-height: 0.96;
-  letter-spacing: -0.05em;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-}
-
-.training-banner-panel p {
-  max-width: 28ch;
-  margin: 0;
-  color: rgba(223, 241, 255, 0.8);
-  font-size: 1rem;
-  line-height: 1.55;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
 }
 
 .training-weeks-section,
@@ -3024,6 +3015,16 @@ h2 {
 
 .featured-events-curriculum {
   margin-bottom: var(--space-xl);
+}
+
+.featured-events-curriculum .selected-build-metrics,
+.featured-events-curriculum .training-week-cta,
+.featured-events-curriculum .training-curriculum-pill {
+  display: none;
+}
+
+.training-events-section .auto-scroll-card .training-week-cta {
+  display: none;
 }
 
 .auto-scroll-shell {
@@ -3113,14 +3114,16 @@ h2 {
   border-radius: calc(var(--radius-md) - 4px);
   border: 1px solid rgba(0, 229, 255, 0.14);
   background: rgba(4, 15, 24, 0.22);
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
+  min-height: 180px;
+  max-height: min(78vh, 760px);
 }
 
 .event-card-media img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 }
 
@@ -3310,7 +3313,8 @@ h2 {
 
 .selected-build-metrics .training-curriculum-pill {
   display: inline-flex;
-  width: fit-content;
+  width: auto;
+  min-width: 220px;
   min-height: 52px;
   padding: 0 18px;
   border-radius: 999px;
@@ -3324,6 +3328,31 @@ h2 {
 
 .selected-build-metrics .training-curriculum-pill:hover {
   transform: translateY(-1px);
+}
+
+body.training-page .selected-build-metrics:empty {
+  display: none;
+}
+
+body.training-page .selected-build-training .selected-build-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+body.training-page .selected-build-training .selected-build-metrics .training-curriculum-pill {
+  flex: 1 1 220px;
+}
+
+@media (min-width: 960px) {
+  body.training-page .selected-build-training .selected-build-metrics {
+    flex-wrap: nowrap;
+  }
+
+  body.training-page .selected-build-training .selected-build-metrics .training-curriculum-pill {
+    flex: 1 1 0;
+  }
 }
 
 .featured-build {
