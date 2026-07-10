@@ -276,6 +276,7 @@
   function escapeAttr(value) { return escapeHtml(value).replace(/`/g, '&#96;'); }
 
   window.WeKampWeb = { openSignIn: openAuthModal, signOut: function () { clearSession(); window.location.href = 'index.html'; }, isSignedIn: isSignedIn };
+  /*
   installAuthModal();
   installSignInLinks();
   var sessionReady = isSignedIn() && !session.userId ? hydrateProfile().catch(function () {}) : Promise.resolve();
@@ -284,4 +285,5 @@
     loadLiveFeed();
     loadLiveEvents();
   });
+  */
 })();

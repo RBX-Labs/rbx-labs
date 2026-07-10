@@ -14,12 +14,14 @@
   <header class="product-nav">
     <div class="product-nav__inner">
       <a class="product-logo" href="index.html"><img src="assets/wekamp-logo.png" alt="WeKamp logo">WeKamp</a>
-      <nav class="product-links" aria-label="Product pages"><a data-authenticated-nav hidden href="feed.html">Main feed</a><a data-authenticated-nav hidden href="events.html">Events</a><a data-guest-nav href="index.html#solution">Platform</a></nav>
-      <div class="product-nav__actions"><a class="product-button product-button--soft" href="index.html">Back to overview</a><a class="product-button product-button--solid" data-authenticated-nav hidden href="events.html">View events</a></div>
+      <nav class="product-links" aria-label="Product pages"><a href="feed.html">Main feed</a><a href="events.html">Events</a><a data-guest-nav href="index.html#solution">Platform</a></nav>
+      <div class="product-nav__actions"><a class="product-button product-button--soft" href="index.html">Back to overview</a><a class="product-button product-button--solid" href="events.html">View events</a></div>
     </div>
   </header>
+  <!--
   <div class="auth-gate" data-auth-gate hidden><h1>Sign in to open your Home surface.</h1><p>WeKamp Home is private because the feed, Kamp health, and participation signals are tied to your profile.</p><button class="product-button product-button--solid" type="button" data-gate-signin>Sign in to continue</button></div>
-  <main class="product-main" data-private-content hidden>
+  -->
+  <main class="product-main" data-private-content>
     <section class="product-intro">
       <div><span class="product-kicker">Kamp operating surface</span><h1>See what is moving, what is stuck, and what needs an owner.</h1><p>The main feed is not just a stream. It is the daily operating view for updates, participation, Kamp context, and the next useful action.</p></div>
       <aside class="product-note"><strong>Operator view, member context</strong><span>Read the same activity members see, with the health signals and Kamp context needed to decide what to do next.</span></aside>
@@ -42,9 +44,11 @@
     <nav class="app-bottom-nav" aria-label="WeKamp app navigation"><a class="is-active" href="feed.html"><span>⌂</span>Home</a><a href="events.html"><span>⌁</span>Kamps</a><a href="events.html"><span>＋</span>Create</a><a href="events.html"><span>⌕</span>Explore</a><a href="index.html#contact"><span>●</span>Profile</a></nav>
   </main>
   <footer class="product-footer"><div class="product-footer__inner"><span>WeKamp gives operators the context to run organized Kamps better.</span><a href="index.html">Back to WeKamp overview</a></div></footer>
+  <!--
   <div class="auth-modal" data-auth-modal hidden role="dialog" aria-modal="true" aria-labelledby="auth-title">
     <div class="auth-modal__panel"><button class="auth-modal__close" type="button" data-auth-close aria-label="Close sign in">×</button><h2 id="auth-title" data-auth-title>Sign in to WeKamp</h2><p data-auth-copy>Use the phone number connected to your WeKamp profile. We will send a one-time code.</p><label class="auth-modal__label" for="auth-phone">Phone number</label><input class="auth-modal__input" id="auth-phone" data-auth-phone type="tel" autocomplete="tel" placeholder="+1 416 555 0123"><label class="auth-modal__label" for="auth-otp">One-time code</label><input class="auth-modal__input" id="auth-otp" data-auth-otp inputmode="numeric" autocomplete="one-time-code" placeholder="Enter code"><button class="product-button product-button--solid auth-modal__submit" type="button" data-auth-submit>Send code</button><button class="auth-modal__switch" type="button" data-auth-switch>Use a different number</button><p class="auth-modal__message" data-auth-message aria-live="polite"></p></div>
   </div>
+  -->
   <script src="web-app.js"></script>
 </body>
 </html>
