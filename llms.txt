@@ -1,6 +1,6 @@
 # RBX Labs
 
-RBX Labs is an applied AI studio. It helps companies build AI products, AI workflows, and AI-enabled go-to-market systems.
+RBX Labs is a founder-led applied AI studio. It builds trustworthy AI products, AI workflows, and AI-enabled go-to-market systems, and delivers AI training and event sessions.
 
 ## Primary pages
 - Home: https://rbx-labs.io/
@@ -15,11 +15,16 @@ RBX Labs is an applied AI studio. It helps companies build AI products, AI workf
 - Designs AI workflows that reduce manual work and improve throughput
 - Creates AI-enabled go-to-market systems for research, content, outreach, qualification, and sales support
 - Runs AI training through workshops, sprints, and adoption programs
+- Designs trustworthy AI workflows with evaluation, human oversight, monitoring, and escalation paths
+- Delivers AI training, talks, and event sessions for enterprise, founder, student, and developer audiences
 
 ## Direct answers
 - **What is RBX Labs?** An applied AI studio focused on product, workflow, and go-to-market execution.
 - **Who does RBX Labs work with?** Founders, product teams, and operators who need AI systems that ship and get adopted.
 - **What outcomes does RBX Labs target?** Shipped systems, measurable efficiency gains, improved activation, and clearer launch execution.
+- **Does RBX Labs deliver AI training and events?** Yes. RBX Labs runs workflow-specific workshops, sprints, adoption programs, and event sessions; its founder has trained 5.8K+ learners and is a Stanford Code in Place section leader.
+- **How does RBX Labs approach AI trust?** By building evaluation, human oversight, monitoring, and escalation controls into the operating workflow.
+- **What experience informs the work?** Founder Rishabh Banga has a Carnegie Mellon M.S. in Software Management and Responsible AI experience at Microsoft; RBX Labs also represents experience across Microsoft, NASA, Ericsson, Intel, and product ventures.
 
 ## Proof points
 - 25% activation lift from ranking improvements in a community product
@@ -27,3 +32,5 @@ RBX Labs is an applied AI studio. It helps companies build AI products, AI workf
 - 30% throughput gain from AI workflow transformation
 - 98%+ valid itineraries with a 12-second P95 pipeline in a TravelTech venture
 - 5.8K+ learners trained across AI, product, and innovation programs
+- 606 hours of training delivery for 692 attendees, recognized with Ericsson's L&D Rockstar award
+- Stanford Code in Place section leadership and AI-trust sessions for technical and founder communities
