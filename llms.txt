@@ -8,6 +8,7 @@ RBX Labs is an applied AI studio. It helps companies build AI products, AI workf
 - Approach: https://rbx-labs.io/approach.html
 - AI Training: https://rbx-labs.io/ai-training.html
 - Case study / product example: https://rbx-labs.io/network-guardian.html
+- Google Cloud Generative AI Leader study guide: https://rbx-labs.io/GAIL/
 
 ## What RBX Labs does
 - Builds AI-powered products and internal tools

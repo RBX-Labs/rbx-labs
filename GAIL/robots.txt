@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /GAIL/
+
+Sitemap: https://rbx-labs.io/sitemap.xml

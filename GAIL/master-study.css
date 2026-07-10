@@ -1,0 +1,86 @@
+.master-page {
+  min-height: 100vh;
+}
+
+.back-link {
+  color: var(--ink);
+  font-weight: 800;
+  text-decoration: none;
+  padding: 9px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+}
+
+.back-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.master-content {
+  width: min(920px, calc(100% - 32px));
+  margin: 34px auto 72px;
+}
+
+.master-card {
+  padding: clamp(24px, 5vw, 58px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--shadow-strong);
+}
+
+.master-card h1 {
+  max-width: 720px;
+  margin-bottom: 18px;
+}
+
+.master-card h2 {
+  margin-top: 42px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.master-card h3 {
+  margin-top: 30px;
+  color: var(--accent);
+}
+
+.master-card h4 {
+  margin-top: 24px;
+  color: var(--accent-2);
+}
+
+.master-card ul,
+.master-card ol {
+  padding-left: 24px;
+}
+
+.master-card li {
+  margin: 8px 0;
+}
+
+.master-card a {
+  color: var(--accent);
+}
+
+.master-card code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--bg-strong);
+}
+
+@media (max-width: 640px) {
+  .master-content {
+    width: min(100% - 20px, 920px);
+    margin-top: 20px;
+  }
+
+  .master-card {
+    padding: 22px 18px;
+  }
+
+  .back-link {
+    font-size: 0.78rem;
+  }
+}
