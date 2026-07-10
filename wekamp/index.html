@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WeKamp — Operate your Kamp with clarity</title>
-<meta name="description" content="WeKamp is the operating layer for structured groups, giving organizers one place to manage Kamp health, roles, events, participation, and trust.">
+<title>WeKamp — Run structured communities with clarity</title>
+<meta name="description" content="WeKamp helps organizers run cohorts and trusted communities in one place: onboarding, norms, events, participation, moderation, and trust.">
 <meta name="theme-color" content="#204B38">
-<meta property="og:title" content="WeKamp — Operate your Kamp with clarity">
-<meta property="og:description" content="The operating layer for structured groups: Kamp health, roles, events, participation, and trust in one place.">
+<meta property="og:title" content="WeKamp — Run structured communities with clarity">
+<meta property="og:description" content="The operating surface for cohorts and trusted communities: onboarding, norms, events, participation, moderation, and trust in one place.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="assets/wekamp-product-screen.svg">
 <meta property="og:image:type" content="image/svg+xml">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="WeKamp — Operate your Kamp with clarity">
-<meta name="twitter:description" content="The operating layer for structured groups: Kamp health, roles, events, participation, and trust in one place.">
+<meta name="twitter:title" content="WeKamp — Run structured communities with clarity">
+<meta name="twitter:description" content="The operating surface for cohorts and trusted communities: onboarding, norms, events, participation, moderation, and trust in one place.">
 <meta name="twitter:image" content="assets/wekamp-product-screen.svg">
 <link rel="icon" type="image/png" href="assets/wekamp-favicon.png">
 <link rel="apple-touch-icon" href="assets/wekamp-favicon.png">
@@ -329,7 +329,12 @@
     .hero-inner, .section-split, .feature-grid, .usecase-grid, .outcome-grid, .split-grid { grid-template-columns: 1fr; }
     .hero { padding: 28px 0 48px; }
     .hero-inner { gap: 28px; }
-    .hero h1 { max-width: 100%; font-size: clamp(2.1rem, 10vw, 3rem); }
+    .hero h1 {
+      max-width: 11.5ch;
+      font-size: clamp(1.95rem, 8.8vw, 2.8rem);
+      line-height: 1.04;
+      text-wrap: balance;
+    }
     .hero p.lede { font-size: 16px; margin: 18px 0 24px; }
     .hero-support { max-width: 100%; }
     .hero-ctas { flex-direction: column; align-items: stretch; }
@@ -444,17 +449,13 @@
       WeKamp
     </a>
     <nav class="nav-links" id="primary-navigation">
-      <a data-authenticated-nav hidden href="feed.html">Main feed</a>
-      <a data-authenticated-nav hidden href="events.html">Events</a>
-      <a data-guest-nav href="#solution">Product</a>
+      <a data-guest-nav href="#solution">Why WeKamp</a>
       <a data-guest-nav href="#usecases">Use cases</a>
       <a data-guest-nav href="#process">How it works</a>
       <a data-guest-nav href="#contact">Contact</a>
     </nav>
     <div class="nav-actions">
-      <a class="nav-signin" data-guest-nav href="#">Sign in</a>
-      <a class="btn btn-primary" data-authenticated-nav hidden href="feed.html">Open operating surface</a>
-      <a class="nav-signout" data-auth-signout data-authenticated-nav hidden href="#">Sign out</a>
+      <a class="btn btn-primary" href="feed.html">Open operating surface</a>
     </div>
     <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primary-navigation">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -468,16 +469,16 @@
   <section class="hero">
   <div class="wrap hero-inner">
       <div>
-        <span class="eyebrow">The operating layer for structured groups</span>
-        <h1>Run your Kamp with <em>clarity and follow-through</em>.</h1>
-        <p class="lede">Manage Kamp health, roles, events, participation, and trust from one operating surface built for the people responsible for the outcome.</p>
-        <p class="hero-support">Built for cohort leads, program teams, accelerators, partner groups, and organizers who need more than a feed.</p>
+        <span class="eyebrow">For cohorts, partner groups, and trusted communities</span>
+        <h1>Run your community in one place.</h1>
+        <p class="lede">WeKamp helps organizers handle onboarding, norms, announcements, events, participation, moderation, and trust without juggling chat threads, spreadsheets, and reminder chaos.</p>
+        <p class="hero-support">Built for bootcamps, fellowships, campus groups, accelerators, and niche communities with recurring cadence.</p>
         <div class="patch-row">
-          <span class="patch">Kamp health</span>
+          <span class="patch">Invite-only</span>
           <span class="patch">Roles</span>
-          <span class="patch">Events</span>
-          <span class="patch">Trust meter</span>
-          <span class="patch">Follow-through</span>
+          <span class="patch">Recurring cadence</span>
+          <span class="patch">Trust signals</span>
+          <span class="patch">Follow-up</span>
         </div>
       </div>
 
@@ -494,12 +495,12 @@
   <section class="section">
     <div class="wrap section-split">
       <div class="reveal">
-        <h2>The work behind a healthy group is operational.</h2>
-        <p style="color:var(--muted); font-size:15.5px; margin-top:16px; max-width:460px;">A group can have plenty of conversation and still lose the thread. Organizers need to know what is active, who owns the next move, which events are working, and where trust is building or slipping.</p>
+        <h2>Groups fail when the operating work is scattered.</h2>
+        <p style="color:var(--muted); font-size:15.5px; margin-top:16px; max-width:460px;">Conversation is only one part of the job. Organizers also need to onboard people, set norms, assign roles, run events, and follow up without losing the thread.</p>
       </div>
       <div class="scatter reveal">
         <div class="scatter-card s1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>Trust signal</div>
-        <div class="scatter-card s2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Event follow-up</div>
+        <div class="scatter-card s2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Recurring cadence</div>
         <div class="scatter-card s3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M2 21v-1a6 6 0 0 1 12 0v1M19 8v6M22 11h-6"/></svg>Role ownership</div>
         <div class="scatter-card s4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>Kamp health</div>
       </div>
@@ -510,30 +511,30 @@
   <section class="section" id="solution">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2>One operating layer for every Kamp.</h2>
-        <p>Turn the invisible work of running a group into shared context, clear ownership, and useful signals.</p>
+        <h2>One operating surface for organized groups.</h2>
+        <p>Keep the work of running a cohort visible: setup, onboarding, announcements, events, moderation, participation, and trust.</p>
       </div>
       <div class="feature-grid">
-        <div class="feature-card reveal" data-detail="A live Kamp pulse: engagement, visits, sentiment, and trust are read together so an operator can spot drift early.">
-          <div class="feature-card__inner"><div class="feature-card__face"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M2 21v-1a6 6 0 0 1 12 0v1"/><path d="M19 8v6M22 11h-6"/></svg></div><h3>Kamp health</h3><p>See activity, visits, sentiment, and trust in context.</p><button class="feature-card__flip" type="button" aria-label="Show more about Kamp health">+</button></div></div>
+        <div class="feature-card reveal" data-detail="A live Kamp pulse: attendance, participation, and trust are read together so an organizer can spot drift early.">
+          <div class="feature-card__inner"><div class="feature-card__face"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M2 21v-1a6 6 0 0 1 12 0v1"/><path d="M19 8v6M22 11h-6"/></svg></div><h3>Kamp health</h3><p>See attendance, participation, and trust in context.</p><button class="feature-card__flip" type="button" aria-label="Show more about Kamp health">+</button></div></div>
         </div>
-        <div class="feature-card reveal" data-detail="Broadcasts make the next action visible without asking members to reconstruct context from scattered messages.">
-          <div class="feature-card__inner"><div class="feature-card__face"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div><h3>Broadcasts</h3><p>Make the important next move visible to everyone.</p><button class="feature-card__flip" type="button" aria-label="Show more about Broadcasts">+</button></div></div>
+        <div class="feature-card reveal" data-detail="Announcements make the next action visible without asking members to reconstruct context from scattered messages.">
+          <div class="feature-card__inner"><div class="feature-card__face"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div><h3>Announcements</h3><p>Make the next move visible to everyone.</p><button class="feature-card__flip" type="button" aria-label="Show more about Announcements">+</button></div></div>
         </div>
-        <div class="feature-card reveal" data-detail="Events carry their Kamp visibility, RSVP state, ownership, and follow-up context instead of ending at the calendar invite.">
+        <div class="feature-card reveal" data-detail="Events carry visibility, RSVP state, ownership, and follow-up context instead of ending at the calendar invite.">
           <div class="feature-card__inner"><div class="feature-card__face"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18M8 15h2M14 15h2"/></svg></div><h3>Events + RSVPs</h3><p>Run sessions with ownership, attendance, and follow-up.</p><button class="feature-card__flip" type="button" aria-label="Show more about Events and RSVPs">+</button></div></div>
         </div>
-        <div class="feature-card reveal" data-detail="Cards keep prompts, updates, and discussion attached to the Kamp where they matter, so participation becomes usable context.">
-          <div class="feature-card__inner"><div class="feature-card__face"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>Feed + Cards</h3><p>Keep discussion connected to the Kamp and its work.</p><button class="feature-card__flip" type="button" aria-label="Show more about Feed and Cards">+</button></div></div>
+        <div class="feature-card reveal" data-detail="Prompts keep updates and discussion attached to the group where they matter, so participation becomes usable context.">
+          <div class="feature-card__inner"><div class="feature-card__face"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>Prompts + discussions</h3><p>Keep participation connected to the work of the group.</p><button class="feature-card__flip" type="button" aria-label="Show more about prompts and discussions">+</button></div></div>
         </div>
         <div class="feature-card reveal" data-detail="Roles, norms, and moderation give the Kamp an accountable operating rhythm as participation grows.">
           <div class="feature-card__inner"><div class="feature-card__face"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 12l1.8 1.8L15 10"/></svg></div><h3>Roles + moderation</h3><p>Assign responsibility and protect the operating rhythm.</p><button class="feature-card__flip" type="button" aria-label="Show more about Roles and moderation">+</button></div></div>
         </div>
-        <div class="feature-card reveal" data-detail="Provision a Kamp with its purpose, membership, roles, operating norms, and starting context before the first conversation begins.">
-          <div class="feature-card__inner"><div class="feature-card__face"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5A2.5 2.5 0 0 0 17.5 16H4z"/><path d="M4 5.5V21h13.5A2.5 2.5 0 0 0 20 18.5M12 7v5M9.5 9.5h5"/></svg></div><h3>Provision Kamps</h3><p>Set up the space, people, roles, and operating context.</p><button class="feature-card__flip" type="button" aria-label="Show more about Provision Kamps">+</button></div></div>
+        <div class="feature-card reveal" data-detail="Provision a Kamp with purpose, membership, roles, operating norms, and starting context before the first conversation begins.">
+          <div class="feature-card__inner"><div class="feature-card__face"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5A2.5 2.5 0 0 0 17.5 16H4z"/><path d="M4 5.5V21h13.5A2.5 2.5 0 0 0 20 18.5M12 7v5M9.5 9.5h5"/></svg></div><h3>Onboarding</h3><p>Set up the group, people, roles, and operating context.</p><button class="feature-card__flip" type="button" aria-label="Show more about Onboarding">+</button></div></div>
         </div>
-        <div class="feature-card reveal" data-detail="The Trust Meter adds a participation signal to decisions about access, responsibility, and who needs support.">
-          <div class="feature-card__inner"><div class="feature-card__face"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg></div><h3>Trust meter</h3><p>Understand consistency before granting more responsibility.</p><button class="feature-card__flip" type="button" aria-label="Show more about Trust meter">+</button></div></div>
+        <div class="feature-card reveal" data-detail="The trust signal adds participation context to decisions about access, responsibility, and who needs support.">
+          <div class="feature-card__inner"><div class="feature-card__face"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg></div><h3>Trust signals</h3><p>Understand consistency before granting more responsibility.</p><button class="feature-card__flip" type="button" aria-label="Show more about trust signals">+</button></div></div>
         </div>
       </div>
     </div>
@@ -560,7 +561,7 @@
         </div>
         <div class="usecase-card reveal">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6"/></svg>
-          <h3>Partner-led Kamps</h3><p>Run member programs with governance, context, and repeatable operations.</p>
+          <h3>Partner-led groups</h3><p>Run member programs with governance, context, and repeatable operations.</p>
         </div>
       </div>
     </div>
@@ -575,11 +576,11 @@
       <div class="outcome-grid">
         <div class="outcome-card reveal">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>
-          <h3>One source of context</h3><p>Bring posts, events, roles, and signals together.</p>
+          <h3>One source of context</h3><p>Bring onboarding, events, roles, and signals together.</p>
         </div>
         <div class="outcome-card reveal">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          <h3>Visible Kamp health</h3><p>Know where attention and ownership are needed.</p>
+          <h3>Visible community health</h3><p>Know where attention and ownership are needed.</p>
         </div>
         <div class="outcome-card reveal">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -594,7 +595,7 @@
     <div class="wrap section-split">
       <div class="reveal">
         <h2>Trust is an operating signal.</h2>
-        <p style="color:var(--muted); font-size:15.5px; margin-top:16px; max-width:460px;">WeKamp treats trust as a pattern of credibility, consistency, and constructive participation. Organizers get context for who is active, reliable, and ready for more responsibility.</p>
+        <p style="color:var(--muted); font-size:15.5px; margin-top:16px; max-width:460px;">WeKamp treats trust as a pattern of credibility, consistency, and constructive participation. It is a signal for access, responsibility, and support, not a vanity metric.</p>
       </div>
       <div class="trust-visual reveal">
         <div class="ring-wrap">
@@ -602,12 +603,12 @@
             <circle class="ring-bg" cx="64" cy="64" r="54"/>
             <circle class="ring-fg" id="trustRing" cx="64" cy="64" r="54" stroke-dasharray="339.3" stroke-dashoffset="339.3"/>
           </svg>
-          <div class="ring-label"><span class="num">57%</span><span class="txt">trust score</span></div>
+          <div class="ring-label"><span class="num">57%</span><span class="txt">sample signal</span></div>
         </div>
         <div class="trust-tags">
-          <span class="tag-badge">Home</span>
-          <span class="tag-badge">Kamps</span>
-          <span class="tag-badge">Ampy</span>
+          <span class="tag-badge">Invite-only</span>
+          <span class="tag-badge">Moderated</span>
+          <span class="tag-badge">Recurring</span>
         </div>
       </div>
     </div>
@@ -617,14 +618,15 @@
   <section class="section" id="process">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2>From Kamp setup to a healthy operating rhythm.</h2>
+        <h2>From setup to recurring cadence to graduation.</h2>
       </div>
       <div class="trail reveal">
         <div class="trail-step"><div class="trail-badge">1</div><span>Create a Kamp</span></div>
-        <div class="trail-step"><div class="trail-badge">2</div><span>Define norms</span></div>
-        <div class="trail-step"><div class="trail-badge">3</div><span>Assign roles</span></div>
-        <div class="trail-step"><div class="trail-badge">4</div><span>Run events</span></div>
-        <div class="trail-step"><div class="trail-badge">5</div><span>Review signals</span></div>
+        <div class="trail-step"><div class="trail-badge">2</div><span>Invite members</span></div>
+        <div class="trail-step"><div class="trail-badge">3</div><span>Define norms</span></div>
+        <div class="trail-step"><div class="trail-badge">4</div><span>Assign roles</span></div>
+        <div class="trail-step"><div class="trail-badge">5</div><span>Run cadence</span></div>
+        <div class="trail-step"><div class="trail-badge">6</div><span>Review and archive</span></div>
       </div>
     </div>
   </section>
@@ -633,8 +635,8 @@
   <section class="section">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2>Built for operator-led Kamps.</h2>
-        <p>Same operating layer. Different operating context.</p>
+        <h2>Built for organizer-led groups.</h2>
+        <p>Same operating surface. Different group motion.</p>
       </div>
       <div class="split-grid">
         <div class="split-card reveal">
@@ -644,7 +646,7 @@
         </div>
         <div class="split-card accent reveal">
           <h3>For community operators</h3>
-          <p>Creator-led Kamps, interest groups, and invite-only circles that need structure as they grow.</p>
+          <p>Creator-led groups, interest circles, and invite-only communities that need structure as they grow.</p>
           <a class="btn btn-primary" href="#">Start a Kamp</a>
         </div>
       </div>
@@ -655,7 +657,7 @@
   <section class="section" id="contact" style="border-top:none; padding-top:0;">
     <div class="cta-band reveal">
       <h2>Run the work behind the group.</h2>
-      <p>Start a Kamp, or talk to us about the operating layer behind your cohort, program, partner network, or member group.</p>
+      <p>Start a Kamp, or talk to us about the operating surface behind your cohort, program, partner network, or member group.</p>
       <div style="display:flex; justify-content:center; gap:14px;">
         <a class="btn btn-primary" href="#">Start a Kamp</a>
         <a class="btn btn-ghost" href="#">Book a demo</a>
@@ -665,6 +667,7 @@
 
 </main>
 
+<!--
 <div class="auth-modal" data-auth-modal hidden role="dialog" aria-modal="true" aria-labelledby="auth-title">
   <div class="auth-modal__panel">
     <button class="auth-modal__close" type="button" data-auth-close aria-label="Close sign in">×</button>
@@ -679,6 +682,7 @@
     <p class="auth-modal__message" data-auth-message aria-live="polite"></p>
   </div>
 </div>
+-->
 
 <footer class="footer">
   <div class="wrap footer-inner">
@@ -690,7 +694,7 @@
       <li><a href="#">Privacy</a></li>
       <li><a href="#">Terms</a></li>
     </ul>
-    <span class="footer-copy">WeKamp gives operators the context to run organized Kamps better.</span>
+    <span class="footer-copy">WeKamp gives organizers the context to run structured communities better.</span>
   </div>
 </footer>
 
@@ -704,17 +708,17 @@
     var heroShots = [
       {
         src: 'assets/screens/home-hero-1.png',
-        alt: 'WeKamp mobile app home feed showing Kamp health and active signals.',
+        alt: 'WeKamp organizer view showing Kamp health and active signals.',
         label: 'Show home feed screenshot'
       },
       {
         src: 'assets/screens/home-hero-2.png',
-        alt: 'WeKamp mobile app showing operational pulse, discovery outcomes, and your Kamps.',
+        alt: 'WeKamp organizer view showing discovery and operational signals.',
         label: 'Show discovery screenshot'
       },
       {
         src: 'assets/screens/home-hero-3.png',
-        alt: 'WeKamp mobile app showing the AI Enthusiasts Kamp screen.',
+        alt: 'WeKamp organizer view showing a Kamp workspace.',
         label: 'Show AI Enthusiasts screenshot'
       }
     ];
