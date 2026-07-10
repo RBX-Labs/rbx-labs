@@ -84,6 +84,14 @@ button { font: inherit; }
 .product-intro h1 { max-width: none; }
 .product-intro p { max-width: 780px; }
 .product-intro .product-note { width: 100%; max-width: none; }
+.surface-boundary { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .72fr); gap: 28px; align-items: center; margin: 0 0 22px; padding: 24px; border: 1px solid rgba(171, 241, 194, .22); border-radius: 24px; background: linear-gradient(135deg, rgba(20, 88, 61, .42), rgba(7, 18, 14, .76)); }
+.surface-boundary h2 { max-width: 650px; margin: 10px 0 8px; font: 500 clamp(28px, 4vw, 44px)/1.04 var(--display); color: #eef8f0; }
+.surface-boundary p { max-width: 650px; margin: 0; color: rgba(238, 248, 240, .68); }
+.surface-boundary__list { display: grid; gap: 9px; padding: 18px; border: 1px solid rgba(171, 241, 194, .18); border-radius: 18px; background: rgba(7, 18, 14, .38); color: rgba(238, 248, 240, .76); font-size: 13px; }
+.surface-boundary__list strong { color: #bdf8cb; font-size: 14px; }
+.surface-boundary__list span { display: flex; gap: 9px; align-items: flex-start; }
+.surface-boundary__list span::before { content: 'Read'; flex: 0 0 auto; padding: 2px 7px; border-radius: 999px; background: rgba(189, 248, 203, .12); color: #bdf8cb; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.surface-boundary__list small { margin-top: 4px; color: rgba(238, 248, 240, .5); }
 @media (min-width: 821px) {
   .product-intro .product-note { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
   .product-intro .product-note strong { margin: 0; white-space: nowrap; }
@@ -94,6 +102,7 @@ button { font: inherit; }
   .product-intro { grid-template-columns: 1fr; gap: 22px; }
   .app-frame { grid-template-columns: 1fr; }
   .app-panel--green { display: none; }
+  .surface-boundary { grid-template-columns: 1fr; gap: 18px; }
   .event-card { grid-template-columns: 82px 1fr; }
   .event-card > .product-button { grid-column: 2; justify-self: start; }
   .event-date { min-height: 88px; }
