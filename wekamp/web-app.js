@@ -13,15 +13,27 @@
   function saveSession(next) {
     session = Object.assign({}, session, next);
     window.localStorage.setItem(storageKey, JSON.stringify(session));
+    updateAuthenticatedNav();
   }
 
   function clearSession() {
     session = {};
     window.localStorage.removeItem(storageKey);
+    updateAuthenticatedNav();
   }
 
   function isSignedIn() {
     return Boolean(session.accessToken && session.idToken);
+  }
+
+  function updateAuthenticatedNav() {
+    var signedIn = isSignedIn();
+    document.querySelectorAll('[data-authenticated-nav]').forEach(function (item) {
+      item.hidden = !signedIn;
+    });
+    document.querySelectorAll('[data-guest-nav]').forEach(function (item) {
+      item.hidden = signedIn;
+    });
   }
 
   function deviceHeaders() {
@@ -182,8 +194,16 @@
   }
 
   function installSignInLinks() {
+    updateAuthenticatedNav();
     document.querySelectorAll('a[href="#signin"], a.nav-signin').forEach(function (link) {
       link.addEventListener('click', function (event) { event.preventDefault(); openAuthModal(); });
+    });
+    document.querySelectorAll('[data-auth-signout]').forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        clearSession();
+        window.location.href = 'index.html';
+      });
     });
     document.querySelectorAll('a[href="feed.html"], a[href="events.html"]').forEach(function (link) {
       if (isSignedIn()) return;

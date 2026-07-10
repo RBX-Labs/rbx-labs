@@ -14,8 +14,8 @@
   <header class="product-nav">
     <div class="product-nav__inner">
       <a class="product-logo" href="index.html"><img src="assets/wekamp-logo.png" alt="WeKamp logo">WeKamp</a>
-      <nav class="product-links" aria-label="Product pages"><a href="feed.html">Main feed</a><a href="events.html">Events</a><a href="index.html#solution">Platform</a></nav>
-      <div class="product-nav__actions"><a class="product-button product-button--soft" href="index.html">Back to overview</a><a class="product-button product-button--solid" href="events.html">View events</a></div>
+      <nav class="product-links" aria-label="Product pages"><a data-authenticated-nav hidden href="feed.html">Main feed</a><a data-authenticated-nav hidden href="events.html">Events</a><a data-guest-nav href="index.html#solution">Platform</a></nav>
+      <div class="product-nav__actions"><a class="product-button product-button--soft" href="index.html">Back to overview</a><a class="product-button product-button--solid" data-authenticated-nav hidden href="events.html">View events</a></div>
     </div>
   </header>
   <div class="auth-gate" data-auth-gate hidden><h1>Sign in to open your Home surface.</h1><p>WeKamp Home is private because the feed, Kamp health, and participation signals are tied to your profile.</p><button class="product-button product-button--solid" type="button" data-gate-signin>Sign in to continue</button></div>

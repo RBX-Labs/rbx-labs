@@ -444,16 +444,17 @@
       WeKamp
     </a>
     <nav class="nav-links" id="primary-navigation">
-      <a href="feed.html">Main feed</a>
-      <a href="events.html">Events</a>
-      <a href="#solution">Product</a>
-      <a href="#usecases">Use cases</a>
-      <a href="#process">How it works</a>
-      <a href="#contact">Contact</a>
+      <a data-authenticated-nav hidden href="feed.html">Main feed</a>
+      <a data-authenticated-nav hidden href="events.html">Events</a>
+      <a data-guest-nav href="#solution">Product</a>
+      <a data-guest-nav href="#usecases">Use cases</a>
+      <a data-guest-nav href="#process">How it works</a>
+      <a data-guest-nav href="#contact">Contact</a>
     </nav>
     <div class="nav-actions">
-      <a class="nav-signin" href="#">Sign in</a>
-      <a class="btn btn-primary" href="feed.html">See the operating surface</a>
+      <a class="nav-signin" data-guest-nav href="#">Sign in</a>
+      <a class="btn btn-primary" data-authenticated-nav hidden href="feed.html">Open operating surface</a>
+      <a class="nav-signout" data-auth-signout data-authenticated-nav hidden href="#">Sign out</a>
     </div>
     <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="primary-navigation">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -470,11 +471,6 @@
         <span class="eyebrow">The operating layer for structured groups</span>
         <h1>Run your Kamp with <em>clarity and follow-through</em>.</h1>
         <p class="lede">Manage Kamp health, roles, events, participation, and trust from one operating surface built for the people responsible for the outcome.</p>
-        <div class="hero-ctas">
-          <a class="btn btn-primary" href="feed.html">See the operating surface</a>
-          <a class="btn btn-ghost" href="events.html">View events</a>
-          <a class="btn btn-ghost" href="#solution">See Kamp operations</a>
-        </div>
         <p class="hero-support">Built for cohort leads, program teams, accelerators, partner groups, and organizers who need more than a feed.</p>
         <div class="patch-row">
           <span class="patch">Kamp health</span>
