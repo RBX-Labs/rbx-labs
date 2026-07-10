@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Network Guardian | Proposed Carryover UI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="network-guardian.css" />
+  <style>
+    .ng-shell {
+      gap: 1.4rem;
+    }
+    .hero-panel,
+    .metric-strip,
+    .operations-section,
+    .telemetry-section,
+    .leaderboard-section,
+    .capabilities-section,
+    .trust-section,
+    .pilot-section {
+      margin-top: 0.15rem;
+    }
+    .major-section {
+      padding: 1.35rem;
+    }
+    .section-variant-tint {
+      background:
+        linear-gradient(180deg, rgba(8, 25, 43, 0.92), rgba(5, 17, 30, 0.94));
+      border-color: rgba(66, 126, 170, 0.38);
+    }
+    .section-variant-band .section-header {
+      position: relative;
+      padding-bottom: 0.9rem;
+    }
+    .section-variant-band .section-header::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 0.2rem;
+      background: linear-gradient(90deg, rgba(46, 219, 255, 0.7), rgba(46, 219, 255, 0.04));
+      border-radius: 999px;
+    }
+    .stat-callout {
+      border: 1px solid rgba(84, 130, 165, 0.32);
+      border-radius: 0.3rem;
+      background: rgba(4, 14, 26, 0.76);
+      padding: 0.95rem 1rem;
+      display: inline-grid;
+      gap: 0.3rem;
+    }
+    .stat-callout .panel-label {
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+    }
+    .stat-callout strong {
+      color: var(--copy);
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+    .capabilities-section .capability-icon,
+    .why-now-grid .capability-icon,
+    .operations-grid .operation-icon {
+      width: 4.2rem;
+      height: 4.2rem;
+      flex: 0 0 4.2rem;
+    }
+    .capabilities-section .capability-icon img,
+    .why-now-grid .capability-icon img,
+    .operations-grid .operation-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .operations-grid .operation-flow {
+      min-height: 7rem;
+    }
+    .operations-grid .operation-copy h3 {
+      font-size: 1.05rem;
+    }
+    .operations-grid .operation-copy p {
+      font-size: 0.82rem;
+    }
+    .why-now-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .why-now-item {
+      border: 1px solid rgba(84, 130, 165, 0.28);
+      border-radius: 0.7rem;
+      padding: 1rem;
+      background: rgba(5, 16, 29, 0.88);
+    }
+    .why-now-item p {
+      margin: 0;
+      color: var(--copy);
+      line-height: 1.35;
+    }
+    .incident-card-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .board-panel-right {
+      gap: 0.7rem;
+      grid-template-rows: auto auto auto auto;
+    }
+    .incident-card {
+      align-items: center;
+      display: grid;
+      gap: 0.55rem;
+      grid-template-columns: auto 1fr auto;
+    }
+    .incident-card .theme-icon {
+      width: 1.9rem;
+      height: 1.9rem;
+      flex: 0 0 1.9rem;
+    }
+    .incident-card .panel-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .incident-card strong {
+      color: var(--copy);
+      font-size: clamp(1.8rem, 2.2vw, 2.3rem);
+      line-height: 1;
+      margin: 0;
+      text-align: right;
+    }
+    .telemetry-mini {
+      background: rgba(5, 16, 30, 0.9);
+      border: 1px solid rgba(86, 129, 162, 0.26);
+      border-radius: 0.2rem;
+      display: grid;
+      gap: 0.55rem;
+      padding: 0.72rem 0.78rem;
+    }
+    .telemetry-mini .panel-label {
+      color: var(--muted);
+      font-size: 0.67rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .telemetry-mini .side-metric {
+      color: var(--cyan);
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    .telemetry-mini-graph {
+      width: 100%;
+      height: 38px;
+      display: block;
+    }
+    .telemetry-mini-graph .grid {
+      stroke: rgba(72, 150, 180, 0.18);
+      stroke-width: 1;
+    }
+    .telemetry-mini-graph .line {
+      fill: none;
+      stroke: #2edbff;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .telemetry-mini-table {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.42rem;
+    }
+    .telemetry-mini-table li {
+      align-items: center;
+      border-top: 1px solid rgba(84, 130, 165, 0.2);
+      color: var(--copy);
+      display: grid;
+      font-size: 0.82rem;
+      gap: 0.55rem;
+      grid-template-columns: minmax(0, 1fr) auto;
+      line-height: 1.3;
+      padding-top: 0.42rem;
+    }
+    .telemetry-mini-table li:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+    .telemetry-mini-score {
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 0.88rem;
+    }
+    .trust-org-grid div {
+      display: grid;
+      gap: 0.55rem;
+      justify-items: center;
+      align-content: center;
+      min-width: 0;
+      text-align: center;
+      padding: 1rem 0.75rem;
+      font-size: clamp(0.9rem, 1.45vw, 1.65rem);
+      letter-spacing: 0.06em;
+      line-height: 1.06;
+      text-wrap: balance;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .trust-org-grid div > span:last-child {
+      line-height: 1.12;
+    }
+    .trust-org-grid .theme-icon {
+      width: 3.5rem;
+      height: 3.5rem;
+      flex: 0 0 3.5rem;
+    }
+    .trust-org-grid .theme-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .business-model-grid .capability-card {
+      min-height: 14rem;
+      padding-top: 1rem;
+    }
+    .business-model-grid .capability-icon {
+      width: 3.2rem;
+      height: 3.2rem;
+      flex: 0 0 3.2rem;
+      margin-bottom: 0.8rem;
+    }
+    .business-model-grid .capability-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .business-model-grid h3 {
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      line-height: 1.06;
+      margin-bottom: 0.45rem;
+    }
+    .leaderboard-section {
+      background: var(--panel-soft);
+      border: 1px solid var(--panel-line);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 1rem;
+      padding: 1.25rem;
+    }
+    .leaderboard-tabs {
+      display: grid;
+      gap: 0.5rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .leaderboard-tab {
+      background: rgba(5, 16, 29, 0.9);
+      border: 1px solid rgba(84, 130, 165, 0.28);
+      border-radius: 0.2rem;
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      padding: 0.55rem 0.8rem;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .leaderboard-tab.is-active {
+      border-color: rgba(46, 219, 255, 0.55);
+      color: var(--cyan);
+    }
+    .leaderboard-layout {
+      display: grid;
+      gap: 0.8rem;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    }
+    .leaderboard-table,
+    .leaderboard-side {
+      background: rgba(5, 16, 29, 0.88);
+      border: 1px solid rgba(84, 130, 165, 0.28);
+      border-radius: 0.2rem;
+      padding: 0.8rem;
+    }
+    .leaderboard-head,
+    .leaderboard-row {
+      align-items: center;
+      display: grid;
+      gap: 0.6rem;
+      grid-template-columns: 56px minmax(0, 1fr) 130px 90px;
+    }
+    .leaderboard-head {
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.25rem 0.2rem 0.55rem;
+      text-transform: uppercase;
+    }
+    .leaderboard-row {
+      border-top: 1px solid rgba(84, 130, 165, 0.2);
+      min-height: 3.15rem;
+      padding: 0.38rem 0.2rem;
+    }
+    .rank-badge {
+      border: 1px solid rgba(84, 130, 165, 0.44);
+      border-radius: 999px;
+      color: var(--copy);
+      display: inline-flex;
+      font-size: 0.9rem;
+      font-weight: 800;
+      height: 2rem;
+      justify-content: center;
+      width: 2rem;
+      align-items: center;
+    }
+    .rank-1 { color: #ffd25e; border-color: rgba(255, 210, 94, 0.64); }
+    .rank-2 { color: #d6e3ef; border-color: rgba(214, 227, 239, 0.6); }
+    .rank-3 { color: #f0a15d; border-color: rgba(240, 161, 93, 0.6); }
+    .leaderboard-network {
+      color: var(--copy);
+      font-size: 0.96rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    .leaderboard-segment {
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+    .leaderboard-score {
+      color: var(--cyan);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-align: right;
+    }
+    .leaderboard-delta {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-align: right;
+    }
+    .leaderboard-delta.up { color: var(--green); }
+    .leaderboard-delta.down { color: var(--red); }
+    .leaderboard-side {
+      display: grid;
+      gap: 0.8rem;
+      grid-template-rows: auto auto 1fr;
+    }
+    .side-card {
+      background: rgba(4, 14, 26, 0.92);
+      border: 1px solid rgba(84, 130, 165, 0.26);
+      border-radius: 0.2rem;
+      padding: 0.75rem;
+    }
+    .side-metric {
+      color: var(--cyan);
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-top: 0.2rem;
+    }
+    .telemetry-note {
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.45;
+      margin-top: 0.3rem;
+    }
+    .leaderboard-cta {
+      align-items: center;
+      border: 1px solid rgba(84, 130, 165, 0.3);
+      border-radius: 0.2rem;
+      color: var(--cyan);
+      display: inline-flex;
+      font-size: 0.92rem;
+      font-weight: 700;
+      gap: 0.5rem;
+      justify-content: space-between;
+      padding: 0.72rem 0.84rem;
+      width: 100%;
+    }
+    .leaderboard-sparkline {
+      margin-top: 0.45rem;
+      width: 100%;
+      height: 44px;
+      display: block;
+    }
+    .leaderboard-sparkline .grid {
+      stroke: rgba(72, 150, 180, 0.2);
+      stroke-width: 1;
+    }
+    .leaderboard-sparkline .line {
+      fill: none;
+      stroke: #2edbff;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .leaderboard-mobile-cards {
+      display: none;
+      gap: 0.75rem;
+    }
+    .leaderboard-mobile-card {
+      background: rgba(5, 16, 29, 0.88);
+      border: 1px solid rgba(84, 130, 165, 0.24);
+      border-radius: 0.2rem;
+      display: grid;
+      gap: 0.6rem;
+      padding: 0.9rem;
+    }
+    .leaderboard-mobile-head {
+      align-items: center;
+      display: flex;
+      gap: 0.7rem;
+      min-width: 0;
+    }
+    .leaderboard-mobile-title {
+      color: var(--copy);
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0;
+    }
+    .leaderboard-mobile-segment {
+      color: var(--muted);
+      font-size: 0.84rem;
+      margin: 0.08rem 0 0;
+    }
+    .leaderboard-mobile-stats {
+      align-items: end;
+      display: grid;
+      gap: 0.65rem;
+      grid-template-columns: 1fr 1fr;
+    }
+    .leaderboard-mobile-stats span {
+      color: var(--muted);
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .leaderboard-mobile-stats strong {
+      color: var(--cyan);
+      display: block;
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-top: 0.2rem;
+    }
+    .leaderboard-mobile-stats .leaderboard-delta {
+      font-size: 1.05rem;
+      margin-top: 0.2rem;
+      text-align: left;
+    }
+    .action-primary {
+      box-shadow: 0 0 0 1px rgba(46, 219, 255, 0.32), 0 10px 26px rgba(20, 189, 224, 0.2);
+    }
+    .action-primary,
+    .action-secondary,
+    .leaderboard-cta,
+    .dashboard-link,
+    .leaderboard-tab {
+      min-height: 2.75rem;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background-color 0.16s ease, color 0.16s ease;
+    }
+    .action-primary:hover,
+    .leaderboard-cta:hover,
+    .dashboard-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(14, 112, 135, 0.24);
+    }
+    .action-secondary:hover,
+    .leaderboard-tab:hover {
+      border-color: rgba(46, 219, 255, 0.5);
+      color: var(--copy);
+      background: rgba(7, 27, 42, 0.95);
+    }
+    .action-primary:focus-visible,
+    .action-secondary:focus-visible,
+    .leaderboard-cta:focus-visible,
+    .dashboard-link:focus-visible,
+    .leaderboard-tab:focus-visible {
+      outline: 2px solid #63ddff;
+      outline-offset: 2px;
+    }
+    .pilot-section .action-primary {
+      font-size: 1.05rem;
+      min-height: 3rem;
+      padding: 0.94rem 1.45rem;
+    }
+    .pilot-section .action-secondary {
+      background: rgba(5, 16, 29, 0.5);
+      border-color: rgba(130, 170, 204, 0.38);
+      color: #d8ecff;
+      min-height: 3rem;
+      padding: 0.94rem 1.3rem;
+    }
+    @media (max-width: 900px) {
+      .ng-shell {
+        gap: 1.55rem;
+      }
+      .why-now-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .leaderboard-layout {
+        grid-template-columns: 1fr;
+      }
+      .leaderboard-side {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+      .leaderboard-side .leaderboard-cta {
+        grid-column: 1 / -1;
+      }
+      .board-panel-right {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+      .board-panel-right .dashboard-link {
+        grid-column: 1 / -1;
+      }
+    }
+    @media (max-width: 620px) {
+      .why-now-grid {
+        grid-template-columns: 1fr;
+      }
+      .leaderboard-tabs {
+        grid-template-columns: 1fr;
+      }
+      .leaderboard-head,
+      .leaderboard-row {
+        grid-template-columns: 44px minmax(0, 1fr) 90px 70px;
+      }
+      .capabilities-section .capability-icon,
+      .why-now-grid .capability-icon,
+      .operations-grid .operation-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        flex-basis: 3.5rem;
+      }
+      .board-panel-right {
+        grid-template-columns: 1fr;
+      }
+      .incident-card strong {
+        font-size: 1.9rem;
+      }
+      .telemetry-mini .side-metric {
+        font-size: 1.02rem;
+      }
+      .telemetry-mini-table li {
+        font-size: 0.9rem;
+      }
+    }
+    @media (max-width: 1100px) {
+      .hero-panel {
+        min-height: auto;
+      }
+      .hero-copy {
+        padding: 1.35rem 1.2rem;
+      }
+      .hero-copy h1 {
+        line-height: 0.87;
+        margin-bottom: 0.9rem;
+        max-width: 7ch;
+      }
+      .hero-lead,
+      .section-copy {
+        font-size: 1.08rem;
+        line-height: 1.66;
+        max-width: 44ch;
+      }
+      .metric-strip {
+        gap: 0.75rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .metric-block {
+        min-height: 8.2rem;
+      }
+      .metric-block + .metric-block {
+        border-left: 1px solid rgba(52, 97, 132, 0.36);
+      }
+      .operations-grid {
+        grid-template-columns: 1fr;
+      }
+      .operation-card + .operation-card {
+        border-top: 1px solid rgba(52, 97, 132, 0.3);
+      }
+      .operations-grid .operation-flow {
+        align-items: flex-start;
+        min-height: 6.5rem;
+      }
+      .operations-grid .operation-copy h3 {
+        font-size: 1.16rem;
+        letter-spacing: 0.04em;
+      }
+      .operations-grid .operation-copy p {
+        font-size: 0.95rem;
+        line-height: 1.45;
+      }
+      .leaderboard-layout {
+        gap: 0.95rem;
+      }
+      .leaderboard-head,
+      .leaderboard-row {
+        grid-template-columns: 52px minmax(0, 1fr) 116px 84px;
+      }
+      .leaderboard-side {
+        align-items: start;
+      }
+      .telemetry-note {
+        font-size: 0.93rem;
+        line-height: 1.55;
+      }
+      .leaderboard-segment,
+      .leaderboard-mobile-segment,
+      .metric-label {
+        font-size: 0.9rem;
+        line-height: 1.45;
+      }
+      .trust-org-grid div {
+        align-content: start;
+        gap: 0.45rem;
+      }
+    }
+    @media (max-width: 720px) {
+      .ng-shell {
+        gap: 1.75rem;
+      }
+      .major-section {
+        padding: 1.2rem;
+      }
+      .hero-copy h1 {
+        font-size: clamp(2.45rem, 12vw, 3.3rem);
+        max-width: 6.7ch;
+      }
+      .hero-lead,
+      .section-copy {
+        font-size: 1.08rem;
+        line-height: 1.66;
+      }
+      .hero-copy .section-copy,
+      .operations-section .section-header .section-copy,
+      #telemetry .section-copy,
+      .telemetry-note {
+        display: none;
+      }
+      .metric-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .metric-block {
+        min-height: 7.3rem;
+      }
+      .metric-label {
+        font-size: 0.9rem;
+        line-height: 1.45;
+      }
+      .operations-section {
+        gap: 0.9rem;
+      }
+      .operations-grid .operation-flow {
+        min-height: 6.1rem;
+        padding: 0.88rem;
+      }
+      .operations-grid .operation-copy p {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+      .leaderboard-table,
+      .leaderboard-side {
+        display: none;
+      }
+      .leaderboard-mobile-cards {
+        display: grid;
+      }
+      .leaderboard-tabs {
+        gap: 0.4rem;
+      }
+      .leaderboard-tab {
+        font-size: 0.9rem;
+        padding: 0.62rem 0.75rem;
+      }
+      .trust-org-grid div {
+        border-width: 1px;
+        font-size: 0.84rem;
+        padding: 0.9rem 0.7rem;
+      }
+      .trust-org-grid .theme-icon {
+        height: 2.5rem;
+        width: 2.5rem;
+      }
+      .capability-card h3,
+      .business-model-grid h3 {
+        font-size: 1.1rem;
+        line-height: 1.25;
+      }
+      .pilot-section {
+        padding: 1.5rem 1.2rem;
+      }
+      .pilot-copy {
+        gap: 0.65rem;
+      }
+      .pilot-actions {
+        gap: 0.75rem;
+        margin-top: 0.95rem;
+        width: 100%;
+      }
+      .pilot-actions .action-primary,
+      .pilot-actions .action-secondary {
+        justify-content: center;
+        width: 100%;
+      }
+      .pilot-actions .action-secondary {
+        background: rgba(5, 16, 29, 0.72);
+      }
+      .stat-callout {
+        width: 100%;
+      }
+      .leaderboard-mobile-title {
+        font-size: 1.08rem;
+      }
+      .leaderboard-mobile-segment {
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+      .leaderboard-mobile-stats span {
+        font-size: 0.78rem;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .action-primary,
+      .action-secondary,
+      .leaderboard-cta,
+      .dashboard-link,
+      .leaderboard-tab {
+        transition: none;
+      }
+      .action-primary:hover,
+      .leaderboard-cta:hover,
+      .dashboard-link:hover {
+        transform: none;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-noise" aria-hidden="true"></div>
+  <div class="site-grid" aria-hidden="true"></div>
+
+  <header class="ng-nav">
+    <a class="ng-brand" href="#home" aria-label="Network Guardian home">
+      <img class="ng-brand-shield" src="assets/branding/logos/ng_logo.png" alt="" />
+      <span class="ng-brand-copy">
+        <span class="ng-brand-name">Network Guardian</span>
+        <span class="ng-brand-tagline">Pre-Connection Wi-Fi Trust</span>
+      </span>
+    </a>
+    <nav class="ng-links" aria-label="Primary">
+      <a href="#capabilities">Capabilities</a>
+      <a href="#operations">Operations</a>
+      <a href="#telemetry">Telemetry</a>
+      <a href="#trust">Trust</a>
+      <a href="#pilot">Pilot</a>
+    </nav>
+    <div class="nav-status"><span>STATUS</span><span class="status-dot" aria-hidden="true"></span></div>
+  </header>
+
+  <main class="ng-shell" id="home">
+    <section class="hero-panel reveal">
+      <div class="hero-copy">
+        <p class="eyebrow">PRE-CONNECTION WI-FI TRUST · LIVE SCORING · MOBILE SECURITY</p>
+        <h1>
+          <span class="hero-line">SEE EVERYTHING.</span>
+          <span class="hero-line">UNDERSTAND FASTER.</span>
+          <span class="hero-line hero-line-accent">ACT FIRST.</span>
+        </h1>
+        <p class="hero-lead">
+          Network Guardian turns raw Wi‑Fi diagnostics, reputation history, and confidence signals into a decision people and products can use before the first packet leaves the device.
+        </p>
+        <p class="section-copy">Scan before you connect. Every scan strengthens the trust graph.</p>
+        <div class="hero-actions">
+          <a class="action-primary" href="#capabilities">Explore capabilities</a>
+          <a class="action-secondary" href="#pilot">Start a pilot</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="visual-glow" aria-hidden="true"></div>
+        <div class="visual-telemetry">
+          <div class="hero-media" aria-hidden="true">
+            <img class="hero-asset hero-asset-animated hero-asset-dark" src="assets/branding/hero/networkguardian_hero.webp" alt="" />
+            <img class="hero-asset hero-asset-static hero-asset-dark hero-asset-fallback" src="assets/branding/hero/networkguardian_hero.png" alt="" />
+          </div>
+          <div class="telemetry-callout">
+            <span class="callout-label">Global telemetry</span>
+            <span class="callout-value"><span class="callout-dot" aria-hidden="true"></span>Live feed</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="metric-strip reveal reveal-delay-1" aria-label="Key metrics">
+      <article class="metric-block"><span class="metric-value">4.6B</span><span class="metric-label">Public Wi‑Fi users exposed</span></article>
+      <article class="metric-block"><span class="metric-value">$10.5T</span><span class="metric-label">Annual cybercrime cost</span></article>
+      <article class="metric-block"><span class="metric-value">70+</span><span class="metric-label">Wi‑Fi vulnerabilities found</span></article>
+      <article class="metric-block"><span class="metric-value">600+</span><span class="metric-label">Scans completed</span></article>
+    </section>
+
+    <section class="operations-section major-section section-variant-band reveal" id="operations">
+      <div class="section-header">
+        <div><p class="eyebrow">How we operate</p><h2>DIAGNOSE. SCORE. DECIDE.</h2></div>
+        <p class="section-copy">Safe 70+, Caution 40–69, Unsafe under 40.</p>
+      </div>
+      <div class="operations-grid">
+        <article class="operation-card">
+          <div class="operation-flow">
+            <span class="theme-icon operation-icon" aria-hidden="true">
+              <img class="theme-icon-dark" src="assets/branding/icons/ng_scanning_light.png" alt="" />
+              <img class="theme-icon-light" src="assets/branding/icons/ng_scanning.png" alt="" />
+            </span>
+            <div class="operation-copy">
+              <h3>Diagnose</h3>
+              <p>Collect rich signals from the network and environment.</p>
+            </div>
+          </div>
+        </article>
+        <article class="operation-card">
+          <div class="operation-flow">
+            <span class="theme-icon operation-icon" aria-hidden="true">
+              <img class="theme-icon-dark" src="assets/branding/icons/ng_insights_light.png" alt="" />
+              <img class="theme-icon-light" src="assets/branding/icons/ng_insights.png" alt="" />
+            </span>
+            <div class="operation-copy">
+              <h3>Score</h3>
+              <p>Score risk in real time using behavioral and contextual models.</p>
+            </div>
+          </div>
+        </article>
+        <article class="operation-card">
+          <div class="operation-flow">
+            <span class="theme-icon operation-icon" aria-hidden="true">
+              <img class="theme-icon-dark" src="assets/branding/icons/ng_decisions_light.png" alt="" />
+              <img class="theme-icon-light" src="assets/branding/icons/ng_decisions.png" alt="" />
+            </span>
+            <div class="operation-copy">
+              <h3>Decide</h3>
+              <p>Convert threat signals into clear, actionable decisions.</p>
+            </div>
+          </div>
+        </article>
+        <article class="operation-card">
+          <div class="operation-flow">
+            <span class="theme-icon operation-icon" aria-hidden="true">
+              <img class="theme-icon-dark" src="assets/branding/icons/ng_security_light.png" alt="" />
+              <img class="theme-icon-light" src="assets/branding/icons/ng_security.png" alt="" />
+            </span>
+            <div class="operation-copy">
+              <h3>Defend</h3>
+              <p>Automate response with human oversight where it matters.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="telemetry-section reveal" id="telemetry">
+      <div class="telemetry-board">
+        <aside class="board-panel board-panel-left"><div class="panel-label">Live system overview</div><div class="threat-list"><p class="section-copy" style="margin:0;font-size:.8rem;">Trend lines reflect recent risk mix</p></div></aside>
+        <div class="board-map"><div class="panel-label">Live network telemetry</div><div class="map-surface"></div><p class="section-copy" style="margin:.5rem 0 0;font-size:.8rem;">Telemetry stream from live scans</p></div>
+        <aside class="board-panel board-panel-right">
+          <div class="incident-card">
+            <span class="theme-icon incident-card-icon" aria-hidden="true">
+              <img class="theme-icon-dark" src="assets/branding/icons/ng_incident_light.png" alt="" />
+              <img class="theme-icon-light" src="assets/branding/icons/ng_incident.png" alt="" />
+            </span>
+            <span class="panel-label">Active incidents</span>
+            <strong>12</strong>
+          </div>
+          <div class="incident-card">
+            <span class="theme-icon incident-card-icon" aria-hidden="true">
+              <img class="theme-icon-dark" src="assets/branding/icons/ng_protected_light.png" alt="" />
+              <img class="theme-icon-light" src="assets/branding/icons/ng_protected.png" alt="" />
+            </span>
+            <span class="panel-label">Resolved today</span>
+            <strong>87</strong>
+          </div>
+          <div class="telemetry-mini" aria-label="Telemetry trend and top risk hotspots">
+            <span class="panel-label">Telemetry trend</span>
+            <div class="side-metric">19,284 events / 24h</div>
+            <svg class="telemetry-mini-graph" viewBox="0 0 220 38" aria-hidden="true">
+              <path class="grid" d="M0 10 H220 M0 19 H220 M0 28 H220" />
+              <path class="line" d="M4 29 C18 27,26 26,40 22 C56 18,62 21,78 20 C92 18,102 12,118 13 C130 14,140 20,154 18 C166 16,178 8,194 9 C206 10,212 11,216 10" />
+            </svg>
+            <ul class="telemetry-mini-table">
+              <li><span>Cafe mesh hotspots</span><span class="telemetry-mini-score">72 high risk</span></li>
+              <li><span>Airport open APs</span><span class="telemetry-mini-score">58 high risk</span></li>
+              <li><span>Hotel captive portals</span><span class="telemetry-mini-score">41 high risk</span></li>
+            </ul>
+          </div>
+          <a class="dashboard-link" href="#capabilities">View dashboard</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="leaderboard-section major-section section-variant-tint reveal" id="leaderboard">
+      <div class="section-header">
+        <div><p class="eyebrow">Global trust leaderboard</p><h2>GLOBAL TRUST LEADERBOARD</h2></div>
+        <p class="section-copy">Live ranking of networks raising pre-connection trust.</p>
+      </div>
+      <div class="leaderboard-tabs" aria-label="Leaderboard views">
+        <div class="leaderboard-tab is-active">Networks</div>
+        <div class="leaderboard-tab">Contributors</div>
+        <div class="leaderboard-tab">Countries</div>
+      </div>
+      <div class="leaderboard-layout">
+        <div class="leaderboard-table" role="table" aria-label="Top network leaderboard">
+          <div class="leaderboard-head" role="row">
+            <span>Rank</span><span>Network</span><span style="text-align:right;">Trust score</span><span style="text-align:right;">Trend</span>
+          </div>
+          <div class="leaderboard-row" role="row"><span class="rank-badge rank-1">1</span><div><div class="leaderboard-network">CyberSentinel Network</div><div class="leaderboard-segment">Enterprise network</div></div><span class="leaderboard-score">98.6</span><span class="leaderboard-delta up">+2.4</span></div>
+          <div class="leaderboard-row" role="row"><span class="rank-badge rank-2">2</span><div><div class="leaderboard-network">NetShield Pro</div><div class="leaderboard-segment">Enterprise network</div></div><span class="leaderboard-score">95.4</span><span class="leaderboard-delta up">+1.8</span></div>
+          <div class="leaderboard-row" role="row"><span class="rank-badge rank-3">3</span><div><div class="leaderboard-network">ThreatHunter Grid</div><div class="leaderboard-segment">Enterprise network</div></div><span class="leaderboard-score">93.1</span><span class="leaderboard-delta up">+0.9</span></div>
+          <div class="leaderboard-row" role="row"><span class="rank-badge">4</span><div><div class="leaderboard-network">SecureMesh Core</div><div class="leaderboard-segment">Business network</div></div><span class="leaderboard-score">91.2</span><span class="leaderboard-delta down">-0.6</span></div>
+          <div class="leaderboard-row" role="row"><span class="rank-badge">5</span><div><div class="leaderboard-network">DefendLink Network</div><div class="leaderboard-segment">Business network</div></div><span class="leaderboard-score">89.7</span><span class="leaderboard-delta up">+1.1</span></div>
+        </div>
+        <aside class="leaderboard-side">
+          <div class="side-card">
+            <div class="panel-label">Live feed status</div>
+            <div class="side-metric">19,284 events / 24h</div>
+            <p class="telemetry-note">Live scan feed, continuously refreshed.</p>
+          </div>
+          <div class="side-card">
+            <div class="panel-label">Capture quality</div>
+            <div class="side-metric">99.7% uptime</div>
+            <p class="telemetry-note">Trend line tracks recent risk and scan volume.</p>
+            <svg class="leaderboard-sparkline" viewBox="0 0 260 44" aria-hidden="true">
+              <path class="grid" d="M0 11 H260 M0 22 H260 M0 33 H260" />
+              <path class="line" d="M4 30 C20 29,24 24,36 24 C52 24,58 28,70 27 C84 26,92 20,104 18 C118 16,124 22,136 21 C150 20,160 14,172 14 C188 14,196 20,208 18 C222 16,234 10,256 11" />
+            </svg>
+          </div>
+          <a class="leaderboard-cta" href="#">View full networks leaderboard <span aria-hidden="true">→</span></a>
+        </aside>
+        <div class="leaderboard-mobile-cards" aria-label="Top network leaderboard mobile">
+          <article class="leaderboard-mobile-card">
+            <div class="leaderboard-mobile-head">
+              <span class="rank-badge rank-1">1</span>
+              <div>
+                <p class="leaderboard-mobile-title">CyberSentinel Network</p>
+                <p class="leaderboard-mobile-segment">Enterprise network</p>
+              </div>
+            </div>
+            <div class="leaderboard-mobile-stats">
+              <div><span>Trust score</span><strong>98.6</strong></div>
+              <div><span>Trend</span><div class="leaderboard-delta up">+2.4</div></div>
+            </div>
+          </article>
+          <article class="leaderboard-mobile-card">
+            <div class="leaderboard-mobile-head">
+              <span class="rank-badge rank-2">2</span>
+              <div>
+                <p class="leaderboard-mobile-title">NetShield Pro</p>
+                <p class="leaderboard-mobile-segment">Enterprise network</p>
+              </div>
+            </div>
+            <div class="leaderboard-mobile-stats">
+              <div><span>Trust score</span><strong>95.4</strong></div>
+              <div><span>Trend</span><div class="leaderboard-delta up">+1.8</div></div>
+            </div>
+          </article>
+          <article class="leaderboard-mobile-card">
+            <div class="leaderboard-mobile-head">
+              <span class="rank-badge rank-3">3</span>
+              <div>
+                <p class="leaderboard-mobile-title">ThreatHunter Grid</p>
+                <p class="leaderboard-mobile-segment">Enterprise network</p>
+              </div>
+            </div>
+            <div class="leaderboard-mobile-stats">
+              <div><span>Trust score</span><strong>93.1</strong></div>
+              <div><span>Trend</span><div class="leaderboard-delta up">+0.9</div></div>
+            </div>
+          </article>
+          <article class="leaderboard-mobile-card">
+            <div class="leaderboard-mobile-head">
+              <span class="rank-badge">4</span>
+              <div>
+                <p class="leaderboard-mobile-title">SecureMesh Core</p>
+                <p class="leaderboard-mobile-segment">Business network</p>
+              </div>
+            </div>
+            <div class="leaderboard-mobile-stats">
+              <div><span>Trust score</span><strong>91.2</strong></div>
+              <div><span>Trend</span><div class="leaderboard-delta down">-0.6</div></div>
+            </div>
+          </article>
+          <article class="leaderboard-mobile-card">
+            <div class="leaderboard-mobile-head">
+              <span class="rank-badge">5</span>
+              <div>
+                <p class="leaderboard-mobile-title">DefendLink Network</p>
+                <p class="leaderboard-mobile-segment">Business network</p>
+              </div>
+            </div>
+            <div class="leaderboard-mobile-stats">
+              <div><span>Trust score</span><strong>89.7</strong></div>
+              <div><span>Trend</span><div class="leaderboard-delta up">+1.1</div></div>
+            </div>
+          </article>
+          <a class="leaderboard-cta" href="#">View full networks leaderboard <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="capabilities-section major-section section-variant-band reveal" id="capabilities">
+      <div class="section-header"><div><p class="eyebrow">Capability stack</p><h2>BUILT FOR REAL-WORLD NETWORK DECISIONS.</h2></div></div>
+      <div class="capability-grid">
+        <article class="capability-card">
+          <span class="theme-icon capability-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_audience.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_audience.svg" alt="" />
+          </span>
+          <h3>Travelers / remote workers / students</h3>
+        </article>
+        <article class="capability-card">
+          <span class="theme-icon capability-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_sector.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_sector.svg" alt="" />
+          </span>
+          <h3>Teams and SMBs</h3>
+        </article>
+        <article class="capability-card">
+          <span class="theme-icon capability-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_partner_stack.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_partner_stack.svg" alt="" />
+          </span>
+          <h3>Partners integrating trust checks</h3>
+        </article>
+      </div>
+    </section>
+
+    <section class="trust-section major-section section-variant-tint reveal" id="trust">
+      <p class="eyebrow">Who it serves</p>
+      <div class="trust-grid trust-org-grid">
+        <div>
+          <span class="theme-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_pricing.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_pricing.svg" alt="" />
+          </span>
+          <span>FORTUNE<br/>500</span>
+        </div>
+        <div>
+          <span class="theme-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_policy.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_policy.svg" alt="" />
+          </span>
+          <span>GOVERNMENT<br/>AGENCIES</span>
+        </div>
+        <div>
+          <span class="theme-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_compliance.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_compliance.svg" alt="" />
+          </span>
+          <span>CRITICAL<br/>INFRASTRUCTURE</span>
+        </div>
+        <div>
+          <span class="theme-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_telemetry.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_telemetry.svg" alt="" />
+          </span>
+          <span>GLOBAL<br/>ENTERPRISES</span>
+        </div>
+        <div>
+          <span class="theme-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_trust_graph.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_trust_graph.svg" alt="" />
+          </span>
+          <span>INNOVATION<br/>PARTNERS</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="operations-section major-section section-variant-band reveal">
+      <div class="section-header">
+        <div><p class="eyebrow">Why now</p><h2>WHY NOW</h2></div>
+      </div>
+      <div class="why-now-grid">
+        <article class="why-now-item">
+          <span class="theme-icon capability-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_telemetry.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_telemetry.svg" alt="" />
+          </span>
+          <p>Public Wi‑Fi remains risky</p>
+        </article>
+        <article class="why-now-item">
+          <span class="theme-icon capability-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_sector.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_sector.svg" alt="" />
+          </span>
+          <p>Hybrid work increased exposure</p>
+        </article>
+        <article class="why-now-item">
+          <span class="theme-icon capability-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_risk_trend.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_risk_trend.svg" alt="" />
+          </span>
+          <p>Reactive tools are too late</p>
+        </article>
+        <article class="why-now-item">
+          <span class="theme-icon capability-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_api.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_api.svg" alt="" />
+          </span>
+          <p>AI agents need pre-connection trust context</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="operations-section major-section section-variant-tint reveal">
+      <div class="section-header">
+        <div><p class="eyebrow">Expansion path</p><h2>TODAY VS NEXT</h2></div>
+        <div class="stat-callout">
+          <span class="panel-label">Roadmap progression</span>
+          <strong>Today: consumer trust app<br>Next: SDK/API + trust data layer</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="operations-section major-section section-variant-band reveal">
+      <div class="section-header">
+        <div><p class="eyebrow">Business model</p><h2>BUSINESS MODEL</h2></div>
+      </div>
+      <div class="capability-grid business-model-grid">
+        <article class="capability-card">
+          <span class="theme-icon capability-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_pricing.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_pricing.svg" alt="" />
+          </span>
+          <h3>Consumer Premium</h3>
+        </article>
+        <article class="capability-card">
+          <span class="theme-icon capability-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_api.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_api.svg" alt="" />
+          </span>
+          <h3>B2B SDK/API</h3>
+        </article>
+        <article class="capability-card">
+          <span class="theme-icon capability-icon" aria-hidden="true">
+            <img class="theme-icon-dark" src="assets/branding/icons/web-pack/ng_web_compliance.svg" alt="" />
+            <img class="theme-icon-light" src="assets/branding/icons/web-pack/ng_web_compliance.svg" alt="" />
+          </span>
+          <h3>Trust Data Layer</h3>
+        </article>
+      </div>
+    </section>
+
+    <section class="pilot-section major-section section-variant-tint reveal" id="pilot">
+      <div class="pilot-copy">
+        <p class="eyebrow">Pilot access</p>
+        <h2>Turn pre-connection trust into a product advantage.</h2>
+        <p class="section-copy">For consumer rollout, partner integration, or trust-data pilots.</p>
+      </div>
+      <div class="pilot-actions">
+        <a class="action-primary" href="#">Book a pilot call</a>
+        <a class="action-secondary" href="#">Email pilot interest</a>
+      </div>
+    </section>
+  </main>
+  <script src="script.js" defer></script>
+</body>
+</html>

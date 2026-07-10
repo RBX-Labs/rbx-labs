@@ -4164,6 +4164,10 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
     display: none;
   }
 
+  .hero-proof {
+    grid-template-columns: 1fr;
+  }
+
   .training-next-step-panel {
     padding: var(--space-lg);
   }

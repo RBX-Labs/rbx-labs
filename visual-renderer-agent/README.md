@@ -47,6 +47,20 @@ visual-renderer-agent/scripts/export-ng-mockup.sh
 
 `export-ng-mockup.sh` uses headless Chrome for the full-length mockup export, because macOS `qlmanage` thumbnails are capped and can cut off lower sections/footer.
 
+To capture animated SVG assets into raw WebM clips for branding/video prep:
+
+```sh
+node visual-renderer-agent/scripts/capture-svg-webm.cjs
+```
+
+This writes raw clips to:
+
+```sh
+/private/tmp/ng_hero_light_raw.webm
+/private/tmp/ng_tel_raw.webm
+/private/tmp/ng_tel_light_raw.webm
+```
+
 ## What It Does
 
 The visual renderer agent runs in two stages:
@@ -62,8 +76,9 @@ The visual renderer agent runs in two stages:
      - tablet landscape `1024x768`
      - desktop `1440x1100`
    - emits two PNG variants per breakpoint:
-     - viewport capture: `page-breakpoint.html.png`
-     - full-length capture: `page-breakpoint-full.html.png`
+     - viewport capture: `page-breakpoint-theme.html.png`
+     - full-length capture: `page-breakpoint-theme-full.html.png`
+   - captures both theme variants explicitly using `qa_theme=dark` and `qa_theme=light`
    - writes screenshots to `${TMPDIR:-/tmp}/rbx-responsive`
    - writes a screenshot manifest to `${TMPDIR:-/tmp}/rbx-responsive/manifest.txt`
 
@@ -108,6 +123,13 @@ Additional always-on audits run as part of stage 1:
     - hidden-tab animation pause lifecycle guard
     - fallback PNG payload size check
     - head-blocking script check
+
+- `visual-renderer-agent/scripts/media-fidelity-audit.sh`
+  - validates critical hero/telemetry `.webm` assets for:
+    - expected resolution
+    - first-frame luminance range (catches near-blank dark exports)
+  - writes `${TMPDIR:-/tmp}/rbx-responsive/media-fidelity-report.txt`
+  - must report `Overall: PASS` or `render-and-eval.sh` exits early
 
 ## Evaluation Standard
 
@@ -201,13 +223,11 @@ assets/mockups/network-guardian-mockup-desktop-full-YYYY-MM-DD.png
 Typical files look like:
 
 - `index-phone-portrait.html.png`
-- `index-phone-landscape.html.png`
-- `index-flip-portrait.html.png`
-- `index-fold-portrait.html.png`
-- `index-tablet-portrait.html.png`
-- `index-tablet-landscape.html.png`
-- `index-desktop.html.png`
-- `ai-training-phone-portrait.html.png`
+- `index-phone-portrait-dark.html.png`
+- `index-phone-portrait-light.html.png`
+- `index-phone-landscape-dark-full.html.png`
+- `index-tablet-landscape-light-full.html.png`
+- `ai-training-desktop-dark.html.png`
 
 ## Why This Exists
 

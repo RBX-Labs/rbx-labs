@@ -228,12 +228,6 @@
       max-width: 44ch;
       margin: 0;
     }
-    .pilot-copy h2 {
-      max-width: 14ch;
-    }
-    .pilot-copy .section-copy {
-      max-width: 100%;
-    }
     @media (max-width: 1100px) {
       .expansion-grid {
         grid-template-columns: 1fr;
@@ -304,9 +298,6 @@
       .leaderboard-head,
       .leaderboard-row {
         grid-template-columns: 44px minmax(0, 1fr) 90px 70px;
-      }
-      .pilot-copy h2 {
-        max-width: 100%;
       }
       .hero-lead,
       .hero-copy .section-copy {
@@ -775,28 +766,38 @@
     </section>
 
     <section class="pilot-section reveal" id="pilot">
-      <div class="pilot-copy">
-        <p class="eyebrow">Pilot access</p>
-        <h2>Turn pre-connection trust into a product advantage.</h2>
-        <p class="section-copy">
-          For consumer rollout, partner integration, or trust-data pilots.
-        </p>
-      </div>
-      <div class="pilot-actions">
-        <a
-          class="action-primary"
-          href="https://calendly.com/rishabhbanga/30-min-chat"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Book a pilot call
-        </a>
-        <a
-          class="action-secondary"
-          href="mailto:rishabh@rbx-labs.io?subject=Network%20Guardian%20pilot%20interest"
-        >
-          Email pilot interest
-        </a>
+      <div class="pilot-shell">
+        <div class="pilot-badge" aria-hidden="true">
+          <img src="assets/branding/icons/ng_wifi_trust_light.png" alt="" />
+        </div>
+        <div class="pilot-copy">
+          <h2>See Network Guardian in Action</h2>
+          <p class="section-copy">
+            Join a limited pilot and experience pre-connection trust that stops threats faster, reduces risk, and protects your users everywhere.
+          </p>
+          <ul class="pilot-benefits" aria-label="Pilot benefits">
+            <li>No cost to join</li>
+            <li>Quick setup</li>
+            <li>Guided onboarding</li>
+            <li>Actionable insights</li>
+          </ul>
+        </div>
+        <div class="pilot-actions">
+          <a
+            class="action-primary"
+            href="https://calendly.com/rishabhbanga/30-min-chat"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Request a Pilot
+          </a>
+          <a
+            class="action-secondary"
+            href="mailto:rishabh@rbx-labs.io?subject=Network%20Guardian%20pilot%20interest"
+          >
+            Contact Sales
+          </a>
+        </div>
       </div>
     </section>
   </main>

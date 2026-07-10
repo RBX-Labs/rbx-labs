@@ -1,12 +1,13 @@
 #!/bin/zsh
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+ROOT_DIR="${VISUAL_RENDER_ROOT_DIR:-$(cd "$(dirname "$0")/../.." && pwd)}"
 OUT_DIR="${TMPDIR:-/tmp}/rbx-responsive"
 PERF_SCRIPT="$ROOT_DIR/visual-renderer-agent/scripts/network-perf-audit.sh"
 RUNTIME_SCRIPT="$ROOT_DIR/visual-renderer-agent/scripts/runtime-resilience-audit.sh"
 CONCEPT_SCRIPT="$ROOT_DIR/visual-renderer-agent/scripts/concept-parity-audit.sh"
 LIGHTHOUSE_STYLE_SCRIPT="$ROOT_DIR/visual-renderer-agent/scripts/lighthouse-style-audit.sh"
+MEDIA_FIDELITY_SCRIPT="$ROOT_DIR/visual-renderer-agent/scripts/media-fidelity-audit.sh"
 SPECS=(
   "phone-portrait 390 844 0.85"
   "phone-landscape 844 390 0.72"
@@ -17,6 +18,7 @@ SPECS=(
   "desktop 1440 1100 0.52"
 )
 MANIFEST_FILE="$OUT_DIR/manifest.txt"
+THEMES=("dark" "light")
 
 typeset -a PAGES
 while IFS= read -r html_file; do
@@ -37,7 +39,8 @@ render_page() {
   local width="$3"
   local height="$4"
   local scale="$5"
-  local wrapper="$OUT_DIR/${page}-${label}.html"
+  local theme="$6"
+  local wrapper="$OUT_DIR/${page}-${label}-${theme}.html"
 
   cat > "$wrapper" <<HTML
 <!doctype html>
@@ -55,8 +58,8 @@ iframe{width:${width}px;height:${height}px;border:0;display:block}
 </head>
 <body>
 <div class="viewport">
-  <div class="device"><iframe src="file://${ROOT_DIR}/${page}.html"></iframe></div>
-  <div class="label">${page}.html<br><small>${label} ${width}x${height}</small></div>
+  <div class="device"><iframe src="file://${ROOT_DIR}/${page}.html?qa_theme=${theme}&qa_static=1"></iframe></div>
+  <div class="label">${page}.html<br><small>${label} ${theme} ${width}x${height}</small></div>
 </div>
 </body>
 </html>
@@ -71,7 +74,8 @@ render_page_full() {
   local width="$3"
   local height="$4"
   local scale="$5"
-  local wrapper="$OUT_DIR/${page}-${label}-full.html"
+  local theme="$6"
+  local wrapper="$OUT_DIR/${page}-${label}-${theme}-full.html"
   local full_height=$((height * 12))
   local viewport_height
   viewport_height="$(awk -v h="$full_height" -v s="$scale" 'BEGIN { printf "%d", (h * s) + 140 }')"
@@ -92,8 +96,8 @@ iframe{width:${width}px;height:${full_height}px;border:0;display:block}
 </head>
 <body>
 <div class="viewport">
-  <div class="device"><iframe src="file://${ROOT_DIR}/${page}.html"></iframe></div>
-  <div class="label">${page}.html<br><small>${label} full ${width}x${full_height}</small></div>
+  <div class="device"><iframe src="file://${ROOT_DIR}/${page}.html?qa_theme=${theme}&qa_static=1"></iframe></div>
+  <div class="label">${page}.html<br><small>${label} ${theme} full ${width}x${full_height}</small></div>
 </div>
 </body>
 </html>
@@ -105,22 +109,26 @@ HTML
 }
 
 for page in "${PAGES[@]}"; do
-  for spec in "${SPECS[@]}"; do
-    render_page "$page" ${=spec}
-    render_page_full "$page" ${=spec}
-    set -- ${=spec}
-    echo "$OUT_DIR/${page}-${1}.html.png" >> "$MANIFEST_FILE"
-    echo "$OUT_DIR/${page}-${1}-full.html.png" >> "$MANIFEST_FILE"
+  for theme in "${THEMES[@]}"; do
+    for spec in "${SPECS[@]}"; do
+      render_page "$page" ${=spec} "$theme"
+      render_page_full "$page" ${=spec} "$theme"
+      set -- ${=spec}
+      echo "$OUT_DIR/${page}-${1}-${theme}.html.png" >> "$MANIFEST_FILE"
+      echo "$OUT_DIR/${page}-${1}-${theme}-full.html.png" >> "$MANIFEST_FILE"
+    done
   done
 done
 
 echo "Responsive previews generated in: $OUT_DIR"
 echo "Review these files:"
 for page in "${PAGES[@]}"; do
-  for spec in "${SPECS[@]}"; do
-    set -- ${=spec}
-    echo "  $OUT_DIR/${page}-${1}.html.png"
-    echo "  $OUT_DIR/${page}-${1}-full.html.png"
+  for theme in "${THEMES[@]}"; do
+    for spec in "${SPECS[@]}"; do
+      set -- ${=spec}
+      echo "  $OUT_DIR/${page}-${1}-${theme}.html.png"
+      echo "  $OUT_DIR/${page}-${1}-${theme}-full.html.png"
+    done
   done
 done
 echo "Manifest: $MANIFEST_FILE"
@@ -157,4 +165,10 @@ if [[ -x "$LIGHTHOUSE_STYLE_SCRIPT" ]]; then
   "$LIGHTHOUSE_STYLE_SCRIPT"
 else
   echo "Lighthouse-style script missing or not executable: $LIGHTHOUSE_STYLE_SCRIPT" >&2
+fi
+
+if [[ -x "$MEDIA_FIDELITY_SCRIPT" ]]; then
+  "$MEDIA_FIDELITY_SCRIPT"
+else
+  echo "Media fidelity script missing or not executable: $MEDIA_FIDELITY_SCRIPT" >&2
 fi
