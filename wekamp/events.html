@@ -14,8 +14,8 @@
   <header class="product-nav">
     <div class="product-nav__inner">
       <a class="product-logo" href="index.html"><img src="assets/wekamp-logo.png" alt="WeKamp logo">WeKamp</a>
-      <nav class="product-links" aria-label="Product pages"><a href="feed.html">Main feed</a><a href="events.html">Events</a><a href="index.html#solution">Platform</a></nav>
-      <div class="product-nav__actions"><a class="product-button product-button--soft" href="feed.html">Open main feed</a><a class="product-button product-button--solid" href="index.html#contact">Start a Kamp</a></div>
+      <nav class="product-links" aria-label="Product pages"><a data-authenticated-nav hidden href="feed.html">Main feed</a><a data-authenticated-nav hidden href="events.html">Events</a><a data-guest-nav href="index.html#solution">Platform</a></nav>
+      <div class="product-nav__actions"><a class="product-button product-button--soft" data-authenticated-nav hidden href="feed.html">Open main feed</a><a class="product-button product-button--solid" data-guest-nav href="index.html#contact">Start a Kamp</a></div>
     </div>
   </header>
   <div class="auth-gate" data-auth-gate hidden><h1>Sign in to open your Events surface.</h1><p>WeKamp Events are private because RSVP state, Kamp membership, and follow-through belong to your profile.</p><button class="product-button product-button--solid" type="button" data-gate-signin>Sign in to continue</button></div>
