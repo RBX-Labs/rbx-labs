@@ -16,6 +16,11 @@ RBX Labs is an applied AI studio. It helps companies build AI products, AI workf
 - Creates AI-enabled go-to-market systems for research, content, outreach, qualification, and sales support
 - Runs AI training through workshops, sprints, and adoption programs
 
+## Direct answers
+- **What is RBX Labs?** An applied AI studio focused on product, workflow, and go-to-market execution.
+- **Who does RBX Labs work with?** Founders, product teams, and operators who need AI systems that ship and get adopted.
+- **What outcomes does RBX Labs target?** Shipped systems, measurable efficiency gains, improved activation, and clearer launch execution.
+
 ## Proof points
 - 25% activation lift from ranking improvements in a community product
 - 40% reduction in manual review from trust-led moderation systems
