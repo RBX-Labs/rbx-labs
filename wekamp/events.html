@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeKamp Events</title>
+  <meta name="description" content="Run Kamp events with ownership, RSVP context, attendance, and follow-through in WeKamp.">
+  <link rel="icon" type="image/png" href="assets/wekamp-favicon.png">
+  <link rel="stylesheet" href="auth.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="product-pages.css">
+</head>
+<body data-private-page="events">
+  <header class="product-nav">
+    <div class="product-nav__inner">
+      <a class="product-logo" href="index.html"><img src="assets/wekamp-logo.png" alt="WeKamp logo">WeKamp</a>
+      <nav class="product-links" aria-label="Product pages"><a href="feed.html">Main feed</a><a href="events.html">Events</a><a href="index.html#solution">Platform</a></nav>
+      <div class="product-nav__actions"><a class="product-button product-button--soft" href="feed.html">Open main feed</a><a class="product-button product-button--solid" href="index.html#contact">Start a Kamp</a></div>
+    </div>
+  </header>
+  <div class="auth-gate" data-auth-gate hidden><h1>Sign in to open your Events surface.</h1><p>WeKamp Events are private because RSVP state, Kamp membership, and follow-through belong to your profile.</p><button class="product-button product-button--solid" type="button" data-gate-signin>Sign in to continue</button></div>
+  <main class="product-main" data-private-content hidden>
+    <section class="product-intro">
+      <div><span class="product-kicker">Kamp events</span><h1>Turn scheduled time into visible follow-through.</h1><p>Run sessions with Kamp context attached: who is going, what the event is for, and what should happen after it ends.</p></div>
+      <aside class="product-note"><strong>Events are part of the operating rhythm</strong><span>RSVPs, Kamp visibility, member context, and post-event follow-up stay connected instead of living in a separate calendar.</span></aside>
+    </section>
+    <section class="event-summary-grid" aria-label="Event summary"><div class="event-summary"><strong>03</strong><span>upcoming events</span></div><div class="event-summary"><strong>02</strong><span>Kamps active</span></div><div class="event-summary"><strong>57%</strong><span>trust score</span></div></section>
+    <section class="event-toolbar"><div><strong style="font-size:20px; color:var(--green);">Operating calendar</strong><div style="color:var(--muted); font-size:13px;">Upcoming events across the Kamps you run or support</div></div><div class="event-tabs" role="tablist"><button class="event-tab is-active" type="button">Upcoming</button><button class="event-tab" type="button">Past</button></div></section>
+    <section class="event-list" id="live-event-list" aria-label="Upcoming WeKamp events">
+      <article class="event-card"><div class="event-date"><strong>18</strong><span>Jun</span></div><div><h3>Founder office hours</h3><p>A working session for founders to bring one sharp question, leave with a next move, and make the owner visible.</p><div class="event-meta"><span>WeKamp HQ</span><span>2:00 PM</span><span>38 going</span><span>Owner assigned</span></div></div><a class="product-button product-button--solid" href="feed.html">Open context</a></article>
+      <article class="event-card"><div class="event-date"><strong>21</strong><span>Jun</span></div><div><h3>AI Enthusiasts: show and tell</h3><p>Share what you are building, testing, or learning with the Kamp, then capture the signal for the next session.</p><div class="event-meta"><span>AI Enthusiasts</span><span>6:30 PM</span><span>Public</span><span>10 members</span></div></div><a class="product-button product-button--solid" href="feed.html">Open context</a></article>
+      <article class="event-card"><div class="event-date"><strong>26</strong><span>Jun</span></div><div><h3>Community systems roundtable</h3><p>A practical conversation about trust, rituals, and keeping participation healthy as groups grow.</p><div class="event-meta"><span>WeKamp HQ</span><span>11:00 AM</span><span>14 going</span><span>Follow-up needed</span></div></div><a class="product-button product-button--solid" href="feed.html">Open context</a></article>
+    </section>
+    <nav class="app-bottom-nav" aria-label="WeKamp app navigation"><a href="feed.html"><span>⌂</span>Home</a><a class="is-active" href="events.html"><span>⌁</span>Kamps</a><a href="feed.html"><span>＋</span>Create</a><a href="feed.html"><span>⌕</span>Explore</a><a href="index.html#contact"><span>●</span>Profile</a></nav>
+  </main>
+  <footer class="product-footer"><div class="product-footer__inner"><span>WeKamp gives operators the context to run organized Kamps better.</span><a href="index.html">Back to WeKamp overview</a></div></footer>
+  <div class="auth-modal" data-auth-modal hidden role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <div class="auth-modal__panel"><button class="auth-modal__close" type="button" data-auth-close aria-label="Close sign in">×</button><h2 id="auth-title" data-auth-title>Sign in to WeKamp</h2><p data-auth-copy>Use the phone number connected to your WeKamp profile. We will send a one-time code.</p><label class="auth-modal__label" for="auth-phone">Phone number</label><input class="auth-modal__input" id="auth-phone" data-auth-phone type="tel" autocomplete="tel" placeholder="+1 416 555 0123"><label class="auth-modal__label" for="auth-otp">One-time code</label><input class="auth-modal__input" id="auth-otp" data-auth-otp inputmode="numeric" autocomplete="one-time-code" placeholder="Enter code"><button class="product-button product-button--solid auth-modal__submit" type="button" data-auth-submit>Send code</button><button class="auth-modal__switch" type="button" data-auth-switch>Use a different number</button><p class="auth-modal__message" data-auth-message aria-live="polite"></p></div>
+  </div>
+  <script src="web-app.js"></script>
+  <script>
+    document.querySelectorAll('.event-tab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('.event-tab').forEach(function (item) { item.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+      });
+    });
+  </script>
+</body>
+</html>

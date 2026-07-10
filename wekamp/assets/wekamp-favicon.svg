@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">WeKamp favicon</title>
+  <desc id="desc">A green circular WeKamp mark with a simple tent-style glyph.</desc>
+  <rect width="64" height="64" rx="16" fill="#204b38"/>
+  <circle cx="32" cy="32" r="24" fill="#2f7d4b"/>
+  <path d="M21 41 L32 20 L43 41 Z" fill="#ffffff"/>
+  <path d="M27.5 36.5 H36.5" stroke="#2f7d4b" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M32 23.5 V34.5" stroke="#2f7d4b" stroke-width="2.6" stroke-linecap="round"/>
+  <circle cx="32" cy="38.5" r="2.6" fill="#2f7d4b"/>
+</svg>

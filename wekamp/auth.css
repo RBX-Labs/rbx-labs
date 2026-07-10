@@ -1,0 +1,21 @@
+.auth-modal[hidden], .auth-gate[hidden], [data-private-content][hidden] { display: none !important; }
+.auth-modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; background: rgba(22,40,31,.44); backdrop-filter: blur(8px); }
+.auth-modal__panel { position: relative; width: min(100%, 430px); padding: 30px; border: 1px solid rgba(32,75,56,.16); border-radius: 24px; background: #fff; box-shadow: 0 24px 70px rgba(18,36,27,.22); }
+.auth-modal__panel h2 { margin: 0; color: #204B38; font: 500 30px/1.1 'Fraunces', Georgia, serif; }
+.auth-modal__panel p { margin: 10px 0 22px; color: #5C6B63; font-size: 14px; }
+.auth-modal__close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border: 1px solid rgba(32,75,56,.16); border-radius: 50%; background: transparent; color: #204B38; cursor: pointer; }
+.auth-modal__label { display: block; margin: 14px 0 7px; color: #204B38; font-size: 12px; font-weight: 700; }
+.auth-modal__input { width: 100%; padding: 13px 14px; border: 1px solid rgba(32,75,56,.20); border-radius: 12px; color: #16281F; background: #FCFAF6; font: inherit; }
+.auth-modal__input:focus { outline: 2px solid rgba(47,125,75,.28); border-color: #2F7D4B; }
+.auth-modal:not(.is-otp) label[for="auth-otp"], .auth-modal:not(.is-otp) [data-auth-otp] { display: none; }
+.auth-modal__submit { width: 100%; margin-top: 18px; }
+.auth-modal__submit:disabled { opacity: .65; cursor: wait; }
+.auth-modal__message { min-height: 20px; margin: 12px 0 0 !important; color: #B53A2F !important; font-size: 13px !important; }
+.auth-modal__message.is-success { color: #2F7D4B !important; }
+.auth-modal__switch { display: none; margin-top: 10px; border: 0; background: transparent; color: #2F7D4B; font-size: 13px; cursor: pointer; }
+.auth-modal.is-otp .auth-modal__switch { display: block; }
+.auth-gate { width: min(680px, calc(100% - 48px)); margin: 100px auto; padding: 42px; border: 1px solid rgba(32,75,56,.16); border-radius: 28px; background: #fff; box-shadow: 0 1px 2px rgba(18,36,27,.04), 0 20px 44px rgba(18,36,27,.09); text-align: center; }
+.auth-gate h1 { margin: 0; color: #204B38; font: 500 clamp(32px, 5vw, 54px)/1.04 'Fraunces', Georgia, serif; }
+.auth-gate p { max-width: 480px; margin: 14px auto 24px; color: #5C6B63; }
+.auth-gate__status { margin-top: 14px; color: #B53A2F; font-size: 13px; }
+@media (max-width: 520px) { .auth-gate { width: min(100% - 32px, 680px); padding: 30px 22px; } .auth-modal__panel { padding: 26px 22px; } }
