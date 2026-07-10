@@ -50,7 +50,7 @@
 </head>
 <body data-view="dashboard">
   <header class="rbx-site-header">
-    <a class="rbx-brand" href="../" aria-label="RBX Labs home">
+    <a class="rbx-brand" href="../index.html" aria-label="RBX Labs home">
       <span class="rbx-brand-mark"><img src="../assets/branding/logos/rbx-light.png" alt="" /></span>
       <span class="rbx-brand-copy"><strong>RBX Labs</strong><small>AI systems, product, and go-to-market</small></span>
     </a>
@@ -58,8 +58,8 @@
       <a href="../about.html">About</a>
       <a href="../ai-training.html">AI Training &amp; Events</a>
       <a href="../approach.html">Approach</a>
-      <a href="../#selected-builds">Case Studies</a>
-      <a class="rbx-nav-pill" href="../#contact">Start a conversation</a>
+      <a href="../index.html#selected-builds">Case Studies</a>
+      <a class="rbx-nav-pill" href="../index.html#contact">Start a conversation</a>
     </nav>
   </header>
 
@@ -432,30 +432,25 @@
             </summary>
             <div class="details-stack">
               <div class="category-label">Concept ladder</div>
-              <figure class="concept-map" aria-labelledby="concept-map-title">
-                <div class="concept-map-visual">
-                  <svg viewBox="0 0 420 420" role="img" aria-labelledby="concept-map-title concept-map-desc">
-                    <title id="concept-map-title">The generative AI concept hierarchy</title>
-                    <desc id="concept-map-desc">Concentric circles show artificial intelligence containing machine learning, deep learning, generative AI, foundation models, and large language models.</desc>
-                    <circle class="map-ring map-ai" cx="210" cy="210" r="190" />
-                    <circle class="map-ring map-ml" cx="210" cy="210" r="155" />
-                    <circle class="map-ring map-deep" cx="210" cy="210" r="120" />
-                    <circle class="map-ring map-gen" cx="210" cy="210" r="87" />
-                    <circle class="map-ring map-foundation" cx="210" cy="210" r="55" />
-                    <circle class="map-ring map-llm" cx="210" cy="210" r="27" />
-                    <g class="map-labels" text-anchor="middle">
-                      <text x="210" y="42">ARTIFICIAL INTELLIGENCE</text>
-                      <text x="210" y="88">MACHINE LEARNING</text>
-                      <text x="210" y="132">DEEP LEARNING</text>
-                      <text x="210" y="176">GENERATIVE AI</text>
-                      <text x="210" y="246">FOUNDATION MODELS</text>
-                      <text x="210" y="214" class="map-center-label">LLMs</text>
-                    </g>
-                  </svg>
+              <figure class="concept-map" aria-labelledby="concept-map-heading">
+                <div class="concept-map-visual" aria-hidden="true">
+                  <div class="concept-ladder">
+                    <div class="concept-ladder-step is-ai"><span>AI</span><small>Broad field of intelligence-like tasks</small></div>
+                    <div class="concept-ladder-connector"></div>
+                    <div class="concept-ladder-step is-ml"><span>Machine Learning</span><small>Systems that learn patterns from data</small></div>
+                    <div class="concept-ladder-connector"></div>
+                    <div class="concept-ladder-step is-deep"><span>Deep Learning</span><small>ML using many-layer neural networks</small></div>
+                    <div class="concept-ladder-connector"></div>
+                    <div class="concept-ladder-step is-gen"><span>Generative AI</span><small>ML that creates new content</small></div>
+                    <div class="concept-ladder-connector"></div>
+                    <div class="concept-ladder-step is-foundation"><span>Foundation Models</span><small>Large general-purpose starting models</small></div>
+                    <div class="concept-ladder-connector"></div>
+                    <div class="concept-ladder-step is-llm"><span>LLMs</span><small>Language-specialized foundation models</small></div>
+                  </div>
                 </div>
                 <figcaption class="concept-map-copy">
                   <p class="eyebrow">How the ideas relate</p>
-                  <h3>From broad intelligence to language generation</h3>
+                  <h3 id="concept-map-heading">From broad intelligence to language generation</h3>
                   <dl>
                     <div><dt>AI</dt><dd>The broad field of machines doing intelligence-like tasks.</dd></div>
                     <div><dt>ML</dt><dd>AI that learns patterns from data.</dd></div>
@@ -1166,6 +1161,349 @@
         </div>
       </section>
 
+      <section class="section" id="study-plan">
+        <div class="section-heading">
+          <p class="eyebrow">Full source material</p>
+          <h2>One-day plan, readiness, and reference map</h2>
+        </div>
+        <div class="grid two-up">
+          <details class="card">
+            <summary>
+              <strong>What Success Looks Like</strong>
+              <span>Core outcomes from the old study file</span>
+            </summary>
+            <div class="details-stack">
+              <ul class="tight-list">
+                <li>Define the core GAIL concepts in one sentence each.</li>
+                <li>Distinguish similar terms that are easy to confuse.</li>
+                <li>Map Google Cloud GenAI products to the problem each one solves.</li>
+                <li>Explain the difference between model capability, product choice, output improvement, and governance.</li>
+                <li>Answer practice questions by identifying the concept bucket first, then the exact answer.</li>
+              </ul>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>Study Rules</strong>
+              <span>How to use the day efficiently</span>
+            </summary>
+            <div class="details-stack">
+              <ul class="tight-list">
+                <li>Keep one running notes page only.</li>
+                <li>For every concept, write what it is, when to use it, and what it is not.</li>
+                <li>Do not collect extra material unless it directly helps with the exam buckets.</li>
+                <li>Force fuzzy concepts into a simple comparison against a nearby concept.</li>
+                <li>Use short written recall, not passive rereading.</li>
+              </ul>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>Core Buckets</strong>
+              <span>The exam’s organizing model</span>
+            </summary>
+            <div class="details-stack">
+              <ol class="tight-list">
+                <li>GenAI fundamentals</li>
+                <li>Improving model output</li>
+                <li>Google Cloud GenAI offerings</li>
+                <li>Business strategy and governance</li>
+              </ol>
+              <p>If a detail does not fit one of these buckets, it is secondary.</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>8:30–9:00 AM - Setup</strong>
+              <span>Build the working frame</span>
+            </summary>
+            <div class="details-stack">
+              <p>Read the exam guide quickly, open your notes, create the four bucket headings, and add 3 to 5 things you already know under each one.</p>
+              <p>Add a short confusion list: model, agent, tool, memory, session, RAG, grounding, guardrail, governance.</p>
+              <p><strong>Output by 9:00 AM:</strong> a one-page study skeleton, a confusion list, and a quick inventory of strong and weak areas.</p>
+              <p><strong>Checkpoint:</strong> can you explain the four GAIL buckets without looking at notes?</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>9:00–10:30 AM - GenAI Fundamentals</strong>
+              <span>Model, prompt, token, embedding, hallucination</span>
+            </summary>
+            <div class="details-stack">
+              <p>Cover models, prompts, tokens, embeddings, hallucinations, grounding, RAG, and multimodal AI.</p>
+              <p>Also rehearse supervised, unsupervised, and reinforcement learning, plus structured and unstructured data.</p>
+              <p><strong>Common traps:</strong> embeddings are representations, grounding is not fine-tuning, RAG is not a model type, hallucination is not just a prompt bug, multimodal is not text-only chat with attachments.</p>
+              <p><strong>Checkpoint:</strong> would you choose grounding, RAG, fine-tuning, or a bigger prompt to reduce hallucinations from external sources?</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>10:45 AM–12:00 PM - Improving Model Output</strong>
+              <span>Prompting, constraints, evaluation, review</span>
+            </summary>
+            <div class="details-stack">
+              <p>Cover prompting, constraints, evaluation, human review, feedback loops, prompt chaining, critique/refine, gate checks, prompt templates, saved info and Gems, metaprompting, and sampling parameters.</p>
+              <p><strong>Output pattern:</strong> state the task, add constraints, request structured output, check the result, refine if needed.</p>
+              <p><strong>Scenario lens:</strong> grounding for current trusted facts, tuning for durable behavior, HITL for consequential answers, templates for recurring tasks, metaprompting for prompt improvement.</p>
+              <p><strong>Checkpoint:</strong> can you separate retrieval, generation, validation, and review cleanly?</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>12:00–1:00 PM - Lunch and Light Review</strong>
+              <span>Reset without losing the frame</span>
+            </summary>
+            <div class="details-stack">
+              <p>Review the confusion list, glance at your notes, and keep the four buckets in working memory.</p>
+              <p><strong>Output by 1:00 PM:</strong> a short recap of the morning and a clear list of the next weak spots.</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>1:00–2:15 PM - Google Cloud GenAI Offerings</strong>
+              <span>Product naming and mapping</span>
+            </summary>
+            <div class="details-stack">
+              <p>Learn the naming rule: use the exact current exam-guide term when it appears in an answer choice. Current names include Agent Platform, Agent Search, and Agent Studio.</p>
+              <p>Cover Gemini, Gemma, Imagen, Veo, Gemini app, Gemini Advanced, Gemini Enterprise, Gemini for Workspace, Gemini in Drive, Gemini in Meet, Google Vids, Agent Platform, Vertex AI as an older label, AI Studio vs Vertex AI Studio, MLOps, TPUs and GPUs, Gemini for Google Cloud, Gemini Code Assist, NotebookLM Enterprise, Gemini in Looker, Gemini in BigQuery, Model Garden, Agent Search, RAG APIs, Model Builder and AutoML, Vertex AI forecasting, model tuning, fraud anomaly detection, Edge AI, Customer Engagement Suite, Agent Studio, Google AI Studio, Speech-to-Text, Text-to-Speech, Translation, Document Translation, Document AI, Vision, Video Intelligence, Natural Language API, Cloud Run, Cloud Functions, Apps Script, and AppSheet.</p>
+              <p><strong>High-value traps:</strong> older labels should not override the current exam-guide wording; do not pick a chatbot for forecasting or OCR; do not confuse a model with a workspace app or builder environment.</p>
+              <p><strong>Checkpoint:</strong> can you pick the product by context, delivery layer, and required output?</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>2:30–3:30 PM - Business Strategy and Governance</strong>
+              <span>Value, adoption, security, responsibility</span>
+            </summary>
+            <div class="details-stack">
+              <p>Cover use-case selection, ROI and measurement, integration, business framing, manager role, project readiness, top-down plus bottom-up strategy, operating strategy, Secure AI, SAIF, security tools, lifecycle security, transparency, privacy, bias and fairness, accountability, explainability, and governance traps.</p>
+              <p><strong>Business framing:</strong> balance value, feasibility, cost, risk, adoption, and accountability.</p>
+              <p><strong>Leader mindset:</strong> identify the use case, align stakeholders, set success measures, manage risk, and help people adopt the solution.</p>
+              <p><strong>Checkpoint:</strong> do you know what answer protects data, keeps humans accountable, and matches organizational risk tolerance?</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>3:30–4:15 PM - Rapid Recall Drill</strong>
+              <span>Short prompts from memory</span>
+            </summary>
+            <div class="details-stack">
+              <p>Drill categories: foundation terms, product pairs, prompting methods, grounding vs tuning, governance controls, and agentic system terms.</p>
+              <p>Example prompts: what is RAG, how is it different from grounding, what is Agent Studio, when do you use Model Garden, what is the kill switch?</p>
+              <p><strong>Output by 4:15 PM:</strong> a short oral or written recall run where you can answer the prompts quickly.</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>4:30–5:30 PM - Mixed Practice</strong>
+              <span>Scenario-heavy review</span>
+            </summary>
+            <div class="details-stack">
+              <p>Mix questions across all four domains, use the answer method of identifying the bucket first, then the exact answer, and prioritize questions that require comparing two similar options.</p>
+              <p>Use the practice focus list: model, product, output, governance, and exam-style distractors. Treat unofficial practice as practice only.</p>
+              <p><strong>Checkpoint:</strong> can you explain why the distractor is wrong, not just why the right answer is right?</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>5:30–6:00 PM - Final Weak Spot Review</strong>
+              <span>Patch the weakest bucket</span>
+            </summary>
+            <div class="details-stack">
+              <p>Re-read only the sections that still feel fuzzy. Rework any question types you missed and tighten your confusion list.</p>
+              <p><strong>Output by 6:00 PM:</strong> a short list of the last weak spots and the exact terms you still need to lock in.</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>6:00–6:30 PM - Final Review</strong>
+              <span>Close the loop</span>
+            </summary>
+            <div class="details-stack">
+              <p>Recite the four buckets, the key product pairs, the main prompting patterns, and the governance controls one final time.</p>
+              <p><strong>End-of-day deliverables:</strong> a concise memory sheet, a confusion list, and a priority order for tomorrow’s final pass.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="grid two-up" style="margin-top: 14px;">
+          <details class="card">
+            <summary>
+              <strong>Exam-Day Readiness and Logistics</strong>
+              <span>From the old source</span>
+            </summary>
+            <div class="details-stack">
+              <ul class="tight-list">
+                <li>Verify your ID name matches your testing profile.</li>
+                <li>Run the secure-browser readiness check early.</li>
+                <li>Prepare the room according to the proctor instructions.</li>
+                <li>Use mark-for-review for uncertain questions, then return after the confident ones.</li>
+              </ul>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>Master Memory Frame</strong>
+              <span>Keep the model simple</span>
+            </summary>
+            <div class="details-stack">
+              <ul class="tight-list">
+                <li>Model generates.</li>
+                <li>Prompt steers.</li>
+                <li>Grounding ties to sources.</li>
+                <li>RAG retrieves then generates.</li>
+                <li>Agent acts with tools and state.</li>
+              </ul>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>Core Study Rule</strong>
+              <span>What to do when unsure</span>
+            </summary>
+            <div class="details-stack">
+              <p>If a question sounds similar to another one, identify the layer first: generation, action, connection, memory, grounding, execution, control, or orchestration.</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>One-Stop-View</strong>
+              <span>Single-page mental model</span>
+            </summary>
+            <div class="details-stack">
+              <p>The exam rewards business fit over feature recall. The best answer is the one that matches the user, data, workflow, cost, risk, and accountability requirements.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="grid two-up" style="margin-top: 14px;">
+          <details class="card">
+            <summary>
+              <strong>Official Reading Checklist</strong>
+              <span>Keep the source list tight</span>
+            </summary>
+            <div class="details-stack">
+              <ul class="tight-list">
+                <li>Google Cloud certifications.</li>
+                <li>GenAI beginner's guide.</li>
+                <li>Grounding overview.</li>
+                <li>Responsible AI.</li>
+                <li>Gemini Enterprise Agent Platform.</li>
+                <li>Official study guide PDF.</li>
+                <li>Official learning path.</li>
+              </ul>
+              <p><strong>Five-course learning path sequence:</strong> use the learning path first, then the official study guide, then the exam guide, then sample questions, and return to weak modules selectively.</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>Exam Guide Coverage</strong>
+              <span>The four sections condensed from the old file</span>
+            </summary>
+            <div class="details-stack">
+              <p><strong>Section 1 - Fundamentals of gen AI:</strong> AI, ML, generative AI, foundation models, multimodal AI, diffusion, LLMs, data quality, supervised/unsupervised/reinforcement learning, and model selection.</p>
+              <p><strong>Section 2 - Google Cloud's gen AI offerings:</strong> Gemini, Gemma, Imagen, Veo, Gemini app, Gemini Advanced, Gemini Enterprise, Gemini for Workspace, Agent Platform, Model Garden, Agent Search, RAG APIs, Model Builder and AutoML, Vertex AI forecasting, model tuning, Edge AI, Customer Engagement Suite, Agent Studio, Google AI Studio, APIs, Cloud Run, Cloud Functions, Apps Script, and AppSheet.</p>
+              <p><strong>Section 3 - Techniques to improve gen AI model output:</strong> prompt design, constraints, evaluation, human review, feedback, chaining, critique/refine, gate checks, prompt templates, saved info, Gems, metaprompting, sampling, grounding, fine-tuning, and RAG.</p>
+              <p><strong>Section 4 - Business strategies for a successful gen AI solution:</strong> use-case selection, ROI, integration, business framing, project readiness, secure AI, SAIF, privacy, bias, fairness, accountability, and explainability.</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>Core Concept Reference</strong>
+              <span>Legacy definitions preserved</span>
+            </summary>
+            <div class="details-stack">
+              <p><strong>GenAI fundamentals:</strong> foundation models, LLMs, multimodal AI, data types, and model selection.</p>
+              <p><strong>Improving model output:</strong> prompting, grounding, RAG, fine-tuning, evaluation, and human review.</p>
+              <p><strong>Google Cloud GenAI offerings:</strong> model families, apps, platform, search, APIs, and workflow products.</p>
+              <p><strong>Business strategy and governance:</strong> ROI, adoption, secure AI, responsible AI, and lifecycle controls.</p>
+            </div>
+          </details>
+          <details class="card">
+            <summary>
+              <strong>Detailed Exam Map</strong>
+              <span>What the full study sheet was aiming at</span>
+            </summary>
+            <div class="details-stack">
+              <p>The detailed map in the old source separates core concepts, product layers, prompt methods, governance controls, and agentic-system traps. The current site keeps those same boundaries in the learn, compare, reference, and supplemental sections.</p>
+              <p>If you want the exam-oriented path, start at the dashboard, then drill the learn tabs, then use Compare, then practice, then the reference blocks.</p>
+            </div>
+          </details>
+        </div>
+
+        <details class="card" style="margin-top: 14px;">
+          <summary>
+            <strong>Legacy source headings</strong>
+            <span>Exact labels preserved from the old file</span>
+          </summary>
+          <div class="details-stack">
+            <div class="grid two-up">
+              <article class="card">
+                <h3>Daily plan headings</h3>
+                <ul class="tight-list">
+                  <li>Checkpoint question</li>
+                  <li>Output by 9:00 AM</li>
+                  <li>Output by 10:30 AM</li>
+                  <li>Output by 12:00 PM</li>
+                  <li>Output by 1:00 PM</li>
+                  <li>Output by 2:15 PM</li>
+                  <li>Output by 3:30 PM</li>
+                  <li>Output by 4:15 PM</li>
+                  <li>Output by 5:30 PM</li>
+                  <li>Output by 6:00 PM</li>
+                  <li>What each concept means in practice</li>
+                  <li>How to practice</li>
+                  <li>Concepts to cover</li>
+                  <li>What to write for each term</li>
+                  <li>What each term should mean</li>
+                  <li>Learning approaches that can appear in scenarios</li>
+                  <li>Common traps to watch for</li>
+                  <li>How to study</li>
+                  <li>What each concept means</li>
+                  <li>Business framing pattern</li>
+                  <li>Leader mindset for scenarios</li>
+                  <li>Output improvement pattern</li>
+                  <li>RAG and sampling detail</li>
+                  <li>Product naming rule</li>
+                  <li>What to know for each item</li>
+                  <li>High-value wording traps from course-style questions</li>
+                  <li>Study method</li>
+                  <li>Product mapping examples</li>
+                  <li>Example drill prompts</li>
+                  <li>Unofficial practice guidance</li>
+                </ul>
+              </article>
+              <article class="card">
+                <h3>Reference headings</h3>
+                <ul class="tight-list">
+                  <li>Google Cloud Implementation Crosswalk</li>
+                  <li>Scenario Selection Playbook</li>
+                  <li>Models, prompts, and agents</li>
+                  <li>Grounding, retrieval, and data</li>
+                  <li>Model operations and delivery</li>
+                  <li>Prebuilt capabilities and customer experience</li>
+                  <li>Security and governance</li>
+                  <li>1) GenAI fundamentals</li>
+                  <li>2) Improving model output</li>
+                  <li>3) Google Cloud GenAI offerings</li>
+                  <li>Supplemental Agentic AI / AWS-Style Systems Module</li>
+                  <li>1) Model vs Agent vs Tool vs Infrastructure</li>
+                  <li>2) MCP and Tool Standardization</li>
+                  <li>3) Memory and Session State</li>
+                  <li>4) RAG and Multi-Agent Retrieval</li>
+                  <li>5) Sandbox Execution</li>
+                  <li>6) Guardrails, Kill Switches, and Leakage Prevention</li>
+                  <li>7) Output Improvement Loops</li>
+                  <li>8) Fast Mental Map</li>
+                  <li>9) Common Traps</li>
+                  <li>10) One-Line Exam Rule</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </details>
+      </section>
+
       <section class="section quiz-section" id="knowledge-check" aria-labelledby="knowledge-check-title">
         <div class="section-heading quiz-heading">
           <p class="eyebrow">Knowledge check</p>
@@ -1343,7 +1681,7 @@
       } catch (error) {}
 
       showLesson(lastLearned);
-      showView('dashboard');
+      showView('reference');
     })();
 
     (function () {

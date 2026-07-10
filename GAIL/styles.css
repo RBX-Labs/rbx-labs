@@ -1345,38 +1345,58 @@ summary span {
   min-width: 0;
 }
 
-.concept-map svg {
-  display: block;
-  width: 100%;
+.concept-ladder {
+  display: grid;
+  gap: 10px;
   max-width: 420px;
-  margin: auto;
-  overflow: visible;
+  margin: 0 auto;
 }
 
-.map-ring {
-  stroke: rgba(255, 255, 255, 0.66);
-  stroke-width: 1.5;
+.concept-ladder-step {
+  display: grid;
+  gap: 4px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  color: #f7fffb;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
 }
 
-.map-ai { fill: #0b6655; }
-.map-ml { fill: #187f69; }
-.map-deep { fill: #249c80; }
-.map-gen { fill: #52bd9e; }
-.map-foundation { fill: #e8a574; }
-.map-llm { fill: #bd5930; }
-
-.map-labels {
-  fill: #f8fffb;
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-
-.map-center-label {
-  fill: #fff8f0;
-  font-size: 9px;
+.concept-ladder-step span {
+  font-weight: 900;
   letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.92rem;
+}
+
+.concept-ladder-step small {
+  font-size: 0.86rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.concept-ladder-connector {
+  width: 2px;
+  height: 18px;
+  margin: 0 auto;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(95, 229, 198, 0.05), rgba(95, 229, 198, 0.72), rgba(246, 180, 127, 0.72));
+}
+
+.concept-ladder-step.is-ai { background: linear-gradient(135deg, #0b6655, #0f7b67); }
+.concept-ladder-step.is-ml { background: linear-gradient(135deg, #167b67, #1d8c74); }
+.concept-ladder-step.is-deep { background: linear-gradient(135deg, #249c80, #2ca78a); }
+.concept-ladder-step.is-gen { background: linear-gradient(135deg, #52bd9e, #44a98b); }
+.concept-ladder-step.is-foundation { background: linear-gradient(135deg, #c88356, #e3a26e); }
+.concept-ladder-step.is-llm { background: linear-gradient(135deg, #bd5930, #d47043); }
+
+:root[data-theme="dark"] .concept-ladder-step {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.24);
+}
+
+:root[data-theme="dark"] .concept-ladder-connector {
+  background: linear-gradient(180deg, rgba(95, 229, 198, 0.08), rgba(95, 229, 198, 0.85), rgba(246, 180, 127, 0.85));
 }
 
 .concept-map-copy h3 {
