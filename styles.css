@@ -2095,12 +2095,8 @@ h2 {
   grid-column: span 2;
 }
 
-.services-section .service-card {
+.services-section .service-card:not(.selected-build-visual) {
   grid-column: auto;
-}
-
-.services-section .selected-build-visual {
-  grid-column: 1 / -1;
 }
 
 .services-pillars {
@@ -3966,13 +3962,9 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .services-section .service-card,
-  .services-section .service-card-primary {
+  .services-section .service-card:not(.selected-build-visual),
+  .services-section .service-card-primary:not(.selected-build-visual) {
     grid-column: auto;
-  }
-
-  .services-section .selected-build-visual {
-    grid-column: 1 / -1;
   }
 
   .who-section .service-grid,
