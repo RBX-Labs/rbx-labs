@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Google Cloud Generative AI Leader Study Guide | GAIL | RBX Labs</title>
+  <meta name="description" content="Study for the Google Cloud Generative AI Leader certification with concise concept lessons, product comparisons, scenario practice, governance guidance, and an exam-aligned reference library." />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+  <link rel="canonical" href="https://rbx-labs.io/GAIL/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RBX Labs" />
+  <meta property="og:title" content="Google Cloud Generative AI Leader Study Guide" />
+  <meta property="og:description" content="Exam-aligned GAIL lessons, product comparisons, scenario practice, and a complete reference library." />
+  <meta property="og:url" content="https://rbx-labs.io/GAIL/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Google Cloud Generative AI Leader Study Guide" />
+  <meta name="twitter:description" content="Exam-aligned GAIL lessons, product comparisons, scenario practice, and a complete reference library." />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "LearningResource",
+          "@id": "https://rbx-labs.io/GAIL/#learning-resource",
+          "name": "Google Cloud Generative AI Leader Study Guide",
+          "description": "An exam-aligned study guide for the Google Cloud Generative AI Leader certification, covering fundamentals, Google Cloud offerings, output improvement, business strategy, governance, and agentic systems.",
+          "url": "https://rbx-labs.io/GAIL/",
+          "inLanguage": "en",
+          "learningResourceType": "Study guide",
+          "educationalLevel": "Professional certification preparation",
+          "about": ["Generative AI", "Google Cloud", "Responsible AI", "AI agents"],
+          "isAccessibleForFree": true,
+          "provider": { "@type": "Organization", "name": "RBX Labs", "url": "https://rbx-labs.io/" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            { "@type": "Question", "name": "What does the Generative AI Leader certification test?", "acceptedAnswer": { "@type": "Answer", "text": "The guide organizes study around generative AI fundamentals, Google Cloud offerings, output improvement, and business strategy and governance." } },
+            { "@type": "Question", "name": "What is the difference between grounding and RAG?", "acceptedAnswer": { "@type": "Answer", "text": "Grounding connects responses to verifiable sources. RAG is a common implementation pattern that retrieves relevant information, adds it to the prompt, and then generates an answer." } },
+            { "@type": "Question", "name": "How should a GAIL candidate choose between Google Cloud AI products?", "acceptedAnswer": { "@type": "Answer", "text": "Start with the business context, required output, data source, and delivery layer. The Product Picker and comparison materials explain the relevant product distinctions." } }
+          ]
+        }
+      ]
+    }
+  </script>
+</head>
+<body data-view="dashboard">
+  <header class="topbar">
+    <div class="topbar-brand">
+      <strong>GAIL Study Guide</strong>
+      <span>2026 exam prep</span>
+    </div>
+    <nav class="jumpbar app-nav" aria-label="Study modes">
+      <button type="button" data-view-target="dashboard">Start</button>
+      <button type="button" data-view-target="learn">Learn</button>
+      <button type="button" data-view-target="compare">Compare</button>
+      <button type="button" data-view-target="practice">Practice</button>
+      <button type="button" data-view-target="reference">Reference</button>
+    </nav>
+  </header>
+
+  <div class="page-shell">
+    <div class="layout-shell">
+      <div class="main-stack">
+    <main class="study-app" aria-label="GAIL study app">
+      <section class="app-view dashboard-view" data-app-view="dashboard">
+        <div class="dashboard-intro">
+          <div>
+            <p class="eyebrow">Today’s study loop</p>
+            <h1>Google Cloud Generative AI Leader study guide</h1>
+            <p>Use the app for short sessions. Use Reference only when you need full source material or a complete crosswalk.</p>
+            <a class="dashboard-reference-link" href="GAIL_Thursday_One_Day_Program.html">Open the full master reference</a>
+          </div>
+          <div class="domain-progress" aria-label="Practice progress by GAIL domain">
+            <p>Practice progress</p>
+            <div class="progress-row"><span>Fundamentals</span><i><b id="progressFundamentals"></b></i><strong id="progressFundamentalsText">0%</strong></div>
+            <div class="progress-row"><span>Products</span><i><b id="progressProducts"></b></i><strong id="progressProductsText">0%</strong></div>
+            <div class="progress-row"><span>Output</span><i><b id="progressOutput"></b></i><strong id="progressOutputText">0%</strong></div>
+            <div class="progress-row"><span>Governance</span><i><b id="progressGovernance"></b></i><strong id="progressGovernanceText">0%</strong></div>
+          </div>
+        </div>
+        <div class="dashboard-actions">
+          <button type="button" class="dashboard-card" data-view-target="learn" data-start-topic="fundamentals"><span>01</span><strong>Start today</strong><small>Five short, high-yield lessons.</small></button>
+          <button type="button" class="dashboard-card" data-view-target="learn"><span>02</span><strong>Continue learning</strong><small>Return to the last topic you opened.</small></button>
+          <button type="button" class="dashboard-card" data-view-target="compare"><span>03</span><strong>Product picker</strong><small>Choose the right tool by context.</small></button>
+          <button type="button" class="dashboard-card" data-view-target="practice"><span>04</span><strong>Practice quiz</strong><small>One exam-style question at a time.</small></button>
+          <button type="button" class="dashboard-card" data-view-target="reference"><span>05</span><strong>Reference library</strong><small>Full guide, tables, and official links.</small></button>
+        </div>
+        <section class="answer-hub" aria-labelledby="answer-hub-title">
+          <p class="eyebrow">Quick answers</p>
+          <h2 id="answer-hub-title">The questions candidates need answered first</h2>
+          <details><summary>What does the GAIL certification test?</summary><p>It tests GenAI fundamentals, Google Cloud offerings, output improvement, and business strategy and governance. Questions are usually scenario-based: identify the business need, then choose the best product, technique, or control.</p></details>
+          <details><summary>What is the difference between grounding and RAG?</summary><p>Grounding connects answers to trustworthy information. RAG is a practical pattern: retrieve relevant information, augment the prompt with it, and generate an evidence-based answer.</p></details>
+          <details><summary>How should I choose a Google Cloud AI product in a scenario?</summary><p>Start with where the user works, what must be created or analyzed, which data must ground the answer, and whether the need is a prototype or production system. Use Compare for the decision path.</p></details>
+        </section>
+      </section>
+
+      <section class="app-view" data-app-view="learn" hidden>
+        <div class="mode-heading"><p class="eyebrow">Learn</p><h2>Study one domain deeply, not five labels shallowly.</h2><p>Choose a domain. Its complete curriculum opens immediately below the study map.</p></div>
+        <nav class="lesson-tabs" aria-label="Study domains">
+          <button type="button" data-lesson="fundamentals"><span>01</span><strong>Fundamentals</strong><small>Models, data, modalities, and limitations.</small></button>
+          <button type="button" data-lesson="prompting"><span>02</span><strong>Prompting + grounding</strong><small>RAG, output quality, control, and evaluation.</small></button>
+          <button type="button" data-lesson="products"><span>03</span><strong>Google products</strong><small>Models, apps, platform, search, and APIs.</small></button>
+          <button type="button" data-lesson="governance"><span>04</span><strong>Governance</strong><small>Value, safety, operations, and responsible AI.</small></button>
+          <button type="button" data-lesson="agents"><span>05</span><strong>Agentic systems</strong><small>Tools, memory, routing, guardrails, and control.</small></button>
+        </nav>
+        <article class="lesson-card" data-lesson-panel="fundamentals"><p class="lesson-number">01 / Fundamentals</p><h3>GenAI creates. Predictive ML classifies or forecasts.</h3><p class="lesson-summary">A model makes something new: text, code, image, audio, or video. That is the defining feature.</p><details class="lesson-expand"><summary>Expand: exam lens, use cases, and traps</summary><p><strong>Exam lens:</strong> Foundation models are broad pre-trained models; LLMs are the language-specialized subset. Multimodal models operate across more than one data type.</p><div class="lesson-detail-grid"><p><strong>Decision rule</strong> New content = GenAI. A score, label, or forecast = predictive ML.</p><p><strong>Relationship</strong> Every LLM is a foundation model. Not every foundation model is an LLM.</p><p><strong>Scenario cue</strong> Video testimonials plus survey text = multimodal, not merely text analytics.</p></div><p><strong>Trap:</strong> “All foundation models are LLMs” is false.</p></details></article>
+        <article class="lesson-card" data-lesson-panel="prompting" hidden><p class="lesson-number">02 / Prompting + grounding</p><h3>Prompting steers the answer. Grounding supplies the facts.</h3><p class="lesson-summary">Give clear instructions and examples for format. Connect the model to trusted information when accuracy matters.</p><details class="lesson-expand"><summary>Expand: exam lens, use cases, and traps</summary><p><strong>Exam lens:</strong> Use zero-, one-, or few-shot examples for task format; use RAG for retrieve-augment-generate flows; use fine-tuning for learned behavior, not fresh facts.</p><div class="lesson-detail-grid"><p><strong>Format problem</strong> Use few-shot prompting when examples teach the desired response pattern.</p><p><strong>Fact problem</strong> Use grounding or RAG when answers must reflect policies, documents, or current information.</p><p><strong>Workflow problem</strong> Use chaining for ordered tasks; ReAct when the agent must use and observe tools.</p></div><p><strong>Trap:</strong> A bigger model does not automatically remove hallucinations.</p></details></article>
+        <article class="lesson-card" data-lesson-panel="products" hidden><p class="lesson-number">03 / Google products</p><h3>Read the business context before choosing the product.</h3><p class="lesson-summary">Use the app where the person already works. Use a platform when a team is building an application.</p><details class="lesson-expand"><summary>Expand: exam lens, use cases, and traps</summary><p><strong>Exam lens:</strong> <strong>Gemini</strong> is the model family; <strong>Gemini app</strong> is the assistant; <strong>Agent Platform</strong> is the unified ML platform; <strong>Model Garden</strong> is the model catalogue.</p><div class="lesson-detail-grid"><p><strong>Employee workflow</strong> Gmail, Meet, Slides, or Drive means Gemini in that Workspace app.</p><p><strong>Knowledge workflow</strong> NotebookLM Enterprise for supplied sources; Gemini Enterprise for organization-wide knowledge.</p><p><strong>Build workflow</strong> AI Studio prototypes; Agent Platform builds and manages production AI systems.</p></div><p><strong>Trap:</strong> Agent Platform is broader than agents; it includes the ML lifecycle.</p></details></article>
+        <article class="lesson-card" data-lesson-panel="governance" hidden><p class="lesson-number">04 / Governance</p><h3>Responsible AI is an operating model, not a checkbox.</h3><p class="lesson-summary">Protect data, review risky outputs, measure quality, and keep people accountable for important decisions.</p><details class="lesson-expand"><summary>Expand: exam lens, use cases, and traps</summary><p><strong>Exam lens:</strong> Apply HITL, evaluation, monitoring, drift response, IAM, sensitive-data protection, auditability, and SAIF across the lifecycle.</p><div class="lesson-detail-grid"><p><strong>Before launch</strong> Define value, quality measures, safety criteria, decision rights, and human review points.</p><p><strong>After launch</strong> Evaluate outputs, monitor drift, investigate failures, and revise controls.</p><p><strong>Control distinction</strong> IAM controls access; safety filters moderate output; grounding improves factual support.</p></div><p><strong>Trap:</strong> Monitoring detects problems; it does not approve an individual outcome.</p></details></article>
+        <article class="lesson-card" data-lesson-panel="agents" hidden><p class="lesson-number">05 / Agentic systems</p><h3>An agent reasons, uses tools, observes results, and continues toward a goal.</h3><p class="lesson-summary">Think of the model as the brain and tools as its hands. A safe agent has boundaries and checks.</p><details class="lesson-expand"><summary>Expand: exam lens, use cases, and traps</summary><p><strong>Exam lens:</strong> ReAct combines reason-act-observe; use session isolation, gate checks, guardrails, trusted domains, tool permissions, and a kill switch for operational control.</p><div class="lesson-detail-grid"><p><strong>Memory</strong> Summarize old context for efficiency; isolate session data to prevent cross-user leakage.</p><p><strong>Orchestration</strong> Route by content for specialization; use round robin only for even distribution; dispatch independent work in parallel.</p><p><strong>Safety</strong> Gate checks validate before progressing. A kill switch stops unsafe behavior immediately.</p></div><p><strong>Trap:</strong> A gate check is not an emergency kill switch.</p></details></article>
+        <div class="learn-curriculum" id="learnCurriculum" aria-live="polite"></div>
+      </section>
+
+      <section class="app-view" data-app-view="compare" hidden>
+        <div class="mode-heading"><p class="eyebrow">Compare</p><h2>Pick the product from the scenario</h2><p>Answer four context questions. The result gives the most direct choice and the adjacent distractor.</p></div>
+        <div class="picker-card card" id="productPicker">
+          <div class="picker-step" data-picker-step="0"><p>1 / Where does the work happen?</p><div><button type="button" data-pick="workspace">Inside a Workspace app</button><button type="button" data-pick="employee">Across enterprise knowledge</button><button type="button" data-pick="builder">In a new application</button><button type="button" data-pick="public">With current public facts</button></div></div>
+          <div class="picker-step" data-picker-step="1" hidden><p>2 / What is the main outcome?</p><div><button type="button" data-pick="email">Email or meeting help</button><button type="button" data-pick="sources">Answers from supplied documents</button><button type="button" data-pick="search">Enterprise search or recommendations</button><button type="button" data-pick="image">A still image</button><button type="button" data-pick="video">Video content</button><button type="button" data-pick="agent">A custom agent or AI system</button></div></div>
+          <div class="picker-step" data-picker-step="2" hidden><p>3 / Does the answer need current public facts?</p><div><button type="button" data-pick="yes">Yes, it must be current</button><button type="button" data-pick="no">No, supplied or internal knowledge is enough</button></div></div>
+          <div class="picker-step" data-picker-step="3" hidden><p>4 / Is this a quick experiment or a production system?</p><div><button type="button" data-pick="prototype">Quick prototype</button><button type="button" data-pick="production">Production application</button></div></div>
+          <div class="picker-result" id="pickerResult" hidden aria-live="polite"></div>
+        </div>
+        <div class="confusion-strip"><strong>Fast confusion pairs:</strong><span>Gemini model vs Gemini app</span><span>Agent Platform vs Agent Studio</span><span>Agent Search vs RAG APIs</span><span>Grounding vs fine-tuning</span><span>Imagen vs Veo</span></div>
+      </section>
+
+      <section class="app-view practice-view" data-app-view="practice" hidden>
+        <div class="mode-heading"><p class="eyebrow">Practice</p><h2>Answer before you reveal the logic</h2><p>After ten questions, retry the domain that is costing you the most marks.</p></div>
+        <!--
+          Disabled Gemini generator UI. Keep this block commented until an approved
+          generation provider is connected to the study app.
+
+          <details class="ai-generator card">
+            <summary><strong>Generate a fresh GAIL-style question</strong><span>Uses your Gemini API key for this session only</span></summary>
+            <div class="ai-generator-content">
+              <p>Generates an original scenario question from the guide’s scope, with four choices, the correct answer, and an explanation. Use a restricted API key; it is not stored by this site.</p>
+              <div class="ai-generator-controls">
+                <label>Gemini API key <input id="geminiApiKey" type="password" autocomplete="off" spellcheck="false" placeholder="Paste a restricted key"></label>
+                <label>Focus <select id="aiQuestionFocus"><option>Mixed GAIL exam</option><option>Fundamentals</option><option>Prompting and grounding</option><option>Google Cloud products</option><option>Business strategy and governance</option><option>Agentic systems</option></select></label>
+                <button type="button" class="quiz-button" id="generateAiQuestion">Generate question</button>
+              </div>
+              <p class="ai-generator-status" id="aiGeneratorStatus" aria-live="polite"></p>
+            </div>
+          </details>
+        -->
+        <div id="practiceHost"></div>
+        <button type="button" class="retry-weak" id="retryWeak" hidden>Retry weak topics</button>
+      </section>
+    </main>
+
+    <main class="content legacy-reference" id="referenceLibrary" hidden>
+      <section class="section" id="first-focus">
+        <div class="section-heading">
+          <p class="eyebrow">What to focus on first</p>
+        </div>
+        <div class="grid two-up">
+          <article class="card emphasis">
+            <h2>Start with the foundation terms</h2>
+            <ul class="tight-list">
+              <li><strong>Model</strong> generates.</li>
+              <li><strong>Prompt</strong> steers.</li>
+              <li><strong>Grounding</strong> ties to sources.</li>
+              <li><strong>RAG</strong> retrieves then generates.</li>
+              <li><strong>Agent</strong> acts with tools and state.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <p>If a question sounds similar to another one, identify the layer first:</p>
+            <p class="quote">generation, action, connection, memory, grounding, execution, control, or orchestration.</p>
+            <p class="quote"><strong>Official weighting:</strong> fundamentals 30%, Google Cloud offerings 35%, output improvement 20%, business strategy 15%.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="official-reading">
+        <div class="section-heading">
+          <p class="eyebrow">Official reading</p>
+          <h2>Only supplemental sources worth using</h2>
+        </div>
+        <div class="grid reading-grid">
+          <a class="link-card" href="https://cloud.google.com/learn/certification" target="_blank" rel="noreferrer">
+            <span>01</span>
+            <strong>Google Cloud certifications</strong>
+            <p>Confirms the exam framing and where sample questions belong in your prep.</p>
+          </a>
+          <a class="link-card" href="https://cloud.google.com/vertex-ai/generative-ai/docs/learn/overview" target="_blank" rel="noreferrer">
+            <span>02</span>
+            <strong>GenAI beginner's guide</strong>
+            <p>Covers core vocabulary, prompting, and the model-to-answer flow.</p>
+          </a>
+          <a class="link-card" href="https://cloud.google.com/vertex-ai/generative-ai/docs/grounding/overview" target="_blank" rel="noreferrer">
+            <span>03</span>
+            <strong>Grounding overview</strong>
+            <p>Explains how external data reduces hallucinations and improves trust.</p>
+          </a>
+          <a class="link-card" href="https://cloud.google.com/responsible-ai" target="_blank" rel="noreferrer">
+            <span>04</span>
+            <strong>Responsible AI</strong>
+            <p>Useful for privacy, transparency, accountability, and risk controls.</p>
+          </a>
+          <a class="link-card" href="https://cloud.google.com/vertex-ai" target="_blank" rel="noreferrer">
+            <span>05</span>
+            <strong>Gemini Enterprise Agent Platform</strong>
+            <p>Current product framing for agents, Model Garden, and enterprise AI workflows.</p>
+          </a>
+          <a class="link-card" href="https://services.google.com/fh/files/misc/generative_ai_leader_study_guide_english.pdf" target="_blank" rel="noreferrer">
+            <span>06</span>
+            <strong>Official study guide PDF</strong>
+            <p>Google’s 11-page study guide maps the four domains and explains the core product and technique vocabulary.</p>
+          </a>
+          <a class="link-card" href="https://www.skills.google/paths/1951" target="_blank" rel="noreferrer">
+            <span>07</span>
+            <strong>Official learning path</strong>
+            <p>Five Google-managed activities that build the business-level knowledge tested by GAIL.</p>
+          </a>
+        </div>
+      </section>
+
+      <section class="section" id="exam-guide">
+        <div class="section-heading">
+          <p class="eyebrow">Exam guide coverage</p>
+          <h2>The four sections, condensed</h2>
+        </div>
+
+        <a class="link-card exam-source" href="https://services.google.com/fh/files/misc/generative_ai_leader_exam_guide_english.pdf" target="_blank" rel="noreferrer">
+          <span>PRIMARY SOURCE</span>
+          <strong>Open the official Generative AI Leader exam guide PDF</strong>
+          <p>This is Google Cloud’s official exam-guide PDF. Use it to verify the scope, domains, product names, and wording behind the study notes below.</p>
+        </a>
+
+        <section class="scenario-playbook" aria-labelledby="scenario-playbook-title">
+          <div class="scenario-playbook-heading">
+            <p class="eyebrow">Product selection</p>
+            <h3 id="scenario-playbook-title">Choose the product by the business context</h3>
+            <p>Start with where the work happens and what outcome is required. Similar capabilities can be correct in different contexts; GAIL usually wants the most direct, least-custom solution that meets the scenario.</p>
+          </div>
+          <div class="scenario-grid">
+            <article class="scenario-card">
+              <p class="scenario-kicker">1. Daily work vs a custom app</p>
+              <h4>Where will the user do the work?</h4>
+              <p><strong>Gemini app</strong> for an individual assistant; <strong>Gemini in Gmail, Slides, Meet, or Drive</strong> when the job stays in that Workspace app; <strong>NotebookLM Enterprise</strong> when supplied source files are the evidence base.</p>
+              <p class="mini-trap"><strong>Do not choose:</strong> Google AI Studio or Agent Platform merely because a model is involved. Those are build environments, not the simplest productivity answer.</p>
+            </article>
+            <article class="scenario-card">
+              <p class="scenario-kicker">2. Generate an artifact</p>
+              <h4>What must be created?</h4>
+              <p><strong>Imagen</strong> for a high-quality generated still image; <strong>Gemini in Slides</strong> for an image inside a presentation workflow; <strong>Veo</strong> for generative video from text or an image; <strong>Google Vids</strong> for business explainers and tutorials.</p>
+              <p class="mini-trap"><strong>Do not choose:</strong> Veo for a still image or Imagen for a finished video workflow. For code, tests, or code documentation, choose <strong>Gemini Code Assist</strong>.</p>
+            </article>
+            <article class="scenario-card">
+              <p class="scenario-kicker">3. Search, answers, and knowledge</p>
+              <h4>What information must ground the answer?</h4>
+              <p><strong>Gemini in Drive</strong> for Drive files; <strong>Gemini Enterprise</strong> for employee knowledge across enterprise sources; <strong>Agent Search</strong> for built-in enterprise search and recommendations; <strong>RAG APIs / RAG Engine</strong> for a custom programmatic retrieval flow.</p>
+              <p class="mini-trap"><strong>Use Google Search grounding</strong> for current public information. Fine-tuning changes learned behavior; it does not retrieve live facts.</p>
+            </article>
+            <article class="scenario-card">
+              <p class="scenario-kicker">4. Prototype vs production system</p>
+              <h4>How much engineering is needed?</h4>
+              <p><strong>Google AI Studio</strong> for quick prompt experiments; <strong>Agent Studio</strong> to design an agent’s tools and workflow; <strong>Agent Platform</strong> as the unified platform to build, train, tune, deploy, and manage ML models and AI applications; <strong>Cloud Run / Cloud Functions</strong> for backend actions and APIs.</p>
+              <p class="mini-trap"><strong>Use Apps Script or AppSheet</strong> when a business workflow needs low-code or no-code integration, not a fully custom service.</p>
+            </article>
+            <article class="scenario-card">
+              <p class="scenario-kicker">5. Insight, prediction, or understanding</p>
+              <h4>Is the task generative, analytical, or predictive?</h4>
+              <p><strong>Gemini in Looker</strong> for review themes and sentiment; <strong>Gemini in BigQuery</strong> for data analysis and understandable reports; <strong>Vertex AI forecasting</strong> for time-series demand; <strong>Document AI</strong> for document extraction; <strong>Vision, Video Intelligence, and Natural Language APIs</strong> for their named modality tasks.</p>
+              <p class="mini-trap"><strong>Do not choose a chatbot</strong> for fraud scoring, forecasting, OCR, or entity extraction when the scenario asks for predictive or prebuilt ML.</p>
+            </article>
+            <article class="scenario-card">
+              <p class="scenario-kicker">6. Operate and protect the system</p>
+              <h4>Is the question about quality, reliability, or risk?</h4>
+              <p><strong>Gen AI evaluation service</strong> evaluates output quality; <strong>Model Registry</strong> versions models; <strong>Model Monitoring</strong> detects drift; <strong>Cloud Monitoring</strong> sends operational alerts; <strong>IAM, Security Command Center, and Sensitive Data Protection</strong> protect access, posture, and sensitive data.</p>
+              <p class="mini-trap"><strong>No single product replaces:</strong> HITL, fairness, approval rules, ROI measurement, accountability, or change management. Those are operating decisions.</p>
+            </article>
+          </div>
+        </section>
+
+        <details class="reference-card card">
+          <summary>
+            <strong>Reference: GAIL trick-question comparison</strong>
+            <span>Open for concept-level distractors and answer patterns</span>
+          </summary>
+          <div class="reference-content">
+          <p class="comparison-intro">Read the need in the question first. Then choose the layer that solves it. The last column shows the tempting answer that belongs to a different problem.</p>
+          <div class="table-wrap">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>If the question says...</th>
+                  <th>Choose...</th>
+                  <th>Do not confuse it with...</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>“Understand more than one format, hold an advanced conversation, create content, or answer questions.”</td><td><strong>Gemini</strong>, the multimodal model family.</td><td>Gemini app, which is the user-facing assistant rather than the underlying model family.</td></tr>
+                <tr><td>“Gemini can create text, images, music, and code.”</td><td><strong>Generative AI</strong> is the broad category; <strong>Gemini</strong> is Google’s generative model family inside that category.</td><td>Calling this definition “Gemini” without identifying the model family. The same words can describe many generative AI systems.</td></tr>
+                <tr><td>“Which statements about Gemini are true?”</td><td><strong>Gemini</strong> is Google’s generative AI model family; the <strong>Gemini app</strong> is a multimodal assistant experience powered by that technology.</td><td>Calling Gemini itself only a chatbot, or calling it an image-only model. Read whether the option names the model layer or the app layer.</td></tr>
+                <tr><td>“Which statements describe foundation models and LLMs? Select two.”</td><td><strong>All LLMs are foundation models</strong> and <strong>LLMs are a specialized type of foundation model</strong>.</td><td>“All foundation models are LLMs.” Foundation models can specialize in other modalities such as images, audio, video, or code, so the relationship only goes one way.</td></tr>
+                <tr><td>“Analyze customer sentiment in video testimonials and written surveys.”</td><td><strong>Multimodal gen AI</strong>, because the system uses video/audio and text together.</td><td>A single-modality use case such as using NotebookLM only to summarize a report, Gemini in Gmail only to draft an email, or Imagen only to create an image.</td></tr>
+                <tr><td>“Use a customizable, developer-friendly model for local deployment or a specialized application.”</td><td><strong>Gemma</strong>.</td><td>Gemini, the broader flagship model family for general multimodal capability.</td></tr>
+                <tr><td>“Turn a textual description into a high-quality image.”</td><td><strong>Imagen</strong>, the text-to-image diffusion model.</td><td>Veo, which generates video rather than a still image.</td></tr>
+                <tr><td>“Generate video from a text description or a still image.”</td><td><strong>Veo</strong>.</td><td>Imagen, which creates still images from text.</td></tr>
+                <tr><td>“Help an individual user chat, explore, or create.”</td><td><strong>Gemini app</strong>.</td><td>Gemini for Workspace, which is embedded in work apps.</td></tr>
+                <tr><td>“Put AI inside Gmail, Docs, Sheets, or other productivity apps.”</td><td><strong>Gemini for Workspace</strong>.</td><td>Google AI Studio, which is for developer experimentation.</td></tr>
+                <tr><td>“Give an organization enterprise knowledge work and custom agents.”</td><td><strong>Gemini Enterprise</strong>.</td><td>Gemini Advanced, which is a premium assistant tier.</td></tr>
+                <tr><td>“Discover, compare, or select models.”</td><td><strong>Model Garden</strong>.</td><td>Agent Studio, which designs agent workflows.</td></tr>
+                <tr><td>“Prototype prompts and model behavior quickly.”</td><td><strong>Google AI Studio</strong>.</td><td>Agent Platform, which supports production agents.</td></tr>
+                <tr><td>“Build, train, tune, deploy, and manage ML models or AI applications.”</td><td><strong>Agent Platform</strong>, the unified ML platform formerly called Vertex AI.</td><td>Agent Studio, which focuses on designing agent experiences, or Model Garden, which is the model catalogue inside the platform.</td></tr>
+                <tr><td>“Build, deploy, and manage agents in production.”</td><td><strong>Agent Platform</strong>, with Agent Studio for agent design.</td><td>Google AI Studio, which is a prototype bench.</td></tr>
+                <tr><td>“An older study resource says Vertex AI or Agent Builder, but the answer choices use newer names.”</td><td><strong>Use the current exam-guide term:</strong> Agent Platform or Agent Studio, based on the task.</td><td>Choosing an older alias when the current exam-guide product name is available.</td></tr>
+                <tr><td>“Design an agent’s behavior, tools, and workflow.”</td><td><strong>Agent Studio</strong>.</td><td>Model Garden, which is a model catalogue.</td></tr>
+                <tr><td>“Search approved enterprise content before an agent answers.”</td><td><strong>Agent Search</strong>.</td><td>RAG APIs, which are the programmatic retrieval plumbing.</td></tr>
+                <tr><td>“Retrieve documents through an API, then generate an answer from them.”</td><td><strong>RAG APIs</strong>.</td><td>Fine-tuning, which changes model behavior rather than supplying live facts.</td></tr>
+                <tr><td>“Reduce made-up answers by connecting the model to trusted information.”</td><td><strong>Grounding or RAG</strong>.</td><td>A larger model alone, which does not guarantee factual answers.</td></tr>
+                <tr><td>“Teach a model a repeated format with no examples, one example, or several examples.”</td><td><strong>Zero-shot, one-shot, or few-shot prompting</strong>, respectively.</td><td>Role prompting, which mainly changes perspective or tone.</td></tr>
+                <tr><td>“Make the model speak like an analyst, tutor, editor, or other persona.”</td><td><strong>Role prompting</strong>.</td><td>Few-shot prompting, which teaches by showing examples.</td></tr>
+                <tr><td>“Break a complex job into ordered steps.”</td><td><strong>Prompt chaining</strong>.</td><td>Chain-of-thought, which focuses on intermediate reasoning.</td></tr>
+                <tr><td>“Reason, use a tool, observe the result, and continue.”</td><td><strong>ReAct</strong>.</td><td>Prompt chaining, which may not include tool actions.</td></tr>
+                <tr><td>“A person must approve a high-risk or ambiguous result.”</td><td><strong>Human-in-the-loop</strong>.</td><td>Monitoring, which observes the system but does not itself approve each result.</td></tr>
+                <tr><td>“Watch for performance changes after launch.”</td><td><strong>Monitoring</strong>.</td><td>Drift, which is one specific type of change detected over time.</td></tr>
+                <tr><td>“The world or input data changes and accuracy declines.”</td><td><strong>Drift detection and response</strong>.</td><td>A one-time evaluation, which cannot show how behavior changes later.</td></tr>
+                <tr><td>“The model generates, an autonomous system decides, and an external function performs work.”</td><td><strong>Model vs agent vs tool</strong>: generate, coordinate, execute.</td><td>Calling all three “the model.”</td></tr>
+                <tr><td>“Use company-owned policies, records, or internal documents.”</td><td><strong>First-party data</strong>.</td><td>World data, which is public or general knowledge.</td></tr>
+                <tr><td>“Stop unsafe actions immediately.”</td><td><strong>Kill switch</strong>.</td><td>A gate check, which validates before the next step but is not necessarily an emergency stop.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="practice-note"><strong>Practice standard:</strong> candidate reports describe Skillcertpro mocks as pattern-rich and realistic. Treat them as unofficial practice only; use Google’s exam guide and sample questions as the authority, aim for 85%+ consistently, and review why each distractor is wrong.</p>
+          <p class="practice-note"><strong>Exam-day readiness:</strong> verify your ID name matches your testing profile, complete the secure-browser readiness check early, prepare the room according to the proctor instructions, and use “mark for review” for uncertain questions. These logistics are candidate-reported and can change, so follow the current provider instructions when you schedule.</p>
+          </div>
+        </details>
+
+        <details class="reference-card card">
+          <summary>
+            <strong>Reference: full Google Cloud tool crosswalk</strong>
+            <span>Open for every product-to-use-case mapping</span>
+          </summary>
+          <div class="reference-content">
+          <p class="comparison-intro">Use this when a scenario asks how the concept is implemented on Google Cloud. If the row says “no single tool,” the exam is testing a decision pattern, control, or operating process rather than a product name.</p>
+          <div class="table-wrap">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Need or concept</th>
+                  <th>Google tool or feature</th>
+                  <th>What it is for</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Choose, compare, or deploy a model</td><td><strong>Model Garden</strong></td><td>Discover Google, partner, and open models; select the model that fits modality, cost, safety, and performance needs.</td></tr>
+                <tr><td>Quick prompt or model prototype</td><td><strong>Google AI Studio</strong></td><td>Experiment quickly with prompts and model behavior before production implementation.</td></tr>
+                <tr><td>Build, train, tune, deploy, and manage ML models or AI applications</td><td><strong>Agent Platform</strong></td><td>The unified Google Cloud ML platform, formerly Vertex AI. It provides the platform layer across model development, deployment, and management; agents are one of its uses.</td></tr>
+                <tr><td>Access Google generative models across text, code, images, and speech</td><td><strong>Agent Platform Model Garden</strong></td><td>Find Google, partner, and open models for the required modality, then use the platform to tune and deploy them for an application.</td></tr>
+                <tr><td>Build and manage agents in production</td><td><strong>Agent Platform</strong> and <strong>Agent Studio</strong></td><td>Use Agent Platform for the production platform and Agent Studio for building and shaping agent workflows.</td></tr>
+                <tr><td>Personalized repeatable Gemini workflow</td><td><strong>Gemini saved info and Gems</strong></td><td>Keep preferences or instructions consistent; use a Gem as a personalized assistant. This is not a replacement for a production agent platform.</td></tr>
+                <tr><td>Ground answers in enterprise documents</td><td><strong>Agent Search</strong> or <strong>Vertex AI RAG Engine / exam RAG APIs</strong></td><td>Retrieve relevant internal facts before generation. Agent Search is prebuilt search; RAG Engine/RAG APIs support managed RAG orchestration.</td></tr>
+                <tr><td>Ground answers in current public information</td><td><strong>Grounding with Google Search</strong></td><td>Use current world knowledge from Google Search rather than relying only on the model’s training cutoff.</td></tr>
+                <tr><td>Ground answers in a custom or third-party search source</td><td><strong>Grounding with your search API</strong></td><td>Connect Gemini to a provided search endpoint so it can retrieve approved external or partner information.</td></tr>
+                <tr><td>Store or prepare first-party data for AI</td><td><strong>Cloud Storage</strong>, <strong>BigQuery</strong>, databases, and connectors</td><td>Provide governed enterprise data to search, RAG, analytics, or model workflows. The correct choice depends on the data type and use case.</td></tr>
+                <tr><td>Embeddings-based retrieval</td><td><strong>Vertex AI Vector Search</strong> or managed RAG tooling</td><td>Find semantically similar content for RAG. Embeddings represent meaning; they are not generated answers.</td></tr>
+                <tr><td>Adapt a foundation model to a task or domain</td><td><strong>Vertex AI tuning / fine-tuning</strong></td><td>Change learned behavior for a specialized task. Do not choose this merely to obtain current facts; use grounding or RAG for that.</td></tr>
+                <tr><td>Evaluate prompts or generative output quality</td><td><strong>Gen AI evaluation service</strong></td><td>Measure quality with defined metrics, datasets, and optional human ratings or judge-model evaluation.</td></tr>
+                <tr><td>Track model versions</td><td><strong>Vertex AI Model Registry</strong></td><td>Keep a controlled record of model versions and related evaluation or deployment information.</td></tr>
+                <tr><td>Detect production ML drift or training-serving skew</td><td><strong>Vertex AI Model Monitoring</strong></td><td>Monitor deployed-model input behavior and alert when it departs from the training baseline.</td></tr>
+                <tr><td>Manage features and automate ML workflows</td><td><strong>Feature Store</strong> and <strong>Vertex AI Pipelines</strong></td><td>Manage feature data and automate repeatable ML steps. Learn the current exam-guide wording; legacy Feature Store variants have changed over time.</td></tr>
+                <tr><td>Run an agent backend or application logic</td><td><strong>Cloud Run</strong> or <strong>Cloud Functions</strong></td><td>Host functions, APIs, and backend logic. These are application infrastructure, not the model itself.</td></tr>
+                <tr><td>Low-code or no-code AI workflow</td><td><strong>Apps Script</strong> or <strong>AppSheet</strong></td><td>Connect AI capabilities to business workflows with less custom development.</td></tr>
+                <tr><td>Voice, document, image, video, or text understanding</td><td><strong>Speech-to-Text</strong>, <strong>Text-to-Speech</strong>, <strong>Document AI</strong>, <strong>Vision</strong>, <strong>Video Intelligence</strong>, <strong>Natural Language APIs</strong></td><td>Use the specific prebuilt API that matches the input and output modality; they are task APIs, not general-purpose chat models.</td></tr>
+                <tr><td>Customer service and contact center AI</td><td><strong>Customer Engagement Suite</strong></td><td>Conversational Agents serve customers, Agent Assist supports live staff, and Conversational Insights analyzes interactions.</td></tr>
+                <tr><td>Generate customer-service text responses</td><td><strong>Conversational AI</strong></td><td>Create conversational customer-service experiences; this sits within the broader customer-engagement category, not a general document-writing tool.</td></tr>
+                <tr><td>Draft a client email</td><td><strong>Gemini in Gmail</strong></td><td>Write and refine email inside Gmail as part of Gemini for Google Workspace.</td></tr>
+                <tr><td>Create a presentation image</td><td><strong>Gemini in Google Slides</strong></td><td>Generate an image directly in Slides for a presentation workflow.</td></tr>
+                <tr><td>Generate marketing or design image concepts</td><td><strong>Imagen</strong></td><td>Use the text-to-image model when the output itself is a high-quality generated image.</td></tr>
+                <tr><td>Create a video tutorial</td><td><strong>Google Vids</strong></td><td>Produce video content for explanations, training, or troubleshooting guidance.</td></tr>
+                <tr><td>Generate code, unit tests, or other test cases</td><td><strong>Gemini Code Assist</strong></td><td>Generate code suggestions and test scaffolding to reduce manual development effort; developers still validate the result.</td></tr>
+                <tr><td>Summarize a long report or article from supplied sources</td><td><strong>NotebookLM Enterprise</strong></td><td>Create source-grounded summaries and takeaways without manually reading every page.</td></tr>
+                <tr><td>Summarize reviews for product feedback and sentiment</td><td><strong>Gemini in Looker</strong></td><td>Analyze feedback in a business-intelligence context to understand themes and sentiment.</td></tr>
+                <tr><td>Generate meeting notes, decisions, and action items</td><td><strong>Gemini in Google Meet</strong></td><td>Produce a concise recap for project teams or sales-call follow-up.</td></tr>
+                <tr><td>Turn complex data into understandable reports and visuals</td><td><strong>Gemini in BigQuery</strong></td><td>Help analyze data and create understandable charts, graphs, or summaries for business users.</td></tr>
+                <tr><td>Predict future demand from purchase history and traffic</td><td><strong>Vertex AI forecasting models</strong></td><td>Use tabular time-series forecasting to predict demand and support inventory decisions.</td></tr>
+                <tr><td>Find viewing patterns and recommend relevant content</td><td><strong>Agent Search</strong></td><td>Use search and recommendation capabilities to surface relevant content and improve engagement.</td></tr>
+                <tr><td>Adapt a model to specialized molecular or scientific data</td><td><strong>Agent Platform model tuning</strong></td><td>Fine-tune a model for a specialized domain when the task needs learned domain behavior, not only retrieved facts.</td></tr>
+                <tr><td>Search a file or ask questions about its contents</td><td><strong>Gemini in Google Drive</strong></td><td>Find and understand Drive files within the productivity environment.</td></tr>
+                <tr><td>Give employees an agent that reasons over enterprise knowledge wherever it is hosted</td><td><strong>Gemini Enterprise</strong></td><td>Combine Gemini reasoning, Google-quality search, and connected enterprise data for employee expertise.</td></tr>
+                <tr><td>Detect potentially fraudulent transactions in data streams</td><td><strong>Vertex AI tabular classification / anomaly-detection workflow</strong></td><td>Train and deploy a model from transaction features, then monitor it. The scenario is predictive ML, not a general GenAI chat use case.</td></tr>
+                <tr><td>Convert content into accessible voice, text, or translated formats</td><td><strong>Speech-to-Text</strong>, <strong>Text-to-Speech</strong>, <strong>Translation APIs</strong></td><td>Use the API that matches the conversion direction and format; combine them when a workflow needs multiple accessible representations.</td></tr>
+                <tr><td>Generate code documentation automatically</td><td><strong>Gemini Code Assist</strong></td><td>Analyze code and draft clear documentation as well as code or tests. Older material may say Codey; use the current tool name in the options.</td></tr>
+                <tr><td>Review contracts and extract key information</td><td><strong>Document AI</strong></td><td>Automate document processing, data extraction, and review from varied document formats.</td></tr>
+                <tr><td>Analyze customer feedback and create a ticket</td><td><strong>Gemini in Looker</strong> or <strong>Natural Language API</strong> + <strong>Cloud Run / Functions</strong> or agent tools</td><td>Analyze feedback and sentiment first, then use a backend function, extension, or ticket-system API integration to create the ticket.</td></tr>
+                <tr><td>Send automated alarms or operational notifications</td><td><strong>Cloud Monitoring alerting policies</strong> and <strong>notification channels</strong></td><td>Monitor metrics or logs, create incidents when conditions are met, and notify people or services such as email, Slack, or PagerDuty.</td></tr>
+                <tr><td>Access control, security posture, sensitive data protection</td><td><strong>IAM</strong>, <strong>Security Command Center</strong>, <strong>Sensitive Data Protection</strong>, audit logging</td><td>Apply controls around the AI system and its data. SAIF is the security framework, not a single product.</td></tr>
+                <tr><td>HITL, fairness, accountable governance, change management</td><td><strong>No single Google tool</strong></td><td>Design the review workflow, decision rights, measures, and operating controls. Tools can support it, but the exam is testing the business control pattern.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+        </details>
+
+        <div class="stack">
+          <details class="card" data-curriculum="fundamentals">
+            <summary>
+              <strong>1. Fundamentals of gen AI</strong>
+              <span>AI, ML, foundation models, data types, model selection</span>
+            </summary>
+            <div class="details-stack">
+              <div class="category-label">Concept ladder</div>
+              <figure class="concept-map" aria-labelledby="concept-map-title">
+                <div class="concept-map-visual">
+                  <svg viewBox="0 0 420 420" role="img" aria-labelledby="concept-map-title concept-map-desc">
+                    <title id="concept-map-title">The generative AI concept hierarchy</title>
+                    <desc id="concept-map-desc">Concentric circles show artificial intelligence containing machine learning, deep learning, generative AI, foundation models, and large language models.</desc>
+                    <circle class="map-ring map-ai" cx="210" cy="210" r="190" />
+                    <circle class="map-ring map-ml" cx="210" cy="210" r="155" />
+                    <circle class="map-ring map-deep" cx="210" cy="210" r="120" />
+                    <circle class="map-ring map-gen" cx="210" cy="210" r="87" />
+                    <circle class="map-ring map-foundation" cx="210" cy="210" r="55" />
+                    <circle class="map-ring map-llm" cx="210" cy="210" r="27" />
+                    <g class="map-labels" text-anchor="middle">
+                      <text x="210" y="42">ARTIFICIAL INTELLIGENCE</text>
+                      <text x="210" y="88">MACHINE LEARNING</text>
+                      <text x="210" y="132">DEEP LEARNING</text>
+                      <text x="210" y="176">GENERATIVE AI</text>
+                      <text x="210" y="246">FOUNDATION MODELS</text>
+                      <text x="210" y="214" class="map-center-label">LLMs</text>
+                    </g>
+                  </svg>
+                </div>
+                <figcaption class="concept-map-copy">
+                  <p class="eyebrow">How the ideas relate</p>
+                  <h3>From broad intelligence to language generation</h3>
+                  <dl>
+                    <div><dt>AI</dt><dd>The broad field of machines doing intelligence-like tasks.</dd></div>
+                    <div><dt>ML</dt><dd>AI that learns patterns from data.</dd></div>
+                    <div><dt>Deep learning</dt><dd>ML using many-layer neural networks for complex patterns.</dd></div>
+                    <div><dt>Generative AI</dt><dd>ML focused on making new content.</dd></div>
+                    <div><dt>Foundation models</dt><dd>Large general-purpose models trained on massive data.</dd></div>
+                    <div><dt>LLMs</dt><dd>Foundation models specialized in understanding and generating language.</dd></div>
+                  </dl>
+                  <p class="map-note">Exam rule: this is a study hierarchy, not a claim that every ML system is generative or every foundation model is an LLM.</p>
+                </figcaption>
+              </figure>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="AI: The big umbrella: software doing jobs that normally need human intelligence.">
+                  <h3>AI</h3>
+                  <p>The broad field of systems that do tasks associated with human intelligence. Not every AI system generates content.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> What is the broad umbrella term above ML and gen AI?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="NLP: The part of AI that works with human language, like reading, translating, or writing.">
+                  <h3>NLP</h3>
+                  <p>Language-focused AI for understanding and generating text. Useful when the question is about language tasks, but not everything NLP does is generative.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="ML: A system learns patterns from examples instead of receiving every rule by hand.">
+                  <h3>ML</h3>
+                  <p>Systems that learn patterns from data. GAIL can ask about supervised, unsupervised, and reinforcement learning as approaches inside ML.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Generative AI: AI that makes a new answer or artifact, such as text, an image, code, or video.">
+                  <h3>Generative AI</h3>
+                  <p>Models that create new content rather than just classify or predict. Use this when the use case is text, image, code, video, or personalized output creation.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Foundation models: A large general-purpose starting model that can be adapted to many jobs.">
+                  <h3>Foundation models</h3>
+                  <p>Large general-purpose models that can be adapted to many tasks. Not the same thing as an app, a dataset, or a workflow.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Multimodal foundation models: One model that can understand or create more than one kind of information.">
+                  <h3>Multimodal foundation models</h3>
+                  <p>Foundation models that handle multiple modalities such as text and images. GAIL may ask when the business problem crosses formats.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Diffusion models: A common image-making approach that turns random noise into a requested picture.">
+                  <h3>Diffusion models</h3>
+                  <p>Generative models commonly used for image creation. Not the answer for text-only reasoning tasks.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="LLMs: A specialized kind of foundation model for language. Every LLM is a foundation model, but not every foundation model is an LLM.">
+                  <h3>LLMs and prompt tuning</h3>
+                  <p>LLMs are language-specialized foundation models. All LLMs are foundation models, but not all foundation models are LLMs because foundation models can also specialize in images, audio, video, code, or multimodal tasks. Prompt tuning is a lighter-weight way to steer a model compared with full retraining.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> In a multiple-select question, choose both “all LLMs are foundation models” and “LLMs are a specialized type of foundation model.”</p>
+                </article>
+              </div>
+
+              <div class="category-label">ML lifecycle and data</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Lifecycle stages: The full journey from collecting data to running, maintaining, and improving the AI system.">
+                  <h3>Lifecycle stages</h3>
+                  <p>Data ingestion, data preparation, model training, deployment, and management. GAIL may ask what happens at each stage or which Google Cloud tools support it.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Structured vs unstructured: A spreadsheet is structured; a PDF, photo, recording, or chat transcript is unstructured.">
+                  <h3>Structured vs unstructured</h3>
+                  <p>Structured data is rows and columns. Unstructured data is documents, images, audio, video, and chat. GAIL often tests which data type fits a use case.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Labeled vs unlabeled: Labeled examples include the answer; unlabeled examples are raw material without an answer key.">
+                  <h3>Labeled vs unlabeled</h3>
+                  <p>Labeled data has known answers attached. Unlabeled data does not. This matters when the question asks what kind of dataset is needed for training or evaluation.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Data quality: If the ingredients are incomplete, messy, or wrong, the AI result will be unreliable too.">
+                  <h3>Data quality</h3>
+                  <p>Completeness, consistency, relevance, availability, cost, and format decide whether AI can succeed. Bad data produces weak output faster than a weak model does.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Supervised learning: Learn from examples that already include the correct answer.">
+                  <h3>Supervised learning</h3>
+                  <p>Training uses labeled examples so the model learns to predict a known outcome. Think of it as studying with an answer key.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which approach needs labeled data?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Unsupervised learning: Find natural groups or patterns when no answer key is provided.">
+                  <h3>Unsupervised learning</h3>
+                  <p>Training uses unlabeled data to discover structure, such as clusters or recurring patterns. The system finds the groupings for you.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which approach is useful when the data has no labels?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Reinforcement learning: Improve through actions, feedback, rewards, and penalties.">
+                  <h3>Reinforcement learning</h3>
+                  <p>An agent learns by trying actions and receiving feedback. Good outcomes are rewarded; poor outcomes are penalized.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which approach learns from interaction and reward?</p>
+                </article>
+              </div>
+
+              <div class="category-label">Model choice and use cases</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Model selection: Choose the model that fits the job, risk, speed, data type, and budget, not simply the biggest one.">
+                  <h3>Model selection</h3>
+                  <p>Pick based on modality, context window and its cost, accuracy, speed, efficiency, security, customization, availability, reliability under load, redundancy, and disaster recovery. GAIL asks for the best fit, not the fanciest model.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Use-case patterns: Common jobs include creating, summarizing, finding information, and automating work.">
+                  <h3>Use-case patterns</h3>
+                  <p>Gen AI can create, summarize, discover, and automate. Look for text generation, image generation, code generation, video generation, data analysis, and personalized experiences.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Business implication: The technical choice matters only if it solves a real business problem safely and affordably.">
+                  <h3>Business implication</h3>
+                  <p>Good AI starts with the right problem, the right data, and the right model layer. GAIL questions often hide a use-case judgment inside a technical-sounding prompt.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Common exam trap: First identify whether the question is about a model, product, workflow, or business decision.">
+                  <h3>Common exam trap</h3>
+                  <p>Do not confuse the category, the model family, and the product layer. The question may ask about a use case when it looks like it is asking about a model.</p>
+                </article>
+              </div>
+            </div>
+          </details>
+
+          <details class="card" data-curriculum="products">
+            <summary>
+              <strong>2. Google Cloud's gen AI offerings</strong>
+              <span>Products, infrastructure, customer experience, tooling</span>
+            </summary>
+            <div class="details-stack">
+              <div class="category-label">Model families</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Gemini: Google&#x27;s broad multimodal generative model family. The Gemini app is the assistant people use, not the model family itself.">
+                  <h3>Gemini</h3>
+                  <p>Google’s general-purpose multimodal generative model family. It can support text, images, code, and other cross-modal tasks. It is a specific Google model family inside the broader category of generative AI, not a generic synonym for all gen AI.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> “Gemini” can mean the model family in one option and the Gemini app assistant in another. Choose the option that names the correct layer.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Gemma: Google&#x27;s more open model family for developers who want additional control or local options.">
+                  <h3>Gemma</h3>
+                  <p>Open model family for developers who need more control or lighter-weight deployment. Use it when you want an open model option, not when the question is asking for the flagship closed model.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which Google model family is the open, developer-friendly option?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Imagen: Google&#x27;s image-generation model family: use it when the output is a picture.">
+                  <h3>Imagen</h3>
+                  <p>Image generation and editing. Use it for visual creation tasks. Not the right answer when the question is about text reasoning or an assistant interface.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> What Google model should generate images from prompts?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Veo: Google&#x27;s video-generation model family: use it when the output is a video.">
+                  <h3>Veo</h3>
+                  <p>Video generation. Use it when the business problem is creating video content. Not for general chat or code generation.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> What model family fits video creation?</p>
+                </article>
+              </div>
+
+              <div class="category-label">End-user experiences</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Gemini app: The everyday assistant a person opens directly to chat, ask questions, or create content.">
+                  <h3>Gemini app</h3>
+                  <p>The standalone chatbot for writing, summarizing, translating, creating images, and everyday exploration. Use it for direct human interaction, not as the backend platform for building enterprise systems.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which offering is the consumer-facing assistant experience?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Gemini Advanced: The higher-capability paid tier of the direct Gemini assistant experience.">
+                  <h3>Gemini Advanced</h3>
+                  <p>The more capable premium Gemini app experience, with additional features and enterprise-grade protections in the study-guide framing. Use it when the question implies a higher-tier assistant experience.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which option suggests the premium assistant tier?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Gemini Enterprise: An organization-wide assistant and knowledge-work offering for business users and custom agents.">
+                  <h3>Gemini Enterprise</h3>
+                  <p>Enterprise agents that combine Gemini reasoning, Google-quality search, and connected enterprise data wherever it is hosted. Use it to unlock employee expertise, not casual personal chat.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which offering is aimed at enterprise knowledge work and custom agents?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Gemini for Workspace: AI built into work apps such as Gmail, Docs, and Sheets rather than a custom application.">
+                  <h3>Gemini for Workspace</h3>
+                  <p>Gemini embedded into familiar work apps: compose email in Gmail, create images in Slides, and summarize notes in Meet. Use it when employees need AI inside existing productivity tools.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> What should you choose for AI inside productivity apps?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Gemini in Google Drive: Search for files and ask questions about what they contain.">
+                  <h3>Gemini in Google Drive</h3>
+                  <p>Search for a file and ask questions about its contents inside Google Drive. Use it when the question is about finding and understanding Drive material, not building a custom enterprise search system.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Gemini in Google Meet: Turn a meeting into concise notes, decisions, and action items.">
+                  <h3>Gemini in Google Meet</h3>
+                  <p>Automatically generates meeting notes with key decisions and action items. Use it when project teams need a clear recap or sales teams need to identify next steps from client calls.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Google Vids: Create video content for business explanations, training, and tutorials.">
+                  <h3>Google Vids</h3>
+                  <p>Create video content such as customer troubleshooting tutorials or internal explainers. Use it when the required deliverable is a business video rather than a still image or text response.</p>
+                </article>
+              </div>
+
+              <div class="category-label">Platform and builder tools</div>
+              <p class="naming-note"><strong>Exam naming rule:</strong> use the exact current exam-guide term when it appears in an answer choice. The guide uses <strong>Agent Platform</strong>, <strong>Agent Search</strong>, and <strong>Agent Studio</strong>. Older material may say Vertex AI, Vertex AI MLOps, or Agent Builder; learn those as related or legacy labels, not as a reason to override the exam guide.</p>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Agent Platform: Google Cloud's unified ML platform for building, training, tuning, deploying, and managing models and AI applications. Agents are one workload it supports.">
+                  <h3>Agent Platform</h3>
+                  <p>Formerly Vertex AI, Agent Platform is Google Cloud’s unified ML platform for building, training, tuning, deploying, and managing ML models and AI applications. Through Model Garden it provides access to generative models across modalities. Agents and agent workflows are important uses, but they are not its whole scope.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Choose Agent Platform when the scenario needs the managed platform lifecycle. Choose Model Garden to select models within it, and Agent Studio to design an agent experience.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Vertex AI: An older or related platform label you may see in study materials; answer with the current exam-guide term when the choice uses it.">
+                  <h3>Vertex AI: related study-guide term</h3>
+                  <p>Older study materials use Vertex AI for the managed AI platform around models, data, evaluation, deployment, and operations. In the current exam guide, prioritize the exact product wording provided, especially Agent Platform for agent-building scenarios.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Do not let an older label override the current exam-guide wording in the answer choices.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Google AI Studio vs Vertex AI Studio: Experiment first in AI Studio; build production systems in Vertex AI Studio.">
+                  <h3>AI Studio vs Vertex AI Studio</h3>
+                  <p>Google AI Studio is the quick prototyping bench. Vertex AI Studio is the production-oriented environment for building and deploying at scale.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which tool fits experimentation, and which fits enterprise deployment?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="MLOps: The practices and tools that keep models reliable after they are built.">
+                  <h3>MLOps: lifecycle management</h3>
+                  <p>Older material may call this Vertex AI MLOps. The concept is collaboration, versioning, monitoring, evaluation, and model improvement across the lifecycle, not one fixed answer label.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Choose the current product term in the options, but recognize the lifecycle-management concept behind it.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="TPUs and GPUs: Specialized computing hardware that makes large-scale AI training and serving practical.">
+                  <h3>TPUs and GPUs</h3>
+                  <p>They are hardware accelerators designed to handle the huge number of calculations AI needs. This is infrastructure, not a model or end-user app.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which layer supplies the computing power underneath AI?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Gemini for Google Cloud: An AI assistant for developing, operating, and securing Google Cloud workloads.">
+                  <h3>Gemini for Google Cloud</h3>
+                  <p>It helps cloud teams write and debug code, analyze data, manage applications, and strengthen security. It is different from the consumer Gemini app.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which Gemini experience is designed for cloud practitioners?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Gemini Code Assist: An AI coding assistant that can draft code and help create unit tests or test cases.">
+                  <h3>Gemini Code Assist</h3>
+                  <p>Helps developers generate code, unit tests, test cases, and documentation as a starting point for larger projects. Older material may say Codey; use Gemini Code Assist as the current tool label. Always validate generated code and documentation.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which tool helps a developer generate code and test scaffolding?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="NotebookLM Enterprise: A research assistant that summarizes and answers from the documents you provide.">
+                  <h3>NotebookLM Enterprise</h3>
+                  <p>Upload source material and use it to summarize long documents, answer questions, and create ideas grounded in those documents. Use it when the source material itself must remain central to the answer.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which tool summarizes a supplied report while staying grounded in that source?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Gemini in Looker: Use AI to understand reviews, product feedback, and sentiment in business intelligence workflows.">
+                  <h3>Gemini in Looker</h3>
+                  <p>Summarizes customer reviews and helps analyze product feedback and sentiment. Use it when the question is about BI-driven insight, not a general chat summary.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Gemini in BigQuery: Turn data analysis into understandable reports, charts, and graphs.">
+                  <h3>Gemini in BigQuery</h3>
+                  <p>Helps transform complex data into understandable analysis and visuals such as graphs. Use it for data-driven reporting and decision support.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Model Garden: A model catalogue where teams compare and select models before using them.">
+                  <h3>Model Garden</h3>
+                  <p>The catalog for discovering, testing, and deploying models. Use it when the question is about model selection or comparison, not application design.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Where do you go to discover and evaluate models?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Agent Search: A way for an agent to look through approved enterprise information before answering.">
+                  <h3>Agent Search</h3>
+                  <p>A retrieval layer for enterprise search, recommendations, and grounded answers from indexed content. Use it to surface relevant content from viewing or behavior patterns as well as to answer from enterprise material. Older study material may call related search capabilities Vertex AI Search.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which capability helps an agent retrieve relevant enterprise context?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="RAG APIs: Developer plumbing for retrieving useful documents and passing them to a model to answer from.">
+                  <h3>RAG APIs</h3>
+                  <p>Programmatic retrieval-augmented generation capabilities. Use them when you need an API-based grounding workflow, not just a user-facing search box. They are the plumbing behind grounded answers.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which option supports retrieval plus generation as an API workflow?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Model Builder and AutoML: Build a custom model yourself, or train one with less technical effort.">
+                  <h3>Model Builder and AutoML</h3>
+                  <p>Model Builder is for fully custom model work at scale. AutoML helps create and train models with less technical effort. Both are model-development choices, not agent or search products.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Do you need full custom training control or a lower-code path to training?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Vertex AI forecasting: Predict a sequence of future values such as product demand.">
+                  <h3>Vertex AI forecasting models</h3>
+                  <p>Analyze purchase history and website traffic to forecast future demand and optimize inventory. This is a tabular time-series prediction use case, not a text-generation task.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Agent Platform model tuning: Adapt a model to a specialized domain such as scientific or molecular data.">
+                  <h3>Agent Platform model tuning</h3>
+                  <p>Fine-tune models for specialized data and domain behavior, such as identifying promising molecular candidates. Choose this when the model must learn the domain, not merely retrieve context.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Fraud anomaly detection: Use a tabular ML model to score transaction patterns and flag suspicious activity.">
+                  <h3>Fraud anomaly detection</h3>
+                  <p>Use a Vertex AI tabular classification or anomaly-detection workflow with transaction features, then monitor performance and drift. It is predictive ML rather than a general-purpose GenAI conversation.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Edge AI: Run a compact model closer to where data is created, rather than always in the cloud.">
+                  <h3>Edge AI: LiteRT and Gemini Nano</h3>
+                  <p>LiteRT helps deploy AI to edge devices. Gemini Nano is a compact model designed to run on-device. Choose this pattern when low latency, local operation, or device-side processing matters.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which approach runs AI close to the action instead of only in cloud infrastructure?</p>
+                </article>
+              </div>
+
+              <div class="category-label">Customer and studio tools</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Customer Engagement Suite: Tools for customer service, contact centers, agent assistance, and support conversations.">
+                  <h3>Customer Engagement Suite</h3>
+                  <p>The customer experience stack for contact centers: Conversational AI and Conversational Agents handle customer chat, Agent Assist supports live human agents, and Conversational Insights analyzes communications. Use it for service automation, not internal knowledge authoring or model prototyping.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which suite is for customer-facing support and contact center workflows?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Agent Studio: A builder interface for designing an agent&#x27;s behavior, tools, and workflow.">
+                  <h3>Agent Studio</h3>
+                  <p>The current exam-guide term for designing and managing agents and workflows with business logic. Older materials may call this Agent Builder. It is the design/management layer, not the prototyping sandbox.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which tool is best for building and shaping agents?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Google AI Studio: A quick experimentation bench for trying prompts and models before production work.">
+                  <h3>Google AI Studio</h3>
+                  <p>The prototyping environment for experimenting with prompts and model behavior. Use it for early exploration, not for full enterprise workflow management or production orchestration.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which tool is best for fast prompt and model prototyping?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Enterprise framing: For business use, ask about security, privacy, reliability, scale, and ownership as well as capability.">
+                  <h3>Enterprise framing</h3>
+                  <p>Across all of these, Google Cloud emphasizes secure, private, reliable, scalable, and open enterprise readiness. Product choice is usually about layer and use case, not just model quality.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which product best matches the business need and deployment layer?</p>
+                </article>
+              </div>
+
+              <div class="category-label">Voice and translation APIs for agents</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Speech-to-Text: Turn spoken audio or video into written text.">
+                  <h3>Speech-to-Text API</h3>
+                  <p>Converts speech into text and transcribes audio or video content. Use it when an agent must understand calls, recordings, or spoken requests.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Text-to-Speech: Turn written text into a natural-sounding voice.">
+                  <h3>Text-to-Speech API</h3>
+                  <p>Converts text into natural-sounding speech. Use it for voice user interfaces and personalized spoken communication.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Translation: Translate many content types between languages.">
+                  <h3>Translation API</h3>
+                  <p>Translates text, documents, websites, audio, and video content. Use it for multilingual communication across formats.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Document Translation: Translate a formatted document without losing its layout.">
+                  <h3>Document Translation API</h3>
+                  <p>Translates formatted documents while preserving the original layout. Use it when format preservation matters, not just the text content.</p>
+                </article>
+              </div>
+
+              <div class="category-label">Document, image, video, and text analysis APIs</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Document AI: Pull useful data from documents and automate document work.">
+                  <h3>Document AI API</h3>
+                  <p>Extracts data from varied document formats, automates capture and processing, and can summarize documents. Use it for contract review and information extraction when forms, invoices, or files must become structured information.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Cloud Vision: Understand what is in an image.">
+                  <h3>Cloud Vision API</h3>
+                  <p>Analyzes image content, detects objects and text, and can identify faces and landmarks. Use it for content moderation, visual search, or image tagging.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Cloud Video Intelligence: Pull useful information out of video.">
+                  <h3>Cloud Video Intelligence API</h3>
+                  <p>Analyzes video and extracts meaningful information. Use it for media analysis, video search, and content recommendations.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Natural Language API: Find sentiment, categories, and entities in text.">
+                  <h3>Natural Language API</h3>
+                  <p>Derives insights from unstructured text, including sentiment, content classification, and important entities. Use it for text analytics rather than text generation.</p>
+                </article>
+              </div>
+
+              <div class="category-label">Ways to deliver an agent application</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Cloud Run and Cloud Functions: Managed cloud services that run the application or backend behind an agent.">
+                  <h3>Cloud Run and Cloud Functions</h3>
+                  <p>Use these developer tools to run agent backends, functions, and application logic in Google Cloud. They are delivery infrastructure, not models or agent tools themselves.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Apps Script and AppSheet: Lower-code ways to connect AI to workflow and business applications.">
+                  <h3>Apps Script and AppSheet</h3>
+                  <p>Use these low-code or no-code tools to build AI-enabled workflow applications with less custom development. Choose them when business users need a faster delivery path.</p>
+                </article>
+              </div>
+            </div>
+          </details>
+
+          <details class="card" data-curriculum="prompting">
+            <summary>
+              <strong>3. Improve gen AI output</strong>
+              <span>Prompting, grounding, RAG, tuning, evaluation</span>
+            </summary>
+            <div class="details-stack">
+              <div class="category-label">Foundation-model limitations and remedies</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Data dependency: A model can only be as dependable as the data it learned from.">
+                  <h3>Data dependency</h3>
+                  <p>Foundation-model performance relies heavily on its data. Biased, incomplete, irrelevant, or inaccessible data weakens the output.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Knowledge cutoff: A model may not know what happened after its training data ended.">
+                  <h3>Knowledge cutoff</h3>
+                  <p>A model is trained only up to a point in time, so it can lack current events or newly changed facts. Grounding and RAG supply newer information.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Bias and fairness: Patterns in training data can create unfair outputs that must be assessed and mitigated.">
+                  <h3>Bias and fairness</h3>
+                  <p>LLMs can learn and magnify even subtle bias in their data. Fairness assessment is a responsible-AI requirement, not an optional polish step.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Hallucinations: A model can sound confident while giving information that is false or unsupported.">
+                  <h3>Hallucinations</h3>
+                  <p>Outputs can be inaccurate or unsupported by real information. Use grounding, retrieval, validation, and human review rather than trusting fluent language.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Edge cases: Rare or unusual situations can expose a model weakness that normal testing missed.">
+                  <h3>Edge cases</h3>
+                  <p>Rare and atypical scenarios can create unexpected results. Test them deliberately and add guardrails or human review where the impact is high.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Context window and fine-tuning: One limits how much text a model can see; the other adapts a model for a task or domain.">
+                  <h3>Context window and fine-tuning</h3>
+                  <p>The context window is the amount of text the model can consider at once. Fine-tuning adapts a pre-trained model for a specific task or domain; it is not the same as grounding.</p>
+                </article>
+              </div>
+
+              <div class="category-label">Prompting patterns</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Zero-shot: Ask once with instructions only; there are no worked examples to copy.">
+                  <h3>Zero-shot</h3>
+                  <p>Ask the model directly with no examples. Use it for straightforward tasks where the instruction alone is enough.</p>
+                  <p class="mini-trap"><strong>Not for:</strong> Tasks that need format consistency or domain-specific examples.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="One-shot: Show one example so the model can copy the expected shape or style.">
+                  <h3>One-shot</h3>
+                  <p>Give one example to show the expected style or structure. Useful when the output format matters more than deep reasoning.</p>
+                  <p class="mini-trap"><strong>Not for:</strong> Highly variable tasks that need multiple patterns.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Few-shot: Show several examples so the model can spot the pattern more reliably.">
+                  <h3>Few-shot</h3>
+                  <p>Provide several examples to teach the pattern. Use it when the model needs stronger guidance on tone, format, or classification.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which prompting method uses examples to improve consistency?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Role prompting: Tell the model who it should act like, such as a tutor, analyst, or editor.">
+                  <h3>Role prompting</h3>
+                  <p>Assign a persona or perspective such as analyst, tutor, or editor. Use it to shape tone and output style, not to inject facts.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which technique is best for tone or perspective?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Prompt templates: Save a good prompt so people can use the same reliable structure again.">
+                  <h3>Prompt templates</h3>
+                  <p>Save prompts for repeated use when the task, format, and instructions recur. Templates improve consistency and reduce the need to rewrite the same instructions.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Saved info and Gems: Keep instructions or preferences so Gemini can respond consistently over time.">
+                  <h3>Saved info and Gems in Gemini</h3>
+                  <p>Saved info stores facts or preferences for consistent use. Gems are personalized Gemini assistants that follow specific instructions for recurring templates, prompts, and guided workflows.</p>
+                </article>
+              </div>
+
+              <div class="category-label">Workflow patterns</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Prompt chaining: Keep context through a conversation, or pass work through a sequence of smaller prompts.">
+                  <h3>Prompt chaining</h3>
+                  <p>In Gemini, continue the conversation so context carries forward. In a production workflow, chain smaller prompts so each result feeds the next. Use the question wording to identify which meaning is intended.</p>
+                  <p class="mini-trap"><strong>Not for:</strong> Simple one-step tasks that already have enough context.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Chain-of-thought: Ask for a step-by-step approach when the task needs intermediate reasoning.">
+                  <h3>Chain-of-thought</h3>
+                  <p>Encourages stepwise reasoning. Use it for problems that need intermediate logic, but not as a substitute for validation or data.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which prompting approach helps with structured reasoning?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="ReAct: A reason-act-check loop: decide what to do, use a tool, inspect the result, and continue.">
+                  <h3>ReAct</h3>
+                  <p>Combines reasoning with action, so the model can think, use a tool, observe, and continue. Use it when external actions improve the answer.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> Which method combines reasoning and tool use?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Metaprompting: Use a prompt to help create, improve, or interpret another prompt.">
+                  <h3>Metaprompting</h3>
+                  <p>Ask the model to generate, modify, critique, or interpret prompts. Use it when the task is to improve the instructions themselves, not just the final answer.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="HITL: A human gets the final say when the cost of a wrong answer is high.">
+                  <h3>HITL</h3>
+                  <p>Human-in-the-loop review inserts a person where stakes, ambiguity, or risk are high. Use it for contextual content moderation, healthcare or finance, and high-risk decisions. Review can happen before release or continuously after deployment.</p>
+                  <p class="mini-trap"><strong>Not for:</strong> Fully automated low-risk tasks that do not need approval.</p>
+                </article>
+              </div>
+
+              <div class="category-label">Grounding and control</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="First-party data: Information your own organization owns, such as policies, records, or internal documents.">
+                  <h3>First-party data</h3>
+                  <p>Your organization’s own data. Use it when answers must reflect internal truth, policy, or records.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Third-party data: Information supplied or licensed by someone outside your organization.">
+                  <h3>Third-party data</h3>
+                  <p>External data licensed or provided by another source. Use it when the business needs outside enrichment or partner content.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="World data: Public or general knowledge available outside a company&#x27;s private systems.">
+                  <h3>World data</h3>
+                  <p>Public information and general world knowledge. Use it when the task is broad and not proprietary.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="RAG workflow: Find relevant information, add it to the prompt, generate an answer, and retrieve again if needed.">
+                  <h3>RAG workflow</h3>
+                  <p><strong>Retrieve</strong> relevant external information, <strong>augment</strong> the prompt with it, <strong>generate</strong> an answer, then optionally <strong>iterate</strong> retrieval if more context is needed.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> RAG is a workflow that supplies current context; it is not a different model type.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Sampling controls: Settings that make answers more predictable, varied, shorter, longer, or safer.">
+                  <h3>Sampling controls</h3>
+                  <p>Token count measures text chunks; temperature controls creativity; top-p limits the probability range considered; safety settings filter harmful output; output length sets a maximum response size. Use them to tune behavior, not to fix bad grounding.</p>
+                </article>
+              </div>
+
+              <div class="category-label">Operations</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Monitoring: Watching the live system so problems are found after launch, not months later.">
+                  <h3>Monitoring</h3>
+                  <p>Track performance, quality, and safety over time. Use monitoring when you care about production reliability, not one-off demos.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Drift: The real world or input data changes, so yesterday&#x27;s good model gradually becomes less accurate.">
+                  <h3>Drift</h3>
+                  <p>Behavior or data changes over time so the system gets worse or less accurate. Use drift monitoring when the model or inputs are changing in the real world.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Lifecycle management: Keep track of model versions, performance, data features, storage, and automated workflows over time.">
+                  <h3>Model lifecycle management</h3>
+                  <p>Manage versions, performance metrics, drift, data features, model organization, and automated pipelines. Older study material names Vertex AI Model Registry, Model Monitoring, Feature Store, Model Garden, and Pipelines; use the current term presented in exam choices.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Cloud Monitoring alerts: Watch metrics or logs, open an incident when a condition occurs, then notify the right people or systems.">
+                  <h3>Cloud Monitoring alerting</h3>
+                  <p>Create alerting policies for metrics or logs and connect notification channels such as email, Slack, or PagerDuty. Use it for automated operational alarms, not for model-quality evaluation alone.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="What GAIL asks: Expect a fit-the-technique-to-the-situation question, followed by a risk or quality tradeoff.">
+                  <h3>What GAIL asks</h3>
+                  <p>Expect scenario questions: which technique fits the use case, how do you reduce hallucinations with trusted facts, when do you use HITL, and what controls tune output without changing the model.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Big picture: Better instructions and better source material often matter more than simply buying a larger model.">
+                  <h3>Big picture</h3>
+                  <p>The fix for weak output is often structure and grounding, not a bigger model. The fix for factuality is usually retrieval plus controls.</p>
+                </article>
+              </div>
+            </div>
+          </details>
+
+          <details class="card" data-curriculum="governance">
+            <summary>
+              <strong>4. Business strategy and governance</strong>
+              <span>Secure AI, SAIF, responsible AI, privacy, impact</span>
+            </summary>
+            <div class="details-stack">
+              <div class="category-label">Business strategy</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Use-case selection: Start with a valuable, feasible problem; do not force generative AI into a problem it cannot improve.">
+                  <h3>Use-case selection</h3>
+                  <p>Pick use cases where gen AI actually creates value. GAIL may ask whether a use case is worth solving with gen AI at all.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="ROI and measurement: Compare the value gained, such as time saved or quality improved, with cost and risk.">
+                  <h3>ROI and measurement</h3>
+                  <p>Know how to judge whether the project is worth the spend. Look for productivity, customer impact, quality, adoption, cost, and risk reduction.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Integration: Put AI into the tools and processes people already use so adoption is realistic.">
+                  <h3>Integration</h3>
+                  <p>Adoption matters as much as technical capability. GAIL can ask how to integrate gen AI into a company so people actually use it.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Business framing: The best answer balances customer value, feasibility, cost, risk, and readiness.">
+                  <h3>Business framing</h3>
+                  <p>Read slowly and identify the business need first. The right answer balances usefulness, feasibility, cost, risk, responsible AI, and adoption, not simply the most advanced model.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Manager role: Connect business goals, technical teams, users, risk owners, and change management.">
+                  <h3>Manager role in AI implementation</h3>
+                  <p>A leader does not need to configure the model. The leader identifies the use case, aligns stakeholders, sets success measures, manages risk, and helps people adopt the solution.</p>
+                  <p class="mini-trap"><strong>GAIL asks:</strong> What should a manager do when technical implementation is handled by specialists?</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Project readiness: Check the demand, data sensitivity, response-time needs, connectivity, and implementation constraints before choosing a solution.">
+                  <h3>Project readiness</h3>
+                  <p>Before starting, assess scale, customization, user interaction, privacy sensitivity, latency, connectivity, and the available people, budget, and time. These constraints determine what solution is feasible.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Top-down and bottom-up strategy: Leaders set direction while employees identify useful applications and provide feedback.">
+                  <h3>Top-down plus bottom-up strategy</h3>
+                  <p>Leadership sets the vision, guardrails, and investment priorities. Employees surface practical use cases and feedback. Strong adoption needs both directions.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Gen AI operating strategy: Focus on value, explore responsibly, resource the work, measure impact, and keep improving.">
+                  <h3>Gen AI operating strategy</h3>
+                  <p>Prioritize focused high-value use cases, encourage controlled experimentation, invest in data and talent, measure business impact, and refine the solution continuously using feedback and data.</p>
+                </article>
+              </div>
+
+              <div class="category-label">Secure AI</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Secure AI: Protect the AI system and its data from attacks, misuse, and unauthorized access.">
+                  <h3>Secure AI</h3>
+                  <p>Protection from malicious attacks and misuse across the ML lifecycle. Google Cloud’s secure-by-design infrastructure supports protection for data, models, and applications from preparation through ongoing monitoring.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="SAIF: Google&#x27;s security playbook for applying familiar security controls to AI systems.">
+                  <h3>SAIF</h3>
+                  <p>Google’s Secure AI Framework for thinking about controls and defenses. Use it when the exam is asking about an AI security strategy, not a single tool.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Security tools: Access controls, monitoring, and security services are the guardrails around the AI workload.">
+                  <h3>Security tools</h3>
+                  <p>IAM, Security Command Center, secure-by-design infrastructure, and workload monitoring all support secure AI. They are control mechanisms, not model features.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Lifecycle view: Security is needed at every step, not only when the model is finally deployed.">
+                  <h3>Lifecycle view</h3>
+                  <p>Security matters during ingestion, preparation, training, deployment, and monitoring. GAIL likes questions that test whether you understand that security is end-to-end.</p>
+                </article>
+              </div>
+
+              <div class="category-label">Responsible AI</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="Transparency: People should be able to understand what the system does and what its limits are.">
+                  <h3>Transparency</h3>
+                  <p>Be able to explain what the system is doing and why. This matters when users need trust and when decisions must be reviewed.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Privacy: Keep personal or sensitive information from being exposed, misused, or retained unnecessarily.">
+                  <h3>Privacy</h3>
+                  <p>Privacy risks, anonymization, and pseudonymization are all fair game. GAIL may ask how to reduce exposure of sensitive data.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Bias and fairness: Check that the system does not consistently disadvantage a person or group.">
+                  <h3>Bias and fairness</h3>
+                  <p>Models can produce skewed results or amplify imbalance in data. The exam may ask what should be monitored or mitigated when fairness matters.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Accountability and explainability: A responsible person remains answerable for important outcomes, and the system should be understandable enough to review.">
+                  <h3>Accountability and explainability</h3>
+                  <p>Humans remain responsible for important outcomes, and systems should be understandable enough to support that responsibility. Responsible AI must run through data preparation, training, deployment, and ongoing monitoring.</p>
+                </article>
+              </div>
+
+              <div class="category-label">GAIL question style</div>
+              <div class="mini-grid">
+                <article class="mini-card" tabindex="0" data-plain="What to identify: Name the risk first, then the control that reduces it, then the business reason it matters.">
+                  <h3>What to identify</h3>
+                  <p>What is the risk? What is the control? Why does the business care? Those three questions usually unlock the right governance answer.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Common traps: A product name alone is not a governance answer; explain the protection and the risk.">
+                  <h3>Common traps</h3>
+                  <p>Do not answer with only a tool name. Governance questions usually want the control pattern, the risk, and the business consequence.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Good choices: Prefer the option that protects data, keeps human responsibility, and fits the level of risk.">
+                  <h3>Good choices</h3>
+                  <p>If you need a concise exam heuristic: choose the answer that protects data, keeps humans accountable, and matches organizational risk tolerance.</p>
+                </article>
+                <article class="mini-card" tabindex="0" data-plain="Bad choices: Reject options that ignore privacy, remove needed review, or assume automation is always safe.">
+                  <h3>Bad choices</h3>
+                  <p>Anything that ignores privacy, bypasses review, or treats security as optional is usually the wrong choice.</p>
+                </article>
+              </div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="section" id="supplemental" data-curriculum="agents">
+        <div class="section-heading">
+          <p class="eyebrow">Supplemental</p>
+          <h2>Agentic AI / AWS-style systems</h2>
+        </div>
+        <div class="grid three-up">
+          <article class="card" tabindex="0" data-plain="Model vs agent vs tool: The model thinks or writes, the agent coordinates, and the tool carries out one outside action.">
+            <h3>Model vs agent vs tool</h3>
+            <p>Model generates. Agent decides and acts. Tool performs one external action. Infrastructure keeps the system reliable.</p>
+          </article>
+          <article class="card" tabindex="0" data-plain="MCP, memory, and sessions: The model does not remember everything by itself; protocols, storage, and session IDs provide continuity.">
+            <h3>MCP, memory, and sessions</h3>
+            <p>MCP is the tool protocol. Memory lives outside the model. Summarization preserves short-term context. Session ID isolation prevents leakage across users.</p>
+          </article>
+          <article class="card" tabindex="0" data-plain="Safety and control: Limit where the system can go, what it can access, and when it must stop.">
+            <h3>Safety and control</h3>
+            <p>Use trusted domains, field extraction, sandboxing, gate checks, guardrails, and a kill switch to keep the system bounded.</p>
+          </article>
+          <article class="card" tabindex="0" data-plain="Agent reasoning loop: An agent repeatedly observes, reasons, acts with tools, and checks what happened.">
+            <h3>Agent reasoning loop</h3>
+            <p>An agent pursues a goal by observing inputs, interpreting them, reasoning about the next step, acting through tools, and learning from the result.</p>
+          </article>
+          <article class="card" tabindex="0" data-plain="Agent tool types: Connections, actions, knowledge, and added capabilities are different kinds of tools an agent can use.">
+            <h3>Extensions, functions, data stores, plugins</h3>
+            <p>Extensions connect to external APIs, functions perform defined actions, data stores supply information, and plugins add capabilities or integrations.</p>
+          </article>
+          <article class="card" tabindex="0" data-plain="Agent types: Traditional agents follow fixed paths, generative agents use language models, and hybrid agents combine both.">
+            <h3>Deterministic, generative, hybrid agents</h3>
+            <p>Deterministic agents follow predefined actions. Generative agents use LLMs for flexible conversation. Hybrid agents combine predictable workflows with generative interaction.</p>
+          </article>
+        </div>
+        <div class="grid answer-grid integrated-grid">
+          <article class="card answer-card" tabindex="0" data-plain="REST API for Lambda: API Gateway is the receptionist that accepts a web request and routes it to Lambda.">
+            <h3>REST API for Lambda</h3>
+            <p><strong>AWS API Gateway</strong> is the HTTP front door for Lambda.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Managed browser search: Limit browsing to trusted sites and pull only the fields the workflow actually needs.">
+            <h3>Managed browser search</h3>
+            <p><strong>Trusted domains</strong> plus <strong>specific field extraction</strong> keep browsing safe and structured.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Conversation continuity: Save the conversation state so the next turn knows which user and discussion it belongs to.">
+            <h3>Conversation continuity</h3>
+            <p><strong>Persistent session store</strong> keeps the conversation coherent across turns.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="MCP purpose: A shared plug shape lets many agents connect to tools consistently instead of using one-off integrations.">
+            <h3>MCP purpose</h3>
+            <p><strong>Universal protocol for consistent, composable tool use</strong> across agents and tools.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Sandbox calculations: Give the calculation environment every required input explicitly; do not assume it can see hidden context.">
+            <h3>Sandbox calculations</h3>
+            <p><strong>Inject all required data before execution</strong>; do not rely on hidden context.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Short-term memory: Summarize older conversation so the important meaning survives in fewer tokens.">
+            <h3>Short-term memory</h3>
+            <p><strong>Summarization</strong> preserves meaning while reducing token use.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Session-scoped memory: Tag stored memories with a session or user ID so one person cannot receive another person&#x27;s context.">
+            <h3>Session-scoped memory</h3>
+            <p><strong>Identify and isolate data by session ID</strong> to prevent leakage.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Tone/style prompting: A role instruction is like giving a writer a job title and voice before asking for the draft.">
+            <h3>Tone/style prompting</h3>
+            <p><strong>Role prompting</strong> sets voice, perspective, and behavior.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Programmatic orchestration: Use code to route, sequence, critique, and retry steps instead of hoping one prompt handles everything.">
+            <h3>Programmatic orchestration</h3>
+            <p><strong>Critique/refine</strong> plus <strong>sequential chaining with classifier</strong> is the control pattern.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Feedback loops: Use the user&#x27;s correction or missing information to improve the next attempt.">
+            <h3>Feedback loops</h3>
+            <p><strong>Ask clarifying questions and refine incomplete data iteratively</strong>.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Prompt chaining components: A chain needs ordered prompts plus the memory and tools passed between those steps.">
+            <h3>Prompt chaining components</h3>
+            <p><strong>Memory</strong>, <strong>tools/APIs</strong>, and <strong>sequential prompting</strong> make the chain work.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Gate check: A checkpoint asks, “Is this good enough?” before allowing the workflow to continue.">
+            <h3>Gate check</h3>
+            <p><strong>Validate output meets criteria before next step</strong>.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="THINK-ACT-OBSERVE: A repeatable loop: decide, do something, inspect what happened, then decide again.">
+            <h3>THINK-ACT-OBSERVE</h3>
+            <p><strong>Standardize analytical sequence</strong> across reasoning and tool use.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Risk shutdown mechanism: A kill switch is an emergency brake that stops unsafe automated behavior.">
+            <h3>Risk shutdown mechanism</h3>
+            <p><strong>Kill switch</strong> provides immediate stop/control for unsafe behavior.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Personal data leaks: Check both incoming prompts and outgoing answers for sensitive information.">
+            <h3>Personal data leaks</h3>
+            <p><strong>Input and output guardrails</strong> protect both directions of the system boundary.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Multi-agent RAG roles: One coordinator delegates searching to specialists, then combines the useful results.">
+            <h3>Multi-agent RAG roles</h3>
+            <p><strong>Retrieval coordinator</strong> plus <strong>specialized retriever agents</strong>.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Even task distribution: Round-robin routing gives the next job to the next worker in turn.">
+            <h3>Even task distribution</h3>
+            <p><strong>Round-robin routing</strong> spreads work evenly.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Specialized retrievers: A domain specialist usually finds better results in its own subject area.">
+            <h3>Specialized retrievers</h3>
+            <p><strong>Accurate, domain-specific retrieval</strong> improves relevance in narrow domains.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Parallel dispatch: Run independent jobs at the same time when waiting for one before starting another adds no value.">
+            <h3>Parallel dispatch</h3>
+            <p><strong>Run independent tasks simultaneously to reduce time</strong>.</p>
+          </article>
+          <article class="card answer-card" tabindex="0" data-plain="Routing by content: Send a request to the worker best suited to its topic, intent, or metadata.">
+            <h3>Routing by content</h3>
+            <p><strong>Content-based routing</strong> uses topic, intent, or metadata.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section quiz-section" id="knowledge-check" aria-labelledby="knowledge-check-title">
+        <div class="section-heading quiz-heading">
+          <p class="eyebrow">Knowledge check</p>
+          <h2 id="knowledge-check-title">One question. One decision.</h2>
+          <p>Questions rotate across the concepts, products, prompts, and governance controls in this guide. Answer first, then use the explanation to understand the distractors.</p>
+        </div>
+        <div class="quiz-card card">
+          <div class="quiz-meta">
+            <span id="quizDomain">Mixed practice</span>
+            <span id="quizProgress">Question 1</span>
+          </div>
+          <form id="quizForm" novalidate>
+            <fieldset>
+              <legend id="quizQuestion">Loading question...</legend>
+              <p id="quizInstruction" class="quiz-instruction">Select one answer.</p>
+              <div id="quizOptions" class="quiz-options"></div>
+            </fieldset>
+            <p id="quizFeedback" class="quiz-feedback" aria-live="polite"></p>
+            <div class="quiz-actions">
+              <button class="quiz-button quiz-check" type="submit">Check answer</button>
+              <button class="quiz-button quiz-next" id="quizNext" type="button" hidden>Next random question</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="section callout" id="last-rule">
+        <div>
+          <p class="eyebrow">Last rule</p>
+          <h2>Do not add more topics</h2>
+          <p>Make the existing topics sharper, cleaner, and easier to compare. That is what turns notes into exam readiness.</p>
+        </div>
+      </section>
+    </main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const body = document.body;
+      const reference = document.getElementById('referenceLibrary');
+      const views = [...document.querySelectorAll('[data-app-view]')];
+      const modeButtons = [...document.querySelectorAll('[data-view-target]')];
+      const lessonButtons = [...document.querySelectorAll('[data-lesson]')];
+      const lessonPanels = [...document.querySelectorAll('[data-lesson-panel]')];
+      const curriculumHost = document.getElementById('learnCurriculum');
+      const curriculumItems = [...document.querySelectorAll('[data-curriculum]')];
+      const curriculumOrigins = new Map(curriculumItems.map((item) => [item, { parent: item.parentNode, next: item.nextSibling }]));
+      const practiceHost = document.getElementById('practiceHost');
+      const quiz = document.getElementById('knowledge-check');
+      const picker = document.getElementById('productPicker');
+      const pickerResult = document.getElementById('pickerResult');
+      const retryWeak = document.getElementById('retryWeak');
+      const storage = {
+        get: (key) => {
+          try { return localStorage.getItem(key); } catch (error) { return null; }
+        },
+        set: (key, value) => {
+          try { localStorage.setItem(key, value); } catch (error) {}
+        }
+      };
+      let lastLearned = storage.get('gail-last-lesson') || 'fundamentals';
+      let pickerState = {};
+      let activeCurriculum = null;
+
+      if (quiz && practiceHost) practiceHost.append(quiz);
+
+      const restoreCurriculumItem = (item) => {
+        const origin = curriculumOrigins.get(item);
+        if (!origin || item.parentNode === origin.parent) return;
+        origin.parent.insertBefore(item, origin.next);
+        item.open = false;
+      };
+
+      const restoreAllCurriculum = () => {
+        curriculumItems.forEach(restoreCurriculumItem);
+        activeCurriculum = null;
+      };
+
+      const showCurriculum = (lesson) => {
+        const item = curriculumItems.find((candidate) => candidate.dataset.curriculum === lesson);
+        if (!item || !curriculumHost) return;
+        if (activeCurriculum && activeCurriculum !== item) restoreCurriculumItem(activeCurriculum);
+        curriculumHost.append(item);
+        item.open = true;
+        activeCurriculum = item;
+      };
+
+      const showView = (view) => {
+        const isReference = view === 'reference';
+        body.dataset.view = view;
+        views.forEach((panel) => { panel.hidden = panel.dataset.appView !== view; });
+        reference.hidden = !isReference;
+        if (isReference) restoreAllCurriculum();
+        modeButtons.forEach((button) => button.classList.toggle('is-active', button.dataset.viewTarget === view));
+        if (!isReference) window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+
+      const showLesson = (lesson) => {
+        lastLearned = lesson;
+        storage.set('gail-last-lesson', lesson);
+        lessonButtons.forEach((button) => button.classList.toggle('is-active', button.dataset.lesson === lesson));
+        lessonPanels.forEach((panel) => { panel.hidden = panel.dataset.lessonPanel !== lesson; });
+        if (body.dataset.view === 'learn') showCurriculum(lesson);
+      };
+
+      const getProductResult = ({ context, outcome, current, delivery }) => {
+        if (current === 'yes') return ['Grounding with Google Search', 'The answer needs current public information, so retrieve it at response time instead of relying on the model’s knowledge cutoff.', 'Fine-tuning changes learned behavior but does not retrieve live facts.'];
+        if (outcome === 'email') return ['Gemini for Google Workspace', 'The named work context is Gmail, Meet, Slides, or another Workspace app. Choose the specific in-app Gemini experience.', 'Google AI Studio is a developer prototype environment, not the end-user productivity workflow.'];
+        if (outcome === 'sources') return context === 'builder'
+          ? ['RAG APIs / RAG Engine', 'A custom application needs programmatic retrieval, augmentation, and generation over selected sources.', 'Fine-tuning is not a document-retrieval mechanism for fresh facts.']
+          : ['NotebookLM Enterprise', 'A person is researching a supplied set of sources and needs source-grounded summaries and answers.', 'Gemini Enterprise is broader enterprise knowledge work, not the most direct source-notebook answer.'];
+        if (outcome === 'search') return context === 'employee'
+          ? ['Gemini Enterprise', 'Employees need an agent that reasons across connected enterprise knowledge wherever it is hosted.', 'Gemini app is an individual assistant, not the organization-wide enterprise-knowledge answer.']
+          : ['Agent Search', 'The scenario calls for a prebuilt enterprise search or recommendation experience.', 'RAG APIs are the programmatic plumbing when a team must build the retrieval flow itself.'];
+        if (outcome === 'image') return context === 'workspace'
+          ? ['Gemini in Google Slides', 'The output is an image inside a presentation workflow, so the in-app capability is the most direct answer.', 'Imagen is the model-level answer when the scenario asks for a standalone high-quality generated image.']
+          : ['Imagen', 'The deliverable is a high-quality generated still image from a textual description.', 'Veo generates video, not still images.'];
+        if (outcome === 'video') return ['Google Vids or Veo', 'Use Google Vids for a business explainer or tutorial. Use Veo when the scenario explicitly requires generated video from text or a still image.', 'Imagen is for still images, not a video workflow.'];
+        if (outcome === 'agent') return delivery === 'prototype'
+          ? ['Google AI Studio', 'The scenario is a quick prompt and model experiment before production implementation.', 'Agent Platform is the managed platform when the need becomes a production AI application.']
+          : ['Agent Platform with Agent Studio', 'Agent Platform is the unified ML platform for building, tuning, deploying, and managing AI applications; Agent Studio designs the agent workflow.', 'Model Garden selects models within the platform. It is not the agent workflow designer.'];
+        return ['Model Garden', 'Start by selecting a model that fits the modality, performance, cost, and safety requirements.', 'Model Garden is a catalogue, not a complete agent workflow or monitoring solution.'];
+      };
+
+      modeButtons.forEach((button) => button.addEventListener('click', () => {
+        const view = button.dataset.viewTarget;
+        showView(view);
+        if (view === 'learn') showLesson(button.dataset.startTopic || lastLearned);
+      }));
+
+      lessonButtons.forEach((button) => button.addEventListener('click', () => showLesson(button.dataset.lesson)));
+
+      picker.addEventListener('click', (event) => {
+        const choice = event.target.closest('[data-pick]');
+        if (!choice) return;
+        const value = choice.dataset.pick;
+        const activeStep = [...picker.querySelectorAll('.picker-step')].find((step) => !step.hidden);
+        const step = Number(activeStep.dataset.pickerStep);
+        ['context', 'outcome', 'current', 'delivery'].forEach((key, index) => {
+          if (index === step) pickerState[key] = value;
+        });
+        activeStep.hidden = true;
+        const nextStep = picker.querySelector(`[data-picker-step="${step + 1}"]`);
+        if (nextStep) {
+          nextStep.hidden = false;
+          return;
+        }
+        const result = getProductResult(pickerState);
+        pickerResult.innerHTML = `<h3>${result[0]}</h3><p><strong>Why:</strong> ${result[1]}</p><p><strong>Do not choose:</strong> ${result[2]}</p><button type="button" class="picker-reset">Start over</button>`;
+        pickerResult.hidden = false;
+      });
+
+      pickerResult.addEventListener('click', (event) => {
+        if (!event.target.closest('.picker-reset')) return;
+        pickerState = {};
+        pickerResult.hidden = true;
+        picker.querySelector('[data-picker-step="0"]').hidden = false;
+        picker.querySelectorAll('.picker-step').forEach((step, index) => { step.hidden = index !== 0; });
+      });
+
+      retryWeak.addEventListener('click', () => window.gailQuiz?.retryWeak());
+      document.addEventListener('gail:quiz-scored', (event) => {
+        const stats = event.detail;
+        const answered = Object.values(stats).reduce((total, value) => total + value.total, 0);
+        const weak = Object.entries(stats).filter(([, value]) => value.total >= 2 && value.correct / value.total < 0.7);
+        retryWeak.hidden = answered < 10 || weak.length === 0;
+      });
+
+      try {
+        const stats = JSON.parse(storage.get('gail-quiz-stats') || '{}');
+        const answered = Object.values(stats).reduce((total, value) => total + value.total, 0);
+        const weak = Object.entries(stats).filter(([, value]) => value.total >= 2 && value.correct / value.total < 0.7);
+        retryWeak.hidden = answered < 10 || weak.length === 0;
+      } catch (error) {}
+
+      showLesson(lastLearned);
+      showView('dashboard');
+    })();
+
+    (function () {
+      const questions = [
+        { domain: 'Fundamentals', type: 'multiple', question: 'Which statements accurately describe the relationship between foundation models and LLMs? Select two.', options: ['All LLMs are foundation models.', 'All foundation models are LLMs.', 'LLMs are a specialized type of foundation model.', 'Foundation models and LLMs are unrelated concepts.'], correct: [0, 2], explanation: 'LLMs are foundation models specialized for language. Foundation models can also specialize in images, audio, video, code, or multiple modalities.' },
+        { domain: 'Fundamentals', type: 'single', question: 'Which example best demonstrates generative AI beyond a chatbot?', options: ['Counting visitors by country on a website.', 'Creating photorealistic product prototypes from text descriptions.', 'Scheduling meetings from a fixed calendar rule.', 'Classifying transactions as fraudulent or not.'], correct: [1], explanation: 'Generative AI creates new content. A text-to-image prototype is a direct content-generation use case; counting, scheduling, and classification are different kinds of automation or predictive analytics.' },
+        { domain: 'Fundamentals', type: 'single', question: 'Which scenario is multimodal?', options: ['Summarizing one financial report.', 'Drafting an email in Gmail.', 'Creating a still image from a text prompt.', 'Analyzing video testimonials and written survey feedback together.'], correct: [3], explanation: 'The last scenario combines video or audio information with text. A task is multimodal when it works across more than one data type.' },
+        { domain: 'Product layers', type: 'single', question: 'A team needs a managed Google Cloud platform to build, train, tune, deploy, and manage ML models and AI applications. What is the best answer?', options: ['Agent Platform', 'Agent Studio', 'Model Garden', 'Gemini app'], correct: [0], explanation: 'Agent Platform, formerly Vertex AI, is the unified ML platform. Agent Studio designs agent experiences, Model Garden is the model catalogue, and Gemini app is an end-user assistant.' },
+        { domain: 'Product layers', type: 'single', question: 'A developer needs to compare Google, partner, and open models for text, code, image, or speech requirements. What should they use first?', options: ['Model Garden', 'Agent Studio', 'Gemini in Gmail', 'Cloud Monitoring'], correct: [0], explanation: 'Model Garden is the model catalogue and selection surface. It helps choose the model; it is not an agent designer or an operations tool.' },
+        { domain: 'Product layers', type: 'multiple', question: 'Which two statements can both be true when a question uses the word “Gemini”? Select two.', options: ['Gemini is Google’s generative AI model family.', 'The Gemini app is a multimodal assistant experience.', 'Gemini is the generic definition of all generative AI.', 'Gemini is only an image-generation model.'], correct: [0, 1], explanation: 'The question can test two layers: Gemini as the model family and Gemini app as the assistant. The other options incorrectly turn Gemini into either all gen AI or an image-only model.' },
+        { domain: 'Product selection', type: 'single', question: 'An employee wants help drafting a client email without leaving Gmail. Which offering is the best fit?', options: ['Gemini in Gmail', 'Google AI Studio', 'Agent Search', 'Imagen'], correct: [0], explanation: 'The named workspace context is decisive: Gemini in Gmail assists directly in Gmail. Google AI Studio is for prototyping, Agent Search is retrieval, and Imagen creates images.' },
+        { domain: 'Product selection', type: 'single', question: 'A research team uploads a set of reports and needs summaries and answers that stay tied to those supplied sources. Which is the best fit?', options: ['NotebookLM Enterprise', 'Gemini Enterprise', 'Grounding with Google Search', 'Veo'], correct: [0], explanation: 'NotebookLM Enterprise is the source-grounded research assistant for supplied materials. Gemini Enterprise is broader enterprise knowledge access, while Google Search grounding uses current public information.' },
+        { domain: 'Product selection', type: 'single', question: 'A marketer needs a high-quality still image from a textual description for a campaign concept. Which model fits?', options: ['Imagen', 'Veo', 'Google Vids', 'Text-to-Speech'], correct: [0], explanation: 'Imagen is the text-to-image model. Veo generates video, Google Vids is a business video workflow, and Text-to-Speech produces audio.' },
+        { domain: 'Product selection', type: 'single', question: 'A team is producing a customer troubleshooting tutorial as a business video workflow. Which is the most direct product choice?', options: ['Google Vids', 'Veo', 'Imagen', 'Gemini in Looker'], correct: [0], explanation: 'Google Vids is the best fit for creating business explainers and tutorials. Veo is the underlying generative-video choice when the scenario specifically asks for video generation from a prompt or image.' },
+        { domain: 'Grounding and RAG', type: 'single', question: 'An application needs answers based on current public information rather than the model’s knowledge cutoff. Which approach is best?', options: ['Grounding with Google Search', 'Fine-tuning', 'Increasing temperature', 'Prompt chaining'], correct: [0], explanation: 'Grounding with Google Search retrieves current public information. Fine-tuning changes learned behavior, while temperature and prompt chaining do not supply live facts.' },
+        { domain: 'Grounding and RAG', type: 'single', question: 'A developer is building a custom application that must retrieve internal documents through an API and include them in the prompt before answering. What is the best pattern?', options: ['RAG APIs or RAG Engine', 'Gemini Advanced', 'Model Registry', 'Text-to-Speech'], correct: [0], explanation: 'RAG retrieves relevant material, augments the prompt, then generates an answer. RAG APIs or RAG Engine support this programmatic implementation.' },
+        { domain: 'Grounding and RAG', type: 'single', question: 'A company needs the model to learn a specialized response style and domain behavior over time. Which approach fits better than RAG?', options: ['Fine-tuning', 'Grounding with Google Search', 'Agent Search', 'Session summarization'], correct: [0], explanation: 'Fine-tuning adapts learned behavior for a task or domain. RAG supplies relevant facts at answer time and is the wrong tool when the need is persistent behavioral adaptation.' },
+        { domain: 'Prompting', type: 'single', question: 'A prompt supplies three examples of the desired output format before asking for a new answer. What technique is this?', options: ['Few-shot prompting', 'Role prompting', 'Zero-shot prompting', 'Grounding'], correct: [0], explanation: 'Few-shot prompting uses multiple examples. Zero-shot gives none, one-shot gives one, role prompting sets perspective or tone, and grounding supplies reliable information.' },
+        { domain: 'Prompting', type: 'single', question: 'An agent must reason about a request, call a tool, inspect the tool result, and continue if needed. Which pattern is being described?', options: ['ReAct', 'Prompt chaining only', 'Role prompting', 'Temperature control'], correct: [0], explanation: 'ReAct means reason and act: the model iterates through reasoning, tool use, observation, and the next action. A simple prompt chain does not necessarily include tool use and observation.' },
+        { domain: 'Output control', type: 'single', question: 'A team wants more consistent, less random text generation. Which sampling setting should they lower?', options: ['Temperature', 'Context window', 'Session ID', 'Model Registry version'], correct: [0], explanation: 'Lower temperature reduces randomness in token selection. Context window controls how much input the model can consider; the other options solve entirely different problems.' },
+        { domain: 'Governance', type: 'single', question: 'A healthcare workflow requires a qualified person to approve an ambiguous recommendation before it affects a patient. What control is essential?', options: ['Human-in-the-loop review', 'Model Monitoring only', 'Higher temperature', 'Round-robin routing'], correct: [0], explanation: 'Human-in-the-loop creates an approval decision at the high-risk point. Monitoring observes system behavior but does not approve individual results.' },
+        { domain: 'Operations', type: 'single', question: 'A deployed model’s input distribution begins to differ from its training baseline. Which service is intended to detect this?', options: ['Vertex AI Model Monitoring', 'Vertex AI Model Registry', 'Model Garden', 'Google AI Studio'], correct: [0], explanation: 'Model Monitoring detects drift and training-serving skew. Model Registry tracks versions, Model Garden selects models, and Google AI Studio is for experimentation.' },
+        { domain: 'Operations', type: 'single', question: 'A release manager needs a controlled record of model versions and related deployment information. Which feature fits?', options: ['Vertex AI Model Registry', 'Cloud Monitoring alerting policies', 'Agent Search', 'Gemini in Meet'], correct: [0], explanation: 'Model Registry manages versions and related model information. Cloud Monitoring handles operational alerts, not model version governance.' },
+        { domain: 'Security', type: 'single', question: 'Which service controls who may access AI resources and data in Google Cloud?', options: ['IAM', 'Security Command Center', 'Sensitive Data Protection', 'SAIF'], correct: [0], explanation: 'IAM manages identity and access permissions. Security Command Center shows posture and findings, Sensitive Data Protection helps discover and protect sensitive data, and SAIF is a framework rather than a service.' },
+        { domain: 'Prebuilt APIs', type: 'single', question: 'A legal team needs to extract structured fields from contracts while automating document processing. Which tool is the best fit?', options: ['Document AI', 'Cloud Vision API', 'Natural Language API', 'Gemini Code Assist'], correct: [0], explanation: 'Document AI is built for document extraction and processing. Vision analyzes image content, Natural Language API provides text insights, and Code Assist supports software development.' },
+        { domain: 'Agentic systems', type: 'single', question: 'A system must retain conversation continuity across turns without mixing one user’s information with another’s. What is the key design control?', options: ['Persistent session store with session-ID isolation', 'Increase the context window', 'Use round-robin routing', 'Add a kill switch'], correct: [0], explanation: 'Persistent state preserves continuity, and session IDs isolate each user or conversation. More context does not prevent cross-session leakage.' },
+        { domain: 'Agentic systems', type: 'single', question: 'Before a workflow sends an answer to a customer, it must verify the answer meets defined criteria. What is this control called?', options: ['Gate check', 'Kill switch', 'Content-based routing', 'Sampling'], correct: [0], explanation: 'A gate check validates criteria before the next step. A kill switch is the emergency stop for unsafe behavior; routing chooses a worker and sampling controls generation randomness.' },
+        { domain: 'Agentic systems', type: 'single', question: 'Independent tasks must be sent to the specialist most appropriate for their topic or metadata. What pattern fits?', options: ['Content-based routing', 'Round-robin routing', 'Summarization', 'One-shot prompting'], correct: [0], explanation: 'Content-based routing uses a request’s intent, topic, or metadata to choose a specialist. Round-robin only spreads work evenly and ignores suitability.' },
+        { domain: 'Fundamentals', type: 'single', question: 'What is a token in a generative AI system?', options: ['A meaningful chunk of text such as part of a word, a word, or punctuation.', 'A permanent user identity record.', 'A measure of model accuracy.', 'A security permission.'], correct: [0], explanation: 'Tokens are the chunks a language model processes. They affect input size, output size, cost, and the context window; they are not accounts, accuracy scores, or permissions.' },
+        { domain: 'Fundamentals', type: 'single', question: 'What are embeddings primarily used for in a RAG system?', options: ['Representing semantic meaning so related content can be retrieved.', 'Writing the final answer to a user.', 'Filtering unsafe output.', 'Versioning deployed models.'], correct: [0], explanation: 'Embeddings are numeric representations of meaning. They let vector retrieval find semantically similar content; the generative model still creates the answer afterwards.' },
+        { domain: 'Fundamentals', type: 'single', question: 'A model confidently cites a policy that does not exist. What limitation is this?', options: ['Hallucination', 'Drift', 'Fine-tuning', 'Grounding'], correct: [0], explanation: 'A hallucination is plausible-sounding but unsupported or incorrect output. Grounding is a mitigation that ties answers to reliable sources.' },
+        { domain: 'Fundamentals', type: 'single', question: 'Which statement best describes a context window?', options: ['The amount of input text and related context the model can consider at once.', 'The maximum number of users who can sign in.', 'The period a model may be deployed.', 'A dashboard for monitoring errors.'], correct: [0], explanation: 'The context window is the amount of information available to the model for a response. Larger contexts can improve relevance but may increase cost and latency.' },
+        { domain: 'Fundamentals', type: 'single', question: 'Which type of model is commonly used to create images by gradually refining noise into a requested image?', options: ['Diffusion model', 'Classification model', 'Embedding model', 'Translation API'], correct: [0], explanation: 'Diffusion models are widely used for image generation. Classification assigns labels, embeddings represent meaning, and translation converts language.' },
+        { domain: 'Fundamentals', type: 'single', question: 'A retailer trains a model on examples labeled “fraud” and “not fraud.” What learning approach is this?', options: ['Supervised learning', 'Unsupervised learning', 'Reinforcement learning', 'Prompt chaining'], correct: [0], explanation: 'Supervised learning uses examples with known answers. Unsupervised learning finds patterns without labels, while reinforcement learning learns from rewards and penalties.' },
+        { domain: 'Grounding and RAG', type: 'single', question: 'Which sequence correctly describes RAG?', options: ['Retrieve relevant information, add it to the prompt, then generate an answer.', 'Generate an answer, train a new model, then retrieve information.', 'Fine-tune the model, increase temperature, then summarize.', 'Classify the query, delete context, then generate.'], correct: [0], explanation: 'RAG means retrieval-augmented generation: retrieve relevant context, augment the model input, and generate using that evidence.' },
+        { domain: 'Grounding and RAG', type: 'single', question: 'A company asks the model to answer using its internal employee handbook and policies. What kind of data is being used for grounding?', options: ['First-party data', 'World data', 'Synthetic data only', 'A model parameter'], correct: [0], explanation: 'Company-owned policies and records are first-party data. World data refers to public or general information; model parameters are not a live source of policy evidence.' },
+        { domain: 'Prompting', type: 'single', question: 'A prompt provides exactly one example before asking the model to follow the same format. What technique is this?', options: ['One-shot prompting', 'Few-shot prompting', 'Zero-shot prompting', 'Chain-of-thought'], correct: [0], explanation: 'One-shot prompting gives one example. Few-shot provides several, zero-shot provides none, and chain-of-thought guides intermediate reasoning.' },
+        { domain: 'Prompting', type: 'single', question: 'A prompt begins, “You are a concise compliance editor.” What technique is being used?', options: ['Role prompting', 'RAG', 'Model monitoring', 'Round-robin routing'], correct: [0], explanation: 'Role prompting gives the model a perspective, tone, or job. It does not retrieve facts, monitor models, or distribute tasks.' },
+        { domain: 'Prompting', type: 'single', question: 'A workflow first extracts key facts, then drafts a response, then asks the model to critique and refine that response. What is the best description?', options: ['Prompt chaining', 'A single zero-shot prompt', 'Fine-tuning', 'Drift monitoring'], correct: [0], explanation: 'Prompt chaining breaks a complex task into ordered steps, where earlier output informs later steps. Critique and refinement are a common chaining pattern.' },
+        { domain: 'Prompting', type: 'single', question: 'Which technique guides a model through intermediate reasoning steps for a complex problem?', options: ['Chain-of-thought prompting', 'Role prompting', 'Safety filtering', 'Vector Search'], correct: [0], explanation: 'Chain-of-thought prompting guides reasoning through intermediate steps. Role prompting controls perspective, safety filtering moderates content, and vector search retrieves relevant material.' },
+        { domain: 'Output control', type: 'single', question: 'Which sampling control limits generation to tokens within a cumulative probability mass?', options: ['Top-p (nucleus sampling)', 'Context window', 'Model Registry', 'Session ID'], correct: [0], explanation: 'Top-p chooses from the smallest set of likely tokens whose combined probability reaches the chosen threshold. It is another control for generation randomness.' },
+        { domain: 'Output control', type: 'single', question: 'A company wants to block harmful or inappropriate model responses before users see them. What should it configure?', options: ['Safety settings and content filters', 'Model Garden', 'A larger context window', 'Round-robin routing'], correct: [0], explanation: 'Safety settings and content filters moderate harmful content. They are distinct from grounding, which improves factual support, and from routing or model selection.' },
+        { domain: 'Product selection', type: 'single', question: 'A developer needs a customizable, developer-friendly model for a local deployment or specialized application. Which Google model family is the best fit?', options: ['Gemma', 'Gemini app', 'Imagen', 'Google Vids'], correct: [0], explanation: 'Gemma is designed to be developer-friendly and customizable for specialized or local deployments. Gemini app is an assistant experience, Imagen generates images, and Google Vids creates business videos.' },
+        { domain: 'Product selection', type: 'single', question: 'A cloud engineer wants AI help writing and debugging code, analyzing BigQuery data, and improving cloud security. Which offering fits?', options: ['Gemini for Google Cloud', 'Gemini in Gmail', 'NotebookLM Enterprise', 'Agent Search'], correct: [0], explanation: 'Gemini for Google Cloud supports cloud practitioners across development, operations, data, and security. The other products serve email, source-grounded research, or enterprise retrieval.' },
+        { domain: 'Customer experience', type: 'single', question: 'Which Customer Engagement Suite component assists live human contact-center staff during a customer interaction?', options: ['Agent Assist', 'Conversational Agents', 'Conversational Insights', 'Gemini Code Assist'], correct: [0], explanation: 'Agent Assist supports human agents. Conversational Agents interact with customers, Conversational Insights analyzes communication, and Code Assist supports software development.' },
+        { domain: 'Prebuilt APIs', type: 'single', question: 'Which API translates a formatted document while preserving its original layout?', options: ['Document Translation API', 'Natural Language API', 'Speech-to-Text API', 'Cloud Vision API'], correct: [0], explanation: 'Document Translation API is designed to preserve layout while translating formatted documents. The other APIs handle text insights, speech transcription, or image understanding.' },
+        { domain: 'Prebuilt APIs', type: 'single', question: 'An application needs to transcribe recorded customer calls into text. Which API is the direct fit?', options: ['Speech-to-Text API', 'Text-to-Speech API', 'Translation API', 'Document AI'], correct: [0], explanation: 'Speech-to-Text converts spoken audio into text. Text-to-Speech performs the reverse conversion; Translation changes languages and Document AI processes documents.' },
+        { domain: 'Prebuilt APIs', type: 'single', question: 'A team needs sentiment analysis, entity extraction, and text classification from customer comments. Which API is the best fit?', options: ['Natural Language API', 'Cloud Video Intelligence API', 'Document Translation API', 'Veo'], correct: [0], explanation: 'Natural Language API provides prebuilt text insights including sentiment, entities, and classification. Video Intelligence analyzes video, Document Translation translates documents, and Veo generates video.' },
+        { domain: 'Business strategy', type: 'single', question: 'Which approach best supports a sustainable enterprise GenAI strategy?', options: ['Leadership sets direction while employees identify practical use cases and provide feedback.', 'Deploy every available GenAI tool before defining value.', 'Focus only on technical model benchmarks.', 'Avoid measurement until the system has run for a year.'], correct: [0], explanation: 'A strong strategy combines top-down vision with bottom-up discovery and feedback. It prioritizes business value, responsible AI, resources, measurement, and continuous improvement.' },
+        { domain: 'Business strategy', type: 'multiple', question: 'Which two factors are appropriate when selecting a model for a business use case? Select two.', options: ['Required modality and context window.', 'Reliability and cost-performance trade-offs.', 'The color of the application logo.', 'Whether users prefer a shorter product name.'], correct: [0, 1], explanation: 'Model selection considers modality, context window, performance, cost, availability, reliability, privacy, and customization. Branding preferences do not determine technical fit.' },
+        { domain: 'Security', type: 'single', question: 'What is SAIF primarily used for?', options: ['A framework for managing AI and ML security risks.', 'A model that generates safe text.', 'A replacement for IAM permissions.', 'A service for image generation.'], correct: [0], explanation: 'The Secure AI Framework helps organizations manage AI and ML risks. It informs security practices but does not replace specific services such as IAM or safety settings.' },
+        { domain: 'Operations', type: 'single', question: 'Before deployment, a team measures generated-answer quality against a defined test dataset and scoring rubric. What are they doing?', options: ['Gen AI evaluation', 'Drift monitoring', 'Session isolation', 'Prompt chaining'], correct: [0], explanation: 'Gen AI evaluation measures output quality using datasets and metrics, sometimes with human or model-based judging. Drift monitoring observes change after deployment.' },
+        { domain: 'Agentic systems', type: 'single', question: 'Why is Model Context Protocol (MCP) useful in an agentic system?', options: ['It standardizes consistent, composable connections between agents and tools.', 'It increases a model’s context window automatically.', 'It replaces the need for API security.', 'It makes every model a foundation model.'], correct: [0], explanation: 'MCP provides a shared protocol for connecting agents to tools and context consistently. It does not change model capacity, remove security requirements, or redefine model categories.' },
+        { domain: 'Agentic systems', type: 'single', question: 'A calculation tool runs in a sandbox. What must the workflow do before execution?', options: ['Inject all required data explicitly.', 'Assume the tool can see every prior conversation.', 'Increase temperature.', 'Fine-tune the tool.'], correct: [0], explanation: 'Sandboxes should receive the data they need explicitly. Hidden context assumptions create unreliable and unsafe workflows; sampling and fine-tuning do not solve data availability.' },
+        { domain: 'Agentic systems', type: 'single', question: 'A multi-agent RAG system needs one agent to delegate retrieval to domain specialists and combine results. What role is needed?', options: ['Retrieval coordinator', 'Round-robin router only', 'Text-to-Speech API', 'Model Registry'], correct: [0], explanation: 'A retrieval coordinator delegates and combines specialist retrieval. Round-robin only balances workload, while the other options solve unrelated problems.' },
+        { domain: 'Agentic systems', type: 'single', question: 'Several independent data-enrichment tasks have no dependencies and need to finish faster. What execution pattern is best?', options: ['Parallel dispatch', 'Sequential prompting', 'One-shot prompting', 'Kill switch'], correct: [0], explanation: 'Parallel dispatch runs independent work simultaneously to reduce elapsed time. Sequential prompting is needed only when later steps depend on earlier results.' }
+      ];
+
+      const form = document.getElementById('quizForm');
+      if (!form) return;
+
+      const domain = document.getElementById('quizDomain');
+      const progress = document.getElementById('quizProgress');
+      const questionText = document.getElementById('quizQuestion');
+      const instruction = document.getElementById('quizInstruction');
+      const options = document.getElementById('quizOptions');
+      const feedback = document.getElementById('quizFeedback');
+      const next = document.getElementById('quizNext');
+      const check = form.querySelector('.quiz-check');
+      let remaining = [];
+      let current = null;
+
+      const domainBucket = (domainName) => {
+        if (['Product layers', 'Product selection', 'Customer experience', 'Prebuilt APIs'].includes(domainName)) return 'Products';
+        if (['Prompting', 'Grounding and RAG', 'Output control'].includes(domainName)) return 'Output';
+        if (['Governance', 'Operations', 'Security', 'Business strategy'].includes(domainName)) return 'Governance';
+        return 'Fundamentals';
+      };
+
+      const loadStats = () => {
+        try {
+          return JSON.parse(localStorage.getItem('gail-quiz-stats')) || {};
+        } catch (error) {
+          return {};
+        }
+      };
+
+      const updateDashboard = (stats) => {
+        ['Fundamentals', 'Products', 'Output', 'Governance'].forEach((bucket) => {
+          const result = stats[bucket] || { correct: 0, total: 0 };
+          const percent = result.total ? Math.round((result.correct / result.total) * 100) : 0;
+          const key = `progress${bucket}`;
+          const bar = document.getElementById(key);
+          const label = document.getElementById(`${key}Text`);
+          if (bar) bar.style.width = `${percent}%`;
+          if (label) label.textContent = result.total ? `${percent}%` : '0%';
+        });
+      };
+
+      const recordResult = (isCorrect) => {
+        const stats = loadStats();
+        const bucket = domainBucket(current.domain);
+        const result = stats[bucket] || { correct: 0, total: 0 };
+        result.total += 1;
+        if (isCorrect) result.correct += 1;
+        stats[bucket] = result;
+        try { localStorage.setItem('gail-quiz-stats', JSON.stringify(stats)); } catch (error) {}
+        updateDashboard(stats);
+        document.dispatchEvent(new CustomEvent('gail:quiz-scored', { detail: stats }));
+      };
+
+      const shuffle = (items) => [...items].sort(() => Math.random() - 0.5);
+      const resetRemaining = () => { remaining = shuffle(questions.map((_, index) => index)); };
+
+      /*
+       * Disabled Gemini question-generation implementation.
+       *
+       * Keep disabled until this static site is connected to the approved Codex
+       * generation path. The former UI is retained above as an HTML comment.
+       * To restore this provider, re-enable that markup and wire these values:
+       *
+       * const apiKey = document.getElementById('geminiApiKey').value.trim();
+       * const focus = document.getElementById('aiQuestionFocus').value;
+       * const response = await fetch(
+       *   'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
+       *   {
+       *     method: 'POST',
+       *     headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+       *     body: JSON.stringify({
+       *       contents: [{ parts: [{ text: buildGailQuestionPrompt(focus) }] }],
+       *       generationConfig: {
+       *         responseMimeType: 'application/json',
+       *         responseSchema: gailQuestionSchema,
+       *         temperature: 0.7
+       *       }
+       *     }
+       *   }
+       * );
+       * const generated = validateGailQuestion(
+       *   (await response.json()).candidates[0].content.parts.map((part) => part.text || '').join('')
+       * );
+       * questions.push(generated);
+       * remaining = [questions.length - 1];
+       * renderQuestion();
+       */
+
+      const renderQuestion = () => {
+        if (!remaining.length) resetRemaining();
+        current = questions[remaining.pop()];
+        const order = shuffle(current.options.map((text, index) => ({ text, index })));
+        domain.textContent = current.domain;
+        progress.textContent = `Question ${questions.length - remaining.length} of ${questions.length}`;
+        questionText.textContent = current.question;
+        instruction.textContent = current.type === 'multiple' ? 'Select all correct answers.' : 'Select one answer.';
+        options.replaceChildren();
+        feedback.textContent = '';
+        feedback.className = 'quiz-feedback';
+        next.hidden = true;
+        check.hidden = false;
+        order.forEach((option, displayIndex) => {
+          const label = document.createElement('label');
+          label.className = 'quiz-option';
+          const input = document.createElement('input');
+          input.type = current.type === 'multiple' ? 'checkbox' : 'radio';
+          input.name = 'quiz-answer';
+          input.value = option.index;
+          input.id = `quiz-option-${displayIndex}`;
+          const text = document.createElement('span');
+          text.textContent = option.text;
+          label.append(input, text);
+          options.append(label);
+        });
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const selected = [...options.querySelectorAll('input:checked')].map((input) => Number(input.value)).sort();
+        if (!selected.length) {
+          feedback.textContent = 'Choose an answer before checking.';
+          feedback.className = 'quiz-feedback is-result is-error';
+          return;
+        }
+        const correct = [...current.correct].sort();
+        const isCorrect = selected.length === correct.length && selected.every((answer, index) => answer === correct[index]);
+        options.querySelectorAll('input').forEach((input) => {
+          input.disabled = true;
+          const label = input.closest('.quiz-option');
+          const answer = Number(input.value);
+          if (correct.includes(answer)) label.classList.add('is-correct');
+          if (input.checked && !correct.includes(answer)) label.classList.add('is-wrong');
+          if (!input.checked && correct.includes(answer)) label.classList.add('is-missed');
+        });
+        feedback.textContent = `${isCorrect ? 'Correct.' : 'Not quite.'} ${current.explanation}`;
+        feedback.className = `quiz-feedback is-result${isCorrect ? '' : ' is-error'}`;
+        recordResult(isCorrect);
+        check.hidden = true;
+        next.hidden = false;
+        next.focus();
+      });
+
+      next.addEventListener('click', renderQuestion);
+      window.gailQuiz = {
+        retryWeak: () => {
+          const stats = loadStats();
+          const weakest = Object.entries(stats)
+            .filter(([, result]) => result.total)
+            .sort(([, a], [, b]) => (a.correct / a.total) - (b.correct / b.total))[0]?.[0];
+          if (weakest) {
+            remaining = shuffle(questions.map((question, index) => ({ question, index }))
+              .filter(({ question }) => domainBucket(question.domain) === weakest)
+              .map(({ index }) => index));
+          }
+          renderQuestion();
+        }
+      };
+      updateDashboard(loadStats());
+      resetRemaining();
+      renderQuestion();
+    })();
+  </script>
+  </div>
+</body>
+</html>

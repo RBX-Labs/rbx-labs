@@ -1,0 +1,17 @@
+# Google Cloud Generative AI Leader Study Guide
+
+> An exam-aligned study guide for the Google Cloud Generative AI Leader certification, published by RBX Labs.
+
+## Primary resource
+
+- [Study guide](https://rbx-labs.io/GAIL/): Generative AI fundamentals, Google Cloud product selection, prompting and grounding, governance, agentic systems, comparisons, and scenario practice.
+
+## Key answers
+
+- Generative AI creates new content such as text, images, code, audio, and video.
+- Grounding connects an answer to verifiable information. RAG retrieves relevant information, adds it to the model context, and generates an answer.
+- Product selection should start with the user's work context, required output, source data, and delivery environment.
+
+## Scope
+
+This resource is study material, not an official Google Cloud exam or a source of leaked exam questions. Verify exam scope and current product names against the official Google Cloud exam guide.
