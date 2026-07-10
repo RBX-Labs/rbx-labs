@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeKamp Main Feed</title>
+  <meta name="description" content="See how WeKamp gives Kamp operators one place to read participation signals, ownership, updates, and next actions.">
+  <link rel="icon" type="image/png" href="assets/wekamp-favicon.png">
+  <link rel="stylesheet" href="auth.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="product-pages.css">
+</head>
+<body data-private-page="feed">
+  <header class="product-nav">
+    <div class="product-nav__inner">
+      <a class="product-logo" href="index.html"><img src="assets/wekamp-logo.png" alt="WeKamp logo">WeKamp</a>
+      <nav class="product-links" aria-label="Product pages"><a href="feed.html">Main feed</a><a href="events.html">Events</a><a href="index.html#solution">Platform</a></nav>
+      <div class="product-nav__actions"><a class="product-button product-button--soft" href="index.html">Back to overview</a><a class="product-button product-button--solid" href="events.html">View events</a></div>
+    </div>
+  </header>
+  <div class="auth-gate" data-auth-gate hidden><h1>Sign in to open your Home surface.</h1><p>WeKamp Home is private because the feed, Kamp health, and participation signals are tied to your profile.</p><button class="product-button product-button--solid" type="button" data-gate-signin>Sign in to continue</button></div>
+  <main class="product-main" data-private-content hidden>
+    <section class="product-intro">
+      <div><span class="product-kicker">Kamp operating surface</span><h1>See what is moving, what is stuck, and what needs an owner.</h1><p>The main feed is not just a stream. It is the daily operating view for updates, participation, Kamp context, and the next useful action.</p></div>
+      <aside class="product-note"><strong>Operator view, member context</strong><span>Read the same activity members see, with the health signals and Kamp context needed to decide what to do next.</span></aside>
+    </section>
+    <section class="app-frame" aria-label="Main feed product preview">
+      <div class="app-panel">
+        <div class="app-panel__top"><h2>Good morning, Rishabh</h2><div class="avatar-row"><img class="avatar" src="assets/wekamp-logo.png" alt=""><span>WeKamp HQ</span></div></div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin:-8px 0 22px;"><span class="event-meta"><span>Home</span></span><span class="event-meta"><span>Active signals</span></span><span class="event-meta"><span>57% trust score</span></span></div>
+        <div id="live-feed-list">
+          <article class="feed-card"><div class="feed-card__meta"><strong>WeKamp HQ / Operator update</strong><span>12 min ago</span></div><h3>Participation is healthy, but follow-up is thin</h3><p>Review the latest Kamp activity, see where the signal drops, and assign the next move before momentum disappears.</p><img class="feed-card__image" src="assets/screens/home-hero-1.png" alt="WeKamp home feed showing Kamp health and active signals"><div class="feed-card__actions"><span>64 engagement</span><span>27 visits</span><span>Open Kamp health</span></div></article>
+          <article class="feed-card"><div class="feed-card__meta"><strong>AI Enthusiasts / Member prompt</strong><span>Yesterday</span></div><h3>What are you experimenting with?</h3><p>A focused prompt tied to a Kamp, so the response becomes useful context instead of another disconnected conversation.</p><div class="feed-card__actions"><span>10 members</span><span>Public</span><span>Open Kamp</span></div></article>
+        </div>
+      </div>
+      <aside class="app-panel app-panel--green feed-side"><h3>Kamp pulse</h3><p style="color:rgba(255,255,255,.72); margin-top:-8px;">A lightweight view of what is active right now.</p><div class="signal"><div class="signal__row"><strong>Total engagement</strong><span>64</span></div><div class="signal__bar"><i style="width:64%"></i></div></div><div class="signal"><div class="signal__row"><strong>Kamp visits</strong><span>27</span></div><div class="signal__bar"><i style="width:39%"></i></div></div><div class="signal"><div class="signal__row"><strong>Trust score</strong><span>57%</span></div><div class="signal__bar"><i style="width:57%"></i></div></div><a class="product-button product-button--soft" style="background:#fff; margin-top:16px;" href="events.html">See what’s next</a></aside>
+    </section>
+    <nav class="app-bottom-nav" aria-label="WeKamp app navigation"><a class="is-active" href="feed.html"><span>⌂</span>Home</a><a href="events.html"><span>⌁</span>Kamps</a><a href="events.html"><span>＋</span>Create</a><a href="events.html"><span>⌕</span>Explore</a><a href="index.html#contact"><span>●</span>Profile</a></nav>
+  </main>
+  <footer class="product-footer"><div class="product-footer__inner"><span>WeKamp gives operators the context to run organized Kamps better.</span><a href="index.html">Back to WeKamp overview</a></div></footer>
+  <div class="auth-modal" data-auth-modal hidden role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <div class="auth-modal__panel"><button class="auth-modal__close" type="button" data-auth-close aria-label="Close sign in">×</button><h2 id="auth-title" data-auth-title>Sign in to WeKamp</h2><p data-auth-copy>Use the phone number connected to your WeKamp profile. We will send a one-time code.</p><label class="auth-modal__label" for="auth-phone">Phone number</label><input class="auth-modal__input" id="auth-phone" data-auth-phone type="tel" autocomplete="tel" placeholder="+1 416 555 0123"><label class="auth-modal__label" for="auth-otp">One-time code</label><input class="auth-modal__input" id="auth-otp" data-auth-otp inputmode="numeric" autocomplete="one-time-code" placeholder="Enter code"><button class="product-button product-button--solid auth-modal__submit" type="button" data-auth-submit>Send code</button><button class="auth-modal__switch" type="button" data-auth-switch>Use a different number</button><p class="auth-modal__message" data-auth-message aria-live="polite"></p></div>
+  </div>
+  <script src="web-app.js"></script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WeKamp / Signal Control</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #05070d;
+      --panel: rgba(255,255,255,.06);
+      --line: rgba(255,255,255,.10);
+      --text: #f5f7fb;
+      --muted: rgba(245,247,251,.72);
+      --accent: #8effd7;
+      --accent2: #ff8d6b;
+      --accent3: #7d8fff;
+      --shadow: 0 28px 80px rgba(0,0,0,.34);
+      --radius: 34px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 16% 14%, rgba(142,255,215,.12), transparent 18%),
+        radial-gradient(circle at 84% 16%, rgba(255,141,107,.10), transparent 18%),
+        radial-gradient(circle at 50% 88%, rgba(95,119,255,.08), transparent 20%),
+        linear-gradient(180deg, #05070d 0%, #060915 100%);
+      color: var(--text);
+    }
+    a { color: inherit; text-decoration: none; }
+    .ambient { position: fixed; inset: auto; pointer-events: none; filter: blur(34px); opacity: .7; z-index: 0; border-radius: 999px; }
+    .ambient.a { width: 30vw; height: 30vw; top: -10vw; left: -10vw; background: rgba(142,255,215,.12); }
+    .ambient.b { width: 28vw; height: 28vw; top: 14vw; right: -10vw; background: rgba(255,141,107,.13); }
+    .ambient.c { width: 18vw; height: 18vw; bottom: 6vw; left: 18vw; background: rgba(95,119,255,.12); }
+    .shell { position: relative; z-index: 1; max-width: 1380px; margin: 0 auto; padding: 24px; }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+      padding: 16px 18px; border: 1px solid var(--line); border-radius: 999px;
+      background: rgba(8,11,19,.70); backdrop-filter: blur(18px); box-shadow: var(--shadow);
+      position: sticky; top: 16px; z-index: 5;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -.05em; text-transform: uppercase; }
+    .mark { width: 14px; height: 14px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #f3ffd0); box-shadow: 0 0 0 6px rgba(142,255,215,.10); }
+    .navlinks { display: flex; gap: 24px; color: rgba(245,247,251,.78); font-size: .92rem; }
+    .cta { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 999px; font-weight: 700; }
+    .primary { background: linear-gradient(135deg, var(--accent), #f3ffd0); color: #061014; }
+    .secondary { border: 1px solid var(--line); background: rgba(255,255,255,.03); }
+    .hero {
+      margin-top: 22px; padding: 48px 34px 34px; border-radius: 40px; overflow: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(142,255,215,.14), transparent 22%),
+        radial-gradient(circle at top right, rgba(255,141,107,.14), transparent 22%),
+        linear-gradient(135deg, #070a13 0%, #10192e 56%, #111f38 100%);
+      border: 1px solid rgba(255,255,255,.09); box-shadow: var(--shadow);
+    }
+    .eyebrow { color: var(--accent); font-size: .73rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 800; margin: 0 0 14px; }
+    .hero-grid { display: grid; grid-template-columns: 1.02fr .98fr; gap: 40px; align-items: center; }
+    h1 { margin: 0; font-size: clamp(3.8rem, 6vw, 6.8rem); line-height: .90; letter-spacing: -.085em; max-width: 9.5ch; }
+    .lede { max-width: 38rem; color: rgba(245,247,251,.78); line-height: 1.7; font-size: 1.08rem; margin: 22px 0 0; }
+    .actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+    .support { margin-top: 18px; color: rgba(245,247,251,.72); max-width: 36rem; line-height: 1.7; }
+    .facts { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
+    .fact { min-width: 145px; flex: 1 1 145px; padding: 15px 16px; border: 1px solid rgba(255,255,255,.10); border-radius: 20px; background: rgba(255,255,255,.04); backdrop-filter: blur(14px); }
+    .fact span { display: block; color: rgba(245,247,251,.58); font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 800; }
+    .fact strong { display: block; margin-top: 8px; color: #fff; font-size: .98rem; letter-spacing: -.03em; }
+    .stage { border-radius: 32px; padding: 18px; background: rgba(8,11,19,.76); border: 1px solid rgba(255,255,255,.08); box-shadow: 0 28px 90px rgba(0,0,0,.42); }
+    .stage-top { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; padding: 4px 4px 14px; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .stage-top h2 { margin: 0; font-size: 1.15rem; letter-spacing: -.05em; }
+    .chip { display: inline-flex; min-height: 30px; align-items: center; padding: 0 12px; border-radius: 999px; font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .live { color: #04110c; background: linear-gradient(135deg, var(--accent), #f3ffd0); }
+    .layout { display: flex; gap: 16px; margin-top: 18px; }
+    .sidebar { width: 134px; flex: 0 0 134px; display: grid; gap: 10px; padding: 12px; border-radius: 24px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
+    .sidehead { color: rgba(245,247,251,.56); font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .sideitem { padding: 12px; border-radius: 14px; color: rgba(245,247,251,.70); font-size: .88rem; font-weight: 600; }
+    .sideitem.active { background: linear-gradient(135deg, rgba(142,255,215,.16), rgba(95,119,255,.14)); color: #fff; }
+    .main { flex: 1; }
+    .metrics { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-top: 2px; }
+    .metric, .panel, .outcome, .usecase, .trustbox, .step, .cta-band, .compare-card { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); border-radius: 24px; box-shadow: 0 14px 32px rgba(0,0,0,.14); }
+    .metric { padding: 16px; }
+    .metric span, .panel p, .trustrow span, .compare-card p, .usecase p, .outcome p { color: rgba(245,247,251,.60); font-size: .84rem; line-height: 1.6; }
+    .metric strong { display: block; margin-top: 10px; font-size: 2rem; letter-spacing: -.06em; }
+    .stack { display: grid; gap: 12px; margin-top: 14px; }
+    .panel { padding: 18px; display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+    .panel h3, .usecase h3, .outcome h3, .step h3, .compare-card h3 { margin: 0; letter-spacing: -.05em; }
+    .panel h3 { color: #fff; font-size: 1.06rem; }
+    .meta { display: grid; gap: 4px; text-align: right; color: rgba(245,247,251,.62); white-space: nowrap; }
+    .split { display: flex; gap: 12px; }
+    .trust { flex-direction: column; }
+    .trustbox { padding: 24px; display: grid; gap: 16px; }
+    .meter { display: flex; gap: 16px; align-items: center; }
+    .ring { width: 166px; height: 166px; border-radius: 50%; padding: 14px; background: conic-gradient(from 220deg, var(--accent) 0 84%, rgba(255,255,255,.10) 84% 100%); }
+    .core { width: 100%; height: 100%; border-radius: 50%; display: grid; place-items: center; text-align: center; background: linear-gradient(180deg, #0f1626, #070b14); }
+    .core span { font-size: 3rem; letter-spacing: -.06em; }
+    .core small { display: block; margin-top: 4px; color: rgba(245,247,251,.60); font-size: .8rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .trustlist { display: grid; gap: 10px; }
+    .trustrow { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px; border: 1px solid rgba(255,255,255,.08); border-radius: 18px; background: rgba(255,255,255,.04); }
+    .trustrow strong { color: #fff; }
+    .hero-ribbon, .highlights { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; margin-top: 18px; }
+    .ribbon, .highlight { min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04); color: #f7fbff; display: inline-flex; align-items: center; font-size: .84rem; font-weight: 700; }
+    section { margin-top: 108px; }
+    .heading h2 { margin: 0; font-size: clamp(2.3rem, 4vw, 4.4rem); line-height: .95; letter-spacing: -.08em; max-width: 14ch; }
+    .heading p { margin-top: 16px; max-width: 56rem; color: var(--muted); line-height: 1.7; }
+    .split2 { display: grid; grid-template-columns: .92fr 1.08fr; gap: 28px; }
+    .problemcopy { padding: 28px 0; font-size: 1.08rem; }
+    .problemcopy p + p { margin-top: 18px; }
+    .fragments { position: relative; min-height: 320px; }
+    .frag { position: absolute; min-width: 180px; padding: 20px 22px; border-radius: 24px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.10); box-shadow: var(--shadow); font-weight: 700; }
+    .a { transform: translate(-148px, -86px) rotate(-12deg); } .b { transform: translate(72px, -108px) rotate(10deg); } .c { transform: translate(-22px, -8px) rotate(-5deg); } .d { transform: translate(-170px, 110px) rotate(8deg); } .e { transform: translate(96px, 118px) rotate(-8deg); }
+    .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; }
+    .feature, .usecase, .outcome, .step, .compare-card { padding: 22px; }
+    .feature { min-height: 190px; }
+    .feature span, .step span { display: inline-flex; width: 38px; height: 38px; align-items: center; justify-content: center; border-radius: 12px; background: linear-gradient(135deg, var(--accent), #f3ffd0); color: #051013; font-size: .82rem; font-weight: 800; }
+    .feature h3, .usecase h3, .outcome h3, .step h3, .compare-card h3 { margin-top: 18px; font-size: 1.16rem; color: #fff; }
+    .usecases { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .usecase { min-height: 192px; }
+    .outcomes { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .trustbox .meter .copy strong { color: #fff; }
+    .steps { grid-template-columns: repeat(5, minmax(0,1fr)); }
+    .step { min-height: 160px; }
+    .step span { background: linear-gradient(135deg, rgba(142,255,215,.16), rgba(95,119,255,.16)); color: #fff; }
+    .compare { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .compare-card { min-height: 190px; }
+    .compare-card a { color: var(--accent); font-weight: 700; display: inline-flex; margin-top: 22px; }
+    .chips { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .cta-band { padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 18px; background: radial-gradient(circle at top right, rgba(142,255,215,.10), transparent 26%), rgba(255,255,255,.05); }
+    .cta-band h2 { margin: 0; font-size: clamp(2rem, 3vw, 3.2rem); letter-spacing: -.07em; line-height: .96; }
+    .footer { display: flex; justify-content: space-between; gap: 20px; align-items: center; margin: 28px 0 10px; padding: 8px 2px 28px; color: rgba(245,247,251,.72); }
+    .links { display: flex; flex-wrap: wrap; gap: 20px; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 1100px) {
+      .hero-grid, .split2, .compare, .trust, .metrics, .usecases, .outcomes, .steps, .chips, .grid3 { grid-template-columns: 1fr; }
+      .layout { flex-direction: column; }
+      .sidebar { width: 100%; flex-basis: auto; grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .sidehead { grid-column: 1/-1; }
+      .cta-band, .nav { flex-wrap: wrap; }
+      .nav { border-radius: 28px; }
+      .hero { padding: 30px 20px 24px; }
+      .hero { border-radius: 34px; }
+      .hero-ribbon, .highlights { justify-content: flex-start; }
+    }
+    @media (max-width: 720px) {
+      .shell { padding: 16px; }
+      .navlinks { display: none; }
+      h1 { font-size: clamp(3.2rem, 16vw, 4.2rem); }
+      .hero { padding: 24px 18px 18px; }
+      .sidebar { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .cta, .button { width: 100%; }
+      .actions { flex-direction: column; }
+      .ring { width: 140px; height: 140px; }
+      .meter { flex-direction: column; align-items: flex-start; }
+      .footer { flex-direction: column; align-items: flex-start; }
+      .frag { min-width: 140px; }
+      .a { transform: translate(-86px, -76px) rotate(-10deg); } .b { transform: translate(42px, -78px) rotate(9deg); } .c { transform: translate(-16px, -8px) rotate(-4deg); } .d { transform: translate(-82px, 88px) rotate(7deg); } .e { transform: translate(44px, 92px) rotate(-7deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient a"></div><div class="ambient b"></div><div class="ambient c"></div>
+  <div class="shell">
+    <header class="nav">
+      <a class="brand" href="#home"><span class="mark"></span>WeKamp</a>
+      <nav class="navlinks">
+        <a href="#product">Product</a><a href="#use-cases">Use Cases</a><a href="#switch">Why Switch</a><a href="#trust">Trust</a>
+      </nav>
+      <a class="cta secondary" href="#contact">Sign in</a>
+      <a class="cta primary" href="#contact">Start a Kamp</a>
+    </header>
+
+    <main id="home">
+      <section class="hero reveal">
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow">WeKamp / structured communities</p>
+            <h1>The operating system for cohort communities and trusted groups.</h1>
+            <p class="lede">Move the real community operations into WeKamp: Kamps, Guides, Trust Meter, Cards, events, moderation, and lifecycle management in one place.</p>
+            <div class="actions">
+              <a class="cta primary" href="#contact">Start a Kamp</a>
+              <a class="cta secondary" href="#product">See the product</a>
+            </div>
+            <p class="support">Start with bootcamps, fellowships, campus cohorts, partner programs, and niche communities that already have recurring cadence and a clear organizer.</p>
+            <div class="facts">
+              <div class="fact"><span>Kamps</span><strong>Community spaces</strong></div>
+              <div class="fact"><span>Guides</span><strong>Trusted organizers</strong></div>
+              <div class="fact"><span>Trust Meter</span><strong>Private by default</strong></div>
+              <div class="fact"><span>Cards</span><strong>Reflection and discussion</strong></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="stage">
+              <div class="stage-top">
+                <div><p class="eyebrow" style="margin:0 0 8px;">Kamp HQ</p><h2>Blueprint Labs Cohort</h2></div>
+                <span class="chip live">Live</span>
+              </div>
+              <div class="layout">
+                <aside class="sidebar">
+                  <span class="sidehead">Overview</span>
+                  <span class="sideitem active">Cards</span><span class="sideitem">Events</span><span class="sideitem">Trust</span><span class="sideitem">Moderation</span><span class="sideitem">Guides</span>
+                </aside>
+                <div class="main">
+                  <div class="metrics">
+                    <div class="metric"><span>Members</span><strong>248</strong><span>+18 this week</span></div>
+                    <div class="metric"><span>Trust Meter</span><strong>84</strong><span>Guide tier</span></div>
+                    <div class="metric"><span>Events</span><strong>4</strong><span>this month</span></div>
+                    <div class="metric"><span>Canvas</span><strong>75%</strong><span>onboarding complete</span></div>
+                  </div>
+                  <div class="stack">
+                    <div class="panel"><div><p class="eyebrow" style="margin:0 0 8px;">Upcoming event</p><h3>Office hours with mentors</h3></div><div class="meta"><span>Tue 2:00 PM</span><span>38 RSVP</span></div></div>
+                    <div class="panel"><div><p class="eyebrow" style="margin:0 0 8px;">Announcement</p><h3>Week 3 materials are live</h3></div><p>Shared to the cohort, partners, and guides in one pass.</p></div>
+                    <div class="split">
+                      <div class="panel trust"><div><p class="eyebrow" style="margin:0 0 8px;">Trust Meter</p><h3>Consistent</h3><p>Private by default. Updates daily.</p></div></div>
+                      <div class="panel trust"><div><p class="eyebrow" style="margin:0 0 8px;">Organizer actions</p><h3>Actions</h3><p>Send announcement, open RSVP, review flags.</p></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-ribbon"><span class="ribbon">Bootcamps</span><span class="ribbon">Cohorts</span><span class="ribbon">Campus groups</span><span class="ribbon">Partner programs</span><span class="ribbon">Niche communities</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <div class="split2">
+          <div class="heading">
+            <p class="eyebrow">The problem</p>
+            <h2>Community health is hard to see when the tools are scattered.</h2>
+            <div class="problemcopy">
+              <p>WeKamp started from a practical problem: useful signals existed, but they were buried.</p>
+              <p>Creators and guides could feel issues before they could explain them. The team could see activity, but not always quality.</p>
+              <p>The real problem is not conversation. It is coordination, trust, and lifecycle management.</p>
+            </div>
+          </div>
+          <div class="fragments">
+            <div class="frag a">Chat</div><div class="frag b">Email</div><div class="frag c">Spreadsheets</div><div class="frag d">Calendar</div><div class="frag e">DMs</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal" id="product">
+        <div class="heading">
+          <p class="eyebrow">The solution</p>
+          <h2>WeKamp is the operating system for cohort communities and trusted groups.</h2>
+          <p>WeKamp brings the core work into one place so organizers can run the group instead of juggling tools.</p>
+        </div>
+        <div class="grid3">
+          <article class="feature"><span>01</span><h3>Kamps</h3><p>Organized spaces for shared goals, topics, and recurring participation.</p></article>
+          <article class="feature"><span>02</span><h3>Guides</h3><p>Members who help nurture discussion, welcome people, and keep the group healthy.</p></article>
+          <article class="feature"><span>03</span><h3>Trust Meter</h3><p>Private-by-default reputation that reflects consistent, thoughtful participation.</p></article>
+          <article class="feature"><span>04</span><h3>Cards</h3><p>Reflection and discussion posts that keep the community grounded in useful context.</p></article>
+          <article class="feature"><span>05</span><h3>Events and attendance</h3><p>Keep sessions, RSVP flows, and follow-up organized without friction.</p></article>
+          <article class="feature"><span>06</span><h3>Moderation and lifecycle</h3><p>Build a reliable group from onboarding through archive.</p></article>
+        </div>
+      </section>
+
+      <section class="reveal" id="use-cases">
+        <div class="heading">
+          <p class="eyebrow">Use cases</p>
+          <h2>Start with groups that already have cadence and a clear organizer.</h2>
+          <p>That is where the switch story is strongest and the value is easiest to explain.</p>
+        </div>
+        <div class="grid3 usecases">
+          <article class="usecase"><h3>Bootcamps and fellowships</h3><p>Defined lifecycle, recurring sessions, high coordination pain, and immediate value from structure.</p></article>
+          <article class="usecase"><h3>Campus groups</h3><p>Dense, segmented, trust-sensitive communities that need permissions and moderation.</p></article>
+          <article class="usecase"><h3>Accelerators and founder groups</h3><p>Organizer-led groups that care about visibility, participation, and follow-through.</p></article>
+          <article class="usecase"><h3>Partner and member programs</h3><p>Org-run communities that need governance, repeatable operations, and an owner.</p></article>
+          <article class="usecase"><h3>Niche communities</h3><p>Creator-led or guide-led spaces built around a shared interest, practice, or goal.</p></article>
+        </div>
+      </section>
+
+      <section class="reveal" id="switch">
+        <div class="heading">
+          <p class="eyebrow">Why switch</p>
+          <h2>Keep existing tools where needed, move the operating work into WeKamp.</h2>
+          <p>Member import, templates, segmentation, shareable surfaces, integrations, export paths, and payment support matter because organizers will not replace everything on day one.</p>
+        </div>
+        <div class="grid3 outcomes">
+          <article class="outcome"><h3>Fast setup</h3><p>Make it easy to launch, onboard, and reach the first value moment in week one.</p></article>
+          <article class="outcome"><h3>Clear organizer wins</h3><p>Attendance, follow-up, moderation, and trust become legible and actionable.</p></article>
+          <article class="outcome"><h3>Prove value quickly</h3><p>Use templates, segmentation, and organizer-led workflows to show an operational win.</p></article>
+        </div>
+      </section>
+
+      <section class="reveal" id="trust">
+        <div class="split2 trust">
+          <div class="heading">
+            <p class="eyebrow">Trust</p>
+            <h2>Trust becomes useful only when people can see it, understand it, and act on it.</h2>
+            <p>That learning came from <code>kampd-digest</code>, where structured context, validation, fallback, and operator visibility made trust visible and useful.</p>
+            <p>The Trust Meter is private by default, updates daily, and reflects consistent, thoughtful, constructive participation. Guides can earn bonus trust. Badges and role flair stay separate.</p>
+            <p style="color: var(--accent); font-weight: 700;">Show the meaning, not the math.</p>
+          </div>
+          <div class="trustbox">
+            <div class="meter">
+              <div class="ring"><div class="core"><span>84</span><small>Private Trust Meter</small></div></div>
+              <div class="copy"><strong>Guide</strong><p>Visible to the member, helpful to the organizer.</p></div>
+            </div>
+            <div class="trustlist">
+              <div class="trustrow"><span>Activity</span><strong>Consistent</strong></div>
+              <div class="trustrow"><span>Role</span><strong>Guide</strong></div>
+              <div class="trustrow"><span>Health</span><strong>Healthy trend</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <div class="heading">
+          <p class="eyebrow">How it works</p>
+          <h2>One simple operating loop.</h2>
+          <p>The simplest path is to create a Kamp, bring members in, and use the platform to run the real work.</p>
+        </div>
+        <div class="grid3 steps">
+          <article class="step"><span>01</span><h3>Create a Kamp</h3></article>
+          <article class="step"><span>02</span><h3>Invite members</h3></article>
+          <article class="step"><span>03</span><h3>Set roles and norms</h3></article>
+          <article class="step"><span>04</span><h3>Run events and Cards</h3></article>
+          <article class="step"><span>05</span><h3>Track participation and trust</h3></article>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <div class="heading">
+          <p class="eyebrow">B2B / B2C</p>
+          <h2>Works for organizations and niche communities.</h2>
+          <p>Same operating layer. Different entry point.</p>
+        </div>
+        <div class="grid3 compare">
+          <article class="compare-card"><p class="eyebrow" style="margin:0 0 8px;">For B2B</p><h3>Partner programs, academies, alumni groups, customer communities, internal cohorts.</h3><a href="#contact">Talk to us about your program</a></article>
+          <article class="compare-card"><p class="eyebrow" style="margin:0 0 8px;">For B2C</p><h3>Creator-led groups, interest communities, invite-only circles.</h3><a href="#contact">Start your community</a></article>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <div class="heading">
+          <p class="eyebrow">What organizers buy</p>
+          <h2>Less chaos. Better attendance. More visibility into who is active.</h2>
+          <p>Those are the things organizers actually pay for when a group grows beyond chat.</p>
+        </div>
+        <div class="highlights"><span class="highlight">Member import and onboarding</span><span class="highlight">Organizer onboarding</span><span class="highlight">Cohort templates</span><span class="highlight">Segmentation</span><span class="highlight">Public shareable surfaces</span><span class="highlight">Integrations</span><span class="highlight">Export paths</span><span class="highlight">Payment support</span></div>
+      </section>
+
+      <section class="reveal" id="contact">
+        <div class="cta-band">
+          <div>
+            <p class="eyebrow" style="margin-bottom:10px;">Ready to build</p>
+            <h2>Ready to run your community better?</h2>
+            <p>Start a Kamp for your group, or talk to us if you’re running a partner program, cohort, or member community.</p>
+          </div>
+          <div class="actions" style="margin-top:0;"><a class="cta primary" href="#contact">Start a Kamp</a><a class="cta secondary" href="#contact">Book a demo</a></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>WeKamp helps organized communities run better.</p>
+      <div class="links"><a href="#product">Product</a><a href="#use-cases">Use Cases</a><a href="#trust">Trust</a><a href="#contact">Contact</a></div>
+    </footer>
+  </div>
+  <script>
+    const reveal = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          reveal.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((node) => reveal.observe(node));
+  </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WeKamp Reviews | Compare 3 homepage directions</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #060812;
+      --panel: rgba(255,255,255,.06);
+      --line: rgba(255,255,255,.10);
+      --text: #f6f8fb;
+      --muted: rgba(246,248,251,.70);
+      --accent: #8effd7;
+      --accent2: #ff8d6b;
+      --accent3: #7d8fff;
+      --shadow: 0 30px 90px rgba(0,0,0,.34);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(142,255,215,.12), transparent 20%),
+        radial-gradient(circle at 85% 10%, rgba(255,141,107,.12), transparent 18%),
+        linear-gradient(180deg, #060812 0%, #05070d 100%);
+      color: var(--text);
+    }
+    .wrap { max-width: 1400px; margin: 0 auto; padding: 28px 24px 40px; }
+    .top {
+      display: flex; justify-content: space-between; align-items: end; gap: 24px;
+      margin-bottom: 24px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 3vw, 3.4rem);
+      letter-spacing: -0.06em;
+      line-height: 0.95;
+    }
+    p { color: var(--muted); line-height: 1.6; margin: 0; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+    }
+    .preview {
+      aspect-ratio: 16 / 10;
+      border: 0;
+      width: 100%;
+      background: #111;
+    }
+    .meta { padding: 18px; display: grid; gap: 10px; }
+    .pill {
+      display: inline-flex; align-items: center;
+      min-height: 30px; padding: 0 12px; border-radius: 999px;
+      background: rgba(255,255,255,.06); border: 1px solid var(--line);
+      font-size: .82rem; color: #fff;
+    }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .link {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; padding: 0 16px; border-radius: 999px;
+      text-decoration: none; color: #061014; background: linear-gradient(135deg, var(--accent), #f3ffd0);
+      font-weight: 700;
+    }
+    .link.secondary { color: var(--text); background: transparent; border: 1px solid var(--line); }
+    .note { margin-top: 18px; color: rgba(246,248,251,.52); font-size: .92rem; }
+    @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } .card { min-height: auto; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>WeKamp homepage review set</h1>
+        <p>Three complete directions, each with the same product story but a different visual language.</p>
+      </div>
+      <div class="row">
+        <a class="link secondary" href="../index.html">Current site</a>
+      </div>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <iframe class="preview" src="./v1-signal-control.html" title="Version 1 preview"></iframe>
+        <div class="meta">
+          <div class="row">
+            <span class="pill">V1</span>
+            <span class="pill">Dark editorial</span>
+            <span class="pill">Neon signal</span>
+          </div>
+          <strong>Signal Control</strong>
+          <p>Highest contrast and most “2026” feeling. Strongest if you want the site to look like a premium command center.</p>
+          <div class="row">
+            <a class="link" href="./v1-signal-control.html">Open</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <iframe class="preview" src="./v2-community-studio.html" title="Version 2 preview"></iframe>
+        <div class="meta">
+          <div class="row">
+            <span class="pill">V2</span>
+            <span class="pill">Warm premium</span>
+            <span class="pill">Editorial calm</span>
+          </div>
+          <strong>Community Studio</strong>
+          <p>More restrained and product-led. Feels premium, modern, and trustworthy without the heavier neon edge.</p>
+          <div class="row">
+            <a class="link" href="./v2-community-studio.html">Open</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <iframe class="preview" src="./v3-operator-console.html" title="Version 3 preview"></iframe>
+        <div class="meta">
+          <div class="row">
+            <span class="pill">V3</span>
+            <span class="pill">Tech forward</span>
+            <span class="pill">Data dense</span>
+          </div>
+          <strong>Operator Console</strong>
+          <p>More operational and tactical. Best if you want the page to feel like a serious tool for organizers and program owners.</p>
+          <div class="row">
+            <a class="link" href="./v3-operator-console.html">Open</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <p class="note">If you want, I can now take one of the three and polish it to final production quality.</p>
+  </div>
+</body>
+</html>
