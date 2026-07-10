@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Google Cloud Generative AI Leader Study Guide | GAIL | RBX Labs</title>
-  <meta name="description" content="Study for the Google Cloud Generative AI Leader certification with concise concept lessons, product comparisons, scenario practice, governance guidance, and an exam-aligned reference library." />
+  <title>RBX Labs GAIL Field Guide | Google Cloud Generative AI Leader</title>
+  <meta name="description" content="RBX Labs' practical perspective on the Google Cloud Generative AI Leader certification: what it tests, how leaders should prepare, product-choice guidance, governance priorities, and an exam cheat sheet." />
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
   <link rel="canonical" href="https://rbx-labs.io/GAIL/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="RBX Labs" />
-  <meta property="og:title" content="Google Cloud Generative AI Leader Study Guide" />
-  <meta property="og:description" content="Exam-aligned GAIL lessons, product comparisons, scenario practice, and a complete reference library." />
+  <meta property="og:title" content="RBX Labs GAIL Field Guide" />
+  <meta property="og:description" content="A practical RBX Labs perspective on what the Google Cloud Generative AI Leader exam tests and how to prepare." />
   <meta property="og:url" content="https://rbx-labs.io/GAIL/" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Google Cloud Generative AI Leader Study Guide" />
-  <meta name="twitter:description" content="Exam-aligned GAIL lessons, product comparisons, scenario practice, and a complete reference library." />
+  <meta name="twitter:title" content="RBX Labs GAIL Field Guide" />
+  <meta name="twitter:description" content="A practical RBX Labs perspective on what the Google Cloud Generative AI Leader exam tests and how to prepare." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&amp;family=Inter+Tight:wght@400;500;600&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script type="application/ld+json">
     {
@@ -23,8 +26,8 @@
         {
           "@type": "LearningResource",
           "@id": "https://rbx-labs.io/GAIL/#learning-resource",
-          "name": "Google Cloud Generative AI Leader Study Guide",
-          "description": "An exam-aligned study guide for the Google Cloud Generative AI Leader certification, covering fundamentals, Google Cloud offerings, output improvement, business strategy, governance, and agentic systems.",
+          "name": "RBX Labs GAIL Field Guide",
+          "description": "RBX Labs' practical field guide for the Google Cloud Generative AI Leader certification, covering exam priorities, product decisions, output improvement, business strategy, governance, and agentic systems.",
           "url": "https://rbx-labs.io/GAIL/",
           "inLanguage": "en",
           "learningResourceType": "Study guide",
@@ -46,19 +49,30 @@
   </script>
 </head>
 <body data-view="dashboard">
-  <header class="topbar">
-    <div class="topbar-brand">
-      <strong>GAIL Study Guide</strong>
-      <span>2026 exam prep</span>
-    </div>
-    <nav class="jumpbar app-nav" aria-label="Study modes">
-      <button type="button" data-view-target="dashboard">Start</button>
-      <button type="button" data-view-target="learn">Learn</button>
-      <button type="button" data-view-target="compare">Compare</button>
-      <button type="button" data-view-target="practice">Practice</button>
-      <button type="button" data-view-target="reference">Reference</button>
+  <header class="rbx-site-header">
+    <a class="rbx-brand" href="../" aria-label="RBX Labs home">
+      <span class="rbx-brand-mark"><img src="../assets/branding/logos/rbx-light.png" alt="" /></span>
+      <span class="rbx-brand-copy"><strong>RBX Labs</strong><small>AI systems, product, and go-to-market</small></span>
+    </a>
+    <nav class="rbx-site-nav" aria-label="RBX Labs primary navigation">
+      <a href="../about.html">About</a>
+      <a href="../ai-training.html">AI Training &amp; Events</a>
+      <a href="../approach.html">Approach</a>
+      <a href="../#selected-builds">Case Studies</a>
+      <a class="rbx-nav-pill" href="../#contact">Start a conversation</a>
     </nav>
   </header>
+
+  <nav class="gail-nav app-nav" aria-label="GAIL guide navigation">
+    <span>RBX Labs GAIL Field Guide</span>
+    <div>
+      <button type="button" data-view-target="dashboard">RBX view</button>
+      <button type="button" data-view-target="learn">Cheat sheet</button>
+      <button type="button" data-view-target="compare">Product decisions</button>
+      <button type="button" data-view-target="practice">Practice</button>
+      <button type="button" data-view-target="reference">Full reference</button>
+    </div>
+  </nav>
 
   <div class="page-shell">
     <div class="layout-shell">
@@ -67,32 +81,46 @@
       <section class="app-view dashboard-view" data-app-view="dashboard">
         <div class="dashboard-intro">
           <div>
-            <p class="eyebrow">Today’s study loop</p>
-            <h1>Google Cloud Generative AI Leader study guide</h1>
-            <p>Use the app for short sessions. Use Reference only when you need full source material or a complete crosswalk.</p>
-            <a class="dashboard-reference-link" href="GAIL_Thursday_One_Day_Program.html">Open the full master reference</a>
+            <p class="eyebrow">RBX Labs field guide / Google Cloud Generative AI Leader</p>
+            <h1>Prepare for GAIL like a leader, not a memorizer.</h1>
+            <p>The GAIL certification is not a deep configuration exam. It tests whether you can identify the business need, choose the right Google Cloud capability, improve the output, and manage value and risk responsibly.</p>
+            <p class="rbx-disclosure">This is RBX Labs' practical study perspective, built around the same product, workflow, evaluation, human-oversight, and adoption decisions that matter when AI moves into real work.</p>
+            <div class="rbx-hero-actions">
+              <a class="rbx-guide-button rbx-guide-button-primary" href="#rbx-position">Read the RBX recommendation</a>
+              <button type="button" class="rbx-guide-button rbx-guide-button-secondary" data-view-target="learn" data-start-topic="fundamentals">Open the cheat sheet</button>
+            </div>
           </div>
-          <div class="domain-progress" aria-label="Practice progress by GAIL domain">
-            <p>Practice progress</p>
-            <div class="progress-row"><span>Fundamentals</span><i><b id="progressFundamentals"></b></i><strong id="progressFundamentalsText">0%</strong></div>
-            <div class="progress-row"><span>Products</span><i><b id="progressProducts"></b></i><strong id="progressProductsText">0%</strong></div>
-            <div class="progress-row"><span>Output</span><i><b id="progressOutput"></b></i><strong id="progressOutputText">0%</strong></div>
-            <div class="progress-row"><span>Governance</span><i><b id="progressGovernance"></b></i><strong id="progressGovernanceText">0%</strong></div>
+          <div class="rbx-lens-panel" aria-label="RBX Labs GAIL preparation priorities">
+            <p class="panel-kicker">What RBX would prioritize</p>
+            <ol>
+              <li><strong>Classify the scenario.</strong><span>Business value, product choice, output quality, or governance?</span></li>
+              <li><strong>Choose the layer.</strong><span>Model, end-user app, platform, data source, or control?</span></li>
+              <li><strong>Explain the trade-off.</strong><span>Pick the answer that best fits value, data, safety, and adoption.</span></li>
+            </ol>
+            <p class="rbx-lens-note">The exam rewards business fit over feature recall.</p>
           </div>
         </div>
+        <section class="rbx-position" id="rbx-position" aria-labelledby="rbx-position-title">
+          <div><p class="eyebrow">RBX recommendation</p><h2 id="rbx-position-title">Learn the decisions behind the products.</h2></div>
+          <div class="rbx-recommendation-grid">
+            <article><span>01</span><h3>Start with the exam map.</h3><p>Know the four buckets: fundamentals, Google Cloud offerings, output improvement, and strategy and governance. Classification removes most distractors before you compare answers.</p></article>
+            <article><span>02</span><h3>Study confusion pairs.</h3><p>Gemini model versus Gemini app. Agent Platform versus Model Garden. Grounding versus fine-tuning. Monitoring versus human review. The exam tests these boundaries.</p></article>
+            <article><span>03</span><h3>Answer as an operator.</h3><p>The best answer is rarely the most advanced technology. It is the solution that fits the user, data, workflow, cost, risk, and accountability requirements.</p></article>
+          </div>
+        </section>
         <div class="dashboard-actions">
-          <button type="button" class="dashboard-card" data-view-target="learn" data-start-topic="fundamentals"><span>01</span><strong>Start today</strong><small>Five short, high-yield lessons.</small></button>
-          <button type="button" class="dashboard-card" data-view-target="learn"><span>02</span><strong>Continue learning</strong><small>Return to the last topic you opened.</small></button>
-          <button type="button" class="dashboard-card" data-view-target="compare"><span>03</span><strong>Product picker</strong><small>Choose the right tool by context.</small></button>
-          <button type="button" class="dashboard-card" data-view-target="practice"><span>04</span><strong>Practice quiz</strong><small>One exam-style question at a time.</small></button>
-          <button type="button" class="dashboard-card" data-view-target="reference"><span>05</span><strong>Reference library</strong><small>Full guide, tables, and official links.</small></button>
+          <button type="button" class="dashboard-card" data-view-target="learn" data-start-topic="fundamentals"><span>01</span><strong>Study the cheat sheet</strong><small>Foundation concepts, product layers, prompting, governance, and agents.</small></button>
+          <button type="button" class="dashboard-card" data-view-target="compare"><span>02</span><strong>Make product decisions</strong><small>Choose the right Google offering from the business context.</small></button>
+          <button type="button" class="dashboard-card" data-view-target="practice"><span>03</span><strong>Practice scenarios</strong><small>Test the decision logic, then inspect the rationale.</small></button>
+          <button type="button" class="dashboard-card" data-view-target="reference"><span>04</span><strong>Use the full reference</strong><small>Open the detailed study source, crosswalks, and official reading.</small></button>
         </div>
         <section class="answer-hub" aria-labelledby="answer-hub-title">
-          <p class="eyebrow">Quick answers</p>
-          <h2 id="answer-hub-title">The questions candidates need answered first</h2>
-          <details><summary>What does the GAIL certification test?</summary><p>It tests GenAI fundamentals, Google Cloud offerings, output improvement, and business strategy and governance. Questions are usually scenario-based: identify the business need, then choose the best product, technique, or control.</p></details>
-          <details><summary>What is the difference between grounding and RAG?</summary><p>Grounding connects answers to trustworthy information. RAG is a practical pattern: retrieve relevant information, augment the prompt with it, and generate an evidence-based answer.</p></details>
-          <details><summary>How should I choose a Google Cloud AI product in a scenario?</summary><p>Start with where the user works, what must be created or analyzed, which data must ground the answer, and whether the need is a prototype or production system. Use Compare for the decision path.</p></details>
+          <p class="eyebrow">What GAIL is really about</p>
+          <h2 id="answer-hub-title">A leadership exam for applied generative AI</h2>
+          <details><summary>What does the GAIL certification test?</summary><p>It tests whether a leader can connect generative AI capabilities to business outcomes. You need to recognize the technology, but the question usually turns on product fit, data grounding, output quality, responsible use, and adoption.</p></details>
+          <details><summary>What should I not over-focus on?</summary><p>Do not spend the day memorizing low-level model configuration or implementation syntax. Learn enough technical vocabulary to identify the right layer, then focus on why the option is appropriate for the business scenario.</p></details>
+          <details><summary>What is the fastest way to improve answers?</summary><p>For every concept, rehearse three prompts: what is it, when would I use it, and what similar option is wrong here? That turns a glossary into scenario judgment.</p></details>
+          <details><summary>How should I choose a Google Cloud AI product in a scenario?</summary><p>Start with where the user works, what must be created or analyzed, which data must ground the answer, and whether the need is a prototype or a production system. Then select the product layer, not just the most familiar name.</p></details>
         </section>
       </section>
 
