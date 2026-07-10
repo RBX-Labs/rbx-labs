@@ -2099,6 +2099,10 @@ h2 {
   grid-column: auto;
 }
 
+.services-section .selected-build-visual {
+  grid-column: 1 / -1;
+}
+
 .services-pillars {
   align-items: stretch;
   perspective: 1600px;
@@ -3965,6 +3969,10 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   .services-section .service-card,
   .services-section .service-card-primary {
     grid-column: auto;
+  }
+
+  .services-section .selected-build-visual {
+    grid-column: 1 / -1;
   }
 
   .who-section .service-grid,
