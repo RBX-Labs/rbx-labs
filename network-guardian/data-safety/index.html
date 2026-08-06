@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Safety | Network Guardian</title>
+  <meta name="description" content="Data safety summary for the Network Guardian Android app.">
+  <link rel="canonical" href="https://rbx-labs.io/network-guardian/data-safety/">
+  <link rel="stylesheet" href="../compliance.css">
+</head>
+<body>
+  <header class="compliance-nav"><a class="compliance-brand" href="../">Network Guardian</a><nav class="compliance-links" aria-label="Network Guardian policy pages"><a href="../privacy/">Privacy</a><a href="../data-safety/">Data Safety</a><a href="../permissions/">Permissions</a><a href="../account-deletion/">Delete account</a></nav></header>
+  <main class="compliance-shell">
+    <p class="eyebrow">Google Play disclosure support</p>
+    <h1>Data Safety</h1>
+    <p class="lede">This page summarizes the data practices that should be reflected in Network Guardian's Google Play Data Safety form. The Play Console declaration remains the authoritative store disclosure.</p>
+    <p class="updated">Last reviewed: August 6, 2026</p>
+    <h2>Data types used by the app</h2>
+    <table>
+      <thead><tr><th>Data category</th><th>Examples</th><th>Purpose</th><th>Collected?</th></tr></thead>
+      <tbody>
+        <tr><td>Personal information</td><td>Email address, display name, Google account identifier</td><td>Account creation, authentication, support</td><td>When you sign in</td></tr>
+        <tr><td>Location</td><td>Approximate location associated with a scan</td><td>Geographic network context and nearby reputation</td><td>Only with permission</td></tr>
+        <tr><td>Device or other identifiers</td><td>Device hash, app version, platform</td><td>Abuse prevention, duplicate detection, diagnostics</td><td>When scans are submitted</td></tr>
+        <tr><td>App activity</td><td>Scan history and scan results</td><td>Network diagnostics and community intelligence</td><td>Local by default; uploaded for signed-in contributions</td></tr>
+        <tr><td>App information and performance</td><td>Latency, DNS/TLS results, connectivity, crash or operational details</td><td>Core functionality, security, troubleshooting</td><td>When diagnostics run</td></tr>
+      </tbody>
+    </table>
+    <h2>Sharing and security</h2>
+    <ul><li>Google receives information needed to authenticate the account.</li><li>Google Cloud hosts the Network Guardian API and database.</li><li>Network data may contribute to aggregate reputation signals; guest scans are not uploaded as community contributions.</li><li>Data is transmitted over HTTPS.</li><li>The app currently does not use advertising SDKs.</li></ul>
+    <h2>User controls</h2>
+    <p>Users can scan as a guest, deny optional permissions, sign out, and request account deletion. See the <a href="../privacy/">Privacy Policy</a>, <a href="../permissions/">Permission disclosures</a>, and <a href="../account-deletion/">Account deletion</a> pages.</p>
+    <div class="footer-links"><a href="../privacy/">Privacy Policy</a><a href="../permissions/">Permission disclosures</a><a href="../account-deletion/">Account deletion</a><a href="https://rbx-labs.io/network-guardian">Network Guardian home</a></div>
+  </main>
+</body>
+</html>
