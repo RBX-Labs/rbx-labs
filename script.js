@@ -18,7 +18,6 @@ const servicePanels = document.querySelectorAll("[data-service-panel]");
 const themeButtons = document.querySelectorAll("[data-theme-option]");
 const contrastButtons = document.querySelectorAll("[data-contrast-option]");
 const holoRotatingGrids = document.querySelectorAll("[data-holo-rotate]");
-const heroSocialProofItems = document.querySelectorAll(".hero-social-proof-item");
 const animatedMediaVideos = document.querySelectorAll(".hero-asset-video, .telemetry-asset-video");
 const autoScrollRails = document.querySelectorAll("[data-auto-scroll-rail]");
 const bannerSlides = document.querySelectorAll("[data-banner-slideshow]");
@@ -378,32 +377,6 @@ function startHoloRotation() {
   });
 }
 
-function startHeroSocialProofRotation() {
-  if (heroSocialProofItems.length === 0) {
-    return;
-  }
-
-  let activeIndex = 0;
-
-  const activateItem = (index) => {
-    heroSocialProofItems.forEach((item, itemIndex) => {
-      item.classList.toggle("is-active", itemIndex === index);
-    });
-  };
-
-  activateItem(activeIndex);
-
-  if (prefersReducedMotion) {
-    return;
-  }
-
-  const controller = createManagedInterval(() => {
-    activeIndex = (activeIndex + 1) % heroSocialProofItems.length;
-    activateItem(activeIndex);
-  }, 1500);
-  controller.resume();
-}
-
 function getNaturalFrameSource(root) {
   if (!root) {
     return null;
@@ -698,7 +671,6 @@ if (stageSections.length > 0 && autoplayTracks.length > 0) {
 }
 
   startHoloRotation();
-  startHeroSocialProofRotation();
   startNaturalFrameMedia();
   startBannerSlides();
   startAutoScrollRails();

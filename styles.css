@@ -974,28 +974,14 @@ h1 {
   gap: 18px;
 }
 
-.hero-social-proof-item,
-.hero-social-proof-separator {
+.hero-social-proof-item {
   display: inline-flex;
   align-items: center;
 }
 
 .hero-social-proof-item {
-  transform-origin: center;
   color: var(--muted);
-  transition: transform 240ms ease, color 240ms ease;
   margin-top: 6px;
-}
-
-.hero-social-proof-item.is-active {
-  position: relative;
-  z-index: 1;
-  transform: scale(2);
-  color: var(--text-strong);
-}
-
-.hero-social-proof-separator {
-  opacity: 0.7;
 }
 
 .systems-map {
@@ -4322,10 +4308,6 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
     gap: 12px;
   }
 
-  .hero-social-proof-item.is-active {
-    transform: scale(1.45);
-  }
-
   .services-pillars {
     perspective: none;
   }
@@ -4747,14 +4729,6 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
     letter-spacing: 0.08em;
   }
 
-  .hero-social-proof-separator {
-    display: none;
-  }
-
-  .hero-social-proof-item.is-active {
-    transform: scale(1.2);
-  }
-
   .proof-chip {
     min-width: 0;
   }
@@ -4831,7 +4805,6 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   .site-nav a,
   .ng-links a,
   .status-dot,
-  .hero-social-proof-item,
   .proof-chip,
   .signal-metric,
   .service-card,
@@ -4868,15 +4841,6 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
 
   .status-dot {
     animation: none;
-  }
-
-  .hero-social-proof-item {
-    transform: none;
-    transition: none;
-  }
-
-  .hero-social-proof-item.is-active {
-    transform: none;
   }
 
   .track-step.active .track-icon {
