@@ -2078,6 +2078,12 @@ h2 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.services-section-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-lg);
+}
+
 .service-card,
 .approach-panel,
 .evidence-panel,
@@ -2851,6 +2857,70 @@ h2 {
 
 .trust-band-section .service-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.faq-reference {
+  margin: 0 auto;
+  max-width: 1240px;
+  padding: clamp(80px, 10vw, 150px) 5vw;
+}
+
+.faq-reference-intro {
+  max-width: 760px;
+}
+
+.faq-reference-intro h1 {
+  font-family: 'Geist', sans-serif;
+  font-size: clamp(48px, 8vw, 104px);
+  letter-spacing: -0.075em;
+  line-height: 0.92;
+  margin: 24px 0;
+}
+
+.faq-reference-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 72px;
+}
+
+.faq-reference-card {
+  border: 1px solid var(--line);
+  min-height: 240px;
+  padding: 26px;
+}
+
+.faq-reference-card h2 {
+  font-family: 'Geist', sans-serif;
+  font-size: clamp(22px, 2.4vw, 32px);
+  letter-spacing: -0.055em;
+  line-height: 1;
+  margin: 0;
+}
+
+.faq-reference-card p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.45;
+  margin: 24px 0 0;
+}
+
+@media (max-width: 900px) {
+  .faq-reference-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .faq-reference {
+    padding-left: 7vw;
+    padding-right: 7vw;
+  }
+
+  .faq-reference-grid {
+    grid-template-columns: 1fr;
+    margin-top: 50px;
+  }
 }
 
 .proof-strip-card .venture-copy h3,
@@ -4432,6 +4502,19 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   .proof-strip-section {
     padding-top: 0;
     padding-bottom: var(--space-xl);
+  }
+
+  .services-section {
+    margin-bottom: var(--space-lg);
+  }
+
+  .js .services-pillars .service-pillar.reveal:not(.is-visible),
+  .js .services-pillars .service-pillar.reveal:nth-child(1):not(.is-visible),
+  .js .services-pillars .service-pillar.reveal:nth-child(2):not(.is-visible),
+  .js .services-pillars .service-pillar.reveal:nth-child(3):not(.is-visible),
+  .js .services-pillars .service-pillar.reveal:nth-child(4):not(.is-visible) {
+    opacity: 1;
+    transform: none;
   }
 
   .section-heading {
