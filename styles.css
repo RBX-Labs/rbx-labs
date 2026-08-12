@@ -948,6 +948,23 @@ h1 {
   margin-top: var(--space-xl);
 }
 
+.hero-action-link {
+  align-self: center;
+  border-bottom: 1px solid rgba(93, 227, 255, 0.46);
+  color: var(--slate-light);
+  font-family: "Space Mono", monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  padding-bottom: 6px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.hero-action-link span {
+  color: var(--cyan-soft);
+  margin-left: 6px;
+}
+
 .hero-proof {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -957,8 +974,7 @@ h1 {
   gap: var(--space-md);
 }
 
-.hero-social-proof,
-.hero-action-divider {
+.hero-social-proof {
   font-family: "Space Mono", monospace;
 }
 
@@ -1407,19 +1423,14 @@ h1 {
   align-self: start;
 }
 
-.hero-action-divider {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--muted);
-  font-size: 0.74rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  min-height: 48px;
+.approach-hero-title {
+  font-size: clamp(3rem, 4.8vw, 4.7rem);
+  max-width: none;
 }
 
-.approach-hero-title {
-  max-width: 15ch;
+.research-hero-title {
+  font-size: clamp(3.2rem, 5.4vw, 5.2rem);
+  max-width: none;
 }
 
 .training-hero-title {
@@ -4549,10 +4560,6 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
     width: 100%;
   }
 
-  .hero-action-divider {
-    display: none;
-  }
-
   .hero-proof {
     grid-template-columns: 1fr;
   }
@@ -4703,6 +4710,10 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   .service-card p {
     font-size: 1rem;
     line-height: 1.6;
+  }
+
+  .hero-action-link {
+    align-self: flex-start;
   }
 
   .contact-card {
