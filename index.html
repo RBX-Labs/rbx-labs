@@ -48,7 +48,7 @@
       document.documentElement.dataset.contrast = storedContrast === 'high' ? 'high' : 'standard';
     } catch (error) {}
   </script>
-  <link rel="stylesheet" href="styles.css?v=20260812-4" />
+  <link rel="stylesheet" href="styles.css?v=20260812-5" />
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -344,24 +344,44 @@
         </p>
       </div>
 
-      <div class="service-grid trust-band-grid" data-holo-rotate="research-lab">
-        <article id="judgment" class="service-card result-card result-card-featured reveal">
-          <span class="micro-label">Lane 01 &middot; AI judgment</span>
-          <h3>Delegated thinking without delegated responsibility</h3>
-          <p>Research on AI judgment, delegated thinking, and capability-relevant delegation: what people should delegate, what they should question, and what must remain human-owned.</p>
-          <a class="btn btn-secondary" href="research.html#judgment">Explore the judgment lane</a>
+      <div class="research-lane-grid" data-holo-rotate="research-lab">
+        <article id="judgment" class="research-lane-card research-lane-card--judgment reveal">
+          <div class="research-lane-visual research-lane-visual--judgment" aria-hidden="true">
+            <span class="research-visual-kicker">AI JUDGMENT</span>
+            <div class="judgment-orbit judgment-orbit--outer"><i></i><i></i><i></i></div>
+            <div class="judgment-orbit judgment-orbit--inner"><i></i><i></i></div>
+            <strong>OWN</strong>
+            <div class="judgment-steps"><span>DECIDE</span><span>QUESTION</span><span>VERIFY</span></div>
+          </div>
+          <div class="research-lane-copy">
+            <span class="micro-label">Lane 01 &middot; AI judgment</span>
+            <h3>Delegated thinking without delegated responsibility</h3>
+            <p>Research on AI judgment, delegated thinking, and capability-relevant delegation: what people should delegate, what they should question, and what must remain human-owned.</p>
+            <a class="text-link" href="research.html#judgment">Explore the judgment lane <span aria-hidden="true">↗</span></a>
+          </div>
         </article>
-        <article id="runtime-trust" class="service-card result-card reveal reveal-delay-1">
-          <span class="micro-label">Lane 02 &middot; Runtime trust</span>
-          <h3>Trust signals for AI that operates in the world</h3>
-          <p>Applied work on evaluation, permissions, monitoring, escalation, replayable traces, and open-source AI components that need to be trusted in production.</p>
-          <a class="btn btn-secondary" href="research.html#runtime-trust">Explore the runtime lane</a>
+        <article id="runtime-trust" class="research-lane-card research-lane-card--runtime reveal reveal-delay-1">
+          <div class="research-lane-visual research-lane-visual--runtime">
+            <img src="assets/events/fossy/fossy-2026-prompts-to-runtime-signals.png" alt="FOSSY visual showing the shift from prompts to runtime signals" loading="lazy" decoding="async" />
+            <span class="research-visual-stamp">PROMPTS &rarr; RUNTIME</span>
+          </div>
+          <div class="research-lane-copy">
+            <span class="micro-label">Lane 02 &middot; Runtime trust</span>
+            <h3>Trust signals for AI that operates in the world</h3>
+            <p>Applied work on evaluation, permissions, monitoring, escalation, replayable traces, and open-source AI components that need to be trusted in production.</p>
+            <a class="text-link" href="research.html#runtime-trust">Explore the runtime lane <span aria-hidden="true">↗</span></a>
+          </div>
         </article>
-        <article class="service-card result-card reveal reveal-delay-2">
-          <span class="micro-label">Why it matters</span>
-          <h3>Research becomes something teams can use</h3>
-          <p>Each project is designed to produce a usable artifact: a workshop, evaluation method, prototype, case study, or sponsored pilot.</p>
-          <a class="btn btn-secondary" href="research.html#engage">Work with the lab</a>
+        <article class="research-bridge-card reveal reveal-delay-2">
+          <div class="research-bridge-visual" aria-hidden="true">
+            <span>QUESTION</span><i></i><span>EVIDENCE</span><i></i><span>ACTION</span>
+          </div>
+          <div class="research-bridge-copy">
+            <span class="micro-label">The bridge</span>
+            <h3>Research becomes something teams can use</h3>
+            <p>Each project turns a hard question into a usable artifact: a workshop, evaluation method, prototype, case study, or sponsored pilot.</p>
+            <a class="text-link" href="research.html#engage">Work with the Lab <span aria-hidden="true">↗</span></a>
+          </div>
         </article>
       </div>
     </section>

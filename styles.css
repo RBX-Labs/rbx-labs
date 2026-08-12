@@ -2762,6 +2762,238 @@ h2 {
   background: linear-gradient(180deg, color-mix(in srgb, var(--surface-panel-strong) 98%, transparent), color-mix(in srgb, var(--surface-panel) 95%, transparent));
 }
 
+.research-lane-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.research-lane-card,
+.research-bridge-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(0, 229, 255, 0.16);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--surface-panel) 96%, transparent);
+  box-shadow: var(--shadow-rise);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.research-lane-card:hover,
+.research-lane-card:focus-within,
+.research-bridge-card:hover,
+.research-bridge-card:focus-within {
+  transform: translateY(-6px);
+  border-color: rgba(0, 229, 255, 0.4);
+  box-shadow: var(--shadow-cyan);
+}
+
+.research-lane-visual {
+  position: relative;
+  min-height: 224px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(0, 229, 255, 0.16);
+}
+
+.research-lane-visual--judgment {
+  background:
+    radial-gradient(circle at 50% 52%, rgba(0, 229, 255, 0.14), transparent 24%),
+    linear-gradient(135deg, #081525 0%, #102b42 55%, #183f5c 100%);
+}
+
+.research-visual-kicker,
+.research-visual-stamp {
+  position: absolute;
+  z-index: 2;
+  color: var(--cyan-soft);
+  font-family: "Space Mono", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.research-visual-kicker {
+  left: 22px;
+  top: 20px;
+}
+
+.judgment-orbit {
+  position: absolute;
+  left: 50%;
+  top: 53%;
+  border: 1px solid rgba(93, 227, 255, 0.62);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.judgment-orbit--outer {
+  width: 152px;
+  height: 152px;
+  border-style: dashed;
+  opacity: 0.58;
+}
+
+.judgment-orbit--inner {
+  width: 84px;
+  height: 84px;
+  box-shadow: 0 0 32px rgba(0, 229, 255, 0.16);
+}
+
+.judgment-orbit i {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.8);
+}
+
+.judgment-orbit i:nth-child(1) { left: 50%; top: -4px; }
+.judgment-orbit i:nth-child(2) { bottom: 12%; right: 4%; }
+.judgment-orbit i:nth-child(3) { bottom: 9%; left: 8%; }
+.judgment-orbit--inner i:nth-child(1) { left: 50%; top: -4px; }
+.judgment-orbit--inner i:nth-child(2) { bottom: 3%; right: 13%; }
+
+.research-lane-visual--judgment > strong {
+  position: absolute;
+  left: 50%;
+  top: 53%;
+  color: #f4f7f5;
+  font-family: "Geist", system-ui, sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.12em;
+  transform: translate(-50%, -50%);
+}
+
+.judgment-steps {
+  position: absolute;
+  bottom: 18px;
+  display: flex;
+  gap: 8px;
+  left: 22px;
+  right: 22px;
+}
+
+.judgment-steps span {
+  flex: 1;
+  border-top: 1px solid rgba(93, 227, 255, 0.5);
+  color: rgba(230, 247, 250, 0.78);
+  font-family: "Space Mono", monospace;
+  font-size: 0.55rem;
+  padding-top: 7px;
+  text-align: center;
+}
+
+.research-lane-visual--runtime {
+  background: #050c15;
+}
+
+.research-lane-visual--runtime img {
+  display: block;
+  height: 224px;
+  object-fit: cover;
+  opacity: 0.9;
+  width: 100%;
+}
+
+.research-visual-stamp {
+  bottom: 16px;
+  left: 18px;
+  padding: 8px 10px;
+  background: rgba(4, 12, 20, 0.86);
+  color: var(--acid);
+}
+
+.research-lane-copy {
+  display: flex;
+  flex-direction: column;
+  min-height: 268px;
+  padding: 26px 28px 30px;
+}
+
+.research-lane-copy .micro-label,
+.research-bridge-copy .micro-label {
+  color: var(--cyan-soft);
+}
+
+.research-lane-copy h3,
+.research-bridge-copy h3 {
+  margin: 18px 0 0;
+  max-width: 18ch;
+}
+
+.research-lane-copy p,
+.research-bridge-copy p {
+  color: var(--text-muted);
+  font-size: 1.02rem;
+  line-height: 1.45;
+  margin: 18px 0 0;
+}
+
+.research-lane-copy .text-link,
+.research-bridge-copy .text-link {
+  align-self: flex-start;
+  border-bottom: 1px solid rgba(93, 227, 255, 0.46);
+  color: var(--text-strong);
+  margin-top: auto;
+  padding-bottom: 7px;
+  text-decoration: none;
+}
+
+.research-lane-copy .text-link span,
+.research-bridge-copy .text-link span {
+  color: var(--cyan-soft);
+  margin-left: 8px;
+}
+
+.research-bridge-card {
+  align-items: stretch;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.4fr);
+}
+
+.research-bridge-visual {
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(0, 229, 255, 0.12), transparent 65%),
+    #081525;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  min-height: 190px;
+  padding: 26px;
+}
+
+.research-bridge-visual span {
+  color: var(--cyan-soft);
+  font-family: "Space Mono", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+}
+
+.research-bridge-visual i {
+  width: 42px;
+  border-top: 1px solid var(--cyan);
+  position: relative;
+}
+
+.research-bridge-visual i::after {
+  position: absolute;
+  right: -1px;
+  top: -4px;
+  border-left: 5px solid var(--cyan);
+  border-bottom: 4px solid transparent;
+  border-top: 4px solid transparent;
+  content: "";
+}
+
+.research-bridge-copy {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 32px;
+}
+
 .cta-note {
   max-width: 44ch;
 }
@@ -4170,6 +4402,14 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
     grid-template-columns: 1fr;
   }
 
+  .research-lane-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .research-bridge-card {
+    grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.25fr);
+  }
+
   .service-card-primary {
     grid-column: auto;
   }
@@ -4290,6 +4530,7 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
 
   .signal-grid,
   .service-grid,
+  .research-lane-grid,
   .training-format-grid,
   .training-weeks-grid,
   .services-section .service-grid,
@@ -4430,6 +4671,26 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   .selected-build,
   .result-card {
     min-height: 0;
+  }
+
+  .research-bridge-card {
+    display: block;
+  }
+
+  .research-lane-visual,
+  .research-lane-visual--runtime img {
+    min-height: 190px;
+    height: 190px;
+  }
+
+  .research-lane-copy {
+    min-height: 0;
+    gap: 0;
+  }
+
+  .research-lane-copy .text-link,
+  .research-bridge-copy .text-link {
+    margin-top: 26px;
   }
 
   .selected-build h3,
