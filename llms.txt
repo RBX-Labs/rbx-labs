@@ -1,29 +1,33 @@
 # RBX Labs
 
-RBX Labs is a founder-led applied AI studio. It builds trustworthy AI products, AI workflows, and AI-enabled go-to-market systems, and delivers AI training and event sessions.
+RBX Labs is a founder-led applied AI studio with a Research & Practice Lab. It builds AI products and workflows, delivers practical training, and runs applied research on AI judgment and runtime trust.
 
 ## Primary pages
 - Home: https://rbx-labs.io/
 - About: https://rbx-labs.io/about.html
 - Approach: https://rbx-labs.io/approach.html
 - AI Training: https://rbx-labs.io/ai-training.html
+- Research & Practice Lab: https://rbx-labs.io/research.html
+- AEO/GEO reference: https://rbx-labs.io/faq.html
 - Case study / product example: https://rbx-labs.io/network-guardian.html
 - Google Cloud Generative AI Leader study guide: https://rbx-labs.io/GAIL/
 
 ## What RBX Labs does
 - Builds AI-powered products and internal tools
 - Designs AI workflows that reduce manual work and improve throughput
-- Creates AI-enabled go-to-market systems for research, content, outreach, qualification, and sales support
+- Creates AI-enabled go-to-market systems when they are part of a defined execution problem
 - Runs AI training through workshops, sprints, and adoption programs
-- Designs trustworthy AI workflows with evaluation, human oversight, monitoring, and escalation paths
-- Delivers AI training, talks, and event sessions for enterprise, founder, student, and developer audiences
+- Researches AI judgment, delegated thinking, and capability-relevant delegation
+- Researches runtime trust, evaluation, escalation, permissions, and open-source AI components
+- Delivers public talks, tutorials, and teaching as outputs of the studio and research program, not as a separate business line
 
 ## Direct answers
-- **What is RBX Labs?** An applied AI studio focused on product, workflow, and go-to-market execution.
-- **Who does RBX Labs work with?** Founders, product teams, and operators who need AI systems that ship and get adopted.
+- **What is RBX Labs?** A founder-led applied AI studio with a Research & Practice Lab focused on product, workflow, and responsible execution.
+- **Who does RBX Labs work with?** Founders, product teams, operators, universities, public-interest organizations, and AI/OSS ecosystems that need practical execution or applied research.
 - **What outcomes does RBX Labs target?** Shipped systems, measurable efficiency gains, improved activation, and clearer launch execution.
-- **Does RBX Labs deliver AI training and events?** Yes. RBX Labs runs workflow-specific workshops, sprints, adoption programs, and event sessions; its founder has trained 5.8K+ learners and is a Stanford Code in Place section leader.
+- **Does RBX Labs deliver AI training and public teaching?** Yes. RBX Labs runs workflow-specific workshops, sprints, adoption programs, public talks, and teaching; its founder has trained 5.8K+ learners and is a Stanford Code in Place section leader.
 - **How does RBX Labs approach AI trust?** By building evaluation, human oversight, monitoring, and escalation controls into the operating workflow.
+- **What is the Research & Practice Lab?** A named program inside RBX Labs that turns applied questions about AI judgment, delegated thinking, runtime trust, and evaluation into research, workshops, prototypes, case studies, and sponsored pilots.
 - **What experience informs the work?** Founder Rishabh Banga has a Carnegie Mellon M.S. in Software Management and Responsible AI experience at Microsoft; RBX Labs also represents experience across Microsoft, NASA, Ericsson, Intel, and product ventures.
 
 ## Proof points

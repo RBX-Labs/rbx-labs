@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RBX Labs Research &amp; Practice Lab | AI Judgment and Runtime Trust</title>
+  <meta
+    name="description"
+    content="The RBX Labs Research &amp; Practice Lab studies AI judgment, delegated thinking, runtime trust, evaluation, and open-source AI through practical artifacts and sponsored pilots."
+  />
+  <link rel="canonical" href="https://rbx-labs.io/research.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RBX Labs" />
+  <meta property="og:title" content="RBX Labs Research &amp; Practice Lab" />
+  <meta property="og:description" content="Applied research on AI judgment, delegated thinking, runtime trust, and open-source AI." />
+  <meta property="og:url" content="https://rbx-labs.io/research.html" />
+  <meta property="og:image" content="https://rbx-labs.io/assets/branding/logos/rbx-light.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="RBX Labs Research &amp; Practice Lab" />
+  <meta name="twitter:description" content="Applied research on AI judgment, delegated thinking, runtime trust, and open-source AI." />
+  <meta name="twitter:image" content="https://rbx-labs.io/assets/branding/logos/rbx-light.png" />
+  <link rel="icon" type="image/png" sizes="1024x1024" href="assets/branding/logos/rbx-light.png" />
+  <link rel="shortcut icon" href="assets/branding/logos/rbx-light.png" />
+  <link rel="apple-touch-icon" href="assets/branding/logos/rbx-light.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&amp;family=Inter+Tight:wght@400;500;600&amp;family=Space+Mono:wght@400;700&amp;display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    document.documentElement.classList.add('js');
+    try {
+      const storedTheme = localStorage.getItem('rbx-theme');
+      const storedContrast = localStorage.getItem('rbx-contrast');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : (prefersDark ? 'dark' : 'light');
+      document.documentElement.dataset.contrast = storedContrast === 'high' ? 'high' : 'standard';
+    } catch (error) {}
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ResearchOrganization",
+      "name": "RBX Labs Research & Practice Lab",
+      "url": "https://rbx-labs.io/research.html",
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "RBX Labs",
+        "url": "https://rbx-labs.io/"
+      },
+      "description": "Applied research on AI judgment, delegated thinking, runtime trust, evaluation, and open-source AI."
+    }
+  </script>
+</head>
+<body class="research-page">
+  <div class="bg-layers" aria-hidden="true"></div>
+  <div class="grid-orbit" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="RBX Labs home">
+      <span class="brand-mark">
+        <img
+          src="assets/branding/logos/rbx-light.png"
+          data-theme-logo
+          data-theme-logo-light="assets/branding/logos/rbx-light.png"
+          data-theme-logo-dark="assets/branding/logos/rbx-dark.png"
+          alt=""
+        />
+      </span>
+      <span class="brand-copy">
+        <span class="brand-name">RBX Labs</span>
+        <span class="brand-tag">Applied AI studio &middot; research &amp; practice</span>
+      </span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      <a href="about.html">About</a>
+      <a href="ai-training.html">AI Training</a>
+      <a href="approach.html">Approach</a>
+      <a href="research.html" aria-current="page">Research &amp; Practice</a>
+      <a href="index.html#selected-builds">Case Studies</a>
+      <a class="nav-pill" href="index.html#contact">Start a conversation</a>
+      <div class="display-controls" aria-label="Display controls">
+        <div class="display-group" role="group" aria-label="Color mode">
+          <button class="display-option display-option-symbol" type="button" data-theme-option="light" aria-label="Light mode" title="Light mode"><span aria-hidden="true">☼</span></button>
+          <button class="display-option display-option-symbol" type="button" data-theme-option="dark" aria-label="Dark mode" title="Dark mode"><span aria-hidden="true">☽</span></button>
+        </div>
+        <div class="display-group" role="group" aria-label="Contrast mode">
+          <button class="display-option display-option-symbol" type="button" data-contrast-option="standard" aria-label="Standard contrast" title="Standard contrast"><span aria-hidden="true">◐</span></button>
+          <button class="display-option display-option-symbol" type="button" data-contrast-option="high" aria-label="High contrast" title="High contrast"><span aria-hidden="true">◕</span></button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <section class="hero">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">RBX Labs Research &amp; Practice Lab</p>
+        <h1>Study the work.<br /><span class="gradient-text">Build the practice.</span></h1>
+        <p class="hero-body">
+          As AI moves from prompts to agents and operational systems, the important question is not only what the model produces. It is what work was delegated, what evidence supports the result, what capability remains human-owned, and who is accountable for the outcome.
+        </p>
+        <p class="hero-body">
+          The Lab turns those questions into research, workshops, prototypes, evaluations, and sponsored pilots through RBX Labs.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#engage">Work with the Lab</a>
+          <a class="btn btn-secondary" href="index.html">See RBX Labs</a>
+        </div>
+      </div>
+
+      <div class="hero-panel reveal reveal-delay-1">
+        <section class="signal-card">
+          <div class="card-topline">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="status-copy">
+              <span class="status-kicker">Program focus</span>
+              <span class="status-readout">Applied research with a usable output.</span>
+            </span>
+          </div>
+          <div class="signal-grid">
+            <article class="signal-metric">
+              <span class="metric-label">Lane 01</span>
+              <strong class="metric-readout training-metric-compact">AI judgment</strong>
+              <span class="metric-note">Delegation, questioning, verification, reflection, and human ownership.</span>
+            </article>
+            <article class="signal-metric">
+              <span class="metric-label">Lane 02</span>
+              <strong class="metric-readout training-metric-compact">Runtime trust</strong>
+              <span class="metric-note">Evidence, evaluation, permissions, monitoring, escalation, and replay.</span>
+            </article>
+            <article class="signal-metric">
+              <span class="metric-label">Output</span>
+              <strong class="metric-readout training-metric-compact">Practice</strong>
+              <span class="metric-note">A method, workshop, prototype, case study, or pilot teams can use.</span>
+            </article>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="trust-band-section">
+      <div class="section-heading reveal">
+        <h2>Two connected research lanes</h2>
+        <p class="section-copy">One asks how people should work with capable AI. The other asks how AI systems should behave when the work becomes operational.</p>
+      </div>
+      <div class="service-grid trust-band-grid">
+        <article id="judgment" class="service-card result-card result-card-featured reveal">
+          <span class="micro-label">01 &middot; AI judgment and delegated thinking</span>
+          <h3>Delegate tasks without outsourcing judgment</h3>
+          <p>Build clearer practices for deciding when to delegate, when to question, when to verify, when to reflect, and what must remain owned by a person or institution.</p>
+          <p><strong>Current artifacts:</strong> WAILS research, AI Judgment Literacy, Delegated Thinking, SIGCSE curriculum, and practitioner workshops.</p>
+        </article>
+        <article id="runtime-trust" class="service-card result-card reveal reveal-delay-1">
+          <span class="micro-label">02 &middot; Runtime trust and open-source AI</span>
+          <h3>Make operational AI easier to evaluate and govern</h3>
+          <p>Develop practical signals and controls for model, agent, tool, and component behavior: evaluation gates, permissions, monitoring, escalation, and replayable traces.</p>
+          <p><strong>Current artifacts:</strong> FOSSY Runtime Trust Kit, public-safety agent evaluation, Network Guardian, and open-source AI trust work.</p>
+        </article>
+        <article class="service-card result-card reveal reveal-delay-2">
+          <span class="micro-label">The bridge</span>
+          <h3>Human capability and system accountability</h3>
+          <p>The lanes meet in the same practical question: what should the system do, what should the person do, and what evidence makes the boundary visible?</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="services-section" id="engage">
+      <div class="section-heading reveal">
+        <h2>Ways to work with the Lab</h2>
+        <p class="section-copy">The Lab is not a separate software product. It is a focused program for turning questions into credible, useful work.</p>
+      </div>
+      <div class="service-grid trust-band-grid">
+        <article class="service-card service-pillar reveal">
+          <div class="icon-ring">01</div>
+          <h3>Sponsored research pilot</h3>
+          <p>A focused 4-8 week study with a defined question, partner context, evidence plan, and public or private output.</p>
+        </article>
+        <article class="service-card service-pillar reveal reveal-delay-1">
+          <div class="icon-ring">02</div>
+          <h3>AI judgment workshop</h3>
+          <p>A half-day or multi-week program that helps a team define useful delegation, verification, escalation, and ownership practices.</p>
+        </article>
+        <article class="service-card service-pillar reveal reveal-delay-2">
+          <div class="icon-ring">03</div>
+          <h3>Applied evaluation partner</h3>
+          <p>Independent evaluation, tutorial design, or practice review for AI products, agents, open-source components, and public-interest systems.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact-section reveal">
+      <div class="contact-card">
+        <div class="contact-copy">
+          <p class="eyebrow">Research &amp; Practice</p>
+          <h2>Bring a real question</h2>
+          <p class="section-copy cta-note">The strongest collaborations start with a specific decision, workflow, deployment problem, or learning question.</p>
+        </div>
+        <div class="training-next-step-panel">
+          <span class="micro-label">Good starting points</span>
+          <ul class="training-next-step-list">
+            <li>A workflow where AI delegation is unclear</li>
+            <li>An agent or component that needs a stronger evidence trail</li>
+            <li>A research or teaching program that needs a practical artifact</li>
+          </ul>
+          <div class="contact-actions">
+            <a
+              class="btn btn-primary"
+              href="#"
+              data-calendly-link="https://calendly.com/rishabhbanga/30-min-chat"
+              data-booking-eyebrow="Research &amp; Practice Lab"
+              data-booking-title="Discuss a research or practice question"
+              data-booking-body="Use this session to define the question, partner context, and useful output for an applied research or practice collaboration."
+            >
+              Start a conversation
+            </a>
+            <a class="btn btn-secondary" href="about.html">Meet the founder</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js" defer></script>
+</body>
+</html>
