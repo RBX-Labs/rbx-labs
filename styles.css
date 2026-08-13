@@ -2741,7 +2741,23 @@ h2 {
 }
 
 .research-page .contact-section--closing .contact-card {
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(320px, 0.82fr) minmax(380px, 1fr);
+  align-items: stretch;
+}
+
+.research-page .contact-section--closing .closing-visual {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.research-page .contact-section--closing .contact-copy {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.research-page .contact-section--closing .training-next-step-panel {
+  grid-column: 1 / -1;
+  grid-row: 2;
 }
 
 .research-page .contact-section--closing .training-next-step-panel {
@@ -4929,6 +4945,12 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   }
 
   .research-page .contact-section--closing .contact-card { grid-template-columns: 1fr; }
+  .research-page .contact-section--closing .closing-visual,
+  .research-page .contact-section--closing .contact-copy,
+  .research-page .contact-section--closing .training-next-step-panel {
+    grid-column: auto;
+    grid-row: auto;
+  }
   .closing-visual { min-height: 190px; }
 
   .research-page .contact-section--closing .training-next-step-list,
