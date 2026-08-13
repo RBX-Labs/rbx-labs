@@ -2719,6 +2719,35 @@ h2 {
   align-self: end;
 }
 
+.research-page .contact-section--closing .contact-card {
+  grid-template-columns: 1fr;
+}
+
+.research-page .contact-section--closing .training-next-step-panel {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.42fr) minmax(0, 1fr);
+  column-gap: clamp(24px, 5vw, 72px);
+  align-items: end;
+}
+
+.research-page .contact-section--closing .training-next-step-list {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+}
+
+.research-page .contact-section--closing .training-next-step-panel > .micro-label {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+}
+
+.research-page .contact-section--closing .contact-actions {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin-top: 26px;
+}
+
 .research-page .contact-actions .btn {
   width: 100%;
   white-space: nowrap;
@@ -4855,6 +4884,19 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
 
   .research-page .contact-actions {
     grid-template-columns: 1fr;
+  }
+
+  .research-page .contact-section--closing .training-next-step-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .research-page .contact-section--closing .training-next-step-list,
+  .research-page .contact-section--closing .training-next-step-panel > .micro-label,
+  .research-page .contact-section--closing .contact-actions {
+    grid-column: auto;
+    grid-row: auto;
   }
 
   .hero-proof {
