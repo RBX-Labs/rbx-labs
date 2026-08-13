@@ -1271,17 +1271,17 @@ h1 {
 
 .orbit-ring { position: absolute; left: 50%; top: 47%; z-index: 1; border: 1px solid rgba(93, 227, 255, 0.42); border-radius: 50%; transform: translate(-50%, -50%); }
 .orbit-ring--outer { width: 330px; height: 330px; border-style: dashed; opacity: 0.56; }
-.orbit-ring--outer { animation: orbit-spin 28s linear infinite; }
-.orbit-ring--middle { width: 232px; height: 232px; box-shadow: 0 0 50px rgba(0, 229, 255, 0.12); animation: orbit-spin-reverse 21s linear infinite; }
-.orbit-ring--inner { width: 132px; height: 132px; border-color: var(--acid); box-shadow: 0 0 30px rgba(178, 255, 0, 0.2); animation: orbit-pulse 5s ease-in-out infinite; }
+.orbit-ring--outer { animation: orbit-spin 34s linear infinite; }
+.orbit-ring--middle { width: 232px; height: 232px; box-shadow: 0 0 50px rgba(0, 229, 255, 0.12); animation: orbit-spin-reverse 28s linear infinite; }
+.orbit-ring--inner { width: 132px; height: 132px; border-color: var(--acid); box-shadow: 0 0 30px rgba(178, 255, 0, 0.2); animation: orbit-spin 22s linear infinite; }
 
 .orbit-core { position: absolute; left: 50%; top: 47%; z-index: 2; display: grid; place-items: center; width: 92px; height: 92px; border: 1px solid var(--cyan); border-radius: 50%; background: #071520; color: var(--text-strong); text-align: center; transform: translate(-50%, -50%); }
 .orbit-core span { color: var(--cyan-soft); font: 0.58rem "Space Mono", monospace; letter-spacing: 0.14em; }
 .orbit-core strong { font-size: 0.72rem; line-height: 1.05; letter-spacing: 0.08em; }
 .orbit-node { position: absolute; z-index: 3; width: 9px; height: 9px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 18px var(--cyan); }
-.orbit-node--one { left: 50%; top: calc(47% - 169px); animation: orbit-node-top 28s linear infinite; transform-origin: 0 169px; }
-.orbit-node--two { left: calc(50% + 116px); top: 47%; background: var(--acid); box-shadow: 0 0 18px var(--acid); animation: orbit-node-right 21s linear infinite; transform-origin: -116px 0; }
-.orbit-node--three { left: 50%; top: calc(47% + 66px); animation: orbit-node-bottom 15s linear infinite; transform-origin: 0 -66px; }
+.orbit-node--one { left: 50%; top: calc(47% - 169px); animation: orbit-node-top 34s linear infinite; transform-origin: 0 169px; }
+.orbit-node--two { left: calc(50% + 116px); top: 47%; background: var(--acid); box-shadow: 0 0 18px var(--acid); animation: orbit-node-middle 28s linear infinite; transform-origin: -116px 0; }
+.orbit-node--three { left: 50%; top: calc(47% + 66px); animation: orbit-node-bottom 22s linear infinite; transform-origin: 0 -66px; }
 .orbit-label { position: absolute; z-index: 4; color: var(--cyan-soft); font: 0.62rem "Space Mono", monospace; letter-spacing: 0.16em; }
 .orbit-label--top { top: 26px; left: 30px; }.orbit-label--right { top: 26px; right: 30px; color: var(--acid); }.orbit-label--bottom { bottom: 78px; left: 30px; }
 .orbit-caption { position: absolute; right: 28px; bottom: 28px; z-index: 4; display: flex; gap: 12px; align-items: center; color: var(--text-muted); font: 0.65rem "Space Mono", monospace; }
@@ -1291,7 +1291,7 @@ h1 {
 @keyframes orbit-spin-reverse { from { transform: translate(-50%, -50%) rotate(360deg); } to { transform: translate(-50%, -50%) rotate(0deg); } }
 @keyframes orbit-pulse { 0%, 100% { opacity: .65; transform: translate(-50%, -50%) scale(.96); } 50% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); } }
 @keyframes orbit-node-top { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-@keyframes orbit-node-right { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes orbit-node-middle { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
 @keyframes orbit-node-left { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
 @keyframes orbit-node-bottom { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes trust-panel-breathe { 0%, 100% { box-shadow: 0 0 0 rgba(0, 229, 255, 0), var(--shadow-cyan); } 50% { box-shadow: 0 0 38px rgba(0, 229, 255, .12), var(--shadow-cyan); } }
