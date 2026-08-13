@@ -111,31 +111,16 @@
       </div>
 
       <div class="hero-panel reveal reveal-delay-1">
-        <section class="signal-card">
-          <div class="card-topline">
-            <span class="status-dot" aria-hidden="true"></span>
-            <span class="status-copy">
-              <span class="status-kicker">Program focus</span>
-              <span class="status-readout">Applied research with a usable output.</span>
-            </span>
-          </div>
-          <div class="signal-grid">
-            <article class="signal-metric">
-              <span class="metric-label">Lane 01</span>
-              <strong class="metric-readout training-metric-compact">AI judgment</strong>
-              <span class="metric-note">Delegation, questioning, verification, reflection, and human ownership.</span>
-            </article>
-            <article class="signal-metric">
-              <span class="metric-label">Lane 02</span>
-              <strong class="metric-readout training-metric-compact">Runtime trust</strong>
-              <span class="metric-note">Evidence, evaluation, permissions, monitoring, escalation, and replay.</span>
-            </article>
-            <article class="signal-metric">
-              <span class="metric-label">Output</span>
-              <strong class="metric-readout training-metric-compact">Practice</strong>
-              <span class="metric-note">A method, workshop, prototype, case study, or pilot teams can use.</span>
-            </article>
-          </div>
+        <section class="trust-orbit" aria-label="Research practice visual">
+          <div class="orbit-label orbit-label--top">EVIDENCE</div>
+          <div class="orbit-label orbit-label--right">ACTION</div>
+          <div class="orbit-label orbit-label--bottom">OWNERSHIP</div>
+          <div class="orbit-ring orbit-ring--outer"></div>
+          <div class="orbit-ring orbit-ring--middle"></div>
+          <div class="orbit-ring orbit-ring--inner"></div>
+          <div class="orbit-core"><span>RBX</span><strong>TRUST<br>LAB</strong></div>
+          <i class="orbit-node orbit-node--one"></i><i class="orbit-node orbit-node--two"></i><i class="orbit-node orbit-node--three"></i>
+          <div class="orbit-caption"><span>AI judgment</span><b>↔</b><span>Runtime trust</span></div>
         </section>
       </div>
     </section>
@@ -145,24 +130,16 @@
         <h2>Two connected research lanes</h2>
         <p class="section-copy">One asks how people should work with capable AI. The other asks how AI systems should behave when the work becomes operational.</p>
       </div>
-      <div class="service-grid trust-band-grid">
-        <article id="judgment" class="service-card result-card result-card-featured reveal">
-          <span class="micro-label">01 &middot; AI judgment and delegated thinking</span>
-          <h3>Delegate tasks without outsourcing judgment</h3>
-          <p>Build clearer practices for deciding when to delegate, when to question, when to verify, when to reflect, and what must remain owned by a person or institution.</p>
-          <p><strong>Current artifacts:</strong> WAILS research, AI Judgment Literacy, Delegated Thinking, SIGCSE curriculum, and practitioner workshops.</p>
+      <div class="research-lane-grid">
+        <article id="judgment" class="research-lane-card reveal">
+          <div class="research-lane-visual research-lane-visual--judgment"><span class="research-visual-kicker">01 / human capability</span><div class="judgment-orbit judgment-orbit--outer"><i></i><i></i><i></i></div><div class="judgment-orbit judgment-orbit--inner"><i></i><i></i></div><strong>JUDGMENT</strong><div class="judgment-steps"><span>DECIDE</span><span>VERIFY</span><span>OWN</span></div></div>
+          <div class="research-lane-copy"><span class="micro-label">AI judgment and delegated thinking</span><h3>Delegate tasks without outsourcing judgment.</h3><p>What should remain owned by a person or institution?</p><span class="card-note">AI Judgment Literacy · Delegated Thinking · workshops</span></div>
         </article>
-        <article id="runtime-trust" class="service-card result-card reveal reveal-delay-1">
-          <span class="micro-label">02 &middot; Runtime trust and open-source AI</span>
-          <h3>Make operational AI easier to evaluate and govern</h3>
-          <p>Develop practical signals and controls for model, agent, tool, and component behavior: evaluation gates, permissions, monitoring, escalation, and replayable traces.</p>
-          <p><strong>Current artifacts:</strong> FOSSY Runtime Trust Kit, public-safety agent evaluation, Network Guardian, and open-source AI trust work.</p>
+        <article id="runtime-trust" class="research-lane-card reveal reveal-delay-1">
+          <div class="research-lane-visual research-lane-visual--runtime"><img src="assets/events/fossy/fossy-2026-prompts-to-runtime-signals.webp" alt="Abstract visual for open-source AI runtime trust" loading="lazy"><span class="research-visual-stamp">PROMPTS &rarr; RUNTIME</span></div>
+          <div class="research-lane-copy"><span class="micro-label">Runtime trust and open-source AI</span><h3>Make operational AI easier to evaluate.</h3><p>Evidence, permissions, escalation, and replayable traces.</p><span class="card-note">Runtime Trust Kit · FOSSY · Network Guardian</span></div>
         </article>
-        <article class="service-card result-card reveal reveal-delay-2">
-          <span class="micro-label">The bridge</span>
-          <h3>Human capability and system accountability</h3>
-          <p>The lanes meet in the same practical question: what should the system do, what should the person do, and what evidence makes the boundary visible?</p>
-        </article>
+        <article class="research-bridge-card reveal reveal-delay-2"><div class="research-bridge-visual"><span>PERSON</span><i aria-hidden="true"></i><span>SYSTEM</span><i aria-hidden="true"></i><span>PROOF</span></div><div class="research-bridge-copy"><span class="micro-label">The bridge</span><h3>Human capability &amp; system accountability.</h3><p>What should the system do, what should the person do, and what evidence makes the boundary visible?</p></div></article>
       </div>
     </section>
 
