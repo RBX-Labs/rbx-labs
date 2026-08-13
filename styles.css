@@ -2126,22 +2126,16 @@ h1 {
 }
 
 .section-heading {
-  max-width: 760px;
+  max-width: none;
   margin-bottom: var(--space-xl);
+}
+
+.section-heading h2 {
+  max-width: none;
 }
 
 .selected-builds-heading {
   max-width: none;
-}
-
-@media (min-width: 761px) {
-  .trust-band-section .section-heading {
-    max-width: none;
-  }
-
-  .trust-band-section .section-heading h2 {
-    white-space: nowrap;
-  }
 }
 
 @media (min-width: 1100px) {
@@ -3048,7 +3042,7 @@ h2 {
 .artifact-type { color: var(--text-muted); font-size: 0.9rem; }
 .artifact-arrow { color: var(--acid); font-size: 1.2rem; text-align: right; }
 .collaboration-section { display: grid; grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr); gap: 60px; align-items: start; padding-bottom: clamp(88px, 10vw, 148px); overflow: hidden; }
-.collaboration-intro h2, .proof-header h2 { max-width: 9ch; }
+.collaboration-intro h2, .proof-header h2 { max-width: none; }
 .collaboration-intro > p:last-child { max-width: 28ch; color: var(--text-muted); font-size: 1.08rem; line-height: 1.55; }
 .collaboration-paths { display: grid; min-width: 0; gap: 1px; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.14); }
 .collaboration-path { min-width: 0; min-height: 150px; padding: 24px 28px; background: var(--surface-panel); display: grid; grid-template-columns: 112px minmax(190px, .85fr) minmax(220px, 1.25fr) minmax(150px, .8fr); align-items: center; gap: 22px; overflow: hidden; }
@@ -4728,7 +4722,6 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   }
 
   .hero-copy h1,
-  .section-heading h2,
   .contact-card h2 {
     max-width: 16ch;
   }
