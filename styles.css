@@ -2054,6 +2054,16 @@ h1 {
   margin-bottom: var(--space-xl);
 }
 
+.selected-builds-heading {
+  max-width: none;
+}
+
+@media (min-width: 1100px) {
+  .selected-builds-heading h2 {
+    white-space: nowrap;
+  }
+}
+
 h2 {
   margin: 0;
   font-size: clamp(2rem, 4vw, 3.5rem);
