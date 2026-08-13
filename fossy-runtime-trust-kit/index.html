@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Runtime Trust Kit | FOSSY 2026</title>
+    <meta name="description" content="A small, framework-neutral runtime trust kit for open-source AI systems: policy, fixtures, evaluations, traces, and a dependency-free verifier." />
+    <link rel="canonical" href="https://rbx-labs.io/fossy-runtime-trust-kit/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Runtime Trust Kit | FOSSY 2026" />
+    <meta property="og:description" content="A framework-neutral starter kit for inspectable and repairable AI runtime behaviour." />
+    <meta property="og:url" content="https://rbx-labs.io/fossy-runtime-trust-kit/" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <nav class="topline" aria-label="Page navigation">
+        <a href="../" class="brand">RBX Labs</a>
+        <span>FOSSY 2026 · Runtime Trust Kit</span>
+      </nav>
+
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">Free to inspect · modify · share</p>
+        <h1 id="page-title">Runtime Trust Kit</h1>
+        <p class="lede">A small, framework-neutral starting point for making an AI workflow’s behaviour inspectable, bounded, and repairable after deployment.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="README.md">Read the kit</a>
+          <a class="button secondary" href="https://github.com/RBX-Labs/rbx-labs/tree/main/fossy-runtime-trust-kit">View source</a>
+        </div>
+        <p class="microcopy">No model lock-in. No agent framework. No self-reported confidence score.</p>
+      </section>
+
+      <section class="why" aria-labelledby="why-title">
+        <div>
+          <p class="eyebrow">The point</p>
+          <h2 id="why-title">A failure should become a contribution artifact.</h2>
+        </div>
+        <div class="loop" aria-label="Failure improvement loop">
+          <span>bad answer</span><b>→</b><span>trace</span><b>→</b><span>fixture</span><b>→</b><span>evaluation</span><b>→</b><span>regression test</span><b>→</b><span>patch</span>
+        </div>
+      </section>
+
+      <section class="kit" aria-labelledby="kit-title">
+        <div class="section-heading">
+          <p class="eyebrow">What’s inside</p>
+          <h2 id="kit-title">Five small parts. One model-independent contract.</h2>
+        </div>
+        <div class="cards">
+          <article>
+            <span class="number">01</span>
+            <h3>Policy</h3>
+            <p>Names the allowed action, evidence requirements, escalation rule, and expected proof of completion.</p>
+            <a href="policy/runtime-policy.example.json">Open policy →</a>
+          </article>
+          <article>
+            <span class="number">02</span>
+            <h3>Fixture</h3>
+            <p>A concrete, shareable issue with stale and conflicting evidence—so a claim can be tested rather than admired.</p>
+            <a href="fixtures/issues/418-feature-x-migration.md">Open fixture →</a>
+          </article>
+          <article>
+            <span class="number">03</span>
+            <h3>Evaluation</h3>
+            <p>Sets the pass condition: escalate to a maintainer; do not invent an unconditional compatibility claim.</p>
+            <a href="evals/feature-x-upgrade.json">Open evaluation →</a>
+          </article>
+          <article>
+            <span class="number">04</span>
+            <h3>Traces</h3>
+            <p>Shows the difference between a fluent prompt-only approval and an observable, runtime-aware escalation.</p>
+            <a href="traces/runtime-aware-run.json">Open trace →</a>
+          </article>
+          <article>
+            <span class="number">05</span>
+            <h3>Verifier</h3>
+            <p>A dependency-free contract check that makes the example runnable with ordinary Node.js.</p>
+            <a href="tests/verify-runtime-trust-kit.mjs">Open verifier →</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="compare" aria-labelledby="compare-title">
+        <div class="section-heading">
+          <p class="eyebrow">The operational difference</p>
+          <h2 id="compare-title">Plausible is not the same as trustworthy.</h2>
+        </div>
+        <div class="comparison-grid">
+          <article class="failure-card">
+            <div class="card-label">Prompt-only run</div>
+            <blockquote>“Yes, Feature X is compatible with the 4.2 migration. You can proceed.”</blockquote>
+            <ul>
+              <li>No source record</li>
+              <li>No conflict visible</li>
+              <li>No proof of compatibility</li>
+            </ul>
+            <p class="status unsafe">approved · unsupported</p>
+          </article>
+          <article class="trust-card">
+            <div class="card-label">Runtime-aware run</div>
+            <blockquote>“I can’t confirm 4.2 compatibility yet. The sources conflict; run the adapter fixture and attach the result.”</blockquote>
+            <ul>
+              <li>Coverage, freshness, and conflict recorded</li>
+              <li>Read-only authority held</li>
+              <li>Bounded maintainer fallback</li>
+            </ul>
+            <p class="status safe">needs maintainer review · inspectable</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="adopt" aria-labelledby="adopt-title">
+        <div>
+          <p class="eyebrow">Adopt it in an afternoon</p>
+          <h2 id="adopt-title">Start from the action, not from the prompt.</h2>
+        </div>
+        <ol>
+          <li><span>1</span> Bound the authority the workflow actually needs.</li>
+          <li><span>2</span> Record observable evidence signals and their limits.</li>
+          <li><span>3</span> Define abstain, escalate, and post-action verification paths.</li>
+          <li><span>4</span> Turn the next meaningful miss into a fixture and regression test.</li>
+        </ol>
+      </section>
+
+      <section class="cta" aria-labelledby="cta-title">
+        <p class="eyebrow">From the FOSSY 2026 session</p>
+        <h2 id="cta-title">If the community can’t inspect the failure, it can’t reliably repair it.</h2>
+        <a class="button primary" href="README.md">Take the kit</a>
+        <p>Apache-2.0 · Fork it, adapt it, and make your next failure useful.</p>
+      </section>
+    </main>
+  </body>
+</html>
