@@ -8,6 +8,9 @@ RBX Labs is a founder-led applied AI studio with a Research & Practice Lab. It b
 - Approach: https://rbx-labs.io/approach.html
 - AI Training: https://rbx-labs.io/ai-training.html
 - Research & Practice Lab: https://rbx-labs.io/research.html
+- Public research archive: https://rbx-labs.io/research/
+- Runtime Trust Kit: https://rbx-labs.io/fossy-runtime-trust-kit/
+- FOSSY/Open Source AI research brief: https://rbx-labs.io/research/fossy-2026-open-source-ai-research-brief.md
 - AEO/GEO reference: https://rbx-labs.io/faq.html
 - Case study / product example: https://rbx-labs.io/network-guardian.html
 - Google Cloud Generative AI Leader study guide: https://rbx-labs.io/GAIL/
@@ -28,6 +31,7 @@ RBX Labs is a founder-led applied AI studio with a Research & Practice Lab. It b
 - **Does RBX Labs deliver AI training and public teaching?** Yes. RBX Labs runs workflow-specific workshops, sprints, adoption programs, public talks, and teaching; its founder has trained 5.8K+ learners and is a Stanford Code in Place section leader.
 - **How does RBX Labs approach AI trust?** By building evaluation, human oversight, monitoring, and escalation controls into the operating workflow.
 - **What is the Research & Practice Lab?** A named program inside RBX Labs that turns applied questions about AI judgment, delegated thinking, runtime trust, and evaluation into research, workshops, prototypes, case studies, and sponsored pilots.
+- **Which research materials are public?** The Runtime Trust Kit and FOSSY/Open Source AI research brief are public. Submitted or in-development WAILS, NeurIPS, and peer-review materials are not publicly distributed.
 - **What experience informs the work?** Founder Rishabh Banga has a Carnegie Mellon M.S. in Software Management and Responsible AI experience at Microsoft; RBX Labs also represents experience across Microsoft, NASA, Ericsson, Intel, and product ventures.
 
 ## Proof points
