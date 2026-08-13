@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "policy_id": "maintainer-assistant-feature-x-v1",
+  "intent": "Answer a maintainer's question about a requested migration without applying a repository change.",
+  "action": {
+    "name": "provide_migration_guidance",
+    "authority": "read_only",
+    "disallowed": [
+      "merge_pull_request",
+      "change_production_configuration",
+      "publish_release",
+      "claim_compatibility_without_evidence"
+    ]
+  },
+  "required_signals": {
+    "retrieval_coverage": {
+      "minimum": 0.8,
+      "meaning": "The response is grounded in the issue, migration guide, and compatibility record."
+    },
+    "source_freshness_days": {
+      "maximum": 90,
+      "meaning": "Key source material is recent enough for the stated version."
+    },
+    "source_conflict": {
+      "must_be": "resolved_or_escalated",
+      "meaning": "Contradictory sources are never silently averaged away."
+    },
+    "tool_scope": {
+      "must_be": "within_policy",
+      "meaning": "Every tool call stays inside the named authority boundary."
+    }
+  },
+  "decision_rules": [
+    {
+      "when": "all_required_signals_pass",
+      "outcome": "provide_grounded_guidance",
+      "record": ["sources", "signal_values", "policy_id", "model_lock"]
+    },
+    {
+      "when": "source_conflict_is_unresolved OR retrieval_coverage_below_minimum OR source_freshness_exceeds_maximum",
+      "outcome": "needs_maintainer_review",
+      "record": ["blocking_signals", "sources_consulted", "unanswered_question"]
+    },
+    {
+      "when": "requested_action_exceeds_authority",
+      "outcome": "refuse_and_route_to_approval",
+      "record": ["requested_action", "authority_boundary", "approval_route"]
+    }
+  ],
+  "post_action_verification": {
+    "required": true,
+    "proof": "Observe the expected downstream state; do not accept a tool-success response as proof of completion.",
+    "on_failure": "needs_maintainer_review"
+  },
+  "fallback": {
+    "outcome": "needs_maintainer_review",
+    "message": "I found evidence that needs a maintainer decision before I can make a reliable compatibility claim."
+  }
+}

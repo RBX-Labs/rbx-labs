@@ -1,0 +1,11 @@
+{
+  "purpose": "Pin the model-facing part of an evaluation so a trace remains comparable after a model or serving change.",
+  "provider": "replace-with-your-provider-or-self-hosted-runtime",
+  "model_identifier": "replace-with-exact-model-and-revision",
+  "model_artifact_digest": "sha256:replace-with-artifact-digest-when-available",
+  "serving_runtime": "replace-with-runtime-and-version",
+  "system_prompt_revision": "sha256:replace-with-prompt-or-policy-revision",
+  "tool_schema_revision": "sha256:replace-with-tool-contract-revision",
+  "retrieval_index_revision": "replace-with-index-or-corpus-snapshot",
+  "recorded_at": "2026-08-08T18:45:00Z"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "runtime-trust-kit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A framework-neutral starter kit for inspectable runtime trust controls in AI workflows.",
+  "type": "module",
+  "scripts": {
+    "verify": "node tests/verify-runtime-trust-kit.mjs"
+  },
+  "license": "Apache-2.0"
+}

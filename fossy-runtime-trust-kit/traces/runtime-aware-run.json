@@ -1,0 +1,44 @@
+{
+  "trace_id": "runtime-aware-feature-x-v1",
+  "policy_id": "maintainer-assistant-feature-x-v1",
+  "model_lock": "../MODEL_LOCK.example.json",
+  "request": "Can we tell maintainers that Feature X works with the 4.2 migration?",
+  "sources": [
+    {
+      "id": "issue-418",
+      "path": "../fixtures/issues/418-feature-x-migration.md",
+      "role": "reported requirement",
+      "age_days": 2
+    },
+    {
+      "id": "migration-guide-4.2",
+      "role": "implementation guidance",
+      "age_days": 12,
+      "claim": "Feature X requires an adapter migration."
+    },
+    {
+      "id": "compatibility-record-4.1",
+      "role": "previous compatibility evidence",
+      "age_days": 78,
+      "claim": "Feature X was verified only through 4.1."
+    }
+  ],
+  "observed_signals": {
+    "retrieval_coverage": 0.83,
+    "source_freshness_days": 12,
+    "source_conflict": "unresolved",
+    "tool_scope": "within_policy",
+    "downstream_state_verified": false
+  },
+  "decision": "needs_maintainer_review",
+  "answer": "I cannot confirm 4.2 compatibility yet. The migration guide says Feature X needs an adapter migration, while the compatibility record is verified only through 4.1. A maintainer should run the adapter fixture against 4.2 and attach the resulting compatibility artifact before we make a public claim.",
+  "fallback": {
+    "route": "maintainer_review",
+    "reason": "unresolved_source_conflict"
+  },
+  "repair_artifact": {
+    "proposed_fixture": "feature-x-4.2-adapter",
+    "proposed_eval": "feature-x-upgrade-conflicting-evidence-v1",
+    "acceptance_proof": "recorded adapter test result for version 4.2"
+  }
+}
