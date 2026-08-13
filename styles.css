@@ -1226,6 +1226,45 @@ h1 {
   position: relative;
 }
 
+.trust-orbit {
+  position: relative;
+  min-height: 520px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 229, 255, 0.24);
+  border-radius: var(--radius-lg);
+  background: radial-gradient(circle at 50% 48%, rgba(0, 229, 255, 0.2), transparent 22%), linear-gradient(145deg, #06121e, #102e43 58%, #173b48);
+  box-shadow: var(--shadow-cyan);
+}
+
+.trust-orbit::before,
+.trust-orbit::after {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border: 1px solid rgba(93, 227, 255, 0.1);
+  border-radius: 50%;
+  transform: rotate(28deg) skewX(-12deg);
+}
+
+.trust-orbit::after { inset: 24% 8%; transform: rotate(-18deg) skewX(18deg); }
+
+.orbit-ring { position: absolute; left: 50%; top: 47%; border: 1px solid rgba(93, 227, 255, 0.42); border-radius: 50%; transform: translate(-50%, -50%); }
+.orbit-ring--outer { width: 330px; height: 330px; border-style: dashed; opacity: 0.56; }
+.orbit-ring--middle { width: 232px; height: 232px; box-shadow: 0 0 50px rgba(0, 229, 255, 0.12); }
+.orbit-ring--inner { width: 132px; height: 132px; border-color: var(--acid); box-shadow: 0 0 30px rgba(178, 255, 0, 0.2); }
+
+.orbit-core { position: absolute; left: 50%; top: 47%; display: grid; place-items: center; width: 92px; height: 92px; border: 1px solid var(--cyan); border-radius: 50%; background: #071520; color: var(--text-strong); text-align: center; transform: translate(-50%, -50%); }
+.orbit-core span { color: var(--cyan-soft); font: 0.58rem "Space Mono", monospace; letter-spacing: 0.14em; }
+.orbit-core strong { font-size: 0.72rem; line-height: 1.05; letter-spacing: 0.08em; }
+.orbit-node { position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 18px var(--cyan); }
+.orbit-node--one { left: 50%; top: calc(47% - 169px); }
+.orbit-node--two { left: calc(50% + 164px); top: 47%; background: var(--acid); box-shadow: 0 0 18px var(--acid); }
+.orbit-node--three { left: calc(50% - 164px); top: 47%; }
+.orbit-label { position: absolute; color: var(--cyan-soft); font: 0.62rem "Space Mono", monospace; letter-spacing: 0.16em; }
+.orbit-label--top { top: 26px; left: 30px; }.orbit-label--right { top: 26px; right: 30px; color: var(--acid); }.orbit-label--bottom { bottom: 78px; left: 30px; }
+.orbit-caption { position: absolute; right: 28px; bottom: 28px; display: flex; gap: 12px; align-items: center; color: var(--text-muted); font: 0.65rem "Space Mono", monospace; }
+.orbit-caption b { color: var(--acid); font-size: 1rem; }
+
 .approach-page .hero {
   grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
   align-items: start;
@@ -4608,6 +4647,18 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
 }
 
 @media (max-width: 760px) {
+  .trust-orbit {
+    min-height: 390px;
+  }
+
+  .orbit-ring--outer { width: 250px; height: 250px; }
+  .orbit-ring--middle { width: 178px; height: 178px; }
+  .orbit-ring--inner { width: 104px; height: 104px; }
+  .orbit-node--one { top: calc(47% - 128px); }
+  .orbit-node--two { left: calc(50% + 124px); }
+  .orbit-node--three { left: calc(50% - 124px); }
+  .orbit-caption { left: 24px; right: auto; bottom: 24px; }
+
   .osi-visual-grid,
   .osi-artifact-strip {
     grid-template-columns: 1fr;
