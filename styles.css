@@ -4773,6 +4773,10 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
 }
 
 @media (max-width: 760px) {
+  .section-heading h2 {
+    max-width: 26ch;
+  }
+
   .trust-orbit {
     min-height: 390px;
   }
