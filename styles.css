@@ -1754,6 +1754,23 @@ h1 {
   grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
 }
 
+.training-proof-strip {
+  display: grid;
+  grid-template-columns: minmax(240px, .7fr) minmax(0, 1.3fr);
+  gap: 48px;
+  align-items: start;
+  margin-top: var(--space-xl);
+  padding: 28px 0;
+  border-top: 1px solid rgba(0, 229, 255, .2);
+  border-bottom: 1px solid rgba(0, 229, 255, .16);
+}
+
+.training-proof-intro h2 { max-width: 16ch; margin: 10px 0 0; font-size: clamp(1.7rem, 3vw, 2.6rem); }
+.training-proof-intro p:last-child { max-width: 32ch; margin-top: 14px; color: var(--text-muted); }
+.training-proof-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: rgba(0, 229, 255, .14); }
+.training-proof-facts > div { min-height: 132px; padding: 18px; background: var(--surface-panel); }
+.training-proof-facts strong { display: block; margin-top: 12px; font-size: 1rem; line-height: 1.35; }
+
 .training-page .contact-actions {
   display: flex;
   flex-direction: column;
@@ -4863,6 +4880,8 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   .research-state { min-height: 0; }
   .private-research-note { grid-template-columns: 1fr; gap: 10px; }
   .private-research-note .text-link { white-space: normal; }
+  .training-proof-strip { grid-template-columns: 1fr; gap: 24px; }
+  .training-proof-facts { grid-template-columns: 1fr; }
   .collaboration-section,
   .proof-section { grid-template-columns: 1fr; gap: 28px; }
   .collaboration-section { padding-bottom: 72px; }
