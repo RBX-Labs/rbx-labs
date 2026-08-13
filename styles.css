@@ -3044,6 +3044,52 @@ h2 {
 
 .osi-cta h3 { margin: 10px 0 0; max-width: 28ch; }
 
+.research-state-index {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: var(--space-xl);
+  border: 1px solid rgba(0, 229, 255, .2);
+  background: rgba(0, 229, 255, .16);
+}
+
+.research-state {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 8px 16px;
+  min-height: 150px;
+  padding: 22px 24px;
+  color: var(--text-strong);
+  text-decoration: none;
+  background: var(--surface-panel);
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.research-state:hover { background: color-mix(in srgb, var(--cyan) 8%, var(--surface-panel)); transform: translateY(-2px); }
+.research-state--active { background: color-mix(in srgb, var(--acid) 7%, var(--surface-panel)); }
+.research-state--collab { background: linear-gradient(135deg, color-mix(in srgb, #9b8cff 8%, var(--surface-panel)), var(--surface-panel)); }
+.research-state-number { color: var(--cyan-soft); font: .7rem "Space Mono", monospace; letter-spacing: .12em; }
+.research-state--active .research-state-number { color: var(--acid); }
+.research-state-label { grid-column: 2; font-size: 1.15rem; font-weight: 600; letter-spacing: -.02em; }
+.research-state-copy { grid-column: 2 / -1; max-width: 28ch; color: var(--text-muted); font-size: .92rem; line-height: 1.45; }
+.research-state-arrow { grid-column: 3; grid-row: 1; color: var(--acid); font-size: 1.2rem; }
+
+.private-research-note {
+  display: grid;
+  grid-template-columns: minmax(160px, .4fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  margin-top: 18px;
+  padding: 18px 20px;
+  border-left: 2px solid var(--acid);
+  background: color-mix(in srgb, var(--acid) 6%, var(--surface-panel));
+}
+
+.private-research-note p { margin: 0; color: var(--text-muted); font-size: .92rem; line-height: 1.45; }
+.private-research-note .text-link { white-space: nowrap; }
+
 .artifact-index-section,
 .collaboration-section,
 .proof-section { position: relative; padding-top: var(--space-2xl); }
@@ -4813,6 +4859,10 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   .artifact-row { grid-template-columns: 34px minmax(0, 1fr) 24px; gap: 10px; }
   .artifact-type { grid-column: 2; font-size: .8rem; }
   .artifact-arrow { grid-column: 3; grid-row: 1 / span 2; }
+  .research-state-index { grid-template-columns: 1fr; }
+  .research-state { min-height: 0; }
+  .private-research-note { grid-template-columns: 1fr; gap: 10px; }
+  .private-research-note .text-link { white-space: normal; }
   .collaboration-section,
   .proof-section { grid-template-columns: 1fr; gap: 28px; }
   .collaboration-section { padding-bottom: 72px; }
