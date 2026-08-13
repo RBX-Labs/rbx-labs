@@ -483,9 +483,10 @@ the Apache-2.0, framework-neutral **Runtime Trust Kit** as a concrete companion
 artifact for this session. It includes a bounded policy, stale/conflicting-source
 fixture, expected evaluation, contrasting prompt-only and runtime-aware traces,
 a model-lock template, threat model, and a dependency-free verifier. The local
-primary sources are the [kit README](/Users/bangabot/Documents/RBX-Labs/NetworkGuardian/rbx-labs/fossy-runtime-trust-kit/README.md),
-[policy](/Users/bangabot/Documents/RBX-Labs/NetworkGuardian/rbx-labs/fossy-runtime-trust-kit/policy/runtime-policy.example.json),
-and [verifier](/Users/bangabot/Documents/RBX-Labs/NetworkGuardian/rbx-labs/fossy-runtime-trust-kit/tests/verify-runtime-trust-kit.mjs).
+primary sources are the [Runtime Trust Kit](https://rbx-labs.io/fossy-runtime-trust-kit/),
+[kit README](https://github.com/RBX-Labs/rbx-labs/blob/main/fossy-runtime-trust-kit/README.md),
+[example policy](https://github.com/RBX-Labs/rbx-labs/blob/main/fossy-runtime-trust-kit/policy/runtime-policy.example.json),
+and [dependency-free verifier](https://github.com/RBX-Labs/rbx-labs/blob/main/fossy-runtime-trust-kit/tests/verify-runtime-trust-kit.mjs).
 This is historical context rather than a new update-log event because it
 predates the 24 July baseline, but it makes the talk's proposed contribution
 usable: a community can inspect the evidence boundary, reproduce the failure,
