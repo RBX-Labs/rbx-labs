@@ -1279,12 +1279,9 @@ h1 {
 .orbit-core span { color: var(--cyan-soft); font: 0.58rem "Space Mono", monospace; letter-spacing: 0.14em; }
 .orbit-core strong { font-size: 0.72rem; line-height: 1.05; letter-spacing: 0.08em; }
 .orbit-node { position: absolute; z-index: 3; width: 9px; height: 9px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 18px var(--cyan); }
-.orbit-node--one { left: 50%; top: calc(47% - 169px); }
-.orbit-node--two { left: calc(50% + 164px); top: 47%; background: var(--acid); box-shadow: 0 0 18px var(--acid); }
-.orbit-node--three { left: calc(50% - 164px); top: 47%; }
-.orbit-node--one { animation: orbit-node-top 28s linear infinite; transform-origin: 0 169px; }
-.orbit-node--two { animation: orbit-node-right 21s linear infinite; transform-origin: -164px 0; }
-.orbit-node--three { animation: orbit-node-left 21s linear infinite; transform-origin: 164px 0; }
+.orbit-node--one { left: 50%; top: calc(47% - 169px); animation: orbit-node-top 28s linear infinite; transform-origin: 0 169px; }
+.orbit-node--two { left: calc(50% + 116px); top: 47%; background: var(--acid); box-shadow: 0 0 18px var(--acid); animation: orbit-node-right 21s linear infinite; transform-origin: -116px 0; }
+.orbit-node--three { left: 50%; top: calc(47% + 66px); animation: orbit-node-bottom 15s linear infinite; transform-origin: 0 -66px; }
 .orbit-label { position: absolute; z-index: 4; color: var(--cyan-soft); font: 0.62rem "Space Mono", monospace; letter-spacing: 0.16em; }
 .orbit-label--top { top: 26px; left: 30px; }.orbit-label--right { top: 26px; right: 30px; color: var(--acid); }.orbit-label--bottom { bottom: 78px; left: 30px; }
 .orbit-caption { position: absolute; right: 28px; bottom: 28px; z-index: 4; display: flex; gap: 12px; align-items: center; color: var(--text-muted); font: 0.65rem "Space Mono", monospace; }
@@ -1296,6 +1293,7 @@ h1 {
 @keyframes orbit-node-top { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes orbit-node-right { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes orbit-node-left { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+@keyframes orbit-node-bottom { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes trust-panel-breathe { 0%, 100% { box-shadow: 0 0 0 rgba(0, 229, 255, 0), var(--shadow-cyan); } 50% { box-shadow: 0 0 38px rgba(0, 229, 255, .12), var(--shadow-cyan); } }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4768,8 +4766,8 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   .orbit-ring--middle { width: 178px; height: 178px; }
   .orbit-ring--inner { width: 104px; height: 104px; }
   .orbit-node--one { top: calc(47% - 128px); }
-  .orbit-node--two { left: calc(50% + 124px); }
-  .orbit-node--three { left: calc(50% - 124px); }
+  .orbit-node--two { left: calc(50% + 88px); transform-origin: -88px 0; }
+  .orbit-node--three { left: 50%; top: calc(47% + 52px); transform-origin: 0 -52px; }
   .orbit-caption { left: 24px; right: auto; bottom: 24px; }
 
   .osi-visual-grid,
