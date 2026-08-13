@@ -2943,6 +2943,35 @@ h2 {
 
 .osi-cta h3 { margin: 10px 0 0; max-width: 28ch; }
 
+.artifact-index-section,
+.collaboration-section,
+.proof-section { position: relative; padding-top: var(--space-2xl); }
+.artifact-index-section::before,
+.collaboration-section::before,
+.proof-section::before { content: ""; position: absolute; inset: 0 0 auto; height: 1px; background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.16), transparent); }
+.artifact-index { margin-top: 30px; border-top: 1px solid rgba(0, 229, 255, 0.24); }
+.artifact-row { display: grid; grid-template-columns: 64px minmax(0, 1.4fr) minmax(180px, 0.8fr) 32px; align-items: center; gap: 20px; min-height: 82px; padding: 14px 8px; border-bottom: 1px solid rgba(0, 229, 255, 0.14); color: var(--text-strong); text-decoration: none; transition: background 160ms ease, padding 160ms ease; }
+.artifact-row:hover { padding-left: 18px; padding-right: 18px; background: rgba(0, 229, 255, 0.06); }
+.artifact-number { color: var(--cyan-soft); font: 0.7rem "Space Mono", monospace; }
+.artifact-name { font-size: clamp(1.1rem, 2vw, 1.45rem); letter-spacing: -0.03em; }
+.artifact-type { color: var(--text-muted); font-size: 0.9rem; }
+.artifact-arrow { color: var(--acid); font-size: 1.2rem; text-align: right; }
+.collaboration-section { display: grid; grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr); gap: 60px; align-items: start; }
+.collaboration-intro h2, .proof-header h2 { max-width: 9ch; }
+.collaboration-intro > p:last-child { max-width: 28ch; color: var(--text-muted); font-size: 1.08rem; line-height: 1.55; }
+.collaboration-paths { display: grid; gap: 1px; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.14); }
+.collaboration-path { min-height: 150px; padding: 24px 28px; background: var(--surface-panel); display: grid; grid-template-columns: 130px minmax(160px, 0.8fr) minmax(180px, 1.3fr) 180px; align-items: center; gap: 20px; }
+.collaboration-path > span { color: var(--cyan-soft); font: 0.67rem "Space Mono", monospace; letter-spacing: .12em; }
+.collaboration-path h3 { margin: 0; font-size: 1.25rem; }
+.collaboration-path p { margin: 0; color: var(--text-muted); line-height: 1.45; }
+.collaboration-path b { color: var(--text-strong); font: 0.68rem "Space Mono", monospace; letter-spacing: .04em; text-align: right; }
+.collaboration-path--acid { background: color-mix(in srgb, var(--acid) 7%, var(--surface-panel)); }.collaboration-path--acid > span { color: var(--acid); }.collaboration-path--violet { background: linear-gradient(90deg, color-mix(in srgb, #9b8cff 8%, var(--surface-panel)), var(--surface-panel)); }.collaboration-path--violet > span { color: #b9aaff; }
+.proof-section { display: grid; grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr); gap: 60px; }
+.proof-timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-left: 1px solid rgba(0, 229, 255, .3); }
+.proof-timeline > div { min-height: 170px; padding: 0 20px 0 22px; border-right: 1px solid rgba(0, 229, 255, .16); }
+.proof-timeline span { display: block; color: var(--cyan-soft); font: .68rem "Space Mono", monospace; margin-bottom: 28px; }.proof-timeline strong { font-size: 1.15rem; }.proof-timeline p { color: var(--text-muted); font-size: .92rem; line-height: 1.45; }
+.contact-section--closing { padding-bottom: var(--space-2xl); }.contact-section--closing .contact-card { background: linear-gradient(120deg, color-mix(in srgb, var(--cyan-deep) 24%, var(--surface-panel-strong)), color-mix(in srgb, var(--acid) 8%, var(--surface-panel))); border-color: rgba(0, 229, 255, .4); }
+
 .research-lane-grid {
   display: grid;
   gap: 18px;
@@ -4663,6 +4692,16 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   .osi-artifact-strip {
     grid-template-columns: 1fr;
   }
+
+  .artifact-row { grid-template-columns: 34px minmax(0, 1fr) 24px; gap: 10px; }
+  .artifact-type { grid-column: 2; font-size: .8rem; }
+  .artifact-arrow { grid-column: 3; grid-row: 1 / span 2; }
+  .collaboration-section,
+  .proof-section { grid-template-columns: 1fr; gap: 28px; }
+  .collaboration-path { grid-template-columns: 1fr; gap: 10px; }
+  .collaboration-path b { text-align: left; }
+  .proof-timeline { grid-template-columns: repeat(2, 1fr); border-left: 0; gap: 18px 0; }
+  .proof-timeline > div { min-height: 130px; }
 
   .osi-bridge {
     grid-column: auto;
