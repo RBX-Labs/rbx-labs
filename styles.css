@@ -2769,6 +2769,141 @@ h2 {
   background: linear-gradient(180deg, color-mix(in srgb, var(--surface-panel-strong) 98%, transparent), color-mix(in srgb, var(--surface-panel) 95%, transparent));
 }
 
+.osi-visual-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.osi-lane-card {
+  overflow: hidden;
+  border: 1px solid rgba(0, 229, 255, 0.18);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--surface-panel) 96%, transparent);
+  box-shadow: var(--shadow-rise);
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.osi-lane-card:hover,
+.osi-lane-card:focus-within {
+  transform: translateY(-5px);
+  border-color: rgba(0, 229, 255, 0.48);
+  box-shadow: var(--shadow-cyan);
+}
+
+.osi-lane-art {
+  min-height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 26px;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.18), transparent 28%), linear-gradient(135deg, #071521, #12344b);
+  color: var(--cyan-soft);
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+}
+
+.osi-lane-card--agency .osi-lane-art {
+  background: radial-gradient(circle at 50% 50%, rgba(178, 255, 0, 0.14), transparent 28%), linear-gradient(135deg, #101b1b, #173b3a);
+  color: var(--acid);
+}
+
+.osi-lane-art i {
+  width: 34px;
+  border-top: 1px solid currentColor;
+  position: relative;
+}
+
+.osi-lane-art i::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -4px;
+  border-left: 5px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.osi-lane-art b {
+  color: var(--text-strong);
+  font-weight: 700;
+}
+
+.osi-lane-copy {
+  padding: 24px 26px 26px;
+}
+
+.osi-lane-copy h3 {
+  margin: 14px 0 0;
+  max-width: 16ch;
+}
+
+.osi-lane-copy p {
+  margin: 12px 0 18px;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.osi-lane-copy .text-link {
+  border-bottom: 1px solid rgba(93, 227, 255, 0.46);
+  color: var(--text-strong);
+  padding-bottom: 6px;
+  text-decoration: none;
+}
+
+.osi-bridge {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 92px;
+  padding: 20px;
+  border: 1px solid rgba(178, 255, 0, 0.22);
+  border-radius: var(--radius-md);
+  background: linear-gradient(90deg, rgba(0, 229, 255, 0.08), rgba(178, 255, 0, 0.08));
+  color: var(--text-muted);
+  font-family: "Space Mono", monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+}
+
+.osi-bridge strong { color: var(--text-strong); }
+.osi-bridge i { width: 52px; border-top: 1px solid var(--acid); position: relative; }
+.osi-bridge i::after { content: ""; position: absolute; right: -1px; top: -4px; border-left: 5px solid var(--acid); border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
+
+.osi-artifact-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.osi-artifact-strip article {
+  padding: 20px 22px;
+  border-top: 1px solid rgba(0, 229, 255, 0.25);
+  background: color-mix(in srgb, var(--surface-panel) 84%, transparent);
+}
+
+.osi-artifact-strip h3 { margin: 10px 0 0; font-size: 1.08rem; }
+.osi-artifact-strip p { margin: 8px 0 0; color: var(--text-muted); font-size: 0.92rem; }
+
+.osi-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 22px;
+  padding: 24px 28px;
+  border: 1px solid rgba(0, 229, 255, 0.24);
+  border-radius: var(--radius-md);
+  background: linear-gradient(100deg, rgba(0, 229, 255, 0.1), rgba(178, 255, 0, 0.06));
+}
+
+.osi-cta h3 { margin: 10px 0 0; max-width: 28ch; }
+
 .research-lane-grid {
   display: grid;
   gap: 18px;
@@ -4473,6 +4608,27 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
 }
 
 @media (max-width: 760px) {
+  .osi-visual-grid,
+  .osi-artifact-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .osi-bridge {
+    grid-column: auto;
+    flex-wrap: wrap;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .osi-bridge i {
+    width: 26px;
+  }
+
+  .osi-cta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .site-header,
   .page-shell,
   .ng-nav,
