@@ -2689,6 +2689,21 @@ h2 {
   margin-top: var(--space-lg);
 }
 
+/* Research-page closing actions should read as a deliberate control pair,
+   not a content-sized cluster stranded inside the right column. */
+.research-page .contact-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  align-self: end;
+}
+
+.research-page .contact-actions .btn {
+  width: 100%;
+  white-space: nowrap;
+}
+
 .about-contact-card .section-copy {
   margin-top: var(--space-md);
 }
@@ -4814,6 +4829,10 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   .hero-actions .btn,
   .contact-actions .btn {
     width: 100%;
+  }
+
+  .research-page .contact-actions {
+    grid-template-columns: 1fr;
   }
 
   .hero-proof {
