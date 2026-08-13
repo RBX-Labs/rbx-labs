@@ -3300,6 +3300,13 @@ h2 {
   padding: 28px 32px;
 }
 
+.research-bridge-copy .text-link {
+  align-self: flex-start;
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 229, 255, 0.2);
+}
+
 .cta-note {
   max-width: 44ch;
 }
