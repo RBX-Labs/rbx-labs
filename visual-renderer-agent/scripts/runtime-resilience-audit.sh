@@ -39,14 +39,26 @@ for page in "${HTML_PAGES[@]}"; do
       continue
     fi
 
+    # Resolve relative references from the page that contains them.
+    page_dir="${page:h}"
+
     # Site-root absolute path
     if [[ "$local_path" == /* ]]; then
       fs_path="$ROOT_DIR$local_path"
     else
-      fs_path="$ROOT_DIR/${local_path}"
+      fs_path="$page_dir/${local_path}"
     fi
 
     (( asset_count += 1 ))
+    if [[ -f "$fs_path" ]]; then
+      continue
+    fi
+
+    # Clean public routes are directory links served by index.html.
+    if [[ -d "$fs_path" && -f "$fs_path/index.html" ]]; then
+      continue
+    fi
+
     if [[ ! -f "$fs_path" ]]; then
       # Support clean route links that omit extension.
       if [[ "$fs_path" != *.* && -f "${fs_path}.html" ]]; then

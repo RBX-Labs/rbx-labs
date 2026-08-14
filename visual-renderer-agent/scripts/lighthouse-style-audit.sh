@@ -107,14 +107,16 @@ def summarize_lighthouse(path: Path):
 css = root / "network-guardian.css"
 js = root / "script.js"
 html = root / "network-guardian.html"
+css_text = css.read_text(encoding="utf-8") if css.exists() else ""
+js_text = js.read_text(encoding="utf-8") if js.exists() else ""
+html_text = html.read_text(encoding="utf-8") if html.exists() else ""
 
-hero_dark_png = root / "assets/branding/hero/networkguardian_hero.png"
-hero_light_png = root / "assets/branding/hero/networkguardian_hero_light.png"
-tele_dark_png = root / "assets/branding/telemetry/telemetry_map.png"
-tele_light_png = root / "assets/branding/telemetry/telemetry_map_light.png"
-logo_png = root / "assets/branding/logos/ng_logo.png"
-
-png_assets = [hero_dark_png, hero_light_png, tele_dark_png, tele_light_png, logo_png]
+png_refs = re.findall(r'(?:src|poster)="([^"]+\.png)"', html_text)
+png_assets = []
+for ref in png_refs:
+    candidate = root / ref
+    if candidate.exists() and candidate not in png_assets:
+        png_assets.append(candidate)
 png_total_kib = round(sum(kib(p) for p in png_assets), 1)
 
 def pick_preferred_bytes(base_no_ext: Path):
@@ -132,10 +134,6 @@ preferred_assets = [
 ]
 preferred_total_kib = round(sum(pick_preferred_bytes(p) for p in preferred_assets) / 1024.0, 1)
 
-css_text = css.read_text(encoding="utf-8") if css.exists() else ""
-js_text = js.read_text(encoding="utf-8") if js.exists() else ""
-html_text = html.read_text(encoding="utf-8") if html.exists() else ""
-
 reduced_motion_ok = (
     "@media (prefers-reduced-motion: reduce)" in css_text
     and "scroll-behavior: auto;" in css_text
@@ -146,7 +144,12 @@ visibility_pause_ok = (
     and "pauseManagedIntervals();" in js_text
     and "pauseTrackAutoplay();" in js_text
 )
-head_blocking_scripts = len(re.findall(r"<script(?![^>]*\\b(?:defer|async)\\b)[^>]*>", html_text, flags=re.I))
+script_tags = re.findall(r"<script\\b([^>]*)>", html_text, flags=re.I)
+head_blocking_scripts = sum(
+    1 for attrs in script_tags
+    if re.search(r"\\bsrc=", attrs, flags=re.I)
+    and not re.search(r"\\b(?:defer|async)\\b", attrs, flags=re.I)
+)
 
 status = "PASS"
 notes = []
@@ -186,7 +189,7 @@ lines.append("Static Performance Guards")
 lines.append(f"- Reduced-motion fallback guard: {'PASS' if reduced_motion_ok else 'FAIL'}")
 lines.append(f"- Hidden-tab animation pause guard: {'PASS' if visibility_pause_ok else 'FAIL'}")
 lines.append(f"- Preferred hero/telemetry payload (AVIF/WebP/PNG order): {preferred_total_kib} KiB")
-lines.append(f"- PNG fallback payload (hero/telemetry/logo): {png_total_kib} KiB")
+lines.append(f"- Referenced PNG payload on Network Guardian page: {png_total_kib} KiB")
 lines.append(f"- Head-blocking script tags: {head_blocking_scripts}")
 lines.append("")
 lines.append(f"Overall: {status}")

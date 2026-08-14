@@ -56,8 +56,8 @@ check "Operation icons are centered and visibly emphasized" \
 
 # ---------- Live System Overview ----------
 check "Incident cards use single explicit icon assets (no light/dark overlap)" \
-  "rg -Fq 'class=\"incident-card-icon\" src=\"assets/branding/icons/ng_alert_light.png\"' \"$HTML_FILE\" && \
-   rg -Fq 'class=\"incident-card-icon\" src=\"assets/branding/icons/ng_security_light.png\"' \"$HTML_FILE\" && \
+  "rg -Fq 'class=\"incident-card-icon\" src=\"assets/branding/icons/ng_alert_light.webp\"' \"$HTML_FILE\" && \
+   rg -Fq 'class=\"incident-card-icon\" src=\"assets/branding/icons/ng_security_light.webp\"' \"$HTML_FILE\" && \
    ! rg -Fq 'class=\"incident-card-icon\" src=\"assets/branding/icons/ng_alert.png\"' \"$HTML_FILE\" && \
    ! rg -Fq 'class=\"incident-card-icon\" src=\"assets/branding/icons/ng_security.png\"' \"$HTML_FILE\" && \
    ! rg -Fq 'ng_incident_light' \"$HTML_FILE\" && \
@@ -75,8 +75,8 @@ check "Trust row uses strong uppercase typography" \
 
 check "Pilot CTA keeps two-button ending layout" \
   "rg -Fq '<section class=\"pilot-section reveal\" id=\"pilot\">' \"$HTML_FILE\" && \
-   rg -Fq 'Book a pilot call' \"$HTML_FILE\" && \
-   rg -Fq 'Email pilot interest' \"$HTML_FILE\""
+   rg -Fq 'Request a Pilot' \"$HTML_FILE\" && \
+   rg -Fq 'Contact Sales' \"$HTML_FILE\""
 
 {
   echo "Concept Parity Report"
