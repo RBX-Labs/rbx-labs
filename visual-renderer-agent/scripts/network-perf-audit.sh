@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 OUT_DIR="${TMPDIR:-/tmp}/rbx-responsive"
 REPORT_FILE="$OUT_DIR/network-performance-report.txt"
+PAGE_FILE="$ROOT_DIR/network-guardian.html"
 
 LOW_MEGABITS=1.6
 FAST_MEGABITS=30
@@ -20,12 +21,16 @@ typeset -a FILES
 while IFS= read -r file; do
   [[ -n "$file" ]] && FILES+=("$file")
 done < <(
-  find "$ROOT_DIR/assets/branding" -maxdepth 3 -type f \
-    \( -name '*.svg' -o -name '*.png' \) | sort
+  rg --pcre2 -oN '(?<=src=")[^"]+\.(svg|png)' "$PAGE_FILE" 2>/dev/null \
+    | sort -u \
+    | while IFS= read -r ref; do
+        candidate="$ROOT_DIR/$ref"
+        [[ -f "$candidate" ]] && echo "$candidate"
+      done
 )
 
 if (( ${#FILES[@]} == 0 )); then
-  echo "No branding SVG/PNG assets found under $ROOT_DIR/assets/branding" >&2
+  echo "No referenced SVG/PNG assets found on $PAGE_FILE" >&2
   exit 1
 fi
 
@@ -53,7 +58,7 @@ done
   echo "- Fast network throughput: ${FAST_MEGABITS} Mbps"
   echo "- Times below are transfer-only estimates (not DNS/TLS/parse/decode)."
   echo
-  printf "%-34s %10s %11s %11s %10s\n" "Asset Pair" "SVG KiB" "PNG KiB" "Savings" "Low/Fast"
+  printf "%-34s %10s %11s %11s %10s\n" "Referenced SVG/PNG pair" "SVG KiB" "PNG KiB" "Savings" "Low/Fast"
   echo "----------------------------------------------------------------------------------------------"
 
   total_svg=0
