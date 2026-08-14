@@ -3138,7 +3138,8 @@ h2 {
 .contact-section--closing { padding-bottom: var(--space-2xl); }.contact-section--closing .contact-card { background: linear-gradient(120deg, color-mix(in srgb, var(--cyan-deep) 24%, var(--surface-panel-strong)), color-mix(in srgb, var(--acid) 8%, var(--surface-panel))); border-color: rgba(0, 229, 255, .4); }
 .research-page .contact-section--closing .contact-card { grid-template-columns: minmax(220px, .72fr) minmax(0, 1.28fr); align-items: stretch; }
 .closing-visual { position: relative; min-height: 280px; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 10px; border: 1px solid rgba(0, 229, 255, .26); border-radius: var(--radius-md); background: #071825; color: var(--cyan-soft); font: .62rem "Space Mono", monospace; letter-spacing: .1em; }
-.closing-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .26; mix-blend-mode: screen; }
+.closing-visual picture { position: absolute; inset: 0; }
+.closing-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .38; mix-blend-mode: screen; }
 .closing-visual::after { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(2, 15, 25, .28), rgba(2, 15, 25, .78)); }
 .closing-visual > * { position: relative; z-index: 1; }.closing-visual i { width: 24px; border-top: 1px solid var(--acid); }.closing-visual strong { color: var(--text-strong); }.closing-visual em { color: var(--acid); font-style: normal; }
 
