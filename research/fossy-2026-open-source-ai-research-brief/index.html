@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>From Prompts to Runtime Signals | RBX Labs</title>
+  <meta name="description" content="A public RBX Labs research brief on open-source AI, security, enterprise use, and runtime trust." />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+  <link rel="canonical" href="https://rbx-labs.io/research/fossy-2026-open-source-ai-research-brief/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="RBX Labs" />
+  <meta property="og:title" content="From Prompts to Runtime Signals" />
+  <meta property="og:description" content="A public research brief on open-source AI, security, enterprise use, and runtime trust." />
+  <meta property="og:url" content="https://rbx-labs.io/research/fossy-2026-open-source-ai-research-brief/" />
+  <meta property="og:image" content="https://rbx-labs.io/assets/branding/share/rbx-share.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="From Prompts to Runtime Signals" />
+  <meta name="twitter:description" content="A public research brief on open-source AI, security, enterprise use, and runtime trust." />
+  <meta name="twitter:image" content="https://rbx-labs.io/assets/branding/share/rbx-share.png" />
+  <link rel="stylesheet" href="../../styles.css?v=e9d1d7f" />
+  <style>
+    .brief-page .page-shell { max-width: 1120px; }
+    .brief-hero { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr); gap:clamp(2rem,6vw,6rem); align-items:end; padding:clamp(3rem,8vw,7rem) 0 3rem; }
+    .brief-hero h1 { max-width: 12ch; margin:.35rem 0 1.25rem; }
+    .brief-lede { max-width:40rem; font-size:clamp(1.15rem,2vw,1.55rem); line-height:1.45; color:var(--text-muted,#b9c8d8); }
+    .brief-meta { display:grid; gap:.8rem; border-left:1px solid rgba(91,224,255,.45); padding-left:1.25rem; color:var(--text-muted,#b9c8d8); }
+    .brief-meta strong { display:block; color:var(--text,#f2f7ff); font-size:1rem; }
+    .brief-status { display:flex; flex-wrap:wrap; gap:.65rem; padding:1rem 0; border-top:1px solid rgba(91,224,255,.25); border-bottom:1px solid rgba(91,224,255,.25); color:#7feaff; font:700 .72rem/1.2 ui-monospace,SFMono-Regular,monospace; letter-spacing:.12em; text-transform:uppercase; }
+    .brief-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:rgba(91,224,255,.25); margin:3rem 0; }
+    .brief-block { background:rgba(7,25,43,.9); padding:clamp(1.25rem,3vw,2.4rem); min-height:12rem; }
+    .brief-block h2 { margin:.2rem 0 .8rem; font-size:clamp(1.35rem,2.5vw,2rem); }
+    .brief-block p { color:var(--text-muted,#b9c8d8); line-height:1.65; }
+    .brief-block ul { margin:1rem 0 0; padding-left:1.1rem; color:var(--text-muted,#b9c8d8); line-height:1.75; }
+    .brief-loop { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:.6rem; margin:1.5rem 0 0; }
+    .brief-loop span { padding:.9rem .7rem; border:1px solid rgba(91,224,255,.3); color:#e9f5ff; font:600 .78rem/1.35 ui-monospace,SFMono-Regular,monospace; text-align:center; }
+    .brief-boundary { margin:3rem 0; padding:clamp(1.5rem,4vw,3rem); border:1px solid rgba(91,224,255,.42); background:linear-gradient(120deg,rgba(13,62,78,.82),rgba(10,24,43,.88)); }
+    .brief-boundary h2 { max-width:18ch; margin:.25rem 0 1rem; font-size:clamp(1.7rem,4vw,3.1rem); }
+    .brief-actions { display:flex; flex-wrap:wrap; gap:.8rem; margin-top:1.6rem; }
+    .brief-actions a { display:inline-flex; align-items:center; min-height:3rem; padding:.8rem 1.1rem; border:1px solid #13d8f3; border-radius:999px; color:#ecf8ff; text-decoration:none; font-weight:700; }
+    .brief-actions a:first-child { background:#13d8f3; color:#031522; }
+    .brief-note { margin:2rem 0 4rem; color:var(--text-muted,#9fb2c4); font-size:.9rem; line-height:1.6; }
+    @media (max-width:700px) { .brief-hero,.brief-grid { grid-template-columns:1fr; } .brief-loop { grid-template-columns:repeat(2,minmax(0,1fr)); } .brief-hero h1 { max-width:none; } }
+  </style>
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"Article","headline":"From Prompts to Runtime Signals","description":"A public research brief on open-source AI, security, enterprise use, and runtime trust.","author":{"@type":"Person","name":"Rishabh Banga"},"publisher":{"@type":"Organization","name":"RBX Labs","url":"https://rbx-labs.io/"},"datePublished":"2026-07-24","url":"https://rbx-labs.io/research/fossy-2026-open-source-ai-research-brief/"}
+  </script>
+</head>
+<body class="research-page brief-page">
+  <div class="bg-layers" aria-hidden="true"></div><div class="grid-orbit" aria-hidden="true"></div>
+  <header class="site-header"><a class="brand" href="../../" aria-label="RBX Labs home"><span class="brand-mark"><img src="../../assets/branding/logos/rbx-light.png" alt="" /></span><span class="brand-copy"><span class="brand-name">RBX Labs</span><span class="brand-tag">Applied AI studio · research &amp; practice</span></span></a><nav class="site-nav" aria-label="Primary"><a href="../../about.html">About</a><a href="../../approach.html">Approach</a><a href="../../research.html">Research &amp; Practice</a></nav></header>
+  <main class="page-shell">
+    <section class="brief-hero">
+      <div><p class="eyebrow">Public research brief · FOSSY 2026</p><h1>From Prompts to Runtime Signals</h1><p class="brief-lede">How open-source AI moves from a downloadable artifact to an inspectable, governable, repairable runtime.</p></div>
+      <div class="brief-meta"><div><strong>Prepared</strong>24 July 2026</div><div><strong>Focus</strong>Open-source AI, security, enterprise use</div><div><strong>Evidence posture</strong>Source-linked and bounded</div></div>
+    </section>
+    <div class="brief-status"><span>Public artifact</span><span>Research brief</span><span>Read online</span></div>
+    <section class="brief-grid" aria-label="Brief overview">
+      <article class="brief-block"><p class="eyebrow">01 / Scope</p><h2>What this brief examines</h2><p>The gap between an AI artifact that can be accessed and a deployed system that can actually be inspected, challenged, reproduced, and repaired.</p><ul><li>Openness versus access and open weights</li><li>Reproducibility and security evidence</li><li>Enterprise adoption and operational trust</li></ul></article>
+      <article class="brief-block"><p class="eyebrow">02 / Thesis</p><h2>Open is a starting condition</h2><p>Open source gives people the freedom to inspect, modify, fork, and repair. Runtime evidence is what makes those freedoms operational when a system acts in the world.</p><ul><li>Trace what entered the system</li><li>Verify what it did</li><li>Keep ownership with accountable people</li></ul></article>
+    </section>
+    <section class="brief-boundary"><p class="eyebrow">03 / Repair loop</p><h2>Turn a failure into a reusable signal.</h2><p class="brief-lede">A useful research artifact does not stop at describing a failure. It makes the boundary visible enough for another team to reproduce the condition, evaluate a change, and verify the result.</p><div class="brief-loop" aria-label="Failure to repair loop"><span>Failure</span><span>Evidence trail</span><span>Reproducible fixture</span><span>Evaluation case</span><span>Regression test</span><span>Patch</span></div></section>
+    <section class="brief-grid" aria-label="Inspection questions">
+      <article class="brief-block"><p class="eyebrow">04 / Inspection</p><h2>Questions for a deployed system</h2><ul><li>Which exact model, code, and configuration revision ran?</li><li>What permissions and tools were available?</li><li>What input, output, and downstream state were recorded?</li></ul></article>
+      <article class="brief-block"><p class="eyebrow">05 / Boundary</p><h2>What this brief does not claim</h2><p>This is a research brief, not a security certification or a claim that any model is Open Source AI Definition-aligned. It distinguishes open frameworks, open weights, openly licensed artifacts, and genuinely inspectable systems.</p></article>
+    </section>
+    <section class="brief-boundary"><p class="eyebrow">Continue with the evidence</p><h2>Read the source, then inspect the runtime.</h2><p>Use the brief as the conceptual map and the Runtime Trust Kit as the practical reference artifact.</p><div class="brief-actions"><a href="../fossy-2026-open-source-ai-research-brief.md">Download/source Markdown ↗</a><a href="../../fossy-runtime-trust-kit/">Open Runtime Trust Kit ↗</a><a href="../">Back to research archive</a></div></section>
+    <p class="brief-note">Public reading page created from the source brief. The source Markdown remains available for citation, version history, and reuse.</p>
+  </main>
+</body>
+</html>
