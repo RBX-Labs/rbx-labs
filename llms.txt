@@ -10,7 +10,7 @@ RBX Labs is a founder-led applied AI studio with a Research & Practice Lab. It b
 - Research & Practice Lab: https://rbx-labs.io/research.html
 - Public research archive: https://rbx-labs.io/research/
 - Runtime Trust Kit: https://rbx-labs.io/fossy-runtime-trust-kit/
-- FOSSY/Open Source AI research brief: https://rbx-labs.io/research/fossy-2026-open-source-ai-research-brief.md
+- FOSSY/Open Source AI research brief: https://rbx-labs.io/research/fossy-2026-open-source-ai-research-brief/
 - AEO/GEO reference: https://rbx-labs.io/faq.html
 - Case study / product example: https://rbx-labs.io/network-guardian.html
 - Google Cloud Generative AI Leader study guide: https://rbx-labs.io/GAIL/

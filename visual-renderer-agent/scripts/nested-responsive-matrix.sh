@@ -35,6 +35,7 @@ PAGES=(
   "GAIL/GAIL_Thursday_One_Day_Program.html"
   "fossy-runtime-trust-kit/index.html"
   "research/index.html"
+  "research/fossy-2026-open-source-ai-research-brief/index.html"
   "network-guardian/privacy/index.html"
   "network-guardian/data-safety/index.html"
   "network-guardian/permissions/index.html"
