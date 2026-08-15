@@ -2765,6 +2765,8 @@ h2 {
 .research-page .contact-section--closing .closing-visual {
   grid-column: 2;
   grid-row: 1;
+  width: 100%;
+  max-width: none;
 }
 
 .research-page .contact-section--closing .contact-copy {
