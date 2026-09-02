@@ -233,7 +233,10 @@ h3 {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--muted);
-  overflow-wrap: anywhere;
+  overflow: hidden;
+  overflow-wrap: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .site-nav {

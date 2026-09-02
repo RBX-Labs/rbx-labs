@@ -1,0 +1,71 @@
+.site-theme-toggle {
+  align-items: center;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  gap: 0.45rem;
+  letter-spacing: 0.08em;
+  padding: 0.62rem 0.78rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.site-theme-toggle:hover,
+.site-theme-toggle:focus-visible {
+  background: currentColor;
+  color: var(--bg, #07100e);
+}
+
+@media (max-width: 680px) {
+  .site-theme-toggle span { display: none; }
+  .site-theme-toggle { padding: 0.62rem 0.7rem; }
+}
+
+/* The standalone offer / concept pages use their own small token sets. */
+html[data-theme="light"]:has(.offer-page),
+html[data-theme="light"]:has(.concept-page),
+html[data-theme="light"]:has(.options-shell) {
+  color-scheme: light;
+}
+
+html[data-theme="dark"]:has(.offer-page) {
+  --bg: #07182f;
+  --panel: #102a49;
+  --ink: #f4f8fb;
+  --muted: #b8c8d8;
+  --accent: #8ed4de;
+  --gold: #f2c46d;
+}
+
+html[data-theme="light"]:has(.offer-page) {
+  --bg: #f4f7f3;
+  --panel: #ffffff;
+  --ink: #10202d;
+  --muted: #5d6c72;
+  --accent: #197c86;
+  --gold: #a26318;
+}
+
+html[data-theme="dark"]:has(.options-shell) {
+  --paper: #0b1718;
+  --paper-strong: #122326;
+  --ink: #f1f6f3;
+  --muted: #b3c2bd;
+  --line: rgba(241, 246, 243, 0.18);
+  --surface: rgba(20, 39, 42, 0.78);
+}
+
+html[data-theme="dark"]:has(.options-shell) body {
+  background: linear-gradient(180deg, #091719 0%, #0d2224 100%);
+}
+
+html[data-theme="dark"]:has(.options-shell) .back-home {
+  background: rgba(12, 29, 31, 0.8);
+}

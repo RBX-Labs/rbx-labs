@@ -1706,7 +1706,7 @@ body::before {
 .gail-nav span,
 .gail-nav button { font-family: "Geist", system-ui, sans-serif; }
 .rbx-brand-copy strong { font-size: 1.08rem; letter-spacing: -0.03em; }
-.rbx-brand-copy small { color: var(--muted); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.rbx-brand-copy small { color: var(--muted); font-size: 0.68rem; letter-spacing: 0.14em; overflow: hidden; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
 
 .rbx-site-nav {
   display: flex;
