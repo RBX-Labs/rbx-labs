@@ -147,18 +147,19 @@ a {
 
 .bg-layers {
   background:
-    radial-gradient(circle at 80% 10%, color-mix(in srgb, var(--acid) 10%, transparent), transparent 30%),
-    radial-gradient(circle at 20% 80%, color-mix(in srgb, var(--cyan-deep) 8%, transparent), transparent 30%);
-  filter: blur(6px);
+    radial-gradient(circle at 82% 8%, color-mix(in srgb, var(--acid) 7%, transparent), transparent 28%),
+    radial-gradient(circle at 16% 86%, color-mix(in srgb, var(--cyan-deep) 5%, transparent), transparent 26%);
+  filter: blur(18px);
+  opacity: .72;
 }
 
 .grid-orbit {
   background-image:
     linear-gradient(color-mix(in srgb, var(--cyan-soft) 10%, transparent) 1px, transparent 1px),
     linear-gradient(90deg, color-mix(in srgb, var(--cyan-soft) 10%, transparent) 1px, transparent 1px);
-  background-size: 72px 72px;
+  background-size: 88px 88px;
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.86), rgba(0, 0, 0, 0.62));
-  opacity: 0.16;
+  opacity: 0.055;
 }
 
 .site-header,
@@ -213,6 +214,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  flex: 1 1 auto;
   min-width: 0;
 }
 
@@ -229,8 +231,10 @@ h3 {
 }
 
 .brand-tag {
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
   text-transform: uppercase;
   color: var(--muted);
   overflow: hidden;
@@ -4962,8 +4966,8 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   }
 
   .brand-tag {
-    font-size: 0.66rem;
-    letter-spacing: 0.12em;
+    font-size: 11px;
+    letter-spacing: 0.06em;
   }
 
   .site-nav {
