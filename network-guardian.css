@@ -273,6 +273,9 @@ h3,
 
 .ng-brand-tag {
   font-size: 0.72rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ng-brand-tagline {
@@ -284,6 +287,9 @@ h3,
   line-height: 1.1;
   margin-top: 0.05rem;
   text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ng-links {

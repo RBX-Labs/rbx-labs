@@ -115,6 +115,9 @@ a {
 
 .options-brand-tag {
   color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .back-home {
