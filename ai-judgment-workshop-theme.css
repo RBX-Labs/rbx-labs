@@ -2,6 +2,14 @@
 :root[data-theme="dark"]{--paper:#0b1824;--ink:#f3f7f4;--muted:#adbec0;--line:#31464d;--white:#142735;--blue:#23485e;--orange:#8d572d}
 :root[data-theme="dark"] .topbar .brand, :root[data-theme="dark"] .text-link, :root[data-theme="dark"] .hero-meta strong, :root[data-theme="dark"] .footer a{color:var(--ink)}
 :root[data-theme="dark"] .section-intro p, :root[data-theme="dark"] .step p, :root[data-theme="dark"] .deliverable p{color:var(--muted)}
+:root[data-theme="dark"] .button{background:#f3f7f4;color:#10202d!important}
+:root[data-theme="dark"] .console{background:#142735;box-shadow:22px 22px 0 rgba(0,0,0,.28)}
+:root[data-theme="dark"] .deliverable{background:#142735;color:#f3f7f4}
+:root[data-theme="dark"] .offer{background:#142735;color:#f3f7f4;box-shadow:18px 18px 0 rgba(0,0,0,.28)}
+:root[data-theme="dark"] .offer-copy{border-color:#314b55}
+:root[data-theme="dark"] .offer-copy h2{color:#f3f7f4}
+:root[data-theme="dark"] .offer-plan{background:#102a36}
+:root[data-theme="dark"] .offer .button{background:var(--acid);color:#10202d!important}
 .theme-toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:transparent;color:var(--ink);padding:9px 12px;border-radius:4px;font:700 11px monospace;letter-spacing:.05em;text-transform:uppercase;cursor:pointer}
 .theme-toggle:hover{background:var(--ink);color:var(--acid)}
 .theme-toggle .theme-icon{font-size:15px;line-height:1}
