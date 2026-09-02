@@ -172,6 +172,10 @@ a {
   min-width: 0;
 }
 
+@media (min-width: 761px) {
+  .site-header > .brand { flex: 0 1 390px; }
+}
+
 .brand {
   display: inline-flex;
   align-items: center;
