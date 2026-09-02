@@ -10,7 +10,7 @@ html[data-theme="light"] {
   --ink: #102c35;
   --ink-soft: #0b223d;
   --paper: #e7eee9;
-  --surface-bg: linear-gradient(180deg, #e7eee9 0%, #dfe9e2 54%, #e7eee9 100%);
+  --surface-bg: linear-gradient(180deg, #f2f5f0 0%, #eaf0eb 54%, #f2f5f0 100%);
   --surface-panel: rgba(248, 252, 249, 0.68);
   --surface-panel-strong: rgba(248, 252, 249, 0.86);
   --surface-secondary: rgba(221, 233, 225, 0.84);
@@ -153,14 +153,7 @@ a {
   opacity: .72;
 }
 
-.grid-orbit {
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--cyan-soft) 10%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--cyan-soft) 10%, transparent) 1px, transparent 1px);
-  background-size: 88px 88px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.86), rgba(0, 0, 0, 0.62));
-  opacity: 0.055;
-}
+.grid-orbit { display: none; }
 
 .site-header,
 .page-shell {
@@ -233,7 +226,7 @@ h3 {
 .brand-tag {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   font-size: 11px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   line-height: 1.2;
   text-transform: uppercase;
   color: var(--muted);
@@ -270,10 +263,6 @@ h3 {
   border-radius: 999px;
   border: var(--border-soft);
   background: color-mix(in srgb, var(--surface-panel) 94%, transparent);
-}
-
-.display-group[aria-label="Color mode"] {
-  display: none;
 }
 
 .display-group[aria-label="Contrast mode"] {
@@ -4967,7 +4956,7 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
 
   .brand-tag {
     font-size: 11px;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.02em;
   }
 
   .site-nav {
