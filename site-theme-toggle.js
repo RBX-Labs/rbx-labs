@@ -30,7 +30,7 @@
     setTheme(root.dataset.theme === "dark" ? "light" : "dark", true);
   });
 
-  var target = document.querySelector(".site-nav, .ng-site-nav, .ng-nav, .rbx-site-nav, .options-header, .nav, .topbar");
+  var target = document.querySelector(".site-nav, .ng-site-nav, .ng-nav, .rbx-site-nav, .options-header, .nav, .topbar, .compliance-nav");
   if (target) {
     target.appendChild(button);
   } else if (document.body) {

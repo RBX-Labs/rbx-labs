@@ -23,6 +23,10 @@
   color: var(--bg, #07100e);
 }
 
+.compliance-nav .site-theme-toggle {
+  margin-left: auto;
+}
+
 @media (max-width: 680px) {
   .site-theme-toggle span { display: none; }
   .site-theme-toggle { padding: 0.62rem 0.7rem; }
@@ -42,6 +46,28 @@ html[data-theme="dark"]:has(.offer-page) {
   --muted: #b8c8d8;
   --accent: #8ed4de;
   --gold: #f2c46d;
+}
+
+html[data-theme="dark"]:has(.compliance-nav) {
+  color-scheme: dark;
+  --bg: #07182e;
+  --panel: #102a49;
+  --line: rgba(126, 177, 211, .28);
+  --text: #e8f3fb;
+  --muted: #a8bfd0;
+  --cyan: #79e4ff;
+  --green: #9af0cb;
+}
+
+html[data-theme="light"]:has(.compliance-nav) {
+  color-scheme: light;
+  --bg: #f4f7f3;
+  --panel: #ffffff;
+  --line: rgba(30, 78, 70, .18);
+  --text: #18352f;
+  --muted: #60716d;
+  --cyan: #167a87;
+  --green: #24724d;
 }
 
 html[data-theme="light"]:has(.offer-page) {
