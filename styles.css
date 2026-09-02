@@ -173,7 +173,7 @@ a {
 }
 
 @media (min-width: 761px) {
-  .site-header > .brand { flex: 0 1 390px; }
+  .site-header > .brand { flex: 0 1 430px; }
 }
 
 .brand {
