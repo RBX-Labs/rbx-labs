@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">ACM Future Worlds Symposium 2023</title>
+  <desc id="desc">Rishabh Banga speaking about AI in Kids Learning at the ACM Sacramento Chapter Future Worlds Symposium.</desc>
+  <rect width="1200" height="800" fill="#14213d"/>
+  <circle cx="980" cy="150" r="240" fill="#fca311" opacity=".9"/>
+  <circle cx="1080" cy="650" r="280" fill="#2a9d8f" opacity=".85"/>
+  <text x="78" y="110" fill="#fca311" font-family="Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="5">ACM SACRAMENTO CHAPTER</text>
+  <text x="78" y="220" fill="#fff" font-family="Arial, sans-serif" font-size="74" font-weight="700">Future Worlds</text>
+  <text x="78" y="300" fill="#fff" font-family="Arial, sans-serif" font-size="74" font-weight="700">Symposium</text>
+  <text x="78" y="430" fill="#fff" font-family="Arial, sans-serif" font-size="42">AI in Kids Learning:</text>
+  <text x="78" y="485" fill="#fff" font-family="Arial, sans-serif" font-size="42">Boon or Bane?</text>
+  <text x="78" y="650" fill="#fff" font-family="Arial, sans-serif" font-size="28">6th Future Worlds Symposium · October 6 and 7, 2023</text>
+  <text x="78" y="705" fill="#fca311" font-family="Arial, sans-serif" font-size="30" font-weight="700">Rishabh Banga · Speaker</text>
+</svg>
