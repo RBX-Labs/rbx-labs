@@ -4,30 +4,354 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Trustworthy Agentic AI Workshop | RBX Labs</title>
-  <meta name="description" content="A practical RBX Labs workshop for designing bounded, reviewable, and implementable agentic AI workflows.">
+  <meta name="description" content="A half-day RBX Labs workshop that turns one AI-assisted workflow into a bounded, reviewable operating design with evaluation gates, escalation routes, audit records, and a 30-day plan.">
   <style>
-    :root { color-scheme: dark; --bg:#07182f; --panel:#102a49; --ink:#f4f8fb; --muted:#b8c8d8; --accent:#8ed4de; --gold:#f2c46d; }
-    * { box-sizing:border-box; } body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 Inter,system-ui,sans-serif; }
-    main { max-width:980px; margin:auto; padding:72px 28px; } .eyebrow { color:var(--accent); letter-spacing:.12em; text-transform:uppercase; font-size:12px; font-weight:700; }
-    h1 { max-width:760px; font-size:clamp(42px,7vw,76px); line-height:1.02; margin:20px 0; } h2 { margin-top:0; } p { color:var(--muted); max-width:720px; }
-    .hero { border-bottom:1px solid #274361; padding-bottom:52px; } .cta { display:inline-block; margin-top:18px; padding:13px 19px; border-radius:6px; background:var(--accent); color:#07182f; text-decoration:none; font-weight:800; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin:34px 0; } .card { background:var(--panel); border:1px solid #274361; border-radius:10px; padding:22px; } .card h3 { color:var(--accent); margin-top:0; }
-    .price { color:var(--gold); font-size:24px; font-weight:800; } footer { color:var(--muted); border-top:1px solid #274361; padding-top:24px; margin-top:52px; font-size:14px; }
+    :root {
+      color-scheme: light;
+      --bg: #fbfcfb;
+      --surface: #ffffff;
+      --ink: #09233f;
+      --muted: #4b5f63;
+      --line: #dce5e2;
+      --accent: #b7d43a;
+      --teal: #286f8c;
+      --soft: #f3f7ea;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 44px 0 56px;
+    }
+
+    .eyebrow {
+      color: #48615f;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      max-width: 780px;
+      margin-bottom: 16px;
+      font-size: clamp(38px, 6vw, 64px);
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-bottom: 14px;
+      font-size: clamp(25px, 3.4vw, 36px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    p {
+      max-width: 760px;
+      color: var(--muted);
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, .75fr);
+      gap: 42px;
+      align-items: start;
+      padding-bottom: 42px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .summary {
+      padding: 0 0 0 22px;
+      background: transparent;
+      border: 0;
+      border-left: 3px solid var(--accent);
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .hero-copy {
+      max-width: 760px;
+      font-size: 19px;
+      line-height: 1.55;
+    }
+
+    .proof {
+      margin-top: 24px;
+      color: var(--ink);
+      font-weight: 750;
+    }
+
+    .price {
+      margin: 12px 0 16px;
+      color: var(--ink);
+      font-size: 22px;
+      font-weight: 850;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 18px;
+      border: 1px solid var(--ink);
+      border-radius: 4px;
+      background: var(--ink);
+      color: #ffffff;
+      font-weight: 850;
+      text-decoration: none;
+    }
+
+    section {
+      padding: 42px 0 0;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 42px;
+      padding-bottom: 42px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .flow,
+    .outputs,
+    .meta,
+    .fit-list {
+      container-type: inline-size;
+    }
+
+    .fit-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .fit-list div {
+      display: grid;
+      grid-template-columns: minmax(150px, .34fr) minmax(0, 1fr);
+      gap: 20px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .fit-list strong {
+      color: var(--ink);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+
+    .step,
+    .output {
+      min-height: 132px;
+      padding: 18px;
+      background: var(--surface);
+      border: 0;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      border-radius: 0;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--ink);
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .step p,
+    .output p {
+      margin-bottom: 0;
+    }
+
+    .outputs {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .output {
+      display: grid;
+      grid-template-columns: minmax(180px, .38fr) minmax(0, 1fr);
+      gap: 20px;
+      min-height: 0;
+      padding: 14px 0;
+      background: transparent;
+      border-right: 0;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+
+    .meta div {
+      padding: 18px;
+      background: var(--soft);
+      border: 0;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      border-radius: 0;
+      color: var(--ink);
+      font-weight: 750;
+    }
+
+    .next-step {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: center;
+      padding: 24px 0 0;
+      border-top: 1px solid var(--line);
+    }
+
+    footer {
+      margin-top: 52px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 860px) {
+      main { width: min(100% - 28px, 680px); padding: 42px 0; }
+      .hero { grid-template-columns: 1fr; align-items: start; }
+      .split,
+      .next-step { grid-template-columns: 1fr; }
+      .flow,
+      .meta { grid-template-columns: 1fr; }
+      .fit-list div { grid-template-columns: 1fr; gap: 4px; }
+      .output { grid-template-columns: 1fr; gap: 4px; }
+      .step,
+      .output { min-height: auto; }
+    }
+
+    @container (max-width: 760px) {
+      .flow,
+      .outputs { grid-template-columns: 1fr; }
+    }
   </style>
-<link rel="stylesheet" href="site-theme-toggle.css"><script defer src="site-theme-toggle.js"></script></head>
-<body class="offer-page"><main>
-  <section class="hero"><div class="eyebrow">RBX Labs · Applied AI studio</div><h1>Trustworthy Agentic AI Workshop</h1>
-    <p>Turn an AI-enabled workflow into a bounded, reviewable, and implementable operating design. Built for public-safety, critical-infrastructure, enterprise operations, product, and technical teams.</p>
-    <div class="price">US$4,999 · half day · up to 12 participants</div>
-    <a class="cta" href="mailto:hello@rbx-labs.io?subject=Trustworthy%20Agentic%20AI%20Workshop">Bring this workshop to your team</a>
-  </section>
-  <section class="grid">
-    <article class="card"><h3>Evaluation gates</h3><p>Define accuracy, completeness, source quality, uncertainty, policy-fit, and release/hold criteria.</p></article>
-    <article class="card"><h3>Human-in-the-loop</h3><p>Make owners, review states, approvals, edits, and overrides explicit.</p></article>
-    <article class="card"><h3>Escalation</h3><p>Design triggers, routes, stop conditions, and safe fallbacks for conflict, missing evidence, privacy, and safety implications.</p></article>
-    <article class="card"><h3>Monitoring + evidence</h3><p>Select runtime signals and specify the minimum record needed to reconstruct a run and human decision.</p></article>
-    <article class="card"><h3>Practical implementation</h3><p>Leave with a bounded workflow map, evaluation checklist, escalation matrix, evidence specification, and 30-day pilot plan.</p></article>
-  </section>
-  <h2>Format</h2><p>Four hours live, plus a 60-minute preparation call and a 45-minute follow-up review within 30 days. Remote or Toronto delivery. Travel outside Toronto quoted separately; applicable taxes extra.</p>
-  <footer>Standard RBX Labs commercial service. This page is not an IEEE WF-PST offer, participant discount, or endorsement. Clients retain responsibility for policy, operational authority, data governance, deployment, and safety-critical action.</footer>
-</main></body></html>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">RBX Labs workshop</div>
+        <h1>Trustworthy Agentic AI Workshop</h1>
+        <p class="hero-copy">For teams that want to use AI in real operations, but cannot yet answer the hard questions: what may the system do, what must a person decide, what evidence supports the output, and what happens when the workflow should stop.</p>
+        <p class="proof">In one half-day session, RBX Labs turns one workflow into a bounded operating design your team can review, pilot, or hand to implementation.</p>
+      </div>
+      <aside class="summary" aria-label="Workshop summary">
+        <h2>Half-day working session</h2>
+        <p>Bring one workflow, the people who own it, and sanitized examples. Leave with the boundaries, checks, escalation routes, and evidence record needed to move forward.</p>
+        <div class="price">US$4,999 · up to 12 participants</div>
+        <a class="cta" href="mailto:hello@rbx-labs.io?subject=Trustworthy%20Agentic%20AI%20Workshop">Request workshop fit check</a>
+      </aside>
+    </section>
+
+    <section class="split">
+      <div>
+        <div class="eyebrow">Best fit</div>
+        <h2>Use this when AI is useful but the workflow is not yet defensible</h2>
+      </div>
+      <div class="fit-list">
+        <div><strong>Public safety and operations</strong><p>Incident summaries, internal briefs, triage support, SOP retrieval, handoffs, and review workflows.</p></div>
+        <div><strong>Product and engineering</strong><p>Teams preparing an AI-assisted workflow that needs clear scope, testable gates, and implementation-ready requirements.</p></div>
+        <div><strong>Governance and risk</strong><p>Leaders who need human ownership, escalation criteria, audit fields, and monitoring signals before approving a pilot.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="eyebrow">Workshop path</div>
+      <h2>From tutorial concept to one team workflow</h2>
+      <div class="flow">
+        <article class="step"><strong>1 Choose</strong><p>One workflow, intended use, and decision owner.</p></article>
+        <article class="step"><strong>2 Map</strong><p>Sources, tools, permissions, handoffs, excluded actions, and stop conditions.</p></article>
+        <article class="step"><strong>3 Gate</strong><p>Pass, review, and escalate criteria for accuracy, completeness, source quality, uncertainty, policy fit, and operational usefulness.</p></article>
+        <article class="step"><strong>4 Route</strong><p>Escalation matrix for conflicting sources, stale evidence, privacy concerns, safety-critical implications, tool failure, and failed validation.</p></article>
+        <article class="step"><strong>5 Record</strong><p>Minimum audit record and decision trace.</p></article>
+        <article class="step"><strong>6 Implement</strong><p>30-day plan with owners, evidence gaps, pilot scope, monitoring signals, and review cadence.</p></article>
+      </div>
+    </section>
+
+    <section>
+      <div class="eyebrow">Outputs</div>
+      <h2>What your team leaves with</h2>
+      <div class="outputs">
+        <article class="output"><h3>Bounded workflow map</h3><p>A practical operating picture for one AI-assisted workflow, not a platform vision.</p></article>
+        <article class="output"><h3>Evaluation checklist</h3><p>Concrete pass, review, and escalate criteria tied to the actual workflow.</p></article>
+        <article class="output"><h3>Escalation matrix</h3><p>Named routes for uncertainty, policy edge cases, privacy risk, tool failure, and safety-critical implications.</p></article>
+        <article class="output"><h3>Minimum audit record</h3><p>The fields needed to reconstruct request, evidence, checks, reviewer decision, rationale, and follow-up.</p></article>
+        <article class="output"><h3>30-day plan</h3><p>Next actions, owners, evidence gaps, pilot scope, monitoring signals, and review cadence.</p></article>
+      </div>
+    </section>
+
+    <section>
+      <div class="eyebrow">Format</div>
+      <h2>Built around one real workflow</h2>
+      <div class="meta">
+        <div>4 hours, in person or remote</div>
+        <div>One workflow per session</div>
+        <div>Up to 12 participants</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="eyebrow">Next step</div>
+      <div class="next-step">
+        <div>
+          <h2>Check whether your workflow is a fit</h2>
+          <p>Email the workflow, intended users, current deployment stage, participant count, and preferred delivery window. RBX Labs will confirm fit before proposing the session.</p>
+        </div>
+        <a class="cta" href="mailto:hello@rbx-labs.io?subject=Trustworthy%20Agentic%20AI%20Workshop">Email RBX Labs</a>
+      </div>
+    </section>
+
+    <footer>
+      Separate RBX Labs service. Not offered on behalf of or endorsed by IEEE. Clients retain responsibility for policy, operational authority, data governance, deployment, and safety-critical action.
+    </footer>
+  </main>
+</body>
+</html>
