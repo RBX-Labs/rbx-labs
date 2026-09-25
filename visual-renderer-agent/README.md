@@ -12,7 +12,6 @@ To use this flow locally:
 
 ```sh
 chmod +x visual-renderer-agent/scripts/visual-render-validate.sh
-chmod +x visual-renderer-agent/scripts/render-and-eval.sh
 chmod +x .githooks/pre-commit
 ```
 
@@ -30,22 +29,8 @@ git config core.hooksPath .githooks
 4. Run the flow manually if you want to test it before commit:
 
 ```sh
-visual-renderer-agent/scripts/render-and-eval.sh
-```
-
-If you only want screenshots without agent review, run:
-
-```sh
 visual-renderer-agent/scripts/visual-render-validate.sh
 ```
-
-To export a reusable PNG mockup artifact for removed product after rendering:
-
-```sh
-visual-renderer-agent/scripts/export-ng-mockup.sh
-```
-
-`export-ng-mockup.sh` uses headless Chrome for the full-length mockup export, because macOS `qlmanage` thumbnails are capped and can cut off lower sections/footer.
 
 To capture animated SVG assets into raw WebM clips for branding/video prep:
 
@@ -82,64 +67,13 @@ The visual renderer agent runs in two stages:
    - writes screenshots to `${TMPDIR:-/tmp}/rbx-responsive`
    - writes a screenshot manifest to `${TMPDIR:-/tmp}/rbx-responsive/manifest.txt`
 
-2. `visual-renderer-agent/scripts/render-and-eval.sh`
-   - runs the renderer
-   - reads the manifest
-   - builds the evaluation payload
-   - invokes the local `codex` CLI non-interactively
-   - attaches every generated screenshot to the evaluation request
-   - attaches concept-board and icon-system reference images when present
-  - requires a human-readable QA report with one `PASS` or `FAIL` line per HTML file plus a concise comments line
-
-Additional always-on audits run as part of stage 1:
-
-- `visual-renderer-agent/scripts/network-perf-audit.sh`
-  - compares paired SVG/PNG branding assets
-  - reports low-network vs fast-network transfer estimates
-  - writes `${TMPDIR:-/tmp}/rbx-responsive/network-performance-report.txt`
-
-- `visual-renderer-agent/scripts/runtime-resilience-audit.sh`
-  - validates local asset references resolve on disk
-  - verifies reveal fail-safe guardrails exist in JS and CSS
-  - verifies theme icon exclusivity rules exist (prevents dark+light overlap)
-  - writes `${TMPDIR:-/tmp}/rbx-responsive/runtime-resilience-report.txt`
-  - must report `Overall: PASS` or `render-and-eval.sh` exits early
-
-- `visual-renderer-agent/scripts/concept-parity-audit.sh`
-  - enforces section-level concept checks for removed product:
-    - hero line structure and clipping guard
-    - metric-row target parity (`78/100`)
-    - How We Operate icon sizing floor
-    - Live System Overview right-column icon-source and sizing checks
-    - trust-row typography scale/tracking checks
-  - writes `${TMPDIR:-/tmp}/rbx-responsive/concept-parity-report.txt`
-  - must report `Overall: PASS` or `render-and-eval.sh` exits early
-
-- `visual-renderer-agent/scripts/lighthouse-style-audit.sh`
-  - runs a local Lighthouse performance audit for `removed product.html` (mobile + desktop) when the `lighthouse` CLI is available
-  - always writes `${TMPDIR:-/tmp}/rbx-responsive/lighthouse-style-report.txt`
-  - when Lighthouse CLI is unavailable, falls back to static Lighthouse-style checks:
-    - reduced-motion guard presence
-    - hidden-tab animation pause lifecycle guard
-    - fallback PNG payload size check
-    - head-blocking script check
-
-- `visual-renderer-agent/scripts/media-fidelity-audit.sh`
-  - validates critical hero/telemetry `.webm` assets for:
-    - expected resolution
-    - first-frame luminance range (catches near-blank dark exports)
-  - writes `${TMPDIR:-/tmp}/rbx-responsive/media-fidelity-report.txt`
-  - must report `Overall: PASS` or `render-and-eval.sh` exits early
-
 ## Evaluation Standard
 
-The agent review is expected to check for:
+The visual review is expected to check for:
 
 - concept fidelity first, not only runtime breakage
 - approved logo lockup usage and the absence of unofficial/fallback shields
 - icon-system fidelity, including icon size and emphasis relative to the concept
-- connectivity impact awareness (via generated low/fast transfer report)
-- runtime resilience to single-JS-failure states and stale cache outcomes
 - blocking issues first
 - layout overlap
 - broken stacking
@@ -149,12 +83,6 @@ The agent review is expected to check for:
 - not the fact that a fixed-height viewport snapshot naturally ends mid-section or mid-card
 
 Automated render review is necessary but not sufficient. Like the stronger WeKamp mobile flow, this renderer must be treated as a smoke-and-fidelity aid, and significant presentation changes still require explicit human comparison against the approved concept board.
-
-Current removed product references:
-
-- Concept board image: `assets/ng-ui-revamp-concepts-dark-light.png`
-- Icon system: `assets/branding/reference/ng_icon_system.png`
-- Concept HTML companion: `removed product-concept-v2.html`
 
 The expected report shape is:
 
@@ -177,10 +105,10 @@ The hook intentionally ignores changes that are only inside:
 
 - `wekamp-cloudflare-workers/**`
 
-The hook runs:
+The hook can run:
 
 ```sh
-visual-renderer-agent/scripts/render-and-eval.sh
+visual-renderer-agent/scripts/visual-render-validate.sh
 ```
 
 This is a Git `pre-commit` hook. It runs for normal terminal commits and for commits started from VS Code's Source Control UI, as long as this repo has `core.hooksPath` set to `.githooks`. It is skipped only when the commit is created with `--no-verify` or an equivalent "no verify" option.
@@ -209,15 +137,6 @@ The manifest is written to:
 
 ```sh
 ${TMPDIR:-/tmp}/rbx-responsive/manifest.txt
-```
-
-Reusable mockup exports are written to:
-
-```sh
-assets/mockups/removed product-mockup-desktop.png
-assets/mockups/removed product-mockup-desktop-YYYY-MM-DD.png
-assets/mockups/removed product-mockup-desktop-full.png
-assets/mockups/removed product-mockup-desktop-full-YYYY-MM-DD.png
 ```
 
 Typical files look like:

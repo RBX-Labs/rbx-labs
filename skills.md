@@ -38,7 +38,6 @@ At the moment that includes pages such as:
 - `approach.html`
 - `about.html`
 - `code-in-place.html`
-- `removed product.html`
 
 If a change is isolated to one page, validate that page first, then validate any obviously related page.
 

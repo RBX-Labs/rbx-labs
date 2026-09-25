@@ -476,7 +476,7 @@ Use the projects as patterns, not as grand enterprise case studies.
 
 1. **Canna Guide**: preserve source claims and conflicts rather than collapsing them into a fictional fact. This demonstrates provenance and uncertainty.
 2. **Builder Sundays agent**: a click was not treated as success; the workflow needed downstream evidence that the booking state changed. This demonstrates state verification.
-3. **removed product**: weak individual signals remain advisory; multiple independent signals are required before a stronger conclusion. This demonstrates evidence composition rather than model self-confidence.
+3. **Evidence-aware network guidance**: weak individual signals remain advisory; multiple independent signals are required before a stronger conclusion. This demonstrates evidence composition rather than model self-confidence.
 
 **Historical context (24 July 2026; identified 1 August 2026):** RBX prepared
 the Apache-2.0, framework-neutral **Runtime Trust Kit** as a concrete companion

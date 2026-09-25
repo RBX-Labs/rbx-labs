@@ -789,5 +789,5 @@ contrastButtons.forEach((button) => {
 } catch (error) {
   document.documentElement.removeAttribute("data-js");
   revealAllContentFallback();
-  console.error("removed product init failed; falling back to static render.", error);
+  console.error("Site initialization failed; falling back to static render.", error);
 }
