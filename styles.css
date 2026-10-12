@@ -119,6 +119,8 @@ html[data-theme="dark"][data-contrast="high"] {
 
 html {
   scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -136,6 +138,38 @@ body.booking-modal-open {
 
 a {
   color: inherit;
+}
+
+img,
+picture,
+video,
+canvas,
+svg,
+iframe {
+  max-width: 100%;
+}
+
+/* Let responsive grid and flex children shrink below their min-content size. */
+:where(
+  .hero,
+  .approach-layout,
+  .service-grid,
+  .signal-grid,
+  .training-format-grid,
+  .training-weeks-grid,
+  .selected-builds-grid,
+  .research-lane-grid,
+  .contact-card,
+  .about-card,
+  .founder-profile,
+  .collaboration-section,
+  .proof-section
+) > * {
+  min-width: 0;
+}
+
+:where(h1, h2, h3, .brand-tag, .micro-label, .proof-value) {
+  overflow-wrap: anywhere;
 }
 
 .bg-layers,
@@ -172,7 +206,7 @@ a {
   min-width: 0;
 }
 
-@media (min-width: 761px) {
+@media (min-width: 961px) {
   .site-header > .brand { flex: 0 1 430px; }
 }
 
@@ -1651,8 +1685,8 @@ h1 {
   .training-format-grid.services-pillars {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: stretch;
-    width: min(2100px, calc(100vw - 24px));
-    max-width: none;
+    width: 100%;
+    max-width: 1420px;
     margin-left: auto;
     margin-right: auto;
     gap: 16px;
@@ -3859,6 +3893,9 @@ h2 {
 
 .auto-scroll-shell {
   position: relative;
+  min-width: 0;
+  max-width: 100%;
+  contain: inline-size layout paint;
 }
 
 .events-rail {
@@ -4768,10 +4805,29 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
     justify-content: flex-start;
   }
 
+  .site-nav {
+    gap: 8px;
+    padding-right: 0;
+  }
+
+  .site-nav a {
+    min-height: 44px;
+    padding: 9px 10px;
+    font-size: 0.92rem;
+  }
+
+  .display-option-symbol {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
   .display-controls {
-    width: 100%;
+    position: absolute;
+    top: 24px;
+    right: 0;
+    width: auto;
     margin-left: 0;
-    justify-content: flex-start;
+    justify-content: flex-end;
   }
 
   .hero-social-proof {
@@ -4789,6 +4845,14 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   .js .services-pillars .service-pillar.reveal:nth-child(4) {
     transform: translateY(18px);
     box-shadow: var(--shadow-rise);
+  }
+
+  .js .services-pillars .service-pillar.reveal:not(.is-visible),
+  .js .services-pillars .service-pillar.reveal:nth-child(1):not(.is-visible),
+  .js .services-pillars .service-pillar.reveal:nth-child(2):not(.is-visible),
+  .js .services-pillars .service-pillar.reveal:nth-child(3):not(.is-visible),
+  .js .services-pillars .service-pillar.reveal:nth-child(4):not(.is-visible) {
+    transform: translateY(18px);
   }
 
   .hero,
@@ -4985,6 +5049,8 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   .site-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 14px;
+    padding-top: 16px;
   }
 
   .brand {
@@ -4993,14 +5059,14 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   }
 
   .brand-mark {
-    width: 60px;
-    height: 60px;
-    border-radius: 18px;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
   }
 
   .brand-mark img {
-    width: 56px;
-    height: 56px;
+    width: 50px;
+    height: 50px;
   }
 
   .brand-tag {
@@ -5010,12 +5076,30 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
 
   .site-nav {
     width: 100%;
-    gap: 12px;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px 8px;
+  }
+
+  .site-nav a {
+    min-height: 44px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    line-height: 1.2;
+  }
+
+  .site-nav .nav-pill {
+    justify-content: center;
+    text-align: center;
   }
 
   .display-controls {
-    width: auto;
+    position: static;
+    grid-column: 1 / -1;
+    width: 100%;
     justify-content: flex-start;
   }
 
@@ -5120,8 +5204,9 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
 
   .systems-map-hero {
     top: 34px;
-    right: -24px;
-    width: 92vw;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
     opacity: 0.09;
     transform: none;
   }
@@ -5269,6 +5354,15 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
     height: 640px;
   }
 
+  .events-rail .auto-scroll-track,
+  .curriculum-rail .auto-scroll-track {
+    grid-auto-columns: min(82vw, 320px);
+  }
+
+  .training-week-topline {
+    flex-wrap: wrap;
+  }
+
   .hero-proof {
     gap: 12px;
   }
@@ -5330,6 +5424,49 @@ body.training-page .selected-build-training .selected-build-metrics .training-cu
   h2 {
     font-size: clamp(2rem, 10vw, 3rem);
     line-height: 1.02;
+  }
+}
+
+@media (max-width: 360px) {
+  .site-header,
+  .page-shell,
+  .ng-nav,
+  .ng-main {
+    width: calc(100% - 24px);
+  }
+
+  .brand-name {
+    font-size: 1.05rem;
+  }
+
+  .brand-tag {
+    font-size: 0.62rem;
+  }
+
+  .site-nav a {
+    padding-inline: 8px;
+    font-size: 0.8rem;
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 11vw, 2.6rem);
+  }
+
+  h2 {
+    font-size: clamp(1.85rem, 9vw, 2.4rem);
+  }
+
+  .proof-chip,
+  .service-card,
+  .result-card,
+  .selected-build,
+  .venture-card,
+  .contact-card,
+  .about-card,
+  .signal-card,
+  .approach-panel,
+  .evidence-panel {
+    padding: 20px;
   }
 }
 
