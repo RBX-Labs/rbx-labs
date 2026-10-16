@@ -1,4 +1,5 @@
 {
+  "schema_version": "0.3.0",
   "trace_id": "runtime-aware-feature-x-v1",
   "policy_id": "maintainer-assistant-feature-x-v1",
   "model_lock": "../MODEL_LOCK.example.json",
@@ -27,10 +28,32 @@
     "retrieval_coverage": 0.83,
     "source_freshness_days": 12,
     "source_conflict": "unresolved",
-    "tool_scope": "within_policy",
-    "downstream_state_verified": false
+    "tool_scope": "within_policy"
   },
-  "decision": "needs_maintainer_review",
+  "runtime_outcome": "needs_maintainer_review",
+  "human_disposition": {
+    "status": "pending",
+    "owner": "maintainer",
+    "recorded_at": null
+  },
+  "accountable_rationale": {
+    "status": "pending",
+    "owner": "maintainer",
+    "reason": null,
+    "unresolved_uncertainty": "Feature X compatibility with version 4.2 has not been established by the required adapter fixture.",
+    "follow_up_owner": "maintainer",
+    "recorded_at": null
+  },
+  "execution_acknowledgement": {
+    "status": "not_attempted",
+    "receipt": null
+  },
+  "observed_effect": {
+    "status": "not_observed",
+    "expected_state": "A recorded adapter test result establishes Feature X compatibility for version 4.2.",
+    "evidence": null,
+    "independently_verified": false
+  },
   "answer": "I cannot confirm 4.2 compatibility yet. The migration guide says Feature X needs an adapter migration, while the compatibility record is verified only through 4.1. A maintainer should run the adapter fixture against 4.2 and attach the resulting compatibility artifact before we make a public claim.",
   "fallback": {
     "route": "maintainer_review",

@@ -14,7 +14,9 @@
 | Prompt injection in retrieved content | A prompt cannot establish that retrieved content is trustworthy or authorized. | Source roles, bounded tool scope, and explicit escalation. |
 | Stale or contradictory documentation | A fluent answer can hide uncertainty. | Freshness and conflict signals; no silent averaging. |
 | Excessive agent authority | A correctly interpreted task can still have an unsafe side effect. | Named `read_only` authority and denied actions. |
-| Tool success mistaken for completion | An API may return success while the intended state never appears. | Post-action verification requirement. |
+| Tool success mistaken for completion | An API may return success while the intended state never appears. | Record execution acknowledgement separately from independently observed effect. |
+| Runtime routing mistaken for human approval | An escalation or proposed disposition can be misreported as an accountable decision. | Separate runtime outcome from named human disposition and accountable rationale. |
+| Human agreement mistaken for accountability | A click or approval can exist without recorded reasons, trade-offs, or follow-up ownership. | Require a separate accountable rationale before closure; preserve unresolved uncertainty. |
 | Model or retrieval drift | A later run can look similar but behave differently. | `MODEL_LOCK` and recorded signal values. |
 | Supply-chain compromise | A model, adapter, tool, or package can be replaced upstream. | This kit does not solve it; add pinned revisions, provenance, signatures, and review to your deployment process. |
 
@@ -23,6 +25,7 @@
 - This is not a sandbox, secret manager, network policy, model scanner, or complete evaluation framework.
 - It does not certify a model, provider, or deployment as secure.
 - It cannot tell you whether a source is true; it makes the evidence and the unresolved gaps inspectable.
+- Its technical traces do not establish human notice, understanding, decision quality, or effective oversight.
 
 ## Extension questions
 
@@ -33,3 +36,6 @@ Before adopting this pattern, write answers to these questions:
 3. What source conditions cause abstention or maintainer review?
 4. What downstream state proves an action succeeded?
 5. Which redacted traces can become public fixtures for community review?
+6. Who is authorized to record the human disposition, and how is it kept distinct from runtime routing?
+7. How will an execution acknowledgement be distinguished from independently observed effect evidence?
+8. What accountable rationale records the authorized human's reasons, trade-offs, unresolved uncertainty, and follow-up owner?

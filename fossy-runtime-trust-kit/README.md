@@ -6,8 +6,8 @@ It is intentionally not a prompt library, an agent framework, or a claim that a 
 
 1. **Name the action and its bounded authority.**
 2. **Collect evidence as observable signals, not a self-reported confidence score.**
-3. **Choose an explicit outcome:** proceed, abstain, or send to a maintainer.
-4. **Verify the downstream state after a tool action.**
+3. **Choose an explicit runtime outcome:** proceed, abstain, or send to a maintainer.
+4. **Keep the human disposition, accountable rationale, execution acknowledgement, and independently observed effect distinct.**
 5. **Keep a trace that can become a fixture, an evaluation, and eventually a regression test.**
 
 ## Start here
@@ -16,7 +16,7 @@ It is intentionally not a prompt library, an agent framework, or a claim that a 
 node tests/verify-runtime-trust-kit.mjs
 ```
 
-There are no runtime dependencies. The verifier uses Node's standard library and checks the included example policy, evaluation, and trace.
+There are no runtime dependencies. The verifier uses Node's standard library and checks the included example policy, evaluation, and traces. `npm test` and `npm run verify` run the same contract check.
 
 ## What is included
 
@@ -25,7 +25,7 @@ There are no runtime dependencies. The verifier uses Node's standard library and
 | `policy/runtime-policy.example.json` | A portable decision policy: evidence requirements, authority boundaries, verification, and fallback. |
 | `evals/feature-x-upgrade.json` | A compact evaluation case for a maintenance assistant. |
 | `traces/prompt-only-run.json` | A deliberately unsafe run: plausible answer, no evidence, unverified action. |
-| `traces/runtime-aware-run.json` | A run that observes freshness, conflict, coverage, scope, and downstream state before escalating. |
+| `traces/runtime-aware-run.json` | A run that keeps runtime outcome, human disposition, accountable rationale, execution acknowledgement, and observed effect distinct before escalating. |
 | `fixtures/issues/418-feature-x-migration.md` | The source artifact that grounds the evaluation. |
 | `tests/verify-runtime-trust-kit.mjs` | A dependency-free contract check. |
 | `MODEL_LOCK.example.json` | The deployment/model artifact that makes a trace reproducible. |
@@ -46,15 +46,18 @@ That is the practical connection to open source: a failure becomes a thing a com
 
 ## Adapt it
 
-1. Copy the policy and replace `change_request` with your real workflow action.
+1. Copy the policy and replace `provide_migration_guidance` with your real workflow action.
 2. List signals your application can actually observe. Do not invent a magic confidence number.
 3. Set the smallest authority that is useful. Make broader actions require a human approval or a separate policy.
-4. Specify the downstream state that proves completion. A successful API call is not, by itself, proof.
-5. Turn your next notable production miss into a redacted fixture and an evaluation case.
+4. Specify the downstream state that proves completion. A successful API call is an execution acknowledgement, not proof that the intended effect occurred.
+5. Preserve the runtime outcome, human disposition, accountable rationale, execution acknowledgement, and independently observed effect as separate fields.
+6. Turn your next notable production miss into a redacted fixture and an evaluation case.
+
+`accountable_rationale` is the machine-readable `R` in `B → S → E → D → R`: reasons, trade-offs, unresolved uncertainty, and follow-up ownership recorded by the authorized human role. The talk may use “owned rationale” as shorthand; it does not mean felt or psychological ownership.
 
 ## Boundaries
 
-This kit is a design and testing pattern, not a security certification. It does not prevent prompt injection, compromised dependencies, or a malicious tool. It makes their effects more explicit and gives a maintainer a place to add controls. Start with the threat model and adapt it to your system.
+This kit is a design and testing pattern, not a security certification. It does not prevent prompt injection, compromised dependencies, or a malicious tool. It makes their effects more explicit and gives a maintainer a place to add controls. Technical traces, timing, and recoverability evidence do not by themselves establish human notice, understanding, decision quality, or effective oversight. Start with the threat model and adapt it to your system.
 
 ## License
 
@@ -62,4 +65,4 @@ Apache-2.0. See [LICENSE](LICENSE).
 
 ## Talk context
 
-Prepared for Rishabh Banga's FOSSY 2026 session, *From Prompts to Runtime Signals: Making Open-Source AI Systems More Trustworthy.*
+Originally prepared for Rishabh Banga's FOSSY 2026 session, *From Prompts to Runtime Signals: Making Open-Source AI Systems More Trustworthy*, and extended for the All Things Open 2026 session, *AI Systems Fail Silently*.

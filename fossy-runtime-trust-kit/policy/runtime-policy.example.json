@@ -49,8 +49,27 @@
   ],
   "post_action_verification": {
     "required": true,
-    "proof": "Observe the expected downstream state; do not accept a tool-success response as proof of completion.",
+    "execution_acknowledgement": {
+      "record_separately": true,
+      "satisfies_proof": false
+    },
+    "observed_effect": {
+      "required_for_completion": true,
+      "requires_independent_verification": true,
+      "proof": "Observe the expected downstream state independently; do not accept a tool-success response as proof of completion."
+    },
     "on_failure": "needs_maintainer_review"
+  },
+  "human_disposition": {
+    "required_for_authorized_action": true,
+    "record": ["owner", "status", "recorded_at"],
+    "claim_boundary": "Runtime routing or escalation is not a human disposition. Technical trace evidence does not establish human understanding or effective oversight."
+  },
+  "accountable_rationale": {
+    "required_for_closure": true,
+    "record_separately_from_human_disposition": true,
+    "record": ["owner", "reason", "unresolved_uncertainty", "follow_up_owner", "recorded_at"],
+    "meaning": "The authorized human role records reasons, trade-offs, unresolved uncertainty, and follow-up ownership. This is the machine-readable R in B → S → E → D → R; it does not claim felt or psychological ownership."
   },
   "fallback": {
     "outcome": "needs_maintainer_review",
