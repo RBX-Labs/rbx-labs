@@ -54,6 +54,36 @@
         <p class="microcopy">Prepared for FOSSY 2026 and All Things Open 2026. No model lock-in. No agent framework. No self-reported confidence score.</p>
       </section>
 
+      <section class="visitor-form" aria-labelledby="visitor-form-title">
+        <div class="section-heading">
+          <p class="eyebrow">Stay connected to the kit</p>
+          <h2 id="visitor-form-title">Tell us who is using it.</h2>
+          <p class="form-intro">Share your details if you want RBX Labs to know who is exploring the Runtime Trust Kit.</p>
+        </div>
+        <form action="mailto:hello@rbx-labs.io" method="post" enctype="text/plain" aria-describedby="visitor-form-note">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="first-name">First name <span aria-hidden="true">*</span></label>
+              <input id="first-name" name="First name" type="text" autocomplete="given-name" enterkeyhint="next" required />
+            </div>
+            <div class="form-field">
+              <label for="last-name">Last name <span aria-hidden="true">*</span></label>
+              <input id="last-name" name="Last name" type="text" autocomplete="family-name" enterkeyhint="next" required />
+            </div>
+            <div class="form-field">
+              <label for="organisation">Organisation <span aria-hidden="true">*</span></label>
+              <input id="organisation" name="Organisation" type="text" autocomplete="organization" enterkeyhint="next" required />
+            </div>
+            <div class="form-field">
+              <label for="email">Email address <span aria-hidden="true">*</span></label>
+              <input id="email" name="Email address" type="email" autocomplete="email" inputmode="email" spellcheck="false" enterkeyhint="done" required />
+            </div>
+          </div>
+          <button class="button primary" type="submit">Send details to RBX Labs</button>
+          <p class="form-note" id="visitor-form-note">All fields are required. Submitting opens your email app and addresses a message to <a href="mailto:hello@rbx-labs.io">hello@rbx-labs.io</a>; this page does not store your details.</p>
+        </form>
+      </section>
+
       <section class="why" aria-labelledby="why-title">
         <div>
           <p class="eyebrow">The point</p>
