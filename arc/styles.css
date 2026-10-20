@@ -152,7 +152,7 @@ ol span { color: var(--orange); font: 700 .85rem var(--mono); }
     gap: .5rem;
     grid-template-columns: max-content minmax(.5rem, 1fr) max-content minmax(.5rem, 1fr) max-content minmax(.5rem, 1fr) max-content minmax(.5rem, 1fr) max-content minmax(.5rem, 1fr) max-content;
   }
-  .loop span { align-items: center; display: grid; min-block-size: 3.3rem; min-inline-size: 0; text-align: center; white-space: nowrap; }
+  .loop span { align-items: center; display: grid; min-block-size: 3.3rem; min-inline-size: max-content; text-align: center; white-space: nowrap; }
   .loop b { justify-self: center; }
 }
 
