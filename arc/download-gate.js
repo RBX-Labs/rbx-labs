@@ -36,15 +36,22 @@
     const subject = encodeURIComponent('Runtime Trust Kit download');
     const body = encodeURIComponent(`${details}\n\nRequested from https://rbx-labs.io/arc/`);
 
-    window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
-    window.setTimeout(() => {
-      const download = document.createElement('a');
-      download.href = downloadUrl;
-      download.download = 'runtime-trust-kit.pdf';
-      document.body.appendChild(download);
-      download.click();
-      download.remove();
-      closeDialog();
-    }, 700);
+    const mailtoUrl = `mailto:${recipient}?subject=${subject}&body=${body}`;
+    const emailLink = document.createElement('a');
+    emailLink.href = mailtoUrl;
+    emailLink.target = '_blank';
+    emailLink.rel = 'noopener noreferrer';
+    emailLink.hidden = true;
+    document.body.appendChild(emailLink);
+    emailLink.click();
+    emailLink.remove();
+
+    const download = document.createElement('a');
+    download.href = downloadUrl;
+    download.download = 'runtime-trust-kit.pdf';
+    document.body.appendChild(download);
+    download.click();
+    download.remove();
+    closeDialog();
   });
 })();
