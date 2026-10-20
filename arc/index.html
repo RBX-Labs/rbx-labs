@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>AI Reliability Commons (ARC) | RBX Labs</title>
-    <meta name="description" content="ARC / AI Reliability Commons is the RBX Labs home for the Runtime Trust Kit: a framework-neutral reference for inspectable and repairable AI runtime behaviour." />
+    <meta name="description" content="ARC is an open, framework-neutral pattern for making AI workflow failures inspectable and repairable." />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <link rel="canonical" href="https://rbx-labs.io/arc/" />
     <meta property="og:type" content="website" />
@@ -25,7 +25,7 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "AI Reliability Commons (ARC)",
-        "description": "The RBX Labs home for the Runtime Trust Kit, a framework-neutral reference for making AI workflow behaviour inspectable, bounded, and repairable after deployment.",
+        "description": "An open, framework-neutral pattern for making AI workflow failures inspectable and repairable.",
         "url": "https://rbx-labs.io/arc/",
         "inLanguage": "en",
         "isAccessibleForFree": true,
@@ -34,7 +34,7 @@
         "publisher": { "@type": "Organization", "name": "RBX Labs", "url": "https://rbx-labs.io/" }
       }
     </script>
-    <link rel="stylesheet" href="styles.css?v=arc-audit-3" />
+    <link rel="stylesheet" href="styles.css?v=arc-copy-1" />
   </head>
   <body>
     <a class="skip-link" href="#content">Skip to content</a>
@@ -47,11 +47,11 @@
       <section class="hero" aria-labelledby="page-title">
         <p class="eyebrow">ARC · AI Reliability Commons</p>
         <h1 id="page-title">AI Reliability Commons (ARC)</h1>
-        <p class="lede">The first ARC reference implementation: a small, framework-neutral starting point for making an AI workflow’s behaviour inspectable, bounded, and repairable after deployment.</p>
+        <p class="lede">ARC is an open, framework-neutral pattern for making AI workflow failures inspectable and repairable. It helps teams record what happened, what evidence was available, what the system was allowed to do, and what should happen next.</p>
         <div class="hero-actions">
           <a class="button primary download-trigger" href="ai-reliability-commons-arc.pdf" download data-download-trigger aria-haspopup="dialog" aria-controls="download-dialog" aria-expanded="false">Download the full kit (PDF)</a>
         </div>
-        <p class="microcopy">Prepared for FOSSY 2026 and All Things Open 2026. No model lock-in. No agent framework. No self-reported confidence score.</p>
+        <p class="microcopy">For teams building or reviewing AI workflows. No model lock-in. No agent framework. No self-reported confidence score.</p>
       </section>
 
       <dialog class="download-dialog" id="download-dialog" aria-labelledby="download-dialog-title">
@@ -93,7 +93,7 @@
         <div>
           <p class="eyebrow">Why ARC exists</p>
           <h2 id="why-title">Make the failure useful after it happens.</h2>
-          <p class="why-copy">A plausible answer is not proof. ARC turns a silent failure into evidence, a reproducible fixture, an expected safe outcome, and a repair that another project can inspect.</p>
+          <p class="why-copy">AI systems can produce plausible answers while hiding missing evidence, conflicting sources, or unverified actions. ARC turns that failure into a record a maintainer can inspect, test, and repair.</p>
         </div>
         <div class="loop" aria-label="ARC reliability loop">
           <span>Failure</span><b>→</b><span>Evidence</span><b>→</b><span>Fixture</span><b>→</b><span>Safe Outcome</span><b>→</b><span>Test</span><b>→</b><span>Repair</span>
@@ -103,37 +103,37 @@
       <section class="kit" aria-labelledby="kit-title">
         <div class="section-heading">
           <p class="eyebrow">What’s inside</p>
-          <h2 id="kit-title">Five small parts. One model-independent contract.</h2>
+          <h2 id="kit-title">Five parts for a trustworthy runtime record.</h2>
         </div>
         <div class="cards">
           <article>
             <span class="number">01</span>
             <h3>Policy</h3>
-            <p>Names the allowed action, evidence requirements, escalation rule, and expected proof of completion.</p>
+            <p>Defines what the workflow may do, what evidence it needs, when it must stop, and what counts as completion.</p>
             <a href="policy/runtime-policy.example.json">Open policy →</a>
           </article>
           <article>
             <span class="number">02</span>
             <h3>Fixture</h3>
-            <p>A concrete, shareable issue with stale and conflicting evidence—so a claim can be tested rather than admired.</p>
+            <p>A shareable example of a real or representative failure, including the evidence that made the claim uncertain.</p>
             <a href="https://github.com/RBX-Labs/rbx-labs/blob/main/runtime-trust-kit/fixtures/issues/418-feature-x-migration.md">Open fixture →</a>
           </article>
           <article>
             <span class="number">03</span>
             <h3>Evaluation</h3>
-            <p>Sets the pass condition: escalate to a maintainer; do not invent an unconditional compatibility claim.</p>
+            <p>A pass/fail check that tests whether the workflow responds safely instead of inventing confidence.</p>
             <a href="evals/feature-x-upgrade.json">Open evaluation →</a>
           </article>
           <article>
             <span class="number">04</span>
             <h3>Traces</h3>
-            <p>Separates runtime outcome, human disposition, accountable rationale, execution acknowledgement, and independently observed effect.</p>
+            <p>Records the runtime result separately from human decisions, accountable rationale, execution acknowledgement, and observed effect.</p>
             <a href="traces/runtime-aware-run.json">Open trace →</a>
           </article>
           <article>
             <span class="number">05</span>
             <h3>Verifier</h3>
-            <p>A dependency-free contract check that makes the example runnable with ordinary Node.js.</p>
+            <p>A dependency-free Node.js check that confirms the policy, evaluation, and traces still agree.</p>
             <a href="tests/verify-runtime-trust-kit.mjs">Open verifier →</a>
           </article>
         </div>
@@ -173,23 +173,23 @@
       <section class="adopt" aria-labelledby="adopt-title">
         <div>
           <p class="eyebrow">Adopt it in an afternoon</p>
-          <h2 id="adopt-title">Start from the action, not from the prompt.</h2>
+          <h2 id="adopt-title">Start with one workflow and one failure.</h2>
         </div>
         <ol>
-          <li><span>1</span> Bound the authority the workflow actually needs.</li>
-          <li><span>2</span> Record observable evidence signals and their limits.</li>
-          <li><span>3</span> Separate runtime outcome, human disposition, accountable rationale, execution acknowledgement, and observed effect.</li>
-          <li><span>4</span> Define abstain, escalate, and post-action verification paths.</li>
-          <li><span>5</span> Turn the next meaningful miss into a fixture and regression test.</li>
+          <li><span>1</span> Choose one workflow action and define its authority boundary.</li>
+          <li><span>2</span> Record observable evidence, including freshness and conflicts.</li>
+          <li><span>3</span> Keep runtime outcome, human disposition, rationale, acknowledgement, and observed effect separate.</li>
+          <li><span>4</span> Define when the system should proceed, abstain, escalate, and verify the result.</li>
+          <li><span>5</span> Turn the next meaningful failure into a fixture and regression test.</li>
         </ol>
       </section>
 
       <section class="cta" aria-labelledby="cta-title">
         <p class="eyebrow">FOSSY 2026 · All Things Open 2026</p>
-        <h2 id="cta-title">If the community can’t inspect the failure, it can’t reliably repair it.</h2>
+        <h2 id="cta-title">Give your next AI failure a repair path.</h2>
           <a class="button primary download-trigger" href="ai-reliability-commons-arc.pdf" download data-download-trigger aria-haspopup="dialog" aria-controls="download-dialog" aria-expanded="false">Download the full kit (PDF)</a>
         <p>Apache-2.0 · Fork it, adapt it, and make your next failure useful.</p>
-        <p class="microcopy">Technical traces help reconstruct a workflow; they do not by themselves prove human notice, understanding, decision quality, or effective oversight. “Owned rationale” in the talk maps to the kit’s accountable rationale: reasons and follow-up responsibility recorded by the authorized human role.</p>
+        <p class="microcopy">The kit includes a policy, worked example, evaluation, traces, threat model, adoption checklist, and runnable verifier.</p>
       </section>
     </main>
     <script defer src="download-gate.js"></script>
