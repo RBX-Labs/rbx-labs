@@ -147,7 +147,13 @@ ol span { color: var(--orange); font: 700 .85rem var(--mono); }
 @media (min-width: 901px) {
   .hero h1 { white-space: nowrap; }
   .section-heading h2 { font-size: clamp(2rem, 3.6vw, 3.2rem); white-space: nowrap; }
-  .loop { flex-wrap: nowrap; }
+  .loop {
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+  .loop span { min-inline-size: 0; text-align: center; white-space: normal; }
+  .loop b { justify-self: center; }
 }
 
 @media (max-width: 640px) {
