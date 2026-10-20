@@ -12,7 +12,7 @@ from reportlab.lib.units import inch
 from reportlab.platypus import HRFlowable, Image, LongTable, PageBreak, Paragraph, Preformatted, SimpleDocTemplate, Spacer, Table, TableStyle
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "runtime-trust-kit" / "runtime-trust-kit.pdf"
+OUT = ROOT / "runtime-trust-kit" / "ai-reliability-commons-arc.pdf"
 LOGO = Path("/Users/bangabot/Documents/RBX-Labs/Projects/NetworkGuardian/rbx-labs/assets/branding/logos/rbx-dark.png")
 NAVY = colors.HexColor("#102B4E")
 PINE = colors.HexColor("#174936")
@@ -101,15 +101,15 @@ def frame(canvas, doc):
         canvas.setStrokeColor(colors.HexColor("#5EA68C")); canvas.setLineWidth(4); canvas.line(.8*inch, LETTER[1]-1.29*inch, LETTER[0]-.8*inch, LETTER[1]-1.29*inch)
     else:
         canvas.setStrokeColor(LINE); canvas.setLineWidth(.6); canvas.line(.55*inch, LETTER[1]-.48*inch, LETTER[0]-.55*inch, LETTER[1]-.48*inch)
-        canvas.setFont("Courier", 7.5); canvas.setFillColor(MUTED); canvas.drawString(.55*inch, LETTER[1]-.32*inch, "RBX LABS  /  RUNTIME TRUST KIT")
+        canvas.setFont("Courier", 7.5); canvas.setFillColor(MUTED); canvas.drawString(.55*inch, LETTER[1]-.32*inch, "RBX LABS  /  AI RELIABILITY COMMONS")
         if LOGO.exists(): canvas.drawImage(str(LOGO), LETTER[0]-.78*inch, LETTER[1]-.43*inch, width=.18*inch, height=.18*inch, preserveAspectRatio=True, mask="auto")
     canvas.setStrokeColor(LINE); canvas.setLineWidth(.6); canvas.line(.55*inch, .47*inch, LETTER[0]-.55*inch, .47*inch)
-    canvas.setFont("Helvetica", 7.5); canvas.setFillColor(colors.HexColor("#D8E4E7") if doc.page == 1 else MUTED); canvas.drawString(.55*inch, .29*inch, "RBX Labs · Runtime Trust Kit · Apache-2.0"); canvas.drawRightString(LETTER[0]-.55*inch, .29*inch, str(doc.page))
+    canvas.setFont("Helvetica", 7.5); canvas.setFillColor(colors.HexColor("#D8E4E7") if doc.page == 1 else MUTED); canvas.drawString(.55*inch, .29*inch, "RBX Labs · AI Reliability Commons (ARC) · Apache-2.0"); canvas.drawRightString(LETTER[0]-.55*inch, .29*inch, str(doc.page))
     canvas.restoreState()
 
 story = [Spacer(1, 1.05*inch)]
 if LOGO.exists(): story += [Image(str(LOGO), width=.8*inch, height=.8*inch, hAlign="CENTER"), Spacer(1, .28*inch)]
-story += [r("RBX LABS · PROFESSIONAL TRANSFER EDITION", "cover_eyebrow"), r("Runtime Trust Kit", "cover_title"), r("A practical, framework-neutral contract for making AI workflow behaviour inspectable, bounded, and repairable after deployment.", "cover_sub"), Spacer(1, .18*inch), r("Prepared for FOSSY 2026 · All Things Open 2026", "cover_meta"), Spacer(1, 2.2*inch), box("A print-ready reference for the policy, signals, traces, evaluation, verifier, and threat boundaries that make a runtime failure useful.", colors.HexColor("#173A58"), "cover_callout"), PageBreak()]
+story += [r("RBX LABS · PROFESSIONAL TRANSFER EDITION", "cover_eyebrow"), r("AI Reliability Commons (ARC)", "cover_title"), r("The Runtime Trust Kit: a practical, framework-neutral contract for making AI workflow behaviour inspectable, bounded, and repairable after deployment.", "cover_sub"), Spacer(1, .18*inch), r("Prepared for FOSSY 2026 · All Things Open 2026", "cover_meta"), Spacer(1, 2.2*inch), box("A print-ready reference for the policy, signals, traces, evaluation, verifier, and threat boundaries that make a runtime failure useful.", colors.HexColor("#173A58"), "cover_callout"), PageBreak()]
 story += [p("Contents", "h1x"), HRFlowable(width="100%", thickness=1, color=LINE, spaceAfter=14)]
 story += [p(x, "toc") for x in ["01  Executive Overview ........................................ 3", "02  Operating Model ........................................... 4", "03  Quick Start ................................................ 5", "04  Policy And Authority Boundaries .......................... 6", "05  Worked Example: Feature X And The 4.2 Migration .......... 7", "06  Evaluation Contract ...................................... 8", "07  Trace Comparison .......................................... 9", "08  Threat Model And Boundaries ............................. 10", "09  Adoption Checklist ....................................... 11", "10  Reference Appendix ....................................... 12"]]
 story += [Spacer(1, .25*inch), box("This edition transfers the source repository into a meeting-ready document while preserving a clear path back to the canonical editable artifacts."), PageBreak()]
@@ -142,6 +142,6 @@ story += [r("<b>Accountable rationale</b>", "h2x"), box("accountable_rationale i
 
 story += section("10", "Source appendix") + [p("The following appendix transfers the substantive repository artifacts into this document in print-friendly form. The repository remains the canonical editable source."), code("Policy · runtime-policy.example.json", json.dumps(policy, indent=2)), PageBreak(), code("Evaluation · feature-x-upgrade.json", json.dumps(evaluation, indent=2)), code("Model lock · MODEL_LOCK.example.json", json.dumps(model_lock, indent=2)), code("Prompt-only trace · prompt-only-run.json", json.dumps(prompt_trace, indent=2)), code("Runtime-aware trace · runtime-aware-run.json", json.dumps(runtime_trace, indent=2)), PageBreak(), code("Fixture · 418-feature-x-migration.md", fixture), code("Verifier · verify-runtime-trust-kit.mjs", verifier)]
 
-doc = SimpleDocTemplate(str(OUT), pagesize=LETTER, rightMargin=.78*inch, leftMargin=.78*inch, topMargin=.72*inch, bottomMargin=.68*inch, title="RBX Labs Runtime Trust Kit", author="RBX Labs")
+doc = SimpleDocTemplate(str(OUT), pagesize=LETTER, rightMargin=.78*inch, leftMargin=.78*inch, topMargin=.72*inch, bottomMargin=.68*inch, title="AI Reliability Commons (ARC) - Runtime Trust Kit", author="RBX Labs")
 doc.build(story, onFirstPage=frame, onLaterPages=frame)
 print(OUT)

@@ -2,7 +2,7 @@
   const dialog = document.querySelector('#download-dialog');
   const form = document.querySelector('#download-form');
   const endpoint = 'https://betweenus-moments.isekainormie.chatgpt.site/api/arc-download';
-  const downloadUrl = 'runtime-trust-kit.pdf';
+  const downloadUrl = 'ai-reliability-commons-arc.pdf';
 
   if (!dialog || !form) return;
 
@@ -46,7 +46,7 @@
       if (!response.ok) throw new Error('Unable to submit the request.');
       const download = document.createElement('a');
       download.href = downloadUrl;
-      download.download = 'runtime-trust-kit.pdf';
+      download.download = 'ai-reliability-commons-arc.pdf';
       document.body.appendChild(download);
       download.click();
       download.remove();
