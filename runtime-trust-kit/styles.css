@@ -75,17 +75,23 @@ h3 { font-size: 1.25rem; letter-spacing: -.025em; margin-bottom: .65rem; }
 
 .why, .kit, .compare, .adopt { border-top: 1px solid var(--line); padding: clamp(3.8rem, 8vw, 7rem) 0; }
 
-.visitor-form { border-top: 1px solid var(--line); padding: clamp(3.8rem, 8vw, 7rem) 0; }
-.visitor-form .section-heading { margin-bottom: 2rem; }
 .form-intro { color: var(--muted); font-size: 1.1rem; max-width: 620px; }
 .form-grid { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 1.25rem; max-width: 820px; }
 .form-field { display: grid; gap: .45rem; }
 .form-field label { color: var(--ink); font-size: .92rem; font-weight: 750; }
 .form-field label span { color: var(--orange); }
 .form-field input { background: var(--surface); border: 1px solid var(--line); border-radius: 0; color: var(--ink); font: inherit; min-height: 48px; padding: .7rem .8rem; width: 100%; }
-.form-field input:focus-visible, .visitor-form .button:focus-visible, .visitor-form a:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+.form-field input:focus-visible, .download-dialog .button:focus-visible, .download-dialog a:focus-visible, .dialog-close:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
 .form-note { color: var(--muted); font-size: .82rem; margin: 1.25rem 0 0; max-width: 820px; }
 .form-note a { color: var(--pine); font-weight: 750; }
+
+.download-dialog { border: 0; background: transparent; max-width: min(640px, calc(100% - 2rem)); padding: 0; width: 100%; }
+.download-dialog::backdrop { background: rgba(16, 51, 38, .66); }
+.download-dialog-card { background: var(--surface); border: 1px solid var(--line); box-shadow: 0 1.5rem 4rem rgba(20, 33, 31, .25); padding: clamp(1.5rem, 4vw, 2.75rem); position: relative; }
+.download-dialog-card h2 { font-size: clamp(2rem, 5vw, 3.25rem); max-width: 480px; }
+.dialog-close { align-items: center; background: transparent; border: 1px solid var(--line); color: var(--ink); cursor: pointer; display: inline-flex; font-size: 1.5rem; height: 2.5rem; justify-content: center; line-height: 1; padding: 0; position: absolute; right: 1rem; top: 1rem; width: 2.5rem; }
+.dialog-close:hover { background: var(--mint); }
+body.dialog-open { overflow: hidden; }
 
 .why { display: grid; gap: 3rem; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); }
 .why h2 { margin-bottom: 0; }

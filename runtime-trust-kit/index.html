@@ -48,19 +48,19 @@
         <h1 id="page-title">Runtime Trust Kit</h1>
         <p class="lede">A small, framework-neutral starting point for making an AI workflow’s behaviour inspectable, bounded, and repairable after deployment.</p>
         <div class="hero-actions">
-          <a class="button primary" href="runtime-trust-kit.pdf" download>Download the full kit (PDF)</a>
+          <a class="button primary download-trigger" href="runtime-trust-kit.pdf" download data-download-trigger>Download the full kit (PDF)</a>
           <a class="button secondary" href="https://github.com/RBX-Labs/rbx-labs/tree/main/runtime-trust-kit">View source</a>
         </div>
         <p class="microcopy">Prepared for FOSSY 2026 and All Things Open 2026. No model lock-in. No agent framework. No self-reported confidence score.</p>
       </section>
 
-      <section class="visitor-form" aria-labelledby="visitor-form-title">
-        <div class="section-heading">
-          <p class="eyebrow">Stay connected to the kit</p>
-          <h2 id="visitor-form-title">Tell us who is using it.</h2>
-          <p class="form-intro">Share your details if you want RBX Labs to know who is exploring the Runtime Trust Kit.</p>
-        </div>
-        <form action="mailto:avery@rbx-labs.io" method="post" enctype="text/plain" aria-describedby="visitor-form-note">
+      <dialog class="download-dialog" id="download-dialog" aria-labelledby="download-dialog-title">
+        <div class="download-dialog-card">
+          <button class="dialog-close" type="button" data-dialog-close aria-label="Close download form">×</button>
+          <p class="eyebrow">Before you download</p>
+          <h2 id="download-dialog-title">Tell us who is using the kit.</h2>
+          <p class="form-intro">Share your details so RBX Labs knows who is exploring the Runtime Trust Kit.</p>
+        <form id="download-form" aria-describedby="download-form-note">
           <div class="form-grid">
             <div class="form-field">
               <label for="first-name">First name <span aria-hidden="true">*</span></label>
@@ -79,10 +79,11 @@
               <input id="email" name="Email address" type="email" autocomplete="email" inputmode="email" spellcheck="false" enterkeyhint="done" required />
             </div>
           </div>
-          <button class="button primary" type="submit">Send details to RBX Labs</button>
-          <p class="form-note" id="visitor-form-note">All fields are required. Submitting opens your email app and addresses a message to <a href="mailto:avery@rbx-labs.io">avery@rbx-labs.io</a>; this page does not store your details.</p>
+          <button class="button primary" type="submit">Send details and download</button>
+          <p class="form-note" id="download-form-note">All fields are required. Submitting opens your email app and addresses a message to <a href="mailto:avery@rbx-labs.io">avery@rbx-labs.io</a>; this page does not store your details.</p>
         </form>
-      </section>
+        </div>
+      </dialog>
 
       <section class="why" aria-labelledby="why-title">
         <div>
@@ -181,10 +182,11 @@
       <section class="cta" aria-labelledby="cta-title">
         <p class="eyebrow">FOSSY 2026 · All Things Open 2026</p>
         <h2 id="cta-title">If the community can’t inspect the failure, it can’t reliably repair it.</h2>
-        <a class="button primary" href="runtime-trust-kit.pdf" download>Download the full kit (PDF)</a>
+        <a class="button primary download-trigger" href="runtime-trust-kit.pdf" download data-download-trigger>Download the full kit (PDF)</a>
         <p>Apache-2.0 · Fork it, adapt it, and make your next failure useful.</p>
         <p class="microcopy">Technical traces help reconstruct a workflow; they do not by themselves prove human notice, understanding, decision quality, or effective oversight. “Owned rationale” in the talk maps to the kit’s accountable rationale: reasons and follow-up responsibility recorded by the authorized human role.</p>
       </section>
     </main>
+    <script defer src="download-gate.js"></script>
   </body>
 </html>
