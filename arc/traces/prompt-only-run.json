@@ -1,0 +1,45 @@
+{
+  "schema_version": "0.3.0",
+  "trace_id": "prompt-only-feature-x-v1",
+  "mode": "prompt_only",
+  "request": "Can we tell maintainers that Feature X works with the 4.2 migration?",
+  "observed_signals": {
+    "retrieval_coverage": null,
+    "source_freshness_days": null,
+    "source_conflict": null,
+    "tool_scope": null
+  },
+  "answer": "Yes, Feature X is compatible with the 4.2 migration. You can proceed.",
+  "runtime_outcome": "approved",
+  "human_disposition": {
+    "status": "not_recorded",
+    "owner": null,
+    "recorded_at": null
+  },
+  "accountable_rationale": {
+    "status": "not_recorded",
+    "owner": null,
+    "reason": null,
+    "unresolved_uncertainty": null,
+    "follow_up_owner": null,
+    "recorded_at": null
+  },
+  "execution_acknowledgement": {
+    "status": "not_attempted",
+    "receipt": null
+  },
+  "observed_effect": {
+    "status": "not_observed",
+    "expected_state": "A recorded adapter test result establishes Feature X compatibility for version 4.2.",
+    "evidence": null,
+    "independently_verified": false
+  },
+  "why_this_is_not_trustworthy": [
+    "No source set or provenance is recorded.",
+    "A source conflict is invisible to the operator.",
+    "The answer makes a compatibility claim without a verification artifact.",
+    "There is no bounded fallback.",
+    "The runtime approval is not a recorded human disposition or accountable rationale.",
+    "No execution acknowledgement or independently observed effect is recorded."
+  ]
+}
