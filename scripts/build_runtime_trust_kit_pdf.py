@@ -27,6 +27,9 @@ LINE = colors.HexColor("#CFD5CB")
 def read_json(path):
     return json.loads((ROOT / path).read_text())
 
+def json_text(value):
+    return json.dumps(value, indent=2, ensure_ascii=False)
+
 policy = read_json("runtime-trust-kit/policy/runtime-policy.example.json")
 evaluation = read_json("runtime-trust-kit/evals/feature-x-upgrade.json")
 model_lock = read_json("runtime-trust-kit/MODEL_LOCK.example.json")
@@ -76,6 +79,7 @@ def bullets(items):
     return [r(f"<font color='{ORANGE.hexval()}'>&bull;</font> {esc(item)}") for item in items]
 
 def code(label, content):
+    content = content.replace("\\u2192", "→")
     lines = []
     for line in content.rstrip().splitlines():
         lines.extend(textwrap.wrap(line, width=96, subsequent_indent="  ", replace_whitespace=False, drop_whitespace=False) or [""])
@@ -85,6 +89,7 @@ def code(label, content):
     return t
 
 def section(number, title):
+    title = "Reference Appendix" if number == "10" else title.title()
     return [p(f"{number} · {title}", "h1x"), HRFlowable(width="100%", thickness=1, color=LINE, spaceAfter=14)]
 
 def frame(canvas, doc):
@@ -106,7 +111,7 @@ story = [Spacer(1, 1.05*inch)]
 if LOGO.exists(): story += [Image(str(LOGO), width=.8*inch, height=.8*inch, hAlign="CENTER"), Spacer(1, .28*inch)]
 story += [r("RBX LABS · PROFESSIONAL TRANSFER EDITION", "cover_eyebrow"), r("Runtime Trust Kit", "cover_title"), r("A practical, framework-neutral contract for making AI workflow behaviour inspectable, bounded, and repairable after deployment.", "cover_sub"), Spacer(1, .18*inch), r("Prepared for FOSSY 2026 · All Things Open 2026", "cover_meta"), Spacer(1, 2.2*inch), box("A print-ready reference for the policy, signals, traces, evaluation, verifier, and threat boundaries that make a runtime failure useful.", colors.HexColor("#173A58"), "cover_callout"), PageBreak()]
 story += [p("Contents", "h1x"), HRFlowable(width="100%", thickness=1, color=LINE, spaceAfter=14)]
-story += [p(x, "toc") for x in ["01  Executive overview", "02  Operating model", "03  Quick start", "04  Policy and authority boundaries", "05  Worked example: Feature X and the 4.2 migration", "06  Evaluation contract", "07  Trace comparison", "08  Threat model and boundaries", "09  Adoption checklist", "10  Source appendix"]]
+story += [p(x, "toc") for x in ["01  Executive Overview ........................................ 3", "02  Operating Model ........................................... 4", "03  Quick Start ................................................ 5", "04  Policy And Authority Boundaries .......................... 6", "05  Worked Example: Feature X And The 4.2 Migration .......... 7", "06  Evaluation Contract ...................................... 8", "07  Trace Comparison .......................................... 9", "08  Threat Model And Boundaries ............................. 10", "09  Adoption Checklist ....................................... 11", "10  Reference Appendix ....................................... 12"]]
 story += [Spacer(1, .25*inch), box("This edition transfers the source repository into a meeting-ready document while preserving a clear path back to the canonical editable artifacts."), PageBreak()]
 
 story += section("01", "Executive overview") + [p("The Runtime Trust Kit is a small, framework-neutral starter kit for making an AI workflow's runtime behaviour inspectable and repairable. It is deliberately not a prompt library, an agent framework, or a claim that a model can reliably grade its own work."), r("<b>The design question</b>", "h2x"), box("When an AI workflow produces a plausible answer or takes a consequential action, what evidence lets a maintainer reconstruct what happened, what the system was allowed to do, what remains uncertain, and what must happen next?", ROSE, "quote"), p("The kit turns that question into a compact control pattern:"), table([["Control", "What it makes explicit"], ["Bound the action", "Name the action and the authority it requires."], ["Observe evidence", "Record observable signals instead of self-reported confidence."], ["Choose an outcome", "Proceed, abstain, or route to a maintainer."], ["Separate states", "Keep runtime outcome, human disposition, rationale, acknowledgement, and effect distinct."], ["Repair the system", "Turn a meaningful miss into a fixture, evaluation, regression test, and patch."]], [1.45*inch, 5.6*inch]), r("<b>Open-source connection</b>", "h2x"), p("A bad answer or unsafe action becomes an inspectable trace, then a fixture, evaluation, regression test, and policy, code, or model change. The failure becomes something a community can inspect, reproduce, improve, and share."), PageBreak()]
