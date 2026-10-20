@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ARC | AI Reliability Commons</title>
+  <meta name="description" content="ARC is an open community in formation that turns silent AI failures into reusable evidence, tests, and repairs." />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+  <link rel="canonical" href="https://rbx-labs.io/arc/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="RBX Labs" />
+  <meta property="og:title" content="ARC | AI Reliability Commons" />
+  <meta property="og:description" content="Turn silent AI failures into reusable evidence, tests, and repairs." />
+  <meta property="og:url" content="https://rbx-labs.io/arc/" />
+  <meta property="og:image" content="https://rbx-labs.io/assets/branding/share/research-share.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" href="../assets/branding/logos/rbx-light.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&amp;family=Inter+Tight:wght@400;500;600&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Community",
+      "name": "AI Reliability Commons",
+      "alternateName": "ARC",
+      "url": "https://rbx-labs.io/arc/",
+      "description": "An open community in formation that turns silent AI failures into reusable evidence, tests, and repairs.",
+      "parentOrganization": { "@type": "Organization", "name": "RBX Labs", "url": "https://rbx-labs.io/" }
+    }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="../" aria-label="RBX Labs home">
+      <img src="../assets/branding/logos/rbx-light.png" alt="" />
+      <span>RBX Labs</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="../research.html">Research &amp; Practice</a>
+      <a class="nav-cta" href="mailto:avery@rbx-labs.io?subject=Join%20ARC">JOIN ARC <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main id="content" tabindex="-1">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">RBX Labs · Open community in formation</p>
+        <h1 id="page-title">AI Reliability <em>Commons.</em></h1>
+        <p class="hero-lede">Turn silent AI failures into reusable evidence, tests, and repairs.</p>
+        <p class="hero-body">ARC is a shared place for developers and maintainers to preserve what went wrong, reproduce it safely, define the expected behavior, and share the repair with the next project.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="mailto:avery@rbx-labs.io?subject=Join%20ARC">JOIN ARC <span aria-hidden="true">↗</span></a>
+          <a class="button button-secondary" href="../runtime-trust-kit/">Explore the starter kit <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <div class="signal-panel" aria-label="The ARC reliability loop">
+        <p class="panel-label">THE RELIABILITY LOOP</p>
+        <ol class="loop">
+          <li><span>01</span><strong>Observe</strong><small>Notice the warning sign</small></li>
+          <li><span>02</span><strong>Preserve</strong><small>Keep the relevant evidence</small></li>
+          <li><span>03</span><strong>Reproduce</strong><small>Make the failure testable</small></li>
+          <li><span>04</span><strong>Repair</strong><small>Test and share the lesson</small></li>
+        </ol>
+        <p class="panel-foot">failure → evidence → fixture → test → repair</p>
+      </div>
+    </section>
+
+    <section class="content-section" aria-labelledby="why-title">
+      <div class="section-intro">
+        <p class="eyebrow">Why ARC</p>
+        <h2 id="why-title">Every team should not have to rediscover the same failure.</h2>
+      </div>
+      <div class="two-column">
+        <p>AI systems can produce plausible answers while relying on weak evidence, exceeding their authority, or reporting success when the intended outcome never occurred.</p>
+        <p>When those failures stay private, the learning disappears with them. ARC makes the useful parts shareable: a redacted trace, a minimal fixture, an expected safe outcome, a regression test, and the repair—or the unresolved limitation.</p>
+      </div>
+    </section>
+
+    <section class="content-section" aria-labelledby="v01-title">
+      <div class="section-intro">
+        <p class="eyebrow">ARC v0.1</p>
+        <h2 id="v01-title">A small commons for practical reliability work.</h2>
+      </div>
+      <div class="artifact-grid">
+        <article><span>01</span><h3>Runtime signals</h3><p>A small schema for observable warnings and limits.</p></article>
+        <article><span>02</span><h3>Failure fixtures</h3><p>A standard format for safely reproducing an AI failure.</p></article>
+        <article><span>03</span><h3>Dependency-light verifier</h3><p>A plain check for whether expected behavior holds.</p></article>
+        <article><span>04</span><h3>Responsible sharing</h3><p>Guidance for redaction, disclosure, and unresolved risk.</p></article>
+      </div>
+    </section>
+
+    <section class="starter-band" aria-labelledby="starter-title">
+      <div>
+        <p class="eyebrow">The first reference implementation</p>
+        <h2 id="starter-title">Start with the Runtime Trust Kit.</h2>
+        <p>RBX Labs is contributing the initial kit: bounded authority, observable evidence, proceed/abstain/review outcomes, separate human disposition and execution effect, and replayable traces that can become tests.</p>
+      </div>
+      <a class="button button-light" href="../runtime-trust-kit/">Open the Runtime Trust Kit <span aria-hidden="true">↗</span></a>
+    </section>
+
+    <section class="boundary-section" aria-labelledby="boundary-title">
+      <div>
+        <p class="eyebrow">A clear boundary</p>
+        <h2 id="boundary-title">ARC is not a safety score.</h2>
+      </div>
+      <ul>
+        <li>Not a certification program.</li>
+        <li>Not a replacement for security review or governance.</li>
+        <li>Not a claim that models can reliably grade themselves.</li>
+        <li>Not a guarantee that every incident can be prevented.</li>
+      </ul>
+    </section>
+
+    <section class="closing" aria-labelledby="closing-title">
+      <p class="eyebrow">The invitation</p>
+      <h2 id="closing-title">Bring one silent AI failure.</h2>
+      <p>Help turn it into a test that the next project does not have to rediscover.</p>
+      <a class="button button-primary" href="mailto:avery@rbx-labs.io?subject=Join%20ARC&amp;body=I%27d%20like%20to%20join%20the%20AI%20Reliability%20Commons.%0A%0AProject%20or%20organisation%3A%20">JOIN ARC <span aria-hidden="true">↗</span></a>
+      <p class="url">rbx-labs.io/arc</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>ARC / AI Reliability Commons</span>
+    <a href="../">RBX Labs</a>
+    <span>Open community in formation · 2026</span>
+  </footer>
+</body>
+</html>
